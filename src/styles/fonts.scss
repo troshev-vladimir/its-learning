@@ -1,0 +1,259 @@
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-BlackItalic.eot');
+    src: local('Gogh Black Italic'), local('Gogh-BlackItalic'),
+        url('./fonts/Gogh-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-BlackItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-BlackItalic.woff') format('woff'),
+        url('./fonts/Gogh-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Bold.eot');
+    src: local('Gogh Bold'), local('Gogh-Bold'),
+        url('./fonts/Gogh-Bold.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Bold.woff2') format('woff2'),
+        url('./fonts/Gogh-Bold.woff') format('woff'),
+        url('./fonts/Gogh-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh Book';
+    src: url('./fonts/Gogh-BookItalic.eot');
+    src: local('Gogh Book Italic'), local('Gogh-BookItalic'),
+        url('./fonts/Gogh-BookItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-BookItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-BookItalic.woff') format('woff'),
+        url('./fonts/Gogh-BookItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-BoldItalic.eot');
+    src: local('Gogh Bold Italic'), local('Gogh-BoldItalic'),
+        url('./fonts/Gogh-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-BoldItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-BoldItalic.woff') format('woff'),
+        url('./fonts/Gogh-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Black.eot');
+    src: local('Gogh Black'), local('Gogh-Black'),
+        url('./fonts/Gogh-Black.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Black.woff2') format('woff2'),
+        url('./fonts/Gogh-Black.woff') format('woff'),
+        url('./fonts/Gogh-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh Book';
+    src: url('./fonts/Gogh-Book.eot');
+    src: local('Gogh Book'), local('Gogh-Book'),
+        url('./fonts/Gogh-Book.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Book.woff2') format('woff2'),
+        url('./fonts/Gogh-Book.woff') format('woff'),
+        url('./fonts/Gogh-Book.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh Hairline';
+    src: url('./fonts/Gogh-HairlineItalic.eot');
+    src: local('Gogh Hairline Italic'), local('Gogh-HairlineItalic'),
+        url('./fonts/Gogh-HairlineItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-HairlineItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-HairlineItalic.woff') format('woff'),
+        url('./fonts/Gogh-HairlineItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Regular.eot');
+    src: local('Gogh Regular'), local('Gogh-Regular'),
+        url('./fonts/Gogh-Regular.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Regular.woff2') format('woff2'),
+        url('./fonts/Gogh-Regular.woff') format('woff'),
+        url('./fonts/Gogh-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-LightItalic.eot');
+    src: local('Gogh Light Italic'), local('Gogh-LightItalic'),
+        url('./fonts/Gogh-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-LightItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-LightItalic.woff') format('woff'),
+        url('./fonts/Gogh-LightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Heavy.eot');
+    src: local('Gogh Heavy'), local('Gogh-Heavy'),
+        url('./fonts/Gogh-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Heavy.woff2') format('woff2'),
+        url('./fonts/Gogh-Heavy.woff') format('woff'),
+        url('./fonts/Gogh-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Medium.eot');
+    src: local('Gogh Medium'), local('Gogh-Medium'),
+        url('./fonts/Gogh-Medium.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Medium.woff2') format('woff2'),
+        url('./fonts/Gogh-Medium.woff') format('woff'),
+        url('./fonts/Gogh-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-ExtraBold.eot');
+    src: local('Gogh Extra Bold'), local('Gogh-ExtraBold'),
+        url('./fonts/Gogh-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-ExtraBold.woff2') format('woff2'),
+        url('./fonts/Gogh-ExtraBold.woff') format('woff'),
+        url('./fonts/Gogh-ExtraBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh Hairline';
+    src: url('./fonts/Gogh-Hairline.eot');
+    src: local('Gogh Hairline'), local('Gogh-Hairline'),
+        url('./fonts/Gogh-Hairline.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Hairline.woff2') format('woff2'),
+        url('./fonts/Gogh-Hairline.woff') format('woff'),
+        url('./fonts/Gogh-Hairline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-HeavyItalic.eot');
+    src: local('Gogh Heavy Italic'), local('Gogh-HeavyItalic'),
+        url('./fonts/Gogh-HeavyItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-HeavyItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-HeavyItalic.woff') format('woff'),
+        url('./fonts/Gogh-HeavyItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-ExtraBoldItalic.eot');
+    src: local('Gogh Extra Bold Italic'), local('Gogh-ExtraBoldItalic'),
+        url('./fonts/Gogh-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-ExtraBoldItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-ExtraBoldItalic.woff') format('woff'),
+        url('./fonts/Gogh-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Light.eot');
+    src: local('Gogh Light'), local('Gogh-Light'),
+        url('./fonts/Gogh-Light.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Light.woff2') format('woff2'),
+        url('./fonts/Gogh-Light.woff') format('woff'),
+        url('./fonts/Gogh-Light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-MediumItalic.eot');
+    src: local('Gogh Medium Italic'), local('Gogh-MediumItalic'),
+        url('./fonts/Gogh-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-MediumItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-MediumItalic.woff') format('woff'),
+        url('./fonts/Gogh-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-RegularItalic.eot');
+    src: local('Gogh Regular Italic'), local('Gogh-RegularItalic'),
+        url('./fonts/Gogh-RegularItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-RegularItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-RegularItalic.woff') format('woff'),
+        url('./fonts/Gogh-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-Thin.eot');
+    src: local('Gogh Thin'), local('Gogh-Thin'),
+        url('./fonts/Gogh-Thin.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-Thin.woff2') format('woff2'),
+        url('./fonts/Gogh-Thin.woff') format('woff'),
+        url('./fonts/Gogh-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gogh';
+    src: url('./fonts/Gogh-ThinItalic.eot');
+    src: local('Gogh Thin Italic'), local('Gogh-ThinItalic'),
+        url('./fonts/Gogh-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Gogh-ThinItalic.woff2') format('woff2'),
+        url('./fonts/Gogh-ThinItalic.woff') format('woff'),
+        url('./fonts/Gogh-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
