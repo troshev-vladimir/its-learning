@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="container row justify-between items-center">
+    <div class="container row justify-between items-center q-py-md">
       <div class="logo">
         <img src="@/assets/img/logo.svg" alt="logo" />
       </div>
@@ -15,6 +15,3 @@
 <script>
 export default {};
 </script>
-
-<style lang="scss" scoped>
-</style>

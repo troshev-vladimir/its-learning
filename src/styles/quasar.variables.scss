@@ -1,10 +1,33 @@
-$primary: #027be3;
-$secondary: #26a69a;
-$accent: #9c27b0;
+$primary: #101010;
+$secondary: #CCCCCC;
+$accent: #0075EB;
 
-$dark: #1d1d1d;
+$dark: #101010;
 
 $positive: #21ba45;
 $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
+
+$breakpoint-xs: 599px;
+$breakpoint-sm: 1023px;
+$breakpoint-md: 1439px;
+$breakpoint-lg: 1920px;
+
+
+$flex-cols: 4;
+@media (min-width: $breakpoint-xs) {
+    $flex-cols: 6;
+}
+@media (min-width: $breakpoint-sm) {
+    $flex-cols: 12;
+}
+@media (min-width: $breakpoint-md) {
+}
+@media (min-width: $breakpoint-lg) {
+    // $flex-gutter-xs: ($space-base * .25);
+    // $flex-gutter-sm: ($space-base * .5);
+    // $flex-gutter-md: $space-base;
+    // $flex-gutter-lg: ($space-base * 1.5);
+    // $flex-gutter-xl: ($space-base * 3);
+}
