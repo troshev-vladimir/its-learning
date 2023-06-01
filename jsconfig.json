@@ -7,6 +7,13 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
-  }
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+  },
+  "devServer": {
+    "client": {
+      "overlay": false, // !!! This fix : ResizeObserver loop limit exceeded
+    },
+  },
+  "exclude": ["node_modules"],
+  
 }

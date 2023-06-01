@@ -1,30 +1,44 @@
-$primary: #101010;
-$secondary: #CCCCCC;
-$accent: #0075EB;
-
-$dark: #101010;
-
-$positive: #21ba45;
-$negative: #c10015;
-$info: #31ccec;
-$warning: #f2c037;
-
 $breakpoint-xs: 599px;
 $breakpoint-sm: 1023px;
 $breakpoint-md: 1439px;
 $breakpoint-lg: 1920px;
-
-
 $flex-cols: 4;
 @media (min-width: $breakpoint-xs) {
     $flex-cols: 6;
 }
-@media (min-width: $breakpoint-sm) {
+
+@media (min-width: $breakpoint-sm) { // 1024
     $flex-cols: 12;
 }
-@media (min-width: $breakpoint-md) {
+
+@media (min-width: $breakpoint-md) { // 1440
+    .text-h1 {
+        font-weight: 700;
+        font-size: 45px;
+        line-height: 45px;
+    }
+
+    .text-h2 {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 25px;
+        line-height: 100%;
+    }
+    .text-body1 {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 135%;
+        color: #101010;
+    }
+
+    .text-body2 {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 180%;
+        color: #101010;
+    }
 }
-@media (min-width: $breakpoint-lg) {
+@media (min-width: $breakpoint-lg) { // 1920
     // $flex-gutter-xs: ($space-base * .25);
     // $flex-gutter-sm: ($space-base * .5);
     // $flex-gutter-md: $space-base;

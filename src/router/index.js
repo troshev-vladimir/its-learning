@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: "/tariff",
+    path: "/",
     name: "tariff",
-    component: () => import("../views/TariffPage/TariffPage"),
+    component: () => import("@/views/TariffPage"),
   },
 ];
 
