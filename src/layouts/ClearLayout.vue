@@ -1,7 +1,7 @@
 <template>
   <TheHeader />
   <q-page-container>
-    <q-page class="q-pa-md">
+    <q-page class="column">
       <router-view />
     </q-page>
   </q-page-container>

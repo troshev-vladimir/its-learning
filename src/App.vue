@@ -27,6 +27,9 @@ export default {
     setCssVar("negative", "#c10015");
     setCssVar("info", "#31ccec");
     setCssVar("warning", "#f2c037");
+
+    setCssVar("white", "#fff");
+    setCssVar("black", "#fff");
   },
 };
 </script>

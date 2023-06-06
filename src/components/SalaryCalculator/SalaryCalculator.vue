@@ -1,47 +1,76 @@
 <template>
   <div class="salary-calculator column items-center">
-    <p class="text-h1 q-mb-sm">{{ value }} руб./мес.</p>
+    <p class="text-h1 q-mb-sm">{{ +value }} руб./мес.</p>
     <p class="text-body1 q-mb-md">Твоя будущая зарплата</p>
     <div class="salary-calculator-input row items-center full-width q-mb-md">
-      <q-btn color="secondary" text-color="primary" @click="reduce"> - </q-btn>
+      <q-btn
+        color="secondary"
+        text-color="primary"
+        class="button rounded"
+        @click="reduce"
+      >
+        -
+      </q-btn>
       <q-slider
         v-model="value"
-        :min="range.min"
-        :max="range.max"
-        :step="20000"
-        label
-        label-always
+        :min="+range.min"
+        :max="+range.max"
+        readonly
         color="accent"
       />
-      <q-btn color="secondary" text-color="primary" @click="increase">
+      <q-btn
+        color="secondary"
+        class="button rounded"
+        text-color="primary"
+        @click="increase"
+      >
         +
       </q-btn>
     </div>
     <p class="text-body1 q-mb-sm">Срок обучения</p>
-    <p class="text-h2 q-mb-lg">5 месяцев</p>
+    <p class="text-h2 q-mb-lg">{{ currentData.period }}</p>
     <p class="text-body1 q-mb-md">Общая сумма инвестиций в твое будущее</p>
-    <p class="text-h1">88 000 руб.</p>
+    <p class="text-h1">{{ currentData.investments }}руб.</p>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
+import useCalculator from "./useSalaryCalculator";
+import { useStore } from "vuex";
+const { initialState } = useCalculator();
+const store = useStore();
+const selectedStep = ref(1);
+const steps = Object.keys(initialState.value);
+const range = computed(() => {
+  return {
+    min: steps[0],
+    max: steps[steps.length - 1],
+  };
+});
 
-const value = ref(60000);
-const range = {
-  min: 20000,
-  max: 100000,
-};
+const value = computed(() => {
+  return steps[selectedStep.value];
+});
+
+const currentData = computed(() => {
+  return initialState.value[value.value];
+});
+
+watch(currentData, (value) => {
+  store.commit("tariff/setProgramId", value.id);
+});
 
 function increase() {
-  if (range.max <= value.value) return;
-  value.value += 20000;
+  if (selectedStep.value < steps.length - 1) {
+    selectedStep.value += 1;
+  }
 }
 
 function reduce() {
-  if (range.min >= value.value) return;
-
-  value.value -= 20000;
+  if (selectedStep.value > 0) {
+    selectedStep.value -= 1;
+  }
 }
 </script>
 
@@ -51,5 +80,15 @@ function reduce() {
 }
 .q-slider {
   margin: 0 20px;
+}
+
+.button {
+  padding: 0;
+  width: 85px;
+  min-height: 60px;
+
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 45px;
 }
 </style>

@@ -31,7 +31,7 @@ const style = computed(() => {
   font-size: 20px;
   line-height: 27px;
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 16px;
 
   &--type {
     &-long {

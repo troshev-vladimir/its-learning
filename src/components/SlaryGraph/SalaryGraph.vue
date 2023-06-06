@@ -63,7 +63,7 @@ const options = ref({
 });
 function exp(n = 1) {
   return labels.value.map((el) => {
-    return Math.pow(1.7, el) / n;
+    return (Math.pow(1.7, el) - 1) / n;
   });
 }
 
