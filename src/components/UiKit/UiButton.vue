@@ -16,11 +16,20 @@ const props = defineProps({
       return ["long"].includes(value);
     },
   },
+
+  size: {
+    type: String,
+    default: "md",
+    validator(value) {
+      return ["md", "sm"].includes(value);
+    },
+  },
 });
 
 const style = computed(() => {
   return {
     [`q-btn--type-${props.type}`]: props.type,
+    [`q-btn--size-${props.size}`]: props.size,
   };
 });
 </script>
@@ -32,10 +41,21 @@ const style = computed(() => {
   line-height: 27px;
   border-radius: 16px;
   padding: 16px;
+  min-height: auto;
 
   &--type {
     &-long {
       padding: 20px 100px;
+    }
+  }
+
+  &--size {
+    &-sm {
+      padding: 8px 16px;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 135%;
+      border-radius: 16px;
     }
   }
 }

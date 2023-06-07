@@ -59,6 +59,7 @@ const currentData = computed(() => {
 
 watch(currentData, (value) => {
   store.commit("tariff/setProgramId", value.id);
+  store.commit("tariff/setProgramTotalPrice", value.investments);
 });
 
 function increase() {

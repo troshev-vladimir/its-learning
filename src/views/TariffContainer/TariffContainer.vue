@@ -1,4 +1,5 @@
 <template>
+  <PaymentChoice></PaymentChoice>
   <router-view />
   <section class="q-mt-xl">
     <div class="container">
@@ -57,6 +58,8 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import PaymentChoice from "@/components/PaymentChoice";
+</script>
 
 <style></style>

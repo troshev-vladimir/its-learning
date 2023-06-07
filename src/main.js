@@ -7,14 +7,14 @@ import quasarUserOptions from "./quasar-user-options";
 import "./styles/main.scss";
 import UiButton from "@/components/UiKit/UiButton";
 import IconBase from "@/components/UiKit/IconBase";
-import UiIcon from "@/components/UiKit/UiIcon";
+import UiItem from "@/components/UiKit/UiItem";
 import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion";
 const app = createApp(App);
 
 app.component("UiButton", UiButton);
 app.component("IconBase", IconBase);
-app.component("UiIcon", UiIcon);
 app.component("UiAccordion", UiAccordion);
+app.component("UiItem", UiItem);
 
 app.use(Quasar, quasarUserOptions);
 app.use(store);

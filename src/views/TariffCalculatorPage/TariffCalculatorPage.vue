@@ -78,7 +78,7 @@
           color="white"
           text-color="primary"
           type="long"
-          @click="router.push({ name: 'pro' })"
+          @click="goToTariff()"
         >
           ПОДОБРАТЬ ТАРИФ
         </UiButton>
@@ -98,6 +98,12 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+
+const goToTariff = () => {
+  const name = store.getters["tariff/programName"];
+  router.push({ name });
+};
+
 const hoursItems = reactive([
   {
     title: "ИЗИ",

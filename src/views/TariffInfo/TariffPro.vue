@@ -11,7 +11,11 @@
       </p>
 
       <p class="q-mb-sm text-body2">
-        Продолжительность: <span class="text-bold"> 3</span> мес.
+        Продолжительность:
+        <span class="text-bold">
+          {{ store.state.tariff.programValue.time }}</span
+        >
+        мес.
       </p>
       <p class="q-mb-sm text-body2">Часов теории:</p>
       <p class="q-mb-sm text-body2">Часов практики:</p>
@@ -79,10 +83,18 @@
 </template>
 
 <script setup>
+import { useStore } from "vuex";
+const store = useStore();
+
 const acordionItems = [
   {
-    title: "adasdad",
-    content: "213213123",
+    title: "Введение",
+    content: `
+    <span class="q-mb-md d-flex">Система 1С:Предприятие:</span>
+    <span class='list-item'>Знакомство с основными понятиями.</span>
+    <span class='list-item'>Обзор системы.</span>
+    <span class='list-item'>Изучение документов и журналов программы.</span>
+    <span class='q-mt-md d-flex'>Всего: 3 часа (теория 2,5 часа, 3 тестирования на 30 минут).</span>`,
   },
   {
     title: "adasdad",

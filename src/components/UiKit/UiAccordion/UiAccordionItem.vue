@@ -1,14 +1,16 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <q-expansion-item
-    expand-icon="fa-solid fa-plus"
+    expand-icon="fas fa-plus"
     :label="props.item.title"
     :caption="props.item.subtitle"
     header-class="text-body1 text-bold q-pa-lg"
   >
     <q-card class="q-px-lg q-pb-lg q-pt-sm">
-      <q-card-section class="q-pa-none">{{
-        props.item.content
-      }}</q-card-section>
+      <q-card-section
+        class="q-pa-none"
+        v-html="props.item.content"
+      ></q-card-section>
     </q-card>
   </q-expansion-item>
 </template>
@@ -21,6 +23,14 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
+.q-expansion-item {
+  &--expanded {
+    .q-icon {
+      transform: rotate(45deg);
+      color: $red-12;
+    }
+  }
+}
 .q-item {
   &:hover {
     .q-focus-helper,

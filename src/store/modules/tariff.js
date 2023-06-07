@@ -3,6 +3,7 @@ const tariff = {
   state: () => ({
     programId: 2,
     transh: 9600,
+    totalPrice: 88000,
     programValue: {},
     mode: "normal",
   }),
@@ -10,6 +11,10 @@ const tariff = {
   mutations: {
     setProgramId(state, value) {
       state.programId = value;
+    },
+
+    setProgramTotalPrice(state, value) {
+      state.totalPrice = value;
     },
 
     setTransh(state, value) {
