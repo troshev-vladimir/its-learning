@@ -12,7 +12,7 @@
         -
       </q-btn>
       <q-slider
-        v-model="value"
+        v-model="selectedStep"
         :min="+range.min"
         :max="+range.max"
         readonly
@@ -45,8 +45,8 @@ const selectedStep = ref(1);
 const steps = Object.keys(initialState.value);
 const range = computed(() => {
   return {
-    min: steps[0],
-    max: steps[steps.length - 1],
+    min: 0,
+    max: steps.length - 1,
   };
 });
 

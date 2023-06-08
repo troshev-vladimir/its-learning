@@ -70,17 +70,17 @@ const programs = {
     },
     values: {
       8670: {
-        time: 12,
+        months: 12,
         bank: true,
         price: 4800,
       },
       15467: {
-        time: 6,
+        months: 6,
         bank: true,
         price: 9666,
       },
       19334: {
-        time: 6,
+        months: 6,
         bank: true,
         price: 9666,
       },

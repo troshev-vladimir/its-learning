@@ -40,19 +40,19 @@
       ></icon-base>
     </div>
 
-    <div class="d-flex justify-between">
+    <div class="d-flex justify-between items-center">
       <p class="text-body2">
         Или вы можете выбрать другую программу обучения вручную при помощи наших
         специалистов, просто напишите нам:
       </p>
       <div class="d-flex">
         <a href="/" target="_blank" class="social-media">
-          <q-icon size="64px" color="secondary" name="fab fa-vk"> </q-icon>
+          <q-icon size="64px" color="white" name="fab fa-vk"> </q-icon>
         </a>
         <a href="/" target="_blank" class="social-media">
           <q-icon
             size="64px"
-            color="secondary"
+            color="white"
             name="fab fa-telegram-plane"
           ></q-icon>
         </a>
@@ -73,7 +73,12 @@ import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
   right: -20px;
 }
 .social-media {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--q-secondary);
+  border-radius: 200px;
 
   & + & {
     margin-left: 16px;
