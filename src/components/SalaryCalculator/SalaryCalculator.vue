@@ -1,6 +1,6 @@
 <template>
   <div class="salary-calculator column items-center">
-    <p class="text-h1 q-mb-sm">{{ +value }} руб./мес.</p>
+    <p class="text-h1 q-mb-sm">{{ formatNumber(value) }} руб./мес.</p>
     <p class="text-body1 q-mb-md">Твоя будущая зарплата</p>
     <div class="salary-calculator-input row items-center full-width q-mb-md">
       <q-btn
@@ -30,7 +30,7 @@
     <p class="text-body1 q-mb-sm">Срок обучения</p>
     <p class="text-h2 q-mb-lg">{{ currentData.period }}</p>
     <p class="text-body1 q-mb-md">Общая сумма инвестиций в твое будущее</p>
-    <p class="text-h1">{{ currentData.investments }}руб.</p>
+    <p class="text-h1">{{ formatNumber(currentData.investments) }}руб.</p>
   </div>
 </template>
 
@@ -38,6 +38,7 @@
 import { computed, ref, watch } from "vue";
 import useCalculator from "./useSalaryCalculator";
 import { useStore } from "vuex";
+import { formatNumber } from "@/helpers/utils";
 const { initialState } = useCalculator();
 const store = useStore();
 const selectedStep = ref(1);

@@ -9,7 +9,7 @@
       label-always
       :marker-labels="[program.range.min, program.range.max]"
       color="accent"
-      :label-value="value + ' руб.'"
+      :label-value="formatNumber(value) + ' руб.'"
       switch-marker-labels-side
     >
     </q-slider>
@@ -19,6 +19,7 @@
 <script setup>
 import { computed, watch } from "vue";
 import { useStore } from "vuex";
+import { formatNumber } from "@/helpers/utils";
 
 const store = useStore();
 const program = computed(() => store.getters["tariff/programValue"]);
