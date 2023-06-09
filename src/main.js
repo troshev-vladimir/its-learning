@@ -9,12 +9,20 @@ import UiButton from "@/components/UiKit/UiButton";
 import IconBase from "@/components/UiKit/IconBase";
 import UiItem from "@/components/UiKit/UiItem";
 import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion";
+
+import EaseyImg from "@/components/UiKit/IconBase/icons/front/EaseyImg.vue";
+import HardImg from "@/components/UiKit/IconBase/icons/front/HardImg.vue";
+import NormImg from "@/components/UiKit/IconBase/icons/front/NormImg.vue";
 const app = createApp(App);
 
 app.component("UiButton", UiButton);
 app.component("IconBase", IconBase);
 app.component("UiAccordion", UiAccordion);
 app.component("UiItem", UiItem);
+
+app.component("EaseyImg", EaseyImg);
+app.component("HardImg", HardImg);
+app.component("NormImg", NormImg);
 
 app.use(Quasar, quasarUserOptions);
 app.use(store);

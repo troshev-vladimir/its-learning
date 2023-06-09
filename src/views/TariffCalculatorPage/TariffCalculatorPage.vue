@@ -1,3 +1,4 @@
+<!-- eslint-disable no-unused-vars -->
 <template>
   <section class="q-mt-xl">
     <div class="container">
@@ -49,12 +50,15 @@
           <UiButton
             :color="item.active ? 'white' : 'secondary'"
             text-color="primary"
-            class="botton"
+            class="botton button--selectable"
             :class="{ 'button--active': item.active }"
+            selectable
             @click="selectTime(item)"
           >
-            <div class="d-flex q-col-gutter-md">
-              <img :src="item.img" width="80" height="70" />
+            <div class="d-flex q-gutter-md items-center">
+              <icon-base width="80" height="70">
+                <component :is="item.img"> </component>
+              </icon-base>
               <div class="column q-row-gutter-xs items-start">
                 <p class="text-h2">{{ item.title }}</p>
                 <p class="text-body1">{{ item.body }}</p>
@@ -107,22 +111,22 @@ const goToTariff = () => {
 const hoursItems = reactive([
   {
     title: "ИЗИ",
-    body: "1 - 2 часа",
-    img: new URL(`@/assets/img/front/hard.svg`, import.meta.url),
+    body: "от 6 часов",
+    img: "EaseyImg",
     active: false,
     id: "easy",
   },
   {
     title: "НОРМАЛ",
-    body: "1 - 2 часа",
-    img: new URL(`@/assets/img/front/hard.svg`, import.meta.url),
+    body: "3 - 4 часа",
+    img: "NormImg",
     active: true,
     id: "norm",
   },
   {
     title: "ХАРД",
     body: "1 - 2 часа",
-    img: new URL(`@/assets/img/front/hard.svg`, import.meta.url),
+    img: "HardImg",
     active: false,
     id: "hard",
   },
@@ -142,6 +146,18 @@ const selectTime = (item) => {
 
 .botton {
   width: 100%;
+
+  &--selectable {
+    svg path {
+      fill: #fff;
+    }
+
+    &:hover {
+      svg path {
+        fill: #333;
+      }
+    }
+  }
 }
 
 .button--active {
