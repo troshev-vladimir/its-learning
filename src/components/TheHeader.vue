@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="container">
-      <div class="row justify-between items-center q-py-md">
+      <div class="d-flex justify-between items-center q-py-md">
         <div class="logo">
           <img src="@/assets/img/logo.svg" alt="logo" />
         </div>

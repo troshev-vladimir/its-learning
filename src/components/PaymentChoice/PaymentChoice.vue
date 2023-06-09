@@ -32,8 +32,8 @@
       <UiItem button-text="КУПИТЬ">
         <span>
           <span class="text-bold">{{ store.state.tariff.totalPrice }}</span>
-          руб.</span
-        >
+          руб.
+        </span>
       </UiItem>
       <icon-base width="120" height="120" class="absolute benefits">
         <BenefitsImage></BenefitsImage

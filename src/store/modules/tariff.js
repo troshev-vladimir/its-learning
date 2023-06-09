@@ -80,9 +80,9 @@ const programs = {
         price: 9666,
       },
       19334: {
-        months: 6,
-        bank: true,
-        price: 9666,
+        months: 3,
+        bank: false,
+        price: 19333,
       },
     },
   },
