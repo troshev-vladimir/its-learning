@@ -4,6 +4,8 @@ import "@quasar/extras/fontawesome-v5/fontawesome-v5.css";
 export default {
   config: {},
   plugins: {},
-  cssAddon: true,
+  framework: {
+    cssAddon: true,
+  },
   extras: ["fontawesome-v5"],
 };

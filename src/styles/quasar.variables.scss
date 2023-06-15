@@ -1,5 +1,5 @@
 @import './variables.scss';
-$flex-cols: 4;
+$flex-cols: 4 ;
 @mixin col-gap($gutter) {
     .container > .row {
         margin-left: -$gutter;
@@ -12,25 +12,25 @@ $flex-cols: 4;
 
 .text-h1 {
     font-weight: 700;
-    font-size: 45px;
-    line-height: 45px;
+    font-size: 35px;
+    line-height: 35px;
 }
 
 .text-h2 {
     font-weight: 700;
-    font-size: 30px;
-    line-height: 25px;
-    line-height: 100%;
-}
-.text-body1 {
     font-size: 20px;
-    line-height: 135%;
+    line-height: 27px;
+}
+
+.text-body1 {
+    font-size: 15px;
+    line-height: 21px;
     color: #101010;
 }
 
 .text-body2 {
-    font-size: 15px;
-    line-height: 180%;
+    font-size: 12px;
+    line-height: 16px;
     color: #101010;
 }
 
@@ -41,10 +41,6 @@ $flex-cols: 4;
 
 @media (min-width: $breakpoint-sm) { // 1024
     $flex-cols: 12;
-}
-
-@media (min-width: $breakpoint-md) { // 1440
-    @include col-gap(40px);
 
     .text-h1 {
         font-weight: 700;
@@ -55,7 +51,6 @@ $flex-cols: 4;
     .text-h2 {
         font-weight: 700;
         font-size: 30px;
-        line-height: 25px;
         line-height: 100%;
     }
     .text-body1 {
@@ -69,8 +64,10 @@ $flex-cols: 4;
         line-height: 180%;
         color: #101010;
     }
+}
 
-
+@media (min-width: $breakpoint-md) { // 1440
+    @include col-gap(40px);
 }
 @media (min-width: $breakpoint-lg) { // 1920
     @include col-gap(40px);

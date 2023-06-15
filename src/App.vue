@@ -5,15 +5,16 @@
 </template>
 
 <script>
-import ClearLayout from "@/layouts/ClearLayout";
+import DefaultLayout from "@/layouts/DefaultLayout";
 import { setCssVar } from "quasar";
+
 export default {
   components: {
-    ClearLayout,
+    DefaultLayout,
   },
   computed: {
     layout() {
-      return this.$route.meta.layout || "ClearLayout";
+      return this.$route.meta.layout || "DefaultLayout";
     },
   },
 

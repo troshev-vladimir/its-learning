@@ -1,15 +1,10 @@
 <template>
-  <UiAccordionItem v-for="(item, idx) in props.items" :key="idx" :item="item">
-  </UiAccordionItem>
+  <div class="accordion">
+    <slot />
+  </div>
 </template>
 
-<script setup>
-import UiAccordionItem from "./UiAccordionItem.vue";
-// eslint-disable-next-line no-undef
-const props = defineProps({
-  items: Array,
-});
-</script>
+<script setup></script>
 
 <style lang="scss">
 @import "@/styles/variables.scss";

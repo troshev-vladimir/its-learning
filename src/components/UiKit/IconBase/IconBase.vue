@@ -42,4 +42,8 @@ svg {
   display: inline-block;
   vertical-align: baseline;
 }
+
+svg path {
+  fill: currentColor;
+}
 </style>

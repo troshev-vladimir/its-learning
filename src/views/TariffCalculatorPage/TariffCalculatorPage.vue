@@ -50,7 +50,7 @@
           <UiButton
             :color="item.active ? 'white' : 'secondary'"
             text-color="primary"
-            class="botton button--selectable"
+            class="button button--selectable"
             :class="{ 'button--active': item.active }"
             selectable
             @click="selectTime(item)"
@@ -75,7 +75,7 @@
     </div>
   </section>
 
-  <section class="q-mb-xl q-pb-xl">
+  <section class="q-mb-xl">
     <div class="container">
       <div class="column items-center">
         <UiButton
@@ -144,18 +144,12 @@ const selectTime = (item) => {
   display: flex;
 }
 
-.botton {
+.button {
   width: 100%;
 
   &--selectable {
-    svg path {
-      fill: #fff;
-    }
-
-    &:hover {
-      svg path {
-        fill: #333;
-      }
+    svg {
+      color: #fff;
     }
   }
 }

@@ -29,7 +29,9 @@
     </div>
     <p class="text-body1 q-mb-sm">Срок обучения</p>
     <p class="text-h2 q-mb-lg">{{ currentData.period }}</p>
-    <p class="text-body1 q-mb-md">Общая сумма инвестиций в твое будущее</p>
+    <p class="text-body1 q-mb-md text-center">
+      Общая сумма инвестиций в твое будущее
+    </p>
     <p class="text-h1">{{ formatNumber(currentData.investments) }}руб.</p>
   </div>
 </template>

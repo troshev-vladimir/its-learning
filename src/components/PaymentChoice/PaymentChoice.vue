@@ -1,7 +1,7 @@
 <template>
   <article class="rounded-lg bg-white text-primary q-pa-lg">
     <h2 class="text-h2 q-mb-lg">Выберите удобную форму оплаты курса:</h2>
-    <p class="text-body-1 q-mb-md">
+    <p class="text-body1 q-mb-md">
       Рассрочка от Академии 1С программирования ITS Education
     </p>
     <p class="text-body2 q-mb-lg">
@@ -25,7 +25,7 @@
       class="etire-curse bg-primary text-white q-pa-lg rounded-lg q-mb-lg relative-position"
     >
       <h2 class="text-h2 q-mb-md">Оплатить курс целиком</h2>
-      <p class="text-body-1 q-mb-md">
+      <p class="text-body2 q-mb-md text-white">
         Получите дополнительный блок продвинутой программы
         <span class="text-bold">19 VIP</span> абсолютно бесплатно
       </p>
@@ -41,18 +41,18 @@
     </div>
 
     <div class="d-flex justify-between items-center">
-      <p class="text-body2">
+      <p class="text-body2 q-mr-md">
         Или вы можете выбрать другую программу обучения вручную при помощи наших
         специалистов, просто напишите нам:
       </p>
       <div class="d-flex">
         <a href="/" target="_blank" class="social-media">
-          <q-icon size="64px" color="white" name="fab fa-vk"> </q-icon>
+          <q-icon size="40px" color="primary" name="fab fa-vk"> </q-icon>
         </a>
-        <a href="/" target="_blank" class="social-media">
+        <a href="/" target="_blank" class="q-ml-md social-media">
           <q-icon
-            size="64px"
-            color="white"
+            size="40px"
+            color="primary"
             name="fab fa-telegram-plane"
           ></q-icon>
         </a>
@@ -73,20 +73,9 @@ import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
   right: -20px;
 }
 .social-media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: var(--q-secondary);
-  border-radius: 200px;
-
-  & + & {
-    margin-left: 16px;
-  }
-
-  &:hover {
+  &:hover i {
     transition: all ease 0.2s;
-    opacity: 0.4;
+    opacity: 0.7;
   }
 }
 </style>

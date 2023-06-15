@@ -2,15 +2,14 @@
 <template>
   <q-expansion-item
     expand-icon="fas fa-plus"
-    :label="props.item.title"
-    :caption="props.item.subtitle"
+    :label="props.title"
+    :caption="props.subtitle"
     header-class="text-body1 text-bold q-pa-lg"
   >
     <q-card class="q-px-lg q-pb-lg q-pt-sm">
-      <q-card-section
-        class="q-pa-none"
-        v-html="props.item.content"
-      ></q-card-section>
+      <q-card-section class="q-pa-none">
+        <slot />
+      </q-card-section>
     </q-card>
   </q-expansion-item>
 </template>
@@ -18,7 +17,14 @@
 <script setup>
 // eslint-disable-next-line no-undef
 const props = defineProps({
-  item: Object,
+  title: {
+    type: String,
+    default: "",
+  },
+  subtitle: {
+    type: String,
+    default: "",
+  },
 });
 </script>
 
