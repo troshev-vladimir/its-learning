@@ -115,4 +115,8 @@ import PaymentChoice from "@/components/PaymentChoice";
     margin-top: 0;
   }
 }
+
+.container {
+  z-index: $flex-cols;
+}
 </style>

@@ -1,10 +1,10 @@
 @import './variables.scss';
-$flex-cols: 4 ;
 @mixin col-gap($gutter) {
     .container > .row {
         margin-left: -$gutter;
 
-        & > [class^=col-] {
+        & > [class^=col-],
+        & > .col {
             padding-left: $gutter;
         }
     }
@@ -34,14 +34,21 @@ $flex-cols: 4 ;
     color: #101010;
 }
 
+@include col-gap(20px);
+
+$flex-cols: 4;
+
 @media (min-width: $breakpoint-xs) {
-    @include col-gap(20px);
-    $flex-cols: 6;
+  $flex-cols: 6;
 }
 
-@media (min-width: $breakpoint-sm) { // 1024
-    $flex-cols: 12;
+@media (min-width: $breakpoint-sm) {
+  // 1024
+  $flex-cols: 12;
+}
 
+
+@media (min-width: $breakpoint-sm) { // 1024
     .text-h1 {
         font-weight: 700;
         font-size: 45px;

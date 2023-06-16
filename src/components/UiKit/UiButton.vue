@@ -1,5 +1,5 @@
 <template>
-  <q-btn :class="style">
+  <q-btn :class="style" class="ui-button">
     <slot></slot>
   </q-btn>
 </template>

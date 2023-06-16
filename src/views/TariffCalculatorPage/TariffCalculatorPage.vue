@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <section class="q-mt-xl">
+  <section>
     <div class="container">
       <span class="text-body1 text-secondary">Учитесь в своем ритме</span>
       <h1 class="text-h1 q-mt-md">
@@ -27,7 +27,7 @@
     <div class="container column">
       <h2 class="text-h2 q-mb-md text-center">Комфортный платеж в месяц</h2>
       <div class="row q-mt-xl">
-        <div class="col-10 offset-1">
+        <div class="col-12 col-md-10 offset-md-1">
           <PaymentCalculator />
           <div class="justify-between q-mt-lg row">
             <span class="col-2">Рассрочка без переплат</span>
