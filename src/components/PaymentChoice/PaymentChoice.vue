@@ -1,5 +1,5 @@
 <template>
-  <article class="rounded-lg bg-white text-primary q-pa-lg">
+  <article class="rounded-lg bg-white text-primary q-pa-lg shadow-2">
     <h2 class="text-h2 q-mb-lg">Выберите удобную форму оплаты курса:</h2>
     <p class="text-body1 q-mb-md">
       Рассрочка от Академии 1С программирования ITS Education

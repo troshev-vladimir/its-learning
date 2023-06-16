@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unused-vars -->
 <template>
   <section>
     <div class="container">
@@ -17,7 +16,7 @@
         <div class="col-12 col-md-6"><SalaryCalculator /></div>
         <div class="col-12 col-md-6">
           <SalaryGraph />
-          <AccentTariff />
+          <AccentTariff class="shadow-2" />
         </div>
       </div>
     </div>

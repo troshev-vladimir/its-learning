@@ -1,6 +1,9 @@
 <template>
   <div class="rounded bg-white q-mt-lg q-pa-lg">
-    <div class="accent row q-col-gutter-md items-center" v-html="content"></div>
+    <div
+      class="accent row q-col-gutter-md items-center justify-between"
+      v-html="content"
+    ></div>
   </div>
 </template>
 

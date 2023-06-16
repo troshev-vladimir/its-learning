@@ -42,4 +42,8 @@ export default {
 .bg-custom {
   background: #ff0000;
 }
+
+html {
+  scroll-behavior: smooth;
+}
 </style>

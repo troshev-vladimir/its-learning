@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <div class="bg-secondary row">
-      <div class="col-4">
-        <div class="bg-primary q-pb-lg"></div>
-      </div>
-      <div class="col-4">
-        <div class="bg-primary q-pb-lg"></div>
-      </div>
-    </div>
+    <ui-button
+      class="button-to-payment z-top bg-white"
+      :class="{ hidden: paymentVisible }"
+      @click="
+        payment.scrollIntoView({
+          behavior: 'smooth',
+        })
+      "
+      >К оплате</ui-button
+    >
     <div class="row relative-position">
       <div class="col-12 col-lg-7">
         <router-view />
@@ -31,7 +33,7 @@
                 <img
                   src="@/assets/img/program/rf.png"
                   alt="1c"
-                  class="q-mb-md"
+                  class="q-mb-md full-width"
                 />
               </div>
               <p>Государственная образовательная лицензия</p>
@@ -42,7 +44,7 @@
                 <img
                   src="@/assets/img/program/1c.png"
                   alt="1c"
-                  class="q-mb-md"
+                  class="q-mb-md full-width"
                 />
               </div>
               <p>Центр сертифицированного обучения 1С</p>
@@ -74,7 +76,12 @@
           </ul>
         </section>
       </div>
-      <div class="col-12 col-lg-5">
+      <div
+        id="payment"
+        ref="payment"
+        v-intersection="onIntersection"
+        class="col-12 col-lg-5"
+      >
         <PaymentChoice class="asside"></PaymentChoice>
       </div>
     </div>
@@ -82,7 +89,15 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import PaymentChoice from "@/components/PaymentChoice";
+const payment = ref(null);
+
+const paymentVisible = ref(false);
+
+const onIntersection = (entry) => {
+  paymentVisible.value = entry.isIntersecting;
+};
 </script>
 
 <style scoped lang="scss">
@@ -118,5 +133,17 @@ import PaymentChoice from "@/components/PaymentChoice";
 
 .container {
   z-index: $flex-cols;
+}
+
+.button-to-payment {
+  position: fixed;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+  @media screen and (min-width: $breakpoint-sm) {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+  }
 }
 </style>
