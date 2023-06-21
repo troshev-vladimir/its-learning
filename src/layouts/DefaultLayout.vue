@@ -1,11 +1,11 @@
 <template>
-  <TheHeader />
+  <TheHeader class="q-mb-xl" />
   <q-page-container>
     <q-page class="column">
       <router-view />
     </q-page>
   </q-page-container>
-  <TheFooter />
+  <TheFooter class="q-mt-xl" />
 </template>
 
 <script setup>

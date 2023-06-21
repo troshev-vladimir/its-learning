@@ -29,6 +29,12 @@ const routes = [
       },
     ],
   },
+
+  {
+    path: "/cabinet",
+    name: "cabinet",
+    component: () => import("@/views/UserСabinetPage"),
+  },
 ];
 
 const router = createRouter({

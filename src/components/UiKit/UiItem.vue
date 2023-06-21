@@ -10,7 +10,9 @@
         <slot name="lableRight" />
       </span>
     </div>
-    <ui-button size="sm" color="accent">{{ props.buttonText }} </ui-button>
+    <ui-button size="sm" color="accent" text-class="text-white"
+      >{{ props.buttonText }}
+    </ui-button>
   </div>
 </template>
 

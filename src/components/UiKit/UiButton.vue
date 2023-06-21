@@ -1,6 +1,6 @@
 <template>
-  <q-btn :class="style" class="ui-button">
-    <slot></slot>
+  <q-btn :class="style" class="ui-button text-body1">
+    <span :class="textClass"><slot /></span>
   </q-btn>
 </template>
 
@@ -15,6 +15,11 @@ const props = defineProps({
     validator(value) {
       return ["long"].includes(value);
     },
+  },
+
+  textClass: {
+    type: Array,
+    default: () => ["text-body1", "text-bold"],
   },
 
   size: {
