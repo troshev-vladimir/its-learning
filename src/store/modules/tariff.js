@@ -149,53 +149,31 @@ const programs = {
 };
 
 const programAccents = {
-  1: `
-    <div class="col col-grow">
-      <p class="text-h2">
-        Зарплата <span class="text-accent text-h1"> x3 </span>
-      </p>
-      <p class="text-h2">
-        через 12 месяцев
-      </p>
-    </div>
-    <div class="col">
-      <p class="text-body1">Самый быстрый старт твоей карьеры</p>
-    </div>
-    `,
-  2: `
-    <div class="column col-grow">
-      <p class="text-h2">
-        На <span class="text-accent text-h1"> 20% </span>
-      </p>
-      <p class="text-h2">больше вакансий</p>
-    </div>
-    <p class="text-body1">Выбирай из лучших работадателей</p>`,
-  3: `
-    <div class="column col-grow">
-      <p class="text-h2">
-        <span class="text-accent text-h1"> 812% </span>годовых
-      </p>
-      <p class="text-h2">Оптимальный КПД</p>
-    </div>
-    <p class="text-body1">лучшая окупаемость твоих инвестиций</p>`,
-  4: `
-    <div class="col col-grow">
-      <p class="text-h2">
-        Уже через <span class="text-accent text-h1"> 6 </span>
-      </p>
-      <p class="text-h2"> месяцев</p>
-    </div>
-    <div class="col">
-      <p class="text-body1">Стань middle разработчиком спуся погода работы</p>
-    </div>`,
-  5: `
-    <div class="column col-grow">
-      <p class="text-h2">
-        Войди в <span class="text-accent text-h1"> 12% </span>
-      </p>
-      <p class="text-h2">лучших</p>
-    </div>
-    <p class="text-body1">Стань понастоящему крутым специалистом</p>`,
+  1: {
+    title: `
+        Зарплата <span class="text-accent"> x3 </span> уже через год`,
+    description: `Самый быстрый</br>старт&nbsp;твоей&nbsp;карьеры`,
+  },
+  2: {
+    title: `
+        На <span class="text-accent"> 20% </span> больше вакансий`,
+    description: "Выбирай из лучших работадателей",
+  },
+  3: {
+    title: `
+      <span class="text-accent"> 812% </span>годовых Оптимальный КПД`,
+    description: `лучшая&nbsp;окупаемость</br>твоих инвестиций`,
+  },
+  4: {
+    title: `
+        Уже через <span class="text-accent"> 8 месяцев </span> работы`,
+    description: `Стань middle разработчиком`,
+  },
+  5: {
+    title: `
+        Войди в <span class="text-accent"> 12% </span> лучших на рынке`,
+    description: `Стань крутым специалистом`,
+  },
 };
 
 export default tariff;

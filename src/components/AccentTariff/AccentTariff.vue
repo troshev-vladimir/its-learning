@@ -1,9 +1,9 @@
 <template>
-  <div class="rounded bg-white q-mt-lg q-pa-lg">
-    <div
-      class="accent row q-col-gutter-md items-center justify-between"
-      v-html="content"
-    ></div>
+  <div class="rounded bg-white q-mt-lg q-py-lg q-pl-lg q-pr-sm">
+    <div class="accent d-flex items-center">
+      <h2 class="q-mr-md text-h2" v-html="content.title"></h2>
+      <p class="text-body1" v-html="content.description"></p>
+    </div>
   </div>
 </template>
 
@@ -19,8 +19,13 @@ watch(condition, () => console.log(condition.value));
 
 <style lang="scss" scoped>
 .accent {
+  & > h2 {
+    display: block;
+    flex: 1 0 auto;
+    width: 292px;
+  }
+
   @media screen and (min-width: $breakpoint-md) {
-    flex-wrap: nowrap;
   }
 }
 </style>

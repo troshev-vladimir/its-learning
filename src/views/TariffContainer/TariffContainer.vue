@@ -1,15 +1,18 @@
 <template>
   <div class="container">
     <ui-button
-      class="button-to-payment z-top bg-white"
+      class="button-to-payment z-top bg-accent"
+      text-class="text-white"
+      size="sm"
       :class="{ hidden: paymentVisible }"
       @click="
         payment.scrollIntoView({
           behavior: 'smooth',
         })
       "
-      >К оплате</ui-button
     >
+      ПЕРЕЙТИ К ОПЛАТЕ
+    </ui-button>
     <div class="row relative-position">
       <div class="col-12 col-lg-7">
         <router-view />
@@ -143,7 +146,6 @@ const onIntersection = (entry) => {
   @media screen and (min-width: $breakpoint-sm) {
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
   }
 }
 </style>

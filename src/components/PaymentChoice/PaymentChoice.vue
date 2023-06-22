@@ -24,8 +24,8 @@
     <div
       class="etire-curse bg-primary text-white q-pa-lg rounded-lg q-mb-lg relative-position"
     >
-      <h2 class="text-h2 q-mb-md">Оплатить курс целиком</h2>
-      <p class="text-body2 q-mb-md text-white">
+      <h2 class="text-h2 q-mb-md q-mr-xl q-pr-xl">Оплатить курс целиком</h2>
+      <p class="text-body2 q-mb-md text-white q-mr-xl q-pr-lg">
         Получите дополнительный блок продвинутой программы
         <span class="text-bold">19 VIP</span> абсолютно бесплатно
       </p>
@@ -35,6 +35,29 @@
           руб.
         </span>
       </UiItem>
+
+      <div class="column q-mt-md flex-inline">
+        <a href="" download="" class="d-flex items-center q-mb-sm hoverable">
+          <q-icon
+            name="fas fa-download"
+            color="secondary"
+            size="16"
+            class="q-mr-md"
+          />
+          <span class="text-secondary text-body2">Договор оферты</span>
+        </a>
+
+        <a href="" download="" class="d-flex items-center hoverable">
+          <q-icon
+            name="fas fa-download"
+            color="secondary"
+            size="16"
+            class="q-mr-md"
+          />
+          <span class="text-secondary text-body2">Договор оферты</span>
+        </a>
+      </div>
+
       <icon-base width="120" height="120" class="absolute benefits">
         <BenefitsImage></BenefitsImage
       ></icon-base>

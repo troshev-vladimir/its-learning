@@ -8,8 +8,8 @@
           </span>
           <p class="q-mb-lg">
             <span class="text-body1 text-bold q-mr-md"> Юзер ФИО </span>
-            <span class="text-body1 q-mr-md"> Статус пользователя </span>
-            <span class="text-body1"> до: 19.06.2023 </span>
+            <span class="text-body2 q-mr-md"> Статус пользователя </span>
+            <span class="text-body2"> до: 19.06.2023 </span>
           </p>
 
           <div
@@ -49,6 +49,8 @@
                     color="secondary"
                     text-color="primary"
                     class="button rounded q-mr-sm"
+                    :disabled="courseStep <= 1"
+                    @click="courseStep--"
                   >
                     -
                   </q-btn>
@@ -57,12 +59,14 @@
                     class="button rounded q-mr-sm"
                     text-color="primary"
                   >
-                    1
+                    {{ courseStep }}
                   </q-btn>
                   <q-btn
                     color="secondary"
                     class="button rounded q-mr-sm"
                     text-color="primary"
+                    :disabled="courseStep >= unpayedSteps.length"
+                    @click="courseStep++"
                   >
                     +
                   </q-btn>
@@ -75,7 +79,9 @@
               >
                 <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
                   <span class="text-body2 q-mb-sm"> Сумма к оплате </span>
-                  <h2 class="text-h2 q-mb-lg-md q-mb-none">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-lg-md q-mb-none">
+                    {{ totalSumm }} руб.
+                  </h2>
                 </div>
                 <ui-button
                   size="sm"
@@ -112,7 +118,7 @@
                   <span class="text-body2 q-mb-sm">
                     Размер ежемесячного платежа:
                   </span>
-                  <h2 class="text-h2 q-mb-lg-md q-mb-lg-none">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-sm-md q-mb-lg-none">3957 руб.</h2>
                 </div>
                 <ui-button
                   size="sm"
@@ -126,20 +132,14 @@
           </article>
 
           <ul>
-            <li class="d-flex justify-between q-mb-lg text-body2">
-              <span>До 19 июля</span>
-              <span>3957 руб.</span>
-              <span>Ожидает оплаты</span>
-            </li>
-            <li class="d-flex justify-between q-mb-lg text-body2">
-              <span>До 19 июня</span>
-              <span>3957 руб.</span>
-              <span>Успешно оплачен</span>
-            </li>
-            <li class="d-flex justify-between text-body2">
-              <span>До 19 мая</span>
-              <span>3957 руб.</span>
-              <span>Успешно оплачен</span>
+            <li
+              v-for="(step, idx) in courseSteps"
+              :key="idx"
+              class="d-flex justify-between q-mb-lg text-body2"
+            >
+              <span>{{ step.date }}</span>
+              <span> {{ step.summ }}руб.</span>
+              <span>{{ step.status }}</span>
             </li>
           </ul>
         </section>
@@ -247,7 +247,11 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import useSteps from "./composables/useSteps";
+
+const { courseStep, courseSteps, totalSumm, unpayedSteps } = useSteps();
+</script>
 
 <style lang="scss" scoped>
 .asside {

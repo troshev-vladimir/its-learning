@@ -1,5 +1,5 @@
 <template>
-  <q-btn :class="style" class="ui-button text-body1">
+  <q-btn :class="style" :color="color" class="ui-button text-body1">
     <span :class="textClass"><slot /></span>
   </q-btn>
 </template>
@@ -27,6 +27,14 @@ const props = defineProps({
     default: "md",
     validator(value) {
       return ["md", "sm"].includes(value);
+    },
+  },
+
+  color: {
+    type: String,
+    default: "accent",
+    validator(value) {
+      return ["white", "accent"].includes(value);
     },
   },
 });

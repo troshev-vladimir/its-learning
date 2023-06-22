@@ -8,6 +8,14 @@ const routes = [
   },
 
   {
+    path: "/auth",
+    component: () => import("@/views/LoginPage"),
+    meta: {
+      layout: "EmptyLayout",
+    },
+  },
+
+  {
     path: "/program",
     name: "program",
     component: () => import("@/views/TariffContainer"),
@@ -35,13 +43,20 @@ const routes = [
     name: "cabinet",
     component: () => import("@/views/UserСabinetPage"),
   },
+
+  {
+    path: "/:catchAll(.*)",
+    component: () => import("@/views/404Page"),
+    meta: {
+      layout: "EmptyLayout",
+    },
+  },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
   routes,
+  history: createWebHistory(process.env.BASE_URL),
   scrollBehavior() {
-    // always scroll to top
     return { top: 0, behavior: "instant" };
   },
 });

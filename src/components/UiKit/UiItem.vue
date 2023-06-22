@@ -1,7 +1,7 @@
 <template>
   <div class="ui-item d-flex items-center">
     <div
-      class="lablel rounded-lg bg-secondary col-grow d-flex justify-between items-center q-px-md text-body2"
+      class="lablel bg-secondary col-grow d-flex justify-between items-center q-px-md text-body2"
     >
       <span>
         <slot />
@@ -30,15 +30,22 @@ const props = defineProps({
 @import "@/styles/variables.scss";
 .ui-item {
   flex-direction: column;
-  row-gap: $md;
 
   .lablel {
-    height: 43px;
+    padding: 8px;
     width: 100%;
+    border-radius: 8px;
   }
 
   .ui-button {
     width: 100%;
+    border-radius: 8px;
+  }
+
+  @media screen and (max-width: $breakpoint-sm) {
+    background-color: var(--q-secondary);
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   @media screen and (min-width: $breakpoint-sm) {
@@ -49,9 +56,11 @@ const props = defineProps({
       width: auto;
       margin-right: -24px;
       padding-right: 24px + 16px;
+      border-radius: 16px;
     }
     .ui-button {
       width: auto;
+      border-radius: 16px;
     }
   }
 }

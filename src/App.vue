@@ -6,11 +6,13 @@
 
 <script>
 import DefaultLayout from "@/layouts/DefaultLayout";
+import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
 
 export default {
   components: {
     DefaultLayout,
+    EmptyLayout,
   },
   computed: {
     layout() {
