@@ -1,5 +1,5 @@
 <template>
-  <header class="header q-py-md">
+  <header class="header q-pt-md">
     <div class="container header__container">
       <div class="logo column items-start">
         <img src="@/assets/img/logo.svg" alt="logo" />

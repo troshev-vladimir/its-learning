@@ -1,8 +1,6 @@
 
-
-@import './fonts.scss';
+@import "quasar/dist/quasar.prod.css";
 @import "~quasar-styl";
-@import "quasar/dist/quasar.addon.prod.css";
-// @import "quasar/dist/quasar.prod.css";
 @import "./container.scss";
 @import "./quasar.variables.scss";
+@import './fonts.scss';

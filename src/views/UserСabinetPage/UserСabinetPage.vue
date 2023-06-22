@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row relative-position">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-7 col-lg-8">
         <section class="q-mb-xl">
           <span class="text-body1 text-secondary">
             Личный кабинет пользователя
@@ -12,8 +12,10 @@
             <span class="text-body1"> до: 19.06.2023 </span>
           </p>
 
-          <div class="d-flex items-center justify-between q-mb-xl">
-            <h1 class="text-h1 q-mt-md q-mb-lg">
+          <div
+            class="d-flex column row-md items-md-center items-start justify-between q-mb-xl"
+          >
+            <h1 class="text-h1 q-mb-lg q-mb-lg-none">
               Программа <span class="text-accent">PRO</span>
             </h1>
 
@@ -35,7 +37,7 @@
           <article
             class="rounded-lg bg-white text-primary q-pa-lg shadow-3 q-mb-xl"
           >
-            <div class="row justify-between">
+            <div class="d-flex column row-lg no-wrap-lg justify-between">
               <div class="d-flex column">
                 <div class="q-mb-lg d-flex col-grow items-start">
                   <h1 class="text-h2 q-mr-md">Оплата</h1>
@@ -69,11 +71,11 @@
               </div>
 
               <div
-                class="d-flex full-width row justify-between column-lg items-start items-end-lg q-mt-md q-mt-lg-md"
+                class="d-flex row justify-between column-lg items-center items-lg-end q-mt-md q-mt-lg-none"
               >
-                <div class="d-flex column">
+                <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
                   <span class="text-body2 q-mb-sm"> Сумма к оплате </span>
-                  <h2 class="text-h2 q-mb-md">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-lg-md q-mb-none">3957 руб.</h2>
                 </div>
                 <ui-button
                   size="sm"
@@ -89,7 +91,7 @@
           <article
             class="rounded-lg bg-white text-primary q-pa-lg shadow-3 q-mb-xl"
           >
-            <div class="row justify-between">
+            <div class="d-flex column row-lg no-wrap-lg justify-between">
               <div class="d-flex column">
                 <div class="q-mb-lg d-flex col-grow items-start">
                   <h1 class="text-h2 q-mr-md">Рассрочка от банка</h1>
@@ -104,13 +106,13 @@
               </div>
 
               <div
-                class="d-flex full-width row justify-between column-lg items-start items-end-lg q-mt-md q-mt-lg-md"
+                class="d-flex row justify-between column-lg items-center items-lg-end q-mt-md q-mt-lg-none"
               >
-                <div class="d-flex column">
+                <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
                   <span class="text-body2 q-mb-sm">
                     Размер ежемесячного платежа:
                   </span>
-                  <h2 class="text-h2 q-mb-md">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-lg-md q-mb-lg-none">3957 руб.</h2>
                 </div>
                 <ui-button
                   size="sm"
@@ -165,9 +167,25 @@
         <section class="q-mb-xl">
           <h2 class="text-h2 q-mb-lg">Документы:</h2>
           <ul>
-            <li class="d-flex justify-between text-body2">
-              <a href="" download="">
-                <span><i></i></span>
+            <li class="text-body2 q-mb-md flex-inline">
+              <a href="" download="" class="link-download d-flex items-center">
+                <q-icon
+                  name="fas fa-download"
+                  color="secondary"
+                  size="32px"
+                  class="q-mr-md"
+                />
+                <span>Договор оферты</span>
+              </a>
+            </li>
+            <li class="text-body2">
+              <a href="" download="" class="link-download d-flex items-center">
+                <q-icon
+                  name="fas fa-download"
+                  color="secondary"
+                  size="32px"
+                  class="q-mr-md"
+                />
                 <span>Договор оферты</span>
               </a>
             </li>
@@ -187,7 +205,7 @@
         </section>
       </div>
 
-      <div class="col-12 col-sm-4">
+      <div class="col-12 col-md-5 col-lg-4">
         <article
           class="asside rounded-lg bg-white text-primary q-pa-lg shadow-2"
         >
@@ -241,6 +259,26 @@
   @media screen and (max-width: $breakpoint-md) {
     margin-top: $xl;
     margin-bottom: 0;
+  }
+}
+
+.col-to-row {
+  flex-direction: column;
+
+  @media screen and (min-width: $breakpoint-md) {
+    flex-direction: row;
+  }
+}
+
+.link-download {
+  &:hover {
+    color: var(--q-accent);
+    transition: all ease var(--animate-duration);
+
+    i:before {
+      transition: all ease var(--animate-duration);
+      color: var(--q-accent);
+    }
   }
 }
 </style>

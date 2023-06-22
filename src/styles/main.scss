@@ -44,4 +44,10 @@ a {
     & + & {
         margin-top: 8px;
     }
+
+    @media screen and (max-width: $breakpoint-sm) {
+        &::before {
+            top: -4px;
+        }
+    }
 }
