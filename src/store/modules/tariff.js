@@ -22,6 +22,10 @@ const tariff = {
       state.transh = value;
     },
 
+    setProgramValue(state, value) {
+      state.programValue = value;
+    },
+
     setProgramPeriod(state, value) {
       state.programPeriod = value;
     },
@@ -152,7 +156,7 @@ const programAccents = {
   1: {
     title: `
         Зарплата <span class="text-accent"> x3 </span> уже через год`,
-    description: `Самый быстрый</br>старт&nbsp;твоей&nbsp;карьеры`,
+    description: `Самый быстрый старт твоей карьеры`,
   },
   2: {
     title: `
@@ -162,7 +166,7 @@ const programAccents = {
   3: {
     title: `
       <span class="text-accent"> 812% </span>годовых Оптимальный КПД`,
-    description: `лучшая&nbsp;окупаемость</br>твоих инвестиций`,
+    description: `лучшая окупаемость твоих инвестиций`,
   },
   4: {
     title: `

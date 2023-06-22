@@ -20,6 +20,10 @@ export default {
     },
   },
 
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
+  },
+
   created() {
     setCssVar("primary", "#101010");
     setCssVar("secondary", "#CCCCCC");

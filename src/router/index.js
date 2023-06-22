@@ -9,6 +9,7 @@ const routes = [
 
   {
     path: "/auth",
+    name: "auth",
     component: () => import("@/views/LoginPage"),
     meta: {
       layout: "EmptyLayout",

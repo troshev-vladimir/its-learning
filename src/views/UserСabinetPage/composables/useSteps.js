@@ -3,14 +3,16 @@ export default function useSteps() {
   const courseStep = ref(1);
   const paySteps = reactive([
     {
-      date: "До 19 июля",
-      summ: "3957",
-      status: "Ожидает оплаты",
+      title: "Введение",
+      date: "16.05.2023",
+      status: "Успешно пройден",
+      fulfilld: true,
     },
     {
       date: "До 19 июля",
       summ: "3957",
-      status: "Успешно оплачен",
+      status: "Успешно пройден",
+      fulfilld: true,
     },
   ]);
 

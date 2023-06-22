@@ -1,18 +1,26 @@
 import { createStore } from "vuex";
-import VuexPersistence from "vuex-persist";
 import tariff from "./modules/tariff";
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-});
-
-export default createStore({
+const store = createStore({
   state: {},
   getters: {},
-  mutations: {},
+  mutations: {
+    initialiseStore(state) {
+      if (localStorage.getItem("store")) {
+        this.replaceState(
+          Object.assign(state, JSON.parse(localStorage.getItem("store")))
+        );
+      }
+    },
+  },
   actions: {},
   modules: {
     tariff,
   },
-  plugins: [vuexLocal.plugin],
 });
+
+store.subscribe((mutation, state) => {
+  localStorage.setItem("store", JSON.stringify(state));
+});
+
+export default store;
