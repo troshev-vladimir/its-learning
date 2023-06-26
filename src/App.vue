@@ -8,7 +8,7 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
-
+import { useQuasar } from "quasar";
 export default {
   components: {
     DefaultLayout,
@@ -19,9 +19,17 @@ export default {
       return this.$route.meta.layout || "DefaultLayout";
     },
   },
-
   beforeCreate() {
     this.$store.commit("initialiseStore");
+    const $q = useQuasar();
+    $q.notify.setDefaults({
+      position: "top-right",
+      timeout: 2500,
+      textColor: "white",
+      color: "accent",
+      // actions: [{ icon: "fas fa-times", color: "white" }],
+    });
+    this.$q.iconSet.field.error = "fas fa-exclamation-triangle fs-sm";
   },
 
   created() {

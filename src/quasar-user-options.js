@@ -1,10 +1,11 @@
 import "./styles/quasar.scss";
 import "@quasar/extras/fontawesome-v5/fontawesome-v5.css";
 import "quasar/dist/quasar.addon.prod.css";
+import { Notify } from "quasar";
 
 export default {
-  config: {},
-  plugins: {},
+  plugins: { Notify },
+  config: { notify: {} },
   framework: {
     cssAddon: true,
   },

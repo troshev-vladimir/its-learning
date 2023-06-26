@@ -69,6 +69,7 @@ const style = computed(() => {
       font-size: 20px;
       line-height: 135%;
       border-radius: 16px;
+      font-size: 16px;
     }
   }
 }

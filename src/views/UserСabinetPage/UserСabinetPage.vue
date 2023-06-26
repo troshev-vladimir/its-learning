@@ -33,7 +33,42 @@
               </ui-button>
             </div>
           </div>
+          <article
+            class="rounded-lg bg-white text-primary q-pa-lg shadow-3 q-mb-xl"
+          >
+            <div class="d-flex column row-lg no-wrap-lg justify-between">
+              <div class="d-flex column">
+                <div class="q-mb-lg d-flex col-grow items-start">
+                  <h1 class="text-h2 q-mr-md">Рассрочка от банка</h1>
+                </div>
 
+                <div class="d-flex column">
+                  <span class="text-body1 q-mb-md">
+                    Общая сумма: 46352 руб.
+                  </span>
+                  <span class="text-body1">Срок рассрочки: 12 мес.</span>
+                </div>
+              </div>
+
+              <div
+                class="d-flex row justify-between column-lg items-center items-lg-end q-mt-md q-mt-lg-none"
+              >
+                <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
+                  <span class="text-body2 q-mb-sm">
+                    Размер ежемесячного платежа:
+                  </span>
+                  <h2 class="text-h2 q-mb-sm-md q-mb-lg-none">3957 руб.</h2>
+                </div>
+                <ui-button
+                  size="sm"
+                  class="bg-accent"
+                  :text-class="['text-white']"
+                >
+                  ПЕРЕЙТИ К ОФОРМЛЕНИЮ
+                </ui-button>
+              </div>
+            </div>
+          </article>
           <article
             class="rounded-lg bg-white text-primary q-pa-lg shadow-3 q-mb-xl"
           >
@@ -94,43 +129,6 @@
             </div>
           </article>
 
-          <article
-            class="rounded-lg bg-white text-primary q-pa-lg shadow-3 q-mb-xl"
-          >
-            <div class="d-flex column row-lg no-wrap-lg justify-between">
-              <div class="d-flex column">
-                <div class="q-mb-lg d-flex col-grow items-start">
-                  <h1 class="text-h2 q-mr-md">Рассрочка от банка</h1>
-                </div>
-
-                <div class="d-flex column">
-                  <span class="text-body1 q-mb-md">
-                    Общая сумма: 46352 руб.
-                  </span>
-                  <span class="text-body1">Срок рассрочки: 12 мес.</span>
-                </div>
-              </div>
-
-              <div
-                class="d-flex row justify-between column-lg items-center items-lg-end q-mt-md q-mt-lg-none"
-              >
-                <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
-                  <span class="text-body2 q-mb-sm">
-                    Размер ежемесячного платежа:
-                  </span>
-                  <h2 class="text-h2 q-mb-sm-md q-mb-lg-none">3957 руб.</h2>
-                </div>
-                <ui-button
-                  size="sm"
-                  class="bg-accent"
-                  :text-class="['text-white']"
-                >
-                  ПЕРЕЙТИ К ОФОРМЛЕНИЮ
-                </ui-button>
-              </div>
-            </div>
-          </article>
-
           <ul>
             <li
               v-for="(step, idx) in courseSteps"
@@ -166,9 +164,13 @@
 
         <section class="q-mb-xl">
           <h2 class="text-h2 q-mb-lg">Документы:</h2>
-          <ul>
+          <ul class="d-flex column">
             <li class="text-body2 q-mb-md flex-inline">
-              <a href="" download="" class="link-download d-flex items-center">
+              <a
+                href=""
+                download=""
+                class="link-download row inline items-center"
+              >
                 <q-icon
                   name="fas fa-download"
                   color="secondary"
@@ -178,8 +180,12 @@
                 <span>Договор оферты</span>
               </a>
             </li>
-            <li class="text-body2">
-              <a href="" download="" class="link-download d-flex items-center">
+            <li class="text-body2 flex-inline">
+              <a
+                href=""
+                download=""
+                class="link-download row inline items-center"
+              >
                 <q-icon
                   name="fas fa-download"
                   color="secondary"
