@@ -88,13 +88,9 @@
 import { useStore } from "vuex";
 const store = useStore();
 import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
-import { onMounted } from "vue";
 import usePayment from "@/views/UserСabinetPage/composables/usePayment";
 
 const { pay, payAll } = usePayment();
-onMounted(() => {
-  console.log(store.state.tariff.programPeriod);
-});
 </script>
 
 <style lang="scss" scoped>

@@ -279,7 +279,9 @@
 <script setup>
 import useSteps from "./composables/useSteps";
 import tinkoff from "@tcb-web/create-credit";
+import usePayment from "@/views/UserСabinetPage/composables/usePayment";
 
+const { pay, payAll } = usePayment();
 const { courseStep, courseSteps, paySteps, totalSumm, unpayedSteps } =
   useSteps();
 </script>
