@@ -30,7 +30,7 @@
               size="sm"
               class="bg-accent"
               icon-right="fas fa-sign-in-alt"
-              text-class="text-body2 text-white text-bold q-mr-md"
+              :text-class="['text-body2', 'text-white', 'text-bold', 'q-mr-md']"
               :disabled="pin.length < 4"
               @click="logIn"
             >

@@ -11,7 +11,9 @@
 
     <p class="q-mb-sm text-body2">
       Продолжительность:
-      <span class="text-bold"> 6мес. </span>
+      <span class="text-bold">
+        {{ store.state.tariff.programPeriod }} мес.</span
+      >
     </p>
     <p class="q-mb-sm text-body2">
       Часов теории: <span class="text-bold"> 150,5 </span>
@@ -339,6 +341,8 @@
 
 <script setup>
 import UiAccordionItem from "@/components/UiKit/UiAccordion/UiAccordionItem.vue";
+import { useStore } from "vuex";
+const store = useStore();
 </script>
 
 <style></style>

@@ -2,7 +2,7 @@
   <section>
     <span class="text-body1 text-secondary">Специально для тебя:</span>
     <h1 class="text-h1 q-mt-md q-mb-lg">
-      Программа <span class="text-accent">VIP</span>
+      Программа <span class="text-accent">TESLA</span>
     </h1>
     <p class="q-mb-lg text-body1">
       Курс разработан специальнодля тех, кто хочет стать профи
@@ -10,7 +10,9 @@
 
     <p class="q-mb-sm text-body2">
       Продолжительность:
-      <span class="text-bold"> 8мес. </span>
+      <span class="text-bold">
+        {{ store.state.tariff.programPeriod }} мес.
+      </span>
     </p>
     <p class="q-mb-sm text-body2">
       Часов теории: <span class="text-bold"> 168,5</span>
@@ -405,6 +407,8 @@
 
 <script setup>
 import UiAccordionItem from "@/components/UiKit/UiAccordion/UiAccordionItem.vue";
+import { useStore } from "vuex";
+const store = useStore();
 </script>
 
 <style></style>

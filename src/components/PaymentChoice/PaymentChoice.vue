@@ -10,11 +10,11 @@
     </p>
 
     <UiItem button-text="ОФОРМИТЬ" class="q-mb-lg">
-      <span>{{ store.state.tariff.programValue.months }} мес. </span>
+      <span>{{ store.state.tariff.program?.months }} мес. </span>
       <template #lableRight>
         <span>
           <span class="text-bold">
-            {{ store.state.tariff.programValue.price }}
+            {{ store.state.tariff.program?.price }}
           </span>
           руб./мес.
         </span>
@@ -88,10 +88,10 @@
 import { useStore } from "vuex";
 const store = useStore();
 import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
-// import { onMounted } from "vue";
-// onMounted(() => {
-//   store.getters.programCondition;
-// });
+import { onMounted } from "vue";
+onMounted(() => {
+  console.log(store.state.tariff.programPeriod);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="container">
     <ui-button
       class="button-to-payment z-top bg-accent"
-      text-class="text-white"
+      :text-class="['text-white']"
       size="sm"
       :class="{ hidden: paymentVisible }"
       @click="

@@ -28,22 +28,29 @@
       </q-btn>
     </div>
     <p class="text-body1 q-mb-sm">Срок обучения</p>
-    <p class="text-h2 q-mb-lg">{{ currentData.period }}</p>
+    <p class="text-h2 q-mb-lg">{{ currentData?.period }}</p>
     <p class="text-body1 q-mb-md text-center">
       Общая сумма инвестиций в твое будущее
     </p>
-    <p class="text-h1">{{ formatNumber(currentData.investments) }}руб.</p>
+    <p class="text-h1">{{ formatNumber(currentData?.investments) }}руб.</p>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, watch } from "vue";
 import useCalculator from "./useSalaryCalculator";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
 const { initialState } = useCalculator();
 const store = useStore();
-const selectedStep = ref(1);
+const selectedStep = computed({
+  get() {
+    return store.state.tariff.salaryStep;
+  },
+  set(value) {
+    store.commit("tariff/setSalaryStep", value);
+  },
+});
 const steps = Object.keys(initialState.value);
 const range = computed(() => {
   return {

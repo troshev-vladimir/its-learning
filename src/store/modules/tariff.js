@@ -4,9 +4,10 @@ const tariff = {
     programId: 2,
     programPeriod: 4,
     transh: 9600,
-    totalPrice: 88000,
-    programValue: {},
+    totalPrice: 80000,
     mode: "normal",
+    program: {},
+    salaryStep: 1,
   }),
 
   mutations: {
@@ -22,8 +23,8 @@ const tariff = {
       state.transh = value;
     },
 
-    setProgramValue(state, value) {
-      state.programValue = value;
+    setProgram(state, value) {
+      state.program = value;
     },
 
     setProgramPeriod(state, value) {
@@ -32,6 +33,9 @@ const tariff = {
 
     setMode(state, value) {
       state.mode = value;
+    },
+    setSalaryStep(state, value) {
+      state.salaryStep = value;
     },
   },
 
@@ -46,19 +50,6 @@ const tariff = {
 
     programAccent(state) {
       return programAccents[state.programId];
-    },
-
-    programCondition(state, getters) {
-      const programValues = getters.programValue.values;
-      const brakePoints = Object.keys(programValues);
-      state.programValue = state.transh;
-
-      brakePoints.every((bp) => {
-        if (bp > state.transh) {
-          state.programValue = programValues[bp];
-          return false;
-        } else return true;
-      });
     },
   },
 };

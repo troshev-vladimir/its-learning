@@ -24,17 +24,17 @@ const routes = [
       {
         path: "pro",
         name: "pro",
-        component: import("@/views/TariffInfo/TariffPro"),
+        component: () => import("@/views/TariffInfo/TariffPro"),
       },
       {
         name: "vip",
         path: "vip",
-        component: import("@/views/TariffInfo/TariffVip"),
+        component: () => import("@/views/TariffInfo/TariffVip"),
       },
       {
         name: "tesla",
         path: "tesla",
-        component: import("@/views/TariffInfo/TariffTessla"),
+        component: () => import("@/views/TariffInfo/TariffTessla"),
       },
     ],
   },

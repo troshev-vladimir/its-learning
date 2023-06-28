@@ -17,7 +17,7 @@ const data = {
   40000: {
     period: "4 месяцa",
     months: 4,
-    investments: 88000,
+    investments: 80000,
     programm: "vip",
     id: 2,
   },

@@ -13,7 +13,7 @@ const props = defineProps({
     type: String,
     default: "",
     validator(value) {
-      return ["long"].includes(value);
+      return ["long", ""].includes(value);
     },
   },
 

@@ -17,22 +17,43 @@
 </template>
 
 <script setup>
-import { computed, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
-
 const store = useStore();
+
 const program = computed(() => store.getters["tariff/programValue"]);
+
 const value = computed({
   get() {
     return store.state.tariff.transh;
   },
   set(value) {
-    return store.commit("tariff/setTransh", value);
+    tariffChoice(value);
   },
 });
 
+onMounted(() => {
+  tariffChoice(value.value);
+});
+
+function tariffChoice(value) {
+  console.log(value);
+  const programValues = program.value.values;
+  const brakePoints = Object.keys(programValues);
+  brakePoints.every((bp) => {
+    if (bp > value) {
+      store.commit("tariff/setProgram", programValues[bp]);
+      console.log(programValues[bp]);
+      return false;
+    } else return true;
+  });
+  store.commit("tariff/setTransh", value);
+}
+
 watch(program, (val) => {
+  tariffChoice(value.value);
+  console.log(val);
   if (value.value > val.range.max) {
     value.value = val.range.max;
   }
