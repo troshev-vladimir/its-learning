@@ -9,7 +9,7 @@
       прохождение курса если поймете что программирование не для вас
     </p>
 
-    <UiItem button-text="ОФОРМИТЬ" class="q-mb-lg">
+    <UiItem button-text="ОФОРМИТЬ" class="q-mb-lg" @click="pay">
       <span>{{ store.state.tariff.program?.months }} мес. </span>
       <template #lableRight>
         <span>
@@ -29,7 +29,7 @@
         Получите дополнительный блок продвинутой программы
         <span class="text-bold">19 VIP</span> абсолютно бесплатно
       </p>
-      <UiItem button-text="КУПИТЬ">
+      <UiItem button-text="КУПИТЬ" @click="payAll">
         <span>
           <span class="text-bold">{{ store.state.tariff.totalPrice }}</span>
           руб.
@@ -89,6 +89,9 @@ import { useStore } from "vuex";
 const store = useStore();
 import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
 import { onMounted } from "vue";
+import usePayment from "@/views/UserСabinetPage/composables/usePayment";
+
+const { pay, payAll } = usePayment();
 onMounted(() => {
   console.log(store.state.tariff.programPeriod);
 });

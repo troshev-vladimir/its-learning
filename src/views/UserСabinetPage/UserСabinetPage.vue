@@ -3,10 +3,10 @@
     <div class="row relative-position">
       <div class="col-12 col-md-7 col-lg-8">
         <section class="q-mb-xl">
-          <span class="text-body1 text-secondary">
+          <p class="text-body1 text-secondary q-mb-md">
             Личный кабинет пользователя
-          </span>
-          <p class="q-mb-lg">
+          </p>
+          <p class="q-mb-lg d-flex wrap">
             <span class="text-body1 text-bold q-mr-md"> Юзер ФИО </span>
             <span class="text-body2 q-mr-md"> Статус пользователя </span>
             <span class="text-body2"> до: 19.06.2023 </span>
@@ -19,12 +19,17 @@
               Программа <span class="text-accent">PRO</span>
             </h1>
 
-            <div class="d-flex column items-end">
-              <p class="text-body2 d-flex items-center q-mb-lg">
+            <div class="d-flex column items-satrt items-lg-end">
+              <p class="text-body2 d-flex items-center q-mb-md">
                 <span class="q-mr-sm">Сумма к оплате:</span>
                 <span class="text-bold text-body1">46 352 руб.</span>
               </p>
-              <ui-button size="sm" outline :text-class="['text-accent']">
+              <ui-button
+                size="sm"
+                outline
+                :text-class="['text-accent']"
+                @click="payAll"
+              >
                 ОПЛАТИТЬ ЦЕЛИКОМ
               </ui-button>
             </div>
@@ -53,7 +58,7 @@
                   <span class="text-body2 q-mb-sm">
                     Размер ежемесячного платежа:
                   </span>
-                  <h2 class="text-h2 q-mb-sm-md q-mb-lg-none">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-md-md q-mb-lg-none">3957 руб.</h2>
                 </div>
                 <!-- <button
                   type="button"
@@ -139,6 +144,7 @@
                   size="sm"
                   class="bg-accent"
                   :text-class="['text-white']"
+                  @click="pay"
                 >
                   ОПЛАТИТЬ
                 </ui-button>
@@ -152,8 +158,8 @@
               :key="idx"
               class="d-flex justify-between q-mb-lg text-body2"
             >
-              <span>{{ step.date }}</span>
-              <span> {{ step.summ }}руб.</span>
+              <span class="q-mr-sm">{{ step.date }}</span>
+              <span class="q-mr-sm"> {{ step.summ }}руб.</span>
               <span>{{ step.status }}</span>
             </li>
           </ul>
@@ -161,20 +167,14 @@
         <section class="q-mb-xl">
           <h2 class="text-h2 q-mb-lg">Пройденные курсы:</h2>
           <ul>
-            <li class="d-flex justify-between q-mb-lg text-body1">
-              <span>Введение</span>
-              <span>Успешно пройден</span>
-              <span>16.05.2023</span>
-            </li>
-            <li class="d-flex justify-between q-mb-lg text-body1">
-              <span>Введение</span>
-              <span>Успешно пройден</span>
-              <span>16.05.2023</span>
-            </li>
-            <li class="d-flex justify-between text-body1">
-              <span>Введение</span>
-              <span>Успешно пройден</span>
-              <span>16.05.2023</span>
+            <li
+              v-for="(step, idx) in paySteps"
+              :key="idx"
+              class="d-flex justify-between q-mb-lg text-body1"
+            >
+              <span class="q-mr-sm">{{ step.title }}</span>
+              <span class="q-mr-sm">{{ step.date }}</span>
+              <span>{{ step.status }}</span>
             </li>
           </ul>
         </section>
@@ -280,7 +280,8 @@
 import useSteps from "./composables/useSteps";
 import tinkoff from "@tcb-web/create-credit";
 
-const { courseStep, courseSteps, totalSumm, unpayedSteps } = useSteps();
+const { courseStep, courseSteps, paySteps, totalSumm, unpayedSteps } =
+  useSteps();
 </script>
 
 <style lang="scss" scoped>

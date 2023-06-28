@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import Home from "@/views/TariffCalculatorPage";
+import Auth from "@/views/LoginPage";
 const routes = [
-  {
-    path: "/",
-    name: "tariff",
-    component: () => import("@/views/TariffCalculatorPage"),
-  },
-
   {
     path: "/auth",
     name: "auth",
-    component: () => import("@/views/LoginPage"),
+    component: Auth,
     meta: {
       layout: "EmptyLayout",
     },
@@ -51,6 +46,12 @@ const routes = [
     meta: {
       layout: "EmptyLayout",
     },
+  },
+
+  {
+    path: "/",
+    name: "tariff",
+    component: Home,
   },
 ];
 

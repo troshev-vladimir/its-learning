@@ -10,7 +10,11 @@
         <slot name="lableRight" />
       </span>
     </div>
-    <ui-button size="sm" color="accent" :text-class="['text-white']"
+    <ui-button
+      size="sm"
+      color="accent"
+      :text-class="['text-white']"
+      @click="emit('click')"
       >{{ props.buttonText }}
     </ui-button>
   </div>
@@ -24,6 +28,8 @@ const props = defineProps({
     default: "",
   },
 });
+// eslint-disable-next-line no-undef
+const emit = defineEmits(["click"]);
 </script>
 
 <style lang="scss" scoped>

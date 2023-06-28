@@ -9,8 +9,8 @@ export default function useSteps() {
       fulfilld: true,
     },
     {
-      date: "До 19 июля",
-      summ: "3957",
+      title: "asdasdasd",
+      date: "16.05.2023",
       status: "Успешно пройден",
       fulfilld: true,
     },
