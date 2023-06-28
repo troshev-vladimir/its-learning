@@ -23,8 +23,8 @@
               ]"
               lazy-rules
             />
-            <PincodeInput v-model="pin" />
             <p class="q-mb-md text-body1">ПИН-код</p>
+            <PincodeInput v-model="pin" />
 
             <ui-button
               size="sm"

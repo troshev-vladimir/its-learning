@@ -24,11 +24,7 @@
                 <span class="q-mr-sm">Сумма к оплате:</span>
                 <span class="text-bold text-body1">46 352 руб.</span>
               </p>
-              <ui-button
-                size="sm"
-                class="bg-accent"
-                :text-class="['text-white']"
-              >
+              <ui-button size="sm" outline :text-class="['text-accent']">
                 ОПЛАТИТЬ ЦЕЛИКОМ
               </ui-button>
             </div>
@@ -59,10 +55,31 @@
                   </span>
                   <h2 class="text-h2 q-mb-sm-md q-mb-lg-none">3957 руб.</h2>
                 </div>
+                <!-- <button
+                  type="button"
+                  class="TINKOFF_BTN_YELLOW TINKOFF_SIZE_L"
+                  onclick="
+                ></button> -->
                 <ui-button
                   size="sm"
                   class="bg-accent"
                   :text-class="['text-white']"
+                  @click="
+                    tinkoff.createDemo(
+                      {
+                        sum: 100500,
+                        items: [
+                          { name: 'iphone 11', price: 100000, quantity: 1 },
+                          { name: 'Чехол', price: 500, quantity: 1 },
+                        ],
+                        demoFlow: 'sms',
+                        promoCode: 'default',
+                        shopId: 'd7836c7b-d032-493f-a2e3-ce02961930ae',
+                        showcaseId: 'ff69b584-4d85-4ff6-9c44-8572184eaa1d',
+                      },
+                      { view: 'modal' }
+                    )
+                  "
                 >
                   ПЕРЕЙТИ К ОФОРМЛЕНИЮ
                 </ui-button>
@@ -205,7 +222,12 @@
             или больничного — вы можете взять отпуск. Во время отпуска даты
             следующих платежей переносятся на соответствующее кол-во дней.
           </p>
-          <ui-button size="sm" class="bg-accent" :text-class="['text-white']">
+          <ui-button
+            size="sm"
+            class="bg-accent"
+            outline
+            :text-class="['text-accent']"
+          >
             ПРИОСТАНОВИТЬ ОБУЧЕНИЕ
           </ui-button>
         </section>
@@ -243,7 +265,8 @@
           <ui-button
             size="sm"
             class="full-width bg-accent"
-            :text-class="['text-white']"
+            :text-class="['text-accent']"
+            outline
           >
             ХОЧУ БОЛЬШЕГО
           </ui-button>
@@ -255,6 +278,7 @@
 
 <script setup>
 import useSteps from "./composables/useSteps";
+import tinkoff from "@tcb-web/create-credit";
 
 const { courseStep, courseSteps, totalSumm, unpayedSteps } = useSteps();
 </script>
