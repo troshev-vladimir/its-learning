@@ -1,17 +1,20 @@
 <template>
   <div class="rounded bg-white q-mt-lg q-py-lg q-pl-lg q-pr-sm">
     <div class="accent wrap d-flex items-center">
-      <h2 class="q-mr-md q-mb-sm text-h2" v-html="content.name"></h2>
-      <p class="text-body1" v-html="content.description"></p>
+      <h2 class="q-mr-md q-mb-sm text-h2" v-html="content.description1"></h2>
+      <p class="text-body1" v-html="content.description2"></p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { Tariff } from "@/types/tariff";
 import { useStore } from "vuex";
 const store = useStore();
-const content = computed(() => store.state["tariff"]);
+const content = computed<Tariff>(
+  () => store.getters["tariff/getCurrentProgramm"] || {}
+);
 </script>
 
 <style lang="scss" scoped>

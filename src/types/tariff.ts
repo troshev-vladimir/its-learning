@@ -10,3 +10,11 @@ export interface Tariff {
   theoryhours: number;
   practicehours: number;
 }
+
+export interface Installment {
+  offerid?: string;
+  offername?: string;
+  offerpayment?: number;
+  offerperiod?: number | string;
+  offerfrombank?: boolean;
+}

@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import tariff from "./modules/tariff";
 
 const store = createStore({
-  state: {},
+  state: () => ({}),
   getters: {},
   mutations: {
     initialiseStore(state) {

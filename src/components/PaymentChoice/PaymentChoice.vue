@@ -10,11 +10,11 @@
     </p>
 
     <UiItem button-text="ОФОРМИТЬ" class="q-mb-lg" @click="pay">
-      <span>{{ store.state.tariff.program?.months }} мес. </span>
+      <span>{{ currentInstallment.offerperiod }} мес. </span>
       <template #lableRight>
         <span>
           <span class="text-bold">
-            {{ store.state.tariff.program?.price }}
+            {{ currentInstallment.offerpayment }}
           </span>
           руб./мес.
         </span>
@@ -31,7 +31,7 @@
       </p>
       <UiItem button-text="КУПИТЬ" @click="payAll">
         <span>
-          <span class="text-bold">{{ store.state.tariff.totalPrice }}</span>
+          <span class="text-bold"> {{ currentProgram.price }} </span>
           руб.
         </span>
       </UiItem>
@@ -89,8 +89,9 @@ import { useStore } from "vuex";
 const store = useStore();
 import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
 import usePayment from "@/views/UserСabinetPage/composables/usePayment";
-
 const { pay, payAll } = usePayment();
+const currentProgram = store.getters["tariff/getCurrentProgramm"];
+const currentInstallment = store.state.tariff.installment;
 </script>
 
 <style lang="scss" scoped>

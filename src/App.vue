@@ -8,21 +8,24 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
-import { useQuasar } from "quasar";
+import apiTariff from "@/api/tariff";
+import { mapGetters } from "vuex";
 export default {
   components: {
     DefaultLayout,
     EmptyLayout,
   },
   computed: {
+    ...mapGetters({
+      program: "tariff/getCurrentProgramm",
+    }),
     layout() {
       return this.$route.meta.layout || "DefaultLayout";
     },
   },
   beforeCreate() {
     this.$store.commit("initialiseStore");
-    const $q = useQuasar();
-    $q.notify.setDefaults({
+    this.$q.notify.setDefaults({
       position: "top-right",
       timeout: 2500,
       textColor: "white",
@@ -30,6 +33,23 @@ export default {
       // actions: [{ icon: "fas fa-times", color: "white" }],
     });
     this.$q.iconSet.field.error = "fas fa-exclamation-triangle fs-sm";
+  },
+
+  mounted() {
+    apiTariff
+      .getTariffs()
+      .then((responce) => {
+        this.$store.commit("tariff/setPrograms", responce);
+        this.setIntheMiddle();
+      })
+      .catch((error) => {
+        this.$q.notify({
+          color: "negative",
+          position: "top",
+          message: error,
+          icon: "report_problem",
+        });
+      });
   },
 
   created() {
@@ -45,6 +65,17 @@ export default {
 
     setCssVar("white", "#fff");
     setCssVar("black", "#fff");
+  },
+  methods: {
+    setIntheMiddle() {
+      if (!this.$store.state.tariff.payment) {
+        const value =
+          this.program.offermax -
+          (this.program.offermax - this.program.offermin) / 2;
+
+        this.$store.commit("tariff/setPayment", value);
+      }
+    },
   },
 };
 </script>

@@ -1,44 +1,22 @@
+import { Installment } from "./../../types/tariff";
 import { Tariff } from "@/types/tariff";
 import { GetterTree } from "vuex";
 
 interface State {
   selectedProgrammIdx: number;
   programs: Tariff[];
+  payment: number;
+  installment: Installment;
 }
 
 const tariff = {
   namespaced: true,
-  state(): State {
+  state: (): State => {
     return {
       selectedProgrammIdx: 0,
-      programs: [
-        {
-          id: "88cfa11a-383c-11ee-a9b9-a8a1591a7f2b",
-          name: "TESLA",
-          income: 120000,
-          period: 12,
-          description:
-            "<strong>Войди в 12% лучших\n</strong>Стань по настоящему\nкрутым специалистом",
-          price: 128000,
-          offermin: 4533,
-          offermax: 24533,
-          theoryhours: 0,
-          practicehours: 0,
-        },
-        {
-          id: "b1b3c049-384b-11ee-a9b9-a8a1591a7f2b",
-          name: "VIP",
-          income: 60000,
-          period: 5,
-          description:
-            "812% годовых\nОптимальный КПД\nЛучшая окупаемость твоих инвестиций",
-          price: 88000,
-          offermin: 6233,
-          offermax: 25300,
-          theoryhours: 0,
-          practicehours: 0,
-        },
-      ],
+      payment: 0,
+      programs: [],
+      installment: {},
     };
   },
 
@@ -54,11 +32,23 @@ const tariff = {
         state.selectedProgrammIdx -= 1;
       }
     },
+
+    setPayment(state: State, value: number) {
+      state.payment = value;
+    },
+
+    setPrograms(state: State, value: Tariff[]) {
+      state.programs = value;
+    },
+
+    setInstallment(state: State, value: Installment) {
+      state.installment = value;
+    },
   },
 
   getters: {
     getCurrentProgramm(state: State) {
-      return state;
+      return state.programs[state.selectedProgrammIdx];
     },
   },
 };

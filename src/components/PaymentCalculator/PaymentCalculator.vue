@@ -20,13 +20,21 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
-
-// import { Tariff } from "@/types/tariff";
+import { Tariff } from "@/types/tariff";
 
 const store = useStore();
 
-const program = computed(() => store.state["tariff"]);
-const value = computed(() => store.state["tariff"]);
+const program = computed<Tariff>(
+  () => store.getters["tariff/getCurrentProgramm"] || {}
+);
+const value = computed({
+  get() {
+    return store.state.tariff.payment;
+  },
+  set(value: number) {
+    store.commit("tariff/setPayment", value);
+  },
+});
 </script>
 
 <style lang="scss">

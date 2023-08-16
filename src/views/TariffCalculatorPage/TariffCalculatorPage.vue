@@ -98,13 +98,33 @@ import AccentTariff from "@/components/AccentTariff";
 import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import tariffApi from "@/api/tariff";
 
 const store = useStore();
 const router = useRouter();
 
 const goToTariff = () => {
-  const name = store.getters["tariff/programName"];
-  router.push({ name });
+  const program = store.getters["tariff/getCurrentProgramm"];
+  const payment = store.state.tariff.payment;
+  const name = program.name.toLowerCase();
+
+  tariffApi
+    .getInstallment(program.id, payment)
+    .then((responce) => {
+      store.commit("tariff/setInstallment", responce[0]);
+    })
+    .then(() => {
+      router.push({ name });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.$q.notify({
+        color: "negative",
+        position: "top",
+        message: "Что то пошло не так",
+        icon: "report_problem",
+      });
+    });
 };
 
 const hoursItems = reactive([

@@ -1,7 +1,10 @@
 <template>
   <div class="salary-calculator column items-center">
-    <p class="text-h1 q-mb-sm">{{ formatNumber(income) }} руб./мес.</p>
+    <p class="text-h1 q-mb-sm">
+      {{ formatNumber(currentProgramm.income) }} руб./мес.
+    </p>
     <p class="text-body1 q-mb-md">Твоя будущая зарплата</p>
+
     <div class="salary-calculator-input row items-center full-width q-mb-md">
       <q-btn
         color="secondary"
@@ -13,8 +16,8 @@
       </q-btn>
       <q-slider
         v-model="selectedStep"
-        :min="+range.min"
-        :max="+range.max"
+        :min="0"
+        :max="range"
         readonly
         color="accent"
       />
@@ -28,35 +31,30 @@
       </q-btn>
     </div>
     <p class="text-body1 q-mb-sm">Срок обучения</p>
-    <p class="text-h2 q-mb-lg">{{ currentData?.period }}</p>
+    <p class="text-h2 q-mb-lg">{{ currentProgramm.period }} месяцев</p>
     <p class="text-body1 q-mb-md text-center">
       Общая сумма инвестиций в твое будущее
     </p>
-    <p class="text-h1">{{ formatNumber(currentData?.investments) }}руб.</p>
+    <p class="text-h1">{{ formatNumber(currentProgramm.price) }} руб.</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
 import { Tariff } from "@/types/tariff";
+import { computed } from "vue";
+
 const store = useStore();
 
-const selectedStep = computed<Tariff>(
-  store.getters["tariff/getCurrentProgramm"]
-);
-
-const range = computed(() => {
-  return {
-    min: 0,
-    max: store.state.tariff.programs.length,
-  };
+const currentProgramm = computed<Tariff>(() => {
+  return store.getters["tariff/getCurrentProgramm"] || {};
 });
 
-const income = computed(() => {
-  return selectedStep.value.income;
+const selectedStep = computed(() => {
+  return store.state.tariff.selectedProgrammIdx;
 });
+const range = store.state.tariff.programs.length - 1;
 </script>
 
 <style lang="scss" scoped>

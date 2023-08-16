@@ -10,15 +10,15 @@
 
     <p class="q-mb-sm text-body2">
       Продолжительность:
-      <span class="text-bold">
-        {{ store.state.tariff.programPeriod }} мес.
-      </span>
+      <span class="text-bold"> {{ currentProgram.period }} мес.</span>
     </p>
     <p class="q-mb-sm text-body2">
-      Часов теории: <span class="text-bold"> 168,5</span>
+      Часов теории:
+      <span class="text-bold">{{ currentProgram.theoryhours }}</span>
     </p>
     <p class="q-mb-sm text-body2">
-      Часов практики: <span class="text-bold"> 69,5 </span>
+      Часов практики:
+      <span class="text-bold"> {{ currentProgram.practicehours }}</span>
     </p>
     <p class="q-mb-sm text-body2">
       Постоянный контакт с наставниками – ведущими практикующими программистами:
@@ -409,6 +409,7 @@
 import UiAccordionItem from "@/components/UiKit/UiAccordion/UiAccordionItem.vue";
 import { useStore } from "vuex";
 const store = useStore();
+const currentProgram = store.getters["tariff/getCurrentProgramm"];
 </script>
 
 <style></style>
