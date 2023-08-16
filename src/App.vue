@@ -46,7 +46,7 @@ export default {
         this.$q.notify({
           color: "negative",
           position: "top",
-          message: error,
+          message: "Что то пошло не так",
           icon: "report_problem",
         });
       });
