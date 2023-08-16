@@ -15,7 +15,7 @@
         -
       </q-btn>
       <q-slider
-        v-model="selectedStep"
+        :model-value="selectedStep"
         :min="0"
         :max="range"
         readonly
@@ -52,9 +52,14 @@ const currentProgramm = computed<Tariff>(() => {
 });
 
 const selectedStep = computed(() => {
+  console.log(store.state.tariff.selectedProgrammIdx);
+
   return store.state.tariff.selectedProgrammIdx;
 });
-const range = store.state.tariff.programs.length - 1;
+
+const range = computed(() => {
+  return store.state.tariff.programs.length - 1;
+});
 </script>
 
 <style lang="scss" scoped>
