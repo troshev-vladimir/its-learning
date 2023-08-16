@@ -122,7 +122,6 @@ const goToTariff = () => {
         color: "negative",
         position: "top",
         message: "Что то пошло не так",
-        icon: "report_problem",
       });
     });
 };

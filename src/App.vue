@@ -42,12 +42,11 @@ export default {
         this.$store.commit("tariff/setPrograms", responce);
         this.setIntheMiddle();
       })
-      .catch((error) => {
+      .catch(() => {
         this.$q.notify({
           color: "negative",
           position: "top",
           message: "Что то пошло не так",
-          icon: "report_problem",
         });
       });
   },
