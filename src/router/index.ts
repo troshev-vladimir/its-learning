@@ -19,17 +19,17 @@ const routes = [
       {
         path: "pro",
         name: "pro",
-        component: () => import("@/views/TariffInfo/TariffPro"),
+        component: () => import("@/views/TariffInfo/TariffPro.vue"),
       },
       {
         name: "vip",
         path: "vip",
-        component: () => import("@/views/TariffInfo/TariffVip"),
+        component: () => import("@/views/TariffInfo/TariffVip.vue"),
       },
       {
         name: "tesla",
         path: "tesla",
-        component: () => import("@/views/TariffInfo/TariffTessla"),
+        component: () => import("@/views/TariffInfo/TariffTessla.vue"),
       },
     ],
   },
@@ -42,7 +42,7 @@ const routes = [
 
   {
     path: "/:catchAll(.*)",
-    component: () => import("@/views/404Page"),
+    component: () => import("@/views/404Page.vue"),
     meta: {
       layout: "EmptyLayout",
     },
@@ -58,6 +58,7 @@ const routes = [
 const router = createRouter({
   routes,
   history: createWebHistory(process.env.BASE_URL),
+  // @ts-ignore
   scrollBehavior() {
     return { top: 0, behavior: "instant" };
   },

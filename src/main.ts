@@ -5,10 +5,10 @@ import store from "./store";
 import { Quasar } from "quasar";
 import quasarUserOptions from "./quasar-user-options";
 import "./styles/main.scss";
-import UiButton from "@/components/UiKit/UiButton";
+import UiButton from "@/components/UiKit/UiButton.vue";
 import IconBase from "@/components/UiKit/IconBase";
-import UiItem from "@/components/UiKit/UiItem";
-import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion";
+import UiItem from "@/components/UiKit/UiItem.vue";
+import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion.vue";
 
 import EaseyImg from "@/components/UiKit/IconBase/icons/front/EaseyImg.vue";
 import HardImg from "@/components/UiKit/IconBase/icons/front/HardImg.vue";

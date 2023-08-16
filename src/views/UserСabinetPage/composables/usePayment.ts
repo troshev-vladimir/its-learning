@@ -20,7 +20,7 @@ export default function usePayment() {
     // SignatureValue: "3925b771e47d405cbcbb492daa936824",
   });
 
-  const getPaymentParams = (type) => {
+  const getPaymentParams = (type: string) => {
     // fetchfromBack()
     console.log({
       id: store.state.tariff.program.id,
@@ -29,11 +29,14 @@ export default function usePayment() {
   };
   const payAll = () => {
     getPaymentParams("all");
+
+    // @ts-ignore
     window.Robokassa.StartPayment(paymentParams);
   };
 
   const pay = () => {
     getPaymentParams("split");
+    // @ts-ignore
     window.Robokassa.StartPayment(paymentParams);
   };
   return {

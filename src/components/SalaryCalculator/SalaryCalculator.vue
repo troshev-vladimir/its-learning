@@ -1,13 +1,13 @@
 <template>
   <div class="salary-calculator column items-center">
-    <p class="text-h1 q-mb-sm">{{ formatNumber(value) }} руб./мес.</p>
+    <p class="text-h1 q-mb-sm">{{ formatNumber(income) }} руб./мес.</p>
     <p class="text-body1 q-mb-md">Твоя будущая зарплата</p>
     <div class="salary-calculator-input row items-center full-width q-mb-md">
       <q-btn
         color="secondary"
         text-color="primary"
         class="button rounded"
-        @click="reduce"
+        @click="store.commit('tariff/reduce')"
       >
         -
       </q-btn>
@@ -22,7 +22,7 @@
         color="secondary"
         class="button rounded"
         text-color="primary"
-        @click="increase"
+        @click="store.commit('tariff/increase')"
       >
         +
       </q-btn>
@@ -36,54 +36,27 @@
   </div>
 </template>
 
-<script setup>
-import { computed, watch } from "vue";
-import useCalculator from "./useSalaryCalculator";
+<script setup lang="ts">
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
-const { initialState } = useCalculator();
+import { Tariff } from "@/types/tariff";
 const store = useStore();
-const selectedStep = computed({
-  get() {
-    return store.state.tariff.salaryStep;
-  },
-  set(value) {
-    store.commit("tariff/setSalaryStep", value);
-  },
-});
-const steps = Object.keys(initialState.value);
+
+const selectedStep = computed<Tariff>(
+  store.getters["tariff/getCurrentProgramm"]
+);
+
 const range = computed(() => {
   return {
     min: 0,
-    max: steps.length - 1,
+    max: store.state.tariff.programs.length,
   };
 });
 
-const value = computed(() => {
-  return steps[selectedStep.value];
+const income = computed(() => {
+  return selectedStep.value.income;
 });
-
-const currentData = computed(() => {
-  return initialState.value[value.value];
-});
-
-watch(currentData, (value) => {
-  store.commit("tariff/setProgramId", value.id);
-  store.commit("tariff/setProgramPeriod", value.months);
-  store.commit("tariff/setProgramTotalPrice", value.investments);
-});
-
-function increase() {
-  if (selectedStep.value < steps.length - 1) {
-    selectedStep.value += 1;
-  }
-}
-
-function reduce() {
-  if (selectedStep.value > 0) {
-    selectedStep.value -= 1;
-  }
-}
 </script>
 
 <style lang="scss" scoped>

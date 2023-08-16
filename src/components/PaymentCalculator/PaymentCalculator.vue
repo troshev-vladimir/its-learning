@@ -2,12 +2,12 @@
   <div class="payment-calculator">
     <q-slider
       v-model="value"
-      :min="program.range.min"
-      :max="program.range.max"
+      :min="program.offermin"
+      :max="program.offermax"
       :step="1"
       label
       label-always
-      :marker-labels="[program.range.min, program.range.max]"
+      :marker-labels="[program.offermin, program.offermax]"
       color="accent"
       :label-value="formatNumber(value) + ' руб.'"
       switch-marker-labels-side
@@ -16,52 +16,17 @@
   </div>
 </template>
 
-<script setup>
-import { computed, onMounted, watch } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
+
+// import { Tariff } from "@/types/tariff";
+
 const store = useStore();
 
-const program = computed(() => store.getters["tariff/programValue"]);
-
-const value = computed({
-  get() {
-    return store.state.tariff.transh;
-  },
-  set(value) {
-    tariffChoice(value);
-  },
-});
-
-onMounted(() => {
-  tariffChoice(value.value);
-});
-
-function tariffChoice(value) {
-  console.log(value);
-  const programValues = program.value.values;
-  const brakePoints = Object.keys(programValues);
-  brakePoints.every((bp) => {
-    if (bp > value) {
-      store.commit("tariff/setProgram", programValues[bp]);
-      console.log(programValues[bp]);
-      return false;
-    } else return true;
-  });
-  store.commit("tariff/setTransh", value);
-}
-
-watch(program, (val) => {
-  tariffChoice(value.value);
-  console.log(val);
-  if (value.value > val.range.max) {
-    value.value = val.range.max;
-  }
-
-  if (value.value < val.range.min) {
-    value.value = val.range.min;
-  }
-});
+const program = computed(() => store.state["tariff"]);
+const value = computed(() => store.state["tariff"]);
 </script>
 
 <style lang="scss">

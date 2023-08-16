@@ -12,37 +12,41 @@ export default function usePincode() {
     }, "");
   });
 
-  const onInput = (value) => {
+  const onInput = (value: string) => {
     if (value.split("").length > 1) {
       const val = value.split("").pop();
-      value = "";
-      value = val;
-      console.log(val);
+      value = val!;
+      // @ts-ignore
       userPin.value[currentInput.value] = "";
+      // @ts-ignore
       userPin.value[currentInput.value] = val;
     }
   };
 
-  const nextInput = (value) => {
+  const nextInput = (value: number) => {
     if (!value) {
       onClear();
       return;
     }
     if (currentInput.value === 3) return;
     currentInput.value += 1;
+    // @ts-ignore
     inputs.value[currentInput.value].focus();
   };
 
   const onFocus = () => {
     userPin.value = [];
+    // @ts-ignore
     inputs.value[0].focus();
   };
 
   const onClear = () => {
     if (currentInput.value === 0) return;
     userPin.value = [];
+    // @ts-ignore
     inputs.value[0].focus();
     currentInput.value -= 1;
+    // @ts-ignore
     inputs.value[currentInput.value].focus();
   };
 

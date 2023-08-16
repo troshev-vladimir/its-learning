@@ -1,17 +1,17 @@
 <template>
   <div class="rounded bg-white q-mt-lg q-py-lg q-pl-lg q-pr-sm">
     <div class="accent wrap d-flex items-center">
-      <h2 class="q-mr-md q-mb-sm text-h2" v-html="content.title"></h2>
+      <h2 class="q-mr-md q-mb-sm text-h2" v-html="content.name"></h2>
       <p class="text-body1" v-html="content.description"></p>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
-const content = computed(() => store.getters["tariff/programAccent"]);
+const content = computed(() => store.state["tariff"]);
 </script>
 
 <style lang="scss" scoped>
