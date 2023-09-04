@@ -45,8 +45,9 @@ export default {
         //     return acc || el.id === this.$store.state.tariff.programs;
         //   }, false);
         // }
-
         this.$store.commit("tariff/setPrograms", responce);
+      })
+      .then(() => {
         this.setIntheMiddle();
       })
       .catch(() => {

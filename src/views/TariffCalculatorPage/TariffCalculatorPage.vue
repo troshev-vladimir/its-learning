@@ -43,29 +43,34 @@
     <div class="container">
       <h2 class="text-h2 q-mb-lg">Куда распределить заработанное?</h2>
       <div class="row items-center q-col-gutter-y-md">
-        <div
-          v-for="(item, idx) in hoursItems"
-          :key="idx"
-          class="col-lg-4 col-md-6 col-12"
-        >
-          <UiButton
-            :color="item.active ? 'white' : 'secondary'"
-            text-color="primary"
-            class="button button--selectable"
-            :class="{ 'button--active': item.active }"
-            selectable
-            @click="selectTime(item)"
-          >
-            <div class="d-flex q-gutter-lg items-center">
-              <icon-base width="40" height="40">
-                <component :is="item.img"></component>
-              </icon-base>
-              <div class="column q-row-gutter-xs items-start">
-                <p class="text-body1 text-bold">{{ item.title }}</p>
-                <!-- <p class="text-body1">{{ item.body }}</p> -->
-              </div>
+        <div class="col-lg-9 col-md-12 col-12">
+          <div class="row q-col-gutter-lg no-wrap-md">
+            <div
+              v-for="(item, idx) in hoursItems"
+              :key="idx"
+              class="col-auto"
+              style="flex-grow: 1"
+            >
+              <UiButton
+                :color="item.active ? 'white' : 'secondary'"
+                text-color="primary"
+                class="button button--selectable full-width"
+                :class="{ 'button--active': item.active }"
+                selectable
+                @click="selectTime(item)"
+              >
+                <div class="d-flex q-gutter-lg items-center">
+                  <icon-base width="40" height="40">
+                    <component :is="item.img"></component>
+                  </icon-base>
+                  <div class="column q-row-gutter-xs items-start">
+                    <p class="text-body1 text-bold">{{ item.title }}</p>
+                    <!-- <p class="text-body1">{{ item.body }}</p> -->
+                  </div>
+                </div>
+              </UiButton>
             </div>
-          </UiButton>
+          </div>
         </div>
         <div class="col-lg-3 col-12">
           <p class="text-body1">

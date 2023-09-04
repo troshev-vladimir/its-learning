@@ -25,10 +25,14 @@ const content = computed<Tariff>(
   position: relative;
 
   img {
-    height: 240px;
+    height: 250px;
     position: absolute;
     right: 0;
     bottom: 0;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      height: 200px;
+    }
 
     @media screen and (min-width: $breakpoint-sm) {
       height: 300px;

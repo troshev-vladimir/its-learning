@@ -1,6 +1,5 @@
 import { Installment } from "./../../types/tariff";
 import { Tariff } from "@/types/tariff";
-import { GetterTree } from "vuex";
 
 interface State {
   selectedProgrammIdx: number;
