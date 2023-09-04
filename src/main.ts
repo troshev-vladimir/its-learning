@@ -10,9 +10,9 @@ import IconBase from "@/components/UiKit/IconBase";
 import UiItem from "@/components/UiKit/UiItem.vue";
 import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion.vue";
 
-import EaseyImg from "@/components/UiKit/IconBase/icons/front/EaseyImg.vue";
-import HardImg from "@/components/UiKit/IconBase/icons/front/HardImg.vue";
-import NormImg from "@/components/UiKit/IconBase/icons/front/NormImg.vue";
+import LearningImg from "@/components/UiKit/IconBase/icons/front/LearningImg.vue";
+import SalaryImg from "@/components/UiKit/IconBase/icons/front/SalaryImg.vue";
+
 const app = createApp(App);
 
 app.component("UiButton", UiButton);
@@ -20,9 +20,8 @@ app.component("IconBase", IconBase);
 app.component("UiAccordion", UiAccordion);
 app.component("UiItem", UiItem);
 
-app.component("EaseyImg", EaseyImg);
-app.component("HardImg", HardImg);
-app.component("NormImg", NormImg);
+app.component("LearningImg", LearningImg);
+app.component("SalaryImg", SalaryImg);
 
 app.use(Quasar, quasarUserOptions);
 app.use(store);

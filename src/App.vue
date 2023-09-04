@@ -39,6 +39,13 @@ export default {
     apiTariff
       .getTariffs()
       .then((responce) => {
+        // Проверка на актуальность данных в ЛС и сторе
+        // if (Array.isArray(responce)) {
+        //   responce.reduce((el, acc) => {
+        //     return acc || el.id === this.$store.state.tariff.programs;
+        //   }, false);
+        // }
+
         this.$store.commit("tariff/setPrograms", responce);
         this.setIntheMiddle();
       })

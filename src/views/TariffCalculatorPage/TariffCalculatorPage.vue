@@ -1,3 +1,5 @@
+<!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-unused-vars -->
 <template>
   <section>
     <div class="container">
@@ -12,10 +14,10 @@
   <section class="q-mt-xl q-mb-xl">
     <div class="container">
       <h2 class="text-h2 q-mb-lg">Выбери подходящие параметры</h2>
-      <div class="row items-center">
+      <div class="row items-center q-col-gutter-xl">
         <div class="col-12 col-md-6"><SalaryCalculator /></div>
         <div class="col-12 col-md-6">
-          <SalaryGraph />
+          <!-- <SalaryGraph /> -->
           <AccentTariff class="shadow-2" />
         </div>
       </div>
@@ -29,8 +31,8 @@
         <div class="col-12 col-md-10 offset-md-1">
           <PaymentCalculator />
           <div class="justify-between q-mt-lg row">
-            <span class="col-2">Рассрочка без переплат</span>
-            <span class="col-2 text-right">Быстро и безопасно</span>
+            <span class="col-4 col-md-2">Рассрочка без переплат</span>
+            <span class="col-4 col-md-2 text-right">Быстро и безопасно</span>
           </div>
         </div>
       </div>
@@ -39,12 +41,12 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <h2 class="text-h2 q-mb-lg">Часов обучения в день</h2>
+      <h2 class="text-h2 q-mb-lg">Куда распределить заработанное?</h2>
       <div class="row items-center q-col-gutter-y-md">
         <div
           v-for="(item, idx) in hoursItems"
           :key="idx"
-          class="col-lg-3 col-md-6 col-12"
+          class="col-lg-4 col-md-6 col-12"
         >
           <UiButton
             :color="item.active ? 'white' : 'secondary'"
@@ -54,20 +56,20 @@
             selectable
             @click="selectTime(item)"
           >
-            <div class="d-flex q-gutter-md items-center">
-              <icon-base width="80" height="70">
-                <component :is="item.img"> </component>
+            <div class="d-flex q-gutter-lg items-center">
+              <icon-base width="40" height="40">
+                <component :is="item.img"></component>
               </icon-base>
               <div class="column q-row-gutter-xs items-start">
-                <p class="text-h2">{{ item.title }}</p>
-                <p class="text-body1">{{ item.body }}</p>
+                <p class="text-body1 text-bold">{{ item.title }}</p>
+                <!-- <p class="text-body1">{{ item.body }}</p> -->
               </div>
             </div>
           </UiButton>
         </div>
-        <div class="col-lg-3 col-md-6 col-12">
+        <div class="col-lg-3 col-12">
           <p class="text-body1">
-            Уделяй обучению столько времени сколько комфортно для тебя
+            Выбери один из вариантов куда ты потратишь зароботок
           </p>
         </div>
       </div>
@@ -91,7 +93,7 @@
 </template>
 
 <script setup>
-import SalaryGraph from "@/components/SlaryGraph";
+// import SalaryGraph from "@/components/SlaryGraph";
 import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
@@ -128,25 +130,18 @@ const goToTariff = () => {
 
 const hoursItems = reactive([
   {
-    title: "ИЗИ",
-    body: "от 6 часов",
-    img: "EaseyImg",
+    title: "ПОТРАТИТЬ НА ОБУЧЕНИЕ",
+    // body: "от 6 часов",
+    img: "LearningImg",
     active: false,
-    id: "easy",
+    id: "learning",
   },
   {
-    title: "НОРМАЛ",
-    body: "3 - 4 часа",
-    img: "NormImg",
+    title: "ПОЛУЧИТЬ С ПЕРВОЙ ЗАРПЛАТОЙ",
+    // body: "3 - 4 часа",
+    img: "SalaryImg",
     active: true,
-    id: "norm",
-  },
-  {
-    title: "ХАРД",
-    body: "1 - 2 часа",
-    img: "HardImg",
-    active: false,
-    id: "hard",
+    id: "salary",
   },
 ]);
 
