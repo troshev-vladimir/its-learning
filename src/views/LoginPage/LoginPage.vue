@@ -94,11 +94,11 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
 import { emailValidate } from "@/helpers/utils.ts";
 const $q = useQuasar();
-const router = useRouter();
+// const router = useRouter();
 const pin = ref("");
 const userPhone = ref("");
 const userEmail = ref("");
@@ -156,7 +156,7 @@ const logIn = () => {
     message: "Упешно выполнен вход",
     actions: false,
   });
-  window.location.href("/lidgame");
+  window.location.href = "/lidgame";
   // router.push({ name: "tariff" });
 };
 </script>
