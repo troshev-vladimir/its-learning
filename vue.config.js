@@ -6,6 +6,8 @@ module.exports = defineConfig({
   //   process.env.NODE_ENV === "production"
   //     ? "/configurator/index.html"
   //     : "index.html",
+  css: { extract: false },
+
   pluginOptions: {
     quasar: {
       importStrategy: "kebab",

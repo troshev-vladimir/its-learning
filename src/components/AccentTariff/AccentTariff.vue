@@ -1,5 +1,5 @@
 <template>
-  <div class="accent-container rounded bg-white q-mt-lg q-pa-lg q-pa-lg-xl">
+  <div class="accent-container rounded bg-white q-pa-lg q-pa-lg-xl">
     <div class="accent wrap d-flex items-start">
       <h2 class="q-mr-md q-mb-lg text-h2" v-html="content.description1"></h2>
       <p class="text-body1" v-html="content.description2"></p>

@@ -50,7 +50,8 @@ export default {
       .then(() => {
         this.setIntheMiddle();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         this.$q.notify({
           color: "negative",
           position: "top",
