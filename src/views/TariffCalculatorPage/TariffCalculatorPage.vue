@@ -57,7 +57,7 @@
                 class="button button--selectable full-width"
                 :class="{ 'button--active': item.active }"
                 selectable
-                @click="selectTime(item)"
+                @click="chooseSpendManyWay(item)"
               >
                 <div class="d-flex q-gutter-lg items-center">
                   <icon-base width="40" height="40">
@@ -150,8 +150,8 @@ const hoursItems = reactive([
   },
 ]);
 
-const selectTime = (item) => {
-  store.commit("tariff/setMode", item.id);
+const chooseSpendManyWay = (item) => {
+  store.commit("tariff/setSpendManyType", item.id);
   hoursItems.forEach((el) => (el.active = false));
   item.active = !item.active;
 };

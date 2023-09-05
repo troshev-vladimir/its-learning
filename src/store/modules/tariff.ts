@@ -1,11 +1,13 @@
 import { Installment } from "./../../types/tariff";
 import { Tariff } from "@/types/tariff";
 
+type SpendManyType = "salary" | "learning";
 interface State {
   selectedProgrammIdx: number;
   programs: Tariff[];
   payment: number;
   installment: Installment;
+  spendManyType: SpendManyType;
 }
 
 const tariff = {
@@ -16,6 +18,7 @@ const tariff = {
       payment: 0,
       programs: [],
       installment: {},
+      spendManyType: "salary",
     };
   },
 
@@ -42,6 +45,10 @@ const tariff = {
 
     setInstallment(state: State, value: Installment) {
       state.installment = value;
+    },
+
+    setSpendManyType(state: State, value: SpendManyType) {
+      state.spendManyType = value;
     },
   },
 

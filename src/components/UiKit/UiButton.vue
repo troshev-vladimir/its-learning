@@ -1,5 +1,10 @@
 <template>
-  <q-btn :class="style" :color="props.color" class="ui-button text-body1">
+  <q-btn
+    :class="style"
+    :color="props.color"
+    :type="role"
+    class="ui-button text-body1"
+  >
     <span :class="textClass"><slot /></span>
   </q-btn>
 </template>
@@ -15,6 +20,11 @@ const props = defineProps({
     validator(value) {
       return ["long", ""].includes(value);
     },
+  },
+
+  role: {
+    type: String,
+    default: "",
   },
 
   outline: {
