@@ -22,7 +22,9 @@
             <div class="d-flex column items-satrt items-lg-end">
               <p class="text-body2 d-flex items-center q-mb-md">
                 <span class="q-mr-sm">Сумма к оплате:</span>
-                <span class="text-bold text-body1">46 352 руб.</span>
+                <span class="text-bold text-body1"
+                  >{{ formatNumber(46352) }} руб.</span
+                >
               </p>
               <ui-button
                 size="sm"
@@ -45,7 +47,7 @@
 
                 <div class="d-flex column">
                   <span class="text-body1 q-mb-md">
-                    Общая сумма: 46352 руб.
+                    Общая сумма: {{ formatNumber(46352) }} руб.
                   </span>
                   <span class="text-body1">Срок рассрочки: 12 мес.</span>
                 </div>
@@ -58,7 +60,9 @@
                   <span class="text-body2 q-mb-sm">
                     Размер ежемесячного платежа:
                   </span>
-                  <h2 class="text-h2 q-mb-md-md q-mb-lg-none">3957 руб.</h2>
+                  <h2 class="text-h2 q-mb-md-md q-mb-lg-none">
+                    {{ formatNumber(3957) }} руб.
+                  </h2>
                 </div>
                 <!-- <button
                   type="button"
@@ -137,7 +141,7 @@
                 <div class="d-flex column items-lg-end q-mr-sm q-mr-sm-none">
                   <span class="text-body2 q-mb-sm"> Сумма к оплате </span>
                   <h2 class="text-h2 q-mb-lg-md q-mb-none">
-                    {{ totalSumm }} руб.
+                    {{ formatNumber(totalSumm) }} руб.
                   </h2>
                 </div>
                 <ui-button
@@ -280,7 +284,7 @@
 import useSteps from "./composables/useSteps";
 import tinkoff from "@tcb-web/create-credit";
 import usePayment from "@/views/UserСabinetPage/composables/usePayment";
-
+import { formatNumber } from "@/helpers/utils";
 const { pay, payAll } = usePayment();
 const { courseStep, courseSteps, paySteps, totalSumm, unpayedSteps } =
   useSteps();

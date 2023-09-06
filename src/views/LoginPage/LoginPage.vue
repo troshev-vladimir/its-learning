@@ -156,7 +156,7 @@ const logIn = () => {
     message: "Упешно выполнен вход",
     actions: false,
   });
-  window.location.href = "/lidgame";
+  window.location.href = "/lid-game";
   // router.push({ name: "tariff" });
 };
 </script>
