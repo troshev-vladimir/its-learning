@@ -18,12 +18,17 @@
         @update:model-value="nextInput"
         @click="onFocus(i)"
         @update:modelValue="onInput"
-      />
+      >
+      </q-input>
     </div>
 
     <div v-if="!!error" class="q-field--error q-mt-sm">
       <span class="q-field__bottom">{{ error }}</span>
     </div>
+    <p v-else class="q-mt-sm q-ml-sm" style="font-size: 14px; color: #999">
+      На указанный вами номер мы отправили код для входа с игру, введите его в
+      поле выше
+    </p>
   </div>
 </template>
 

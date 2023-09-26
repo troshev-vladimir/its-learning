@@ -5,8 +5,10 @@
         class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3"
       >
         <div class="content column d-flex">
-          <h1 class="text-h1 q-mb-md">Вход</h1>
-
+          <h1 class="text-h1 q-mb-xs">Авторизуйтесь</h1>
+          <p class="q-mb-md text-body2">
+            что бы мы могли сохранить игровой процесс
+          </p>
           <transition name="slide-fade" mode="out-in">
             <form
               v-if="loginStage"
@@ -29,7 +31,14 @@
                   (val) => val.length === 11 || 'Введите корректный номер',
                 ]"
                 lazy-rules
-              />
+              >
+                <template #hint>
+                  <p style="font-size: 14px">
+                    Введите номер телефона, и мы отправим вам код безопасности
+                    для входа в игру
+                  </p>
+                </template>
+              </q-input>
 
               <!-- <label>
               <p class="q-mb-sm text-body1">E-mail</p>
@@ -67,7 +76,7 @@
 
               <ui-button
                 size="sm"
-                class="bg-accent"
+                class="bg-accent q-mt-lg"
                 :text-class="['text-body2', 'text-white', 'text-bold']"
                 role="submit"
               >
@@ -82,31 +91,32 @@
             >
               <p class="q-mb-md text-body1">ПИН-код</p>
 
-              <div class="q-mb-xl">
+              <div>
                 <PincodeInput
                   ref="pincode"
                   v-model="pin"
                   :error="pincodeError"
                 />
               </div>
+              <div class="q-mt-lg">
+                <ui-button
+                  size="sm"
+                  class="bg-accent q-mr-md"
+                  :text-class="['text-body2', 'text-white', 'text-bold']"
+                  role="submit"
+                >
+                  Войти
+                </ui-button>
 
-              <ui-button
-                size="sm"
-                class="bg-accent q-mr-md"
-                :text-class="['text-body2', 'text-white', 'text-bold']"
-                role="submit"
-              >
-                Войти
-              </ui-button>
-
-              <ui-button
-                size="sm"
-                class="bg-accent"
-                :text-class="['text-body2', 'text-white', 'text-bold']"
-                @click="loginStage = true"
-              >
-                Вернуться
-              </ui-button>
+                <ui-button
+                  size="sm"
+                  class="bg-accent"
+                  :text-class="['text-body2', 'text-white', 'text-bold']"
+                  @click="loginStage = true"
+                >
+                  Вернуться
+                </ui-button>
+              </div>
             </form>
           </transition>
 
@@ -223,11 +233,11 @@ const logIn = () => {
 }
 
 .slide-fade-enter-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.4s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.4s ease-in;
 }
 
 .slide-fade-enter-from {
