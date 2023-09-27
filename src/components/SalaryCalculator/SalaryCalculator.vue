@@ -58,7 +58,9 @@ const selectedStep = computed(() => {
 });
 
 const range = computed(() => {
-  return store.state.tariff.programs.length - 1;
+  return store.state.tariff.programs
+    ? store.state.tariff.programs.length - 1
+    : 0;
 });
 </script>
 

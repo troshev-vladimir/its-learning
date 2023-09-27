@@ -40,7 +40,7 @@ const tariff = {
     },
 
     setPrograms(state: State, value: Tariff[]) {
-      state.programs = value;
+      state.programs = value || [];
     },
 
     setInstallment(state: State, value: Installment) {
