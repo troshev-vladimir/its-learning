@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row justify-between q-col-gutter-lg">
         <div class="col-md-4">
-          <div class="logo q-mb-xs q-mb-md-md">
+          <div class="logo">
             <img src="@/assets/img/logo-white.svg" alt="logo" />
           </div>
           <span class="text-body2 text-white"
@@ -17,13 +17,15 @@
             class="text-body2 text-white"
             style="text-decoration: underline"
           >
-            Лицензия Министерства образования Кировской области на осуществление
-            образовательной деятельности№Л035-01282-43/00614206 от 31.08.2022
+            Лицензия Министерства образования на осуществление образовательной
+            деятельности №Л035-01282-43/00614206 от 31.08.2022
           </a>
 
-          <p class="text-body2 q-mt-md q-mb-lg text-white">
-            ООО "Битуби" ИНН/КПП: 4345498698/434501001 ОГРН: 1204300000178
-          </p>
+          <p class="text-body2 q-mt-md text-white">ООО "Битуби"</p>
+
+          <p class="text-body2 text-white">ИНН/КПП: 4345498698/434501001</p>
+
+          <p class="text-body2 q-mb-lg text-white">ОГРН: 1204300000178</p>
 
           <p class="text-body2 text-white q-mt-md">
             © 2012 - 2023 Все права защищены

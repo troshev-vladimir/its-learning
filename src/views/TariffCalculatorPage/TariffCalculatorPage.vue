@@ -41,8 +41,14 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <h2 class="text-h2 q-mb-lg">Куда распределить заработанное?</h2>
+      <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
+      <p class="text-body1 q-mb-lg">
+        Выбери один из вариантов куда ты потратишь зароботок
+      </p>
       <div class="row items-center q-col-gutter-y-md">
+        <div class="col-lg-3 col-12">
+          <CashCounter />
+        </div>
         <div class="col-lg-9 col-md-12 col-12">
           <div class="row q-col-gutter-lg no-wrap-md">
             <div
@@ -72,11 +78,6 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-12">
-          <p class="text-body1">
-            Выбери один из вариантов куда ты потратишь зароботок
-          </p>
-        </div>
       </div>
     </div>
   </section>
@@ -102,6 +103,7 @@
 import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
+import CashCounter from "@/components/CashCounter";
 import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
