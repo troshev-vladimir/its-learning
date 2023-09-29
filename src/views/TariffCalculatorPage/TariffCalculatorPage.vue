@@ -108,17 +108,19 @@ import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
+import { useQuasar } from "quasar";
 
 const store = useStore();
 const router = useRouter();
+const $q = useQuasar();
 
 const goToTariff = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
   const payment = store.state.tariff.payment;
-  const name = program.name.toLowerCase();
+  const name = program?.name.toLowerCase() || "tesla";
 
   tariffApi
-    .getInstallment(program.id, payment)
+    .getInstallment(program?.id, payment)
     .then((responce) => {
       store.commit("tariff/setInstallment", responce[0]);
     })
@@ -127,7 +129,7 @@ const goToTariff = () => {
     })
     .catch((error) => {
       console.log(error);
-      this.$q.notify({
+      $q.notify({
         color: "negative",
         position: "top",
         message: "Что то пошло не так",

@@ -31,7 +31,7 @@
       </p>
       <UiItem button-text="КУПИТЬ" @click="payAll">
         <span>
-          <span class="text-bold"> {{ currentProgram.price }} </span>
+          <span class="text-bold"> {{ currentProgram?.price }} </span>
           руб.
         </span>
       </UiItem>

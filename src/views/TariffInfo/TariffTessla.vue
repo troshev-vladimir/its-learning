@@ -10,15 +10,15 @@
 
     <p class="q-mb-sm text-body2">
       Продолжительность:
-      <span class="text-bold"> {{ currentProgram.period }} мес.</span>
+      <span class="text-bold"> {{ currentProgram?.period }} мес.</span>
     </p>
     <p class="q-mb-sm text-body2">
       Часов теории:
-      <span class="text-bold">{{ currentProgram.theoryhours }}</span>
+      <span class="text-bold">{{ currentProgram?.theoryhours }}</span>
     </p>
     <p class="q-mb-sm text-body2">
       Часов практики:
-      <span class="text-bold"> {{ currentProgram.practicehours }}</span>
+      <span class="text-bold"> {{ currentProgram?.practicehours }}</span>
     </p>
     <p class="q-mb-sm text-body2">
       Постоянный контакт с наставниками – ведущими практикующими программистами:
