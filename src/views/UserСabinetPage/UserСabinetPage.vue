@@ -6,6 +6,7 @@
           <p class="text-body1 text-secondary q-mb-md">
             Личный кабинет пользователя
           </p>
+
           <p class="q-mb-lg d-flex wrap">
             <span class="text-body1 text-bold q-mr-md"> Юзер ФИО </span>
             <span class="text-body2 q-mr-md"> Статус пользователя </span>
@@ -19,21 +20,19 @@
               Программа <span class="text-accent">PRO</span>
             </h1>
 
-            <div class="d-flex column items-satrt items-lg-end">
+            <div class="d-flex column items-start items-lg-end">
               <p class="text-body2 d-flex items-center q-mb-md">
                 <span class="q-mr-sm">Сумма к оплате:</span>
                 <span class="text-bold text-body1"
                   >{{ formatNumber(46352) }} руб.</span
                 >
               </p>
-              <ui-button
-                size="sm"
-                outline
-                :text-class="['text-accent']"
-                @click="payAll"
-              >
-                ОПЛАТИТЬ ЦЕЛИКОМ
-              </ui-button>
+              <TinkoffPaymentForm
+                :amount="200"
+                text="ОПЛАТИТЬ ЦЕЛИКОМ"
+                :user-data="userData"
+                :order-data="orderData"
+              ></TinkoffPaymentForm>
             </div>
           </div>
           <article
@@ -81,8 +80,8 @@
                           { name: 'iphone 11', price: 100000, quantity: 1 },
                           { name: 'Чехол', price: 500, quantity: 1 },
                         ],
-                        demoFlow: 'sms',
-                        promoCode: 'default',
+                        demoFlow: DemoFlows.sms,
+                        promoCode: 'installment_0_0_12_11,5',
                         shopId: 'd7836c7b-d032-493f-a2e3-ce02961930ae',
                         showcaseId: 'ff69b584-4d85-4ff6-9c44-8572184eaa1d',
                       },
@@ -279,15 +278,25 @@
     </div>
   </div>
 </template>
-
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue";
 import useSteps from "./composables/useSteps";
 import tinkoff from "@tcb-web/create-credit";
 import usePayment from "@/views/UserСabinetPage/composables/usePayment";
 import { formatNumber } from "@/helpers/utils";
-const { pay, payAll } = usePayment();
+import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
+import { DemoFlows } from "@tcb-web/create-credit";
+const { pay } = usePayment();
 const { courseStep, courseSteps, paySteps, totalSumm, unpayedSteps } =
   useSteps();
+
+const userData = ref({
+  phone: "89048628333",
+  email: "asdasd@gmail.com",
+  name: "userName",
+});
+
+const orderData = ref({ order: 213123123123213213132, description: "asdasd" });
 </script>
 
 <style lang="scss" scoped>
