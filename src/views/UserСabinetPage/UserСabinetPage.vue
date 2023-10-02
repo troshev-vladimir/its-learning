@@ -23,9 +23,9 @@
             <div class="d-flex column items-start items-lg-end">
               <p class="text-body2 d-flex items-center q-mb-md">
                 <span class="q-mr-sm">Сумма к оплате:</span>
-                <span class="text-bold text-body1"
-                  >{{ formatNumber(46352) }} руб.</span
-                >
+                <span class="text-bold text-body1">
+                  {{ formatNumber(46352) }} руб.
+                </span>
               </p>
               <TinkoffPaymentForm
                 :amount="200"
