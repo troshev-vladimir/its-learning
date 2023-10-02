@@ -46,15 +46,42 @@
         Выбери один из вариантов куда ты потратишь зароботок
       </p>
       <div class="row items-center q-col-gutter-y-md">
-        <div class="col-lg-3 col-12">
-          <CashCounter />
+        <div class="col-lg-12 col-md-12 col-12">
+          <div class="row no-wrap-md q-col-gutter-lg">
+            <div class="items-center col-6">
+              <CashCounter class="shadow-2" />
+            </div>
+            <div class="items-center col-6">
+              <q-input
+                v-model="text"
+                label="Ввести промокод"
+                standout="bg-accent text-white"
+                maxlength="6"
+                rounded
+                hint="Введите 6 символов"
+                hide-bottom-space
+                :rules="[
+                  (val) => (val.length = 6 || 'Пожалуйста, введите 6 символов'),
+                ]"
+              >
+                <template #prepend> </template>
+              </q-input>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-9 col-md-12 col-12">
+      </div>
+    </div>
+  </section>
+
+  <section class="q-mb-lg">
+    <div class="container">
+      <div class="row items-center q-col-gutter-y-md">
+        <div class="col-lg-12 col-md-12 col-12">
           <div class="row q-col-gutter-lg no-wrap-md">
             <div
               v-for="(item, idx) in hoursItems"
               :key="idx"
-              class="col-auto"
+              class="col-6"
               style="flex-grow: 1"
             >
               <UiButton
@@ -178,5 +205,9 @@ const chooseSpendManyWay = (item) => {
   svg {
     color: #333;
   }
+}
+
+.q-input:input-style {
+  padding: 40px 10px;
 }
 </style>

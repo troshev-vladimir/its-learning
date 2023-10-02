@@ -5,13 +5,14 @@
     </div>
 
     <div class="count">
-      <span>10000</span>
+      <span>{{ formatNumber(10000) }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import CoinImage from "@/assets/img/coin.png";
+import { formatNumber } from "@/helpers/utils";
 //import { useUserStore } from "@/store/modules/user";
 //const user = useUserStore();
 </script>
@@ -23,11 +24,11 @@ import CoinImage from "@/assets/img/coin.png";
   display: flex;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
 
-  // @media screen and (max-width: 1200px) {
-  //     border-radius: 5px;
-  // }
+  //@media screen and (max-width: 1200px) {
+  // border-radius: 5px;
+  //}
 
   .image {
     padding: 5px 15px;
@@ -36,24 +37,25 @@ import CoinImage from "@/assets/img/coin.png";
     display: flex;
     align-items: center;
 
-    // @media screen and (max-width: 1200px) {
-    //     padding: 2px 6px;
-    // }
+    //@media screen and (max-width: 1200px) {
+    // padding: 2px 6px;
+    //}
 
     img {
       width: 45px;
       height: 45px;
       position: static;
       transform: none;
-      // @media screen and (max-width: 1200px) {
-      //     width: 25px;
-      //     height: 25px;
+      //@media screen and (max-width: 1200px) {
+      //width: 25px;
+      // height: 25px;
       // }
     }
   }
 
   .count {
     padding: 21px 60px 21px 45px;
+    width: 100%;
     color: #000;
     font-family: Gogh;
     font-size: 30px;
@@ -62,10 +64,10 @@ import CoinImage from "@/assets/img/coin.png";
     line-height: 100%;
     background: #f2f2f2;
 
-    // @media screen and (max-width: 1200px) {
-    //     font-size: 16px;
-    //     padding: 5px;
-    // }
+    //@media screen and (max-width: 1200px) {
+    //font-size: 16px;
+    //padding: 5px;
+    //}
   }
 }
 </style>
