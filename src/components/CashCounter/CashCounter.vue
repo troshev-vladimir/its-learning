@@ -22,13 +22,7 @@ import { formatNumber } from "@/helpers/utils";
   border-radius: 16px;
   overflow: hidden;
   display: flex;
-  align-items: center;
   background-color: #fff;
-  //box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
-
-  //@media screen and (max-width: 1200px) {
-  // border-radius: 5px;
-  //}
 
   .image {
     padding: 5px 15px;
@@ -37,24 +31,13 @@ import { formatNumber } from "@/helpers/utils";
     display: flex;
     align-items: center;
 
-    //@media screen and (max-width: 1200px) {
-    // padding: 2px 6px;
-    //}
-
     img {
       width: 45px;
       height: 45px;
-      position: static;
-      transform: none;
-      //@media screen and (max-width: 1200px) {
-      //width: 25px;
-      // height: 25px;
-      // }
     }
   }
 
   .count {
-    padding: 21px 60px 21px 45px;
     width: 100%;
     color: #000;
     font-family: Gogh;
@@ -63,11 +46,11 @@ import { formatNumber } from "@/helpers/utils";
     font-weight: 500;
     line-height: 100%;
     background: #f2f2f2;
-
-    //@media screen and (max-width: 1200px) {
-    //font-size: 16px;
-    //padding: 5px;
-    //}
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
   }
 }
 </style>

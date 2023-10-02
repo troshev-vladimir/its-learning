@@ -41,85 +41,79 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
-      <p class="text-body1 q-mb-lg">
-        Выбери один из вариантов куда ты потратишь зароботок
-      </p>
-      <div class="row items-center q-col-gutter-y-md">
-        <div class="col-lg-12 col-md-12 col-12">
-          <div class="row no-wrap-md q-col-gutter-lg">
-            <div class="items-center col-6">
-              <CashCounter class="shadow-2" />
-            </div>
-            <div class="items-center col-6">
-              <q-input
-                v-model="text"
-                label="Ввести промокод"
-                standout="bg-accent text-white"
-                maxlength="6"
-                rounded
-                hint="Введите 6 символов"
-                hide-bottom-space
-                :rules="[
-                  (val) => (val.length = 6 || 'Пожалуйста, введите 6 символов'),
-                ]"
-              >
-                <template #prepend> </template>
-              </q-input>
-            </div>
-          </div>
+      <div class="row q-mb-xl justify-between items-center">
+        <div class="col-12 col-sm-6 col-md-8">
+          <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
+          <p class="text-body1">
+            Выбери один из вариантов куда ты потратишь зароботок
+          </p>
+        </div>
+
+        <div class="col-auto col-md-3">
+          <CashCounter class="shadow-2" />
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="q-mb-lg">
-    <div class="container">
-      <div class="row items-center q-col-gutter-y-md">
-        <div class="col-lg-12 col-md-12 col-12">
-          <div class="row q-col-gutter-lg no-wrap-md">
-            <div
-              v-for="(item, idx) in hoursItems"
-              :key="idx"
-              class="col-6"
-              style="flex-grow: 1"
-            >
-              <UiButton
-                :color="item.active ? 'white' : 'secondary'"
-                text-color="primary"
-                class="button button--selectable full-width"
-                :class="{ 'button--active': item.active }"
-                selectable
-                @click="chooseSpendManyWay(item)"
-              >
-                <div class="d-flex q-gutter-lg items-center">
-                  <icon-base width="40" height="40">
-                    <component :is="item.img"></component>
-                  </icon-base>
-                  <div class="column q-row-gutter-xs items-start">
-                    <p class="text-body1 text-bold">{{ item.title }}</p>
-                    <!-- <p class="text-body1">{{ item.body }}</p> -->
-                  </div>
-                </div>
-              </UiButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="q-mb-xl">
-    <div class="container">
-      <div class="column items-center">
-        <UiButton
-          color="white"
-          text-color="primary"
-          type="long"
-          @click="goToTariff()"
+      <div class="row q-col-gutter-lg no-wrap-md items-center q-mb-xl">
+        <div
+          v-for="(item, idx) in hoursItems"
+          :key="idx"
+          class="col-12 col-md-6"
+          style="flex-grow: 1"
         >
-          ПОДОБРАТЬ ТАРИФ
-        </UiButton>
+          <UiButton
+            :color="item.active ? 'white' : 'secondary'"
+            text-color="primary"
+            class="button button--selectable full-width"
+            :class="{ 'button--active': item.active }"
+            selectable
+            @click="chooseSpendManyWay(item)"
+          >
+            <div class="d-flex q-gutter-lg items-center">
+              <icon-base width="40" height="40">
+                <component :is="item.img"></component>
+              </icon-base>
+              <div class="column q-row-gutter-xs items-start">
+                <p class="text-body1 text-bold">{{ item.title }}</p>
+                <!-- <p class="text-body1">{{ item.body }}</p> -->
+              </div>
+            </div>
+          </UiButton>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
+          <q-input
+            v-model="promocode"
+            label="Ввести промокод"
+            color="primary"
+            maxlength="6"
+            lazy-rules
+            class="ui-input q-mb-sm"
+            no-error-icon
+            outlined
+            :rules="[
+              (val) =>
+                val.length === 6 ||
+                val.length === 0 ||
+                'Неправильный промокод, необходимо 6 символов',
+            ]"
+          >
+          </q-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
+          <UiButton
+            color="white"
+            text-color="primary"
+            type="long"
+            class="full-width"
+            @click="goToTariff()"
+          >
+            ПОДОБРАТЬ ТАРИФ
+          </UiButton>
+        </div>
       </div>
     </div>
   </section>
@@ -131,7 +125,7 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
@@ -140,6 +134,7 @@ import { useQuasar } from "quasar";
 const store = useStore();
 const router = useRouter();
 const $q = useQuasar();
+const promocode = ref("");
 
 const goToTariff = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
@@ -188,6 +183,12 @@ const chooseSpendManyWay = (item) => {
 };
 </script>
 
+<style lang="scss">
+.ui-input.q-field--outlined .q-field__control {
+  border-radius: 16px;
+}
+</style>
+
 <style scoped lang="scss">
 .learning-time {
   display: flex;
@@ -207,9 +208,5 @@ const chooseSpendManyWay = (item) => {
   svg {
     color: #333;
   }
-}
-
-.q-input:input-style {
-  padding: 40px 10px;
 }
 </style>

@@ -1,4 +1,7 @@
 @import './variables.scss';
+
+$generic-border-radius: 200px;
+
 @mixin col-gap($gutter) {
     .container > .row {
         margin-left: -$gutter;
