@@ -135,6 +135,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
+import candidate from "@/api/candidate";
 // import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
 // import { emailValidate } from "@/helpers/utils.ts";
@@ -188,25 +189,40 @@ watch(pin, (value) => {
 //   return phoneValid && nameValid && emailValid && pinValid;
 // };
 
-const requestPin = () => {
+const requestPin = async () => {
   const isFormValid = phoneRef.value.validate();
   if (!isFormValid) return;
-  loginStage.value = false;
-  $q.notify({
-    color: "green",
-    message: "Пинкод отправлен",
-    actions: false,
-  });
+
+  try {
+    await candidate.candidateCreate(pincode.value);
+
+    $q.notify({
+      color: "green",
+      message: "Пинкод отправлен",
+      actions: false,
+    });
+    loginStage.value = false;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const logIn = () => {
+const logIn = async () => {
   const isFormValid = validatePin();
   if (!isFormValid) return;
-  $q.notify({
-    color: "green",
-    message: "Упешно выполнен вход",
-    actions: false,
-  });
+
+  try {
+    await candidate.сandidateConfirmation(userPhone.value);
+
+    $q.notify({
+      color: "green",
+      message: "Упешно выполнен вход",
+      actions: false,
+    });
+  } catch (error) {
+    loginStage.value = true;
+  }
+
   window.location.href = "/lid-game";
   // router.push({ name: "tariff" });
 };

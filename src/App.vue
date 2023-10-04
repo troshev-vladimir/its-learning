@@ -23,6 +23,7 @@ export default {
       return this.$route.meta.layout || "DefaultLayout";
     },
   },
+
   beforeCreate() {
     this.$store.commit("initialiseStore");
     this.$q.notify.setDefaults({
@@ -52,12 +53,9 @@ export default {
       })
       .catch((e) => {
         console.log(e);
-        this.$q.notify({
-          color: "negative",
-          position: "top",
-          message: "Что то пошло не так",
-        });
       });
+
+    window.addEventListener("server-error", this.errorHandler);
   },
 
   created() {
@@ -75,6 +73,14 @@ export default {
     setCssVar("black", "#fff");
   },
   methods: {
+    errorHandler() {
+      this.$q.notify({
+        color: "negative",
+        position: "top",
+        message: "Что то пошло не так",
+      });
+    },
+
     setIntheMiddle() {
       if (!this.$store.state.tariff.payment) {
         const value =

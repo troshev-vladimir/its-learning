@@ -1,5 +1,4 @@
 <!-- eslint-disable no-unused-vars -->
-<!-- eslint-disable no-unused-vars -->
 <template>
   <section>
     <div class="container">

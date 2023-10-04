@@ -1,5 +1,6 @@
 import axios from "../axios";
 import { Tariff, Installment } from "@/types/tariff";
+const event = new Event("server-error");
 
 class TariffMethods {
   getTariffs() {
@@ -9,7 +10,7 @@ class TariffMethods {
         return response.data;
       })
       .catch((error) => {
-        throw new Error(error);
+        window.dispatchEvent(event);
       });
   }
 
@@ -20,7 +21,7 @@ class TariffMethods {
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
+        window.dispatchEvent(event);
       });
   }
 }
