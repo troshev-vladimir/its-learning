@@ -53,6 +53,12 @@ const routes = [
     name: "tariff",
     component: Home,
   },
+
+  {
+    path: "/selector",
+    name: "selector",
+    component: import("@/views/TariffSelectorPage"),
+  },
 ];
 
 const router = createRouter({
