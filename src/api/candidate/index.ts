@@ -22,6 +22,7 @@ class CandidateMethods {
       })
       .catch((error) => {
         window.dispatchEvent(event);
+        throw error;
       });
   }
 

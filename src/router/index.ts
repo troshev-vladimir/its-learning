@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/TariffCalculatorPage";
+import TariffSelectorPage from "@/views/TariffSelectorPage";
 import Auth from "@/views/LoginPage";
 const routes = [
   {
@@ -9,6 +10,12 @@ const routes = [
     meta: {
       layout: "EmptyLayout",
     },
+  },
+
+  {
+    path: "/tariff-selector",
+    name: "tariff-selector",
+    component: TariffSelectorPage,
   },
 
   {
@@ -52,12 +59,6 @@ const routes = [
     path: "/",
     name: "tariff",
     component: Home,
-  },
-
-  {
-    path: "/selector",
-    name: "selector",
-    component: import("@/views/TariffSelectorPage"),
   },
 ];
 

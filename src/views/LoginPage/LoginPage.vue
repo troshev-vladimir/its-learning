@@ -194,7 +194,7 @@ const requestPin = async () => {
   if (!isFormValid) return;
 
   try {
-    await candidate.candidateCreate(pincode.value);
+    await candidate.candidateCreate(userPhone.value);
 
     $q.notify({
       color: "green",

@@ -2,7 +2,9 @@
 <template>
   <section>
     <div class="container">
-      <span class="text-body1 text-secondary">Учитесь в своем ритме</span>
+      <span class="text-body1 text-secondary"
+        >Учитесь в своем ритме adasdasd</span
+      >
       <h1 class="text-h1 q-mt-md">
         Получай знания и навыки <br />
         <span class="text-accent">так как удобно тебе</span>

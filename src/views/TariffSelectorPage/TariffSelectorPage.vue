@@ -2,9 +2,9 @@
 <template>
   <section class="q-mb-xl">
     <div class="container">
-      <span class="text-body1 text-secondary"
-        >Для тех кто уверен в своих возможностях</span
-      >
+      <span class="text-body1 text-secondary">
+        Для тех кто уверен в своих возможностях
+      </span>
       <h1 class="text-h1 q-mt-md q-mb-lg">
         Полное погружение <br />
         <span class="text-accent">в мир 1С программирования</span>
@@ -98,6 +98,10 @@ const cards = [
   {
     id: 0,
     title: "Программа <span class='text-accent'>TESLA</span>",
+    price: {
+      value: 128000,
+      installment: 10666,
+    },
     description:
       "Для тех кто готов выйти на middle уровень за минимальное время.",
     items: [
@@ -114,7 +118,7 @@ const cards = [
       {
         name: "Стоимость программы:",
         value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">128 000</span> руб./мес',
+          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">128 000</span> руб.',
       },
       {
         name: "Рассрочка от:",
@@ -126,6 +130,10 @@ const cards = [
   {
     id: 1,
     title: "Программа <span class='text-accent'>VIP</span>",
+    price: {
+      value: 88000,
+      installment: 7333,
+    },
     description:
       "Для тех, кто готов по-настоящему углубиться в сферу программирования 1С.",
     items: [
@@ -141,7 +149,7 @@ const cards = [
       {
         name: "Стоимость программы:",
         value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">88 000</span> руб./мес',
+          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">88 000</span> руб.',
       },
       {
         name: "Рассрочка от:",
@@ -153,6 +161,10 @@ const cards = [
   {
     id: 2,
     title: "Программа <span class='text-accent'>PRO</span>",
+    price: {
+      value: 58000,
+      installment: 4833,
+    },
     description:
       "5 месяцев, для тех, кто хочет освоить 1С с нуля и получить базовые знания необходимые для трудоустройства.",
     items: [
@@ -167,7 +179,7 @@ const cards = [
       {
         name: "Стоимость программы:",
         value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">58 000</span> руб./мес',
+          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">58 000</span> руб.',
       },
       {
         name: "Рассрочка от:",
