@@ -22,9 +22,24 @@
       <span class="text-body2" v-html="criteria.value"></span>
     </div>
 
-    <ui-button size="sm" text-class="text-white" @click="emit('select')"
-      >выбрать</ui-button
-    >
+    <div class="row q-col-gutter-sm">
+      <div class="col-auto">
+        <ui-button size="sm" text-class="text-white" @click="emit('select')">
+          выбрать
+        </ui-button>
+      </div>
+      <div class="col-auto">
+        <ui-button
+          size="sm"
+          color="white"
+          outline
+          text-class="text-accent"
+          @click="emit('description')"
+        >
+          Подробнее
+        </ui-button>
+      </div>
+    </div>
   </article>
 </template>
 

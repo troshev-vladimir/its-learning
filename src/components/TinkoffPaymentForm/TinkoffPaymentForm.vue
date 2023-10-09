@@ -49,31 +49,34 @@
       type="text"
       placeholder="ФИО плательщика"
       name="name"
-      :value="userData.name"
+      :value="userData?.name"
     />
     <input
       class="payform-tinkoff-row"
       type="text"
       placeholder="E-mail"
       name="email"
-      :value="userData.email"
+      :value="userData?.email"
     />
     <input
       class="payform-tinkoff-row"
       type="text"
       placeholder="Контактный телефон"
       name="phone"
-      :value="userData.phone"
+      :value="userData?.phone"
     />
   </form>
-  <ui-button
-    size="sm"
-    outline
-    :text-class="['text-accent']"
-    @click="clickHandler"
-  >
-    <slot>{{ props.text }}</slot>
-  </ui-button>
+
+  <slot :handler="clickHandler">
+    <ui-button
+      size="sm"
+      outline
+      :text-class="['text-accent']"
+      @click="clickHandler"
+    >
+      {{ props.text }}
+    </ui-button>
+  </slot>
 </template>
 
 <script setup lang="ts">

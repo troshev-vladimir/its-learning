@@ -70,7 +70,7 @@ export default {
     setCssVar("warning", "#f2c037");
 
     setCssVar("white", "#fff");
-    setCssVar("black", "#fff");
+    setCssVar("black", "#000");
   },
   methods: {
     errorHandler() {

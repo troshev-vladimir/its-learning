@@ -1,5 +1,6 @@
 <template>
   <q-btn
+    v-bind="$attrs"
     :class="style"
     :color="props.color"
     :type="role"
@@ -76,7 +77,7 @@ const style = computed(() => {
 
   &--type {
     &-long {
-      padding: 20px 100px;
+      padding: 20px 10px;
     }
   }
 

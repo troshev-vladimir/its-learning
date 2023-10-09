@@ -36,8 +36,9 @@
             :description="card.description"
             :items="card.items"
             :criterias="card.criterias"
-            :selected="card.id === secectedId"
+            :selected="card.id === selectedId"
             @select="selectProgram(card.id)"
+            @description="showProgram(card)"
           ></ui-card>
         </div>
       </div>
@@ -46,7 +47,7 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <div class="row">
+      <div class="row q-col-gutter-y-md">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
           <q-input
             v-model="promocode"
@@ -67,133 +68,131 @@
           </q-input>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
-          <UiButton
-            color="white"
-            text-color="primary"
-            type="long"
-            class="full-width"
-            @click="goToTariff()"
+      <div class="row justify-center q-col-gutter-y-md">
+        <div class="col-12 col-sm-10 col-md-6">
+          <TinkoffPaymentForm
+            :order-data="{
+              order: currentProgram?.title || '',
+              description: currentProgram?.description || '',
+            }"
+            :amount="currentProgram?.price.value || 0"
           >
-            КУПить ТАРИФ
-          </UiButton>
+            <template #default="{ handler }">
+              <UiButton
+                :disable="!isSelectedProgram"
+                color="white"
+                text-color="primary"
+                type="long"
+                class="full-width"
+                @click="handler"
+              >
+                КУПить ТАРИФ
+              </UiButton>
+            </template>
+          </TinkoffPaymentForm>
+        </div>
+        <div class="col-12 col-sm-10 col-md-6">
+          <q-btn-dropdown
+            split
+            color="white"
+            :disable-main-btn="!isSelectedProgram"
+            dropdown-icon="fas fa-chevron-down"
+            :label="`Оформить рассрочку (${installment} мес.)`"
+            class="full-width"
+            auto-close
+            text-color="black"
+            @click="buyProgramViaInstallment"
+          >
+            <q-list>
+              <q-item
+                v-for="(instalmentOption, idx) in instalmentOptions"
+                :key="idx"
+                v-close-popup
+                clickable
+                :active="installment === instalmentOption"
+                active-class="bg-teal-1 text-grey-8 no-pointer-events"
+                @click="installment = instalmentOption"
+              >
+                <q-item-section>
+                  <q-item-label>
+                    На {{ instalmentOption }} месяца
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import tinkoff from "@tcb-web/create-credit";
+import { Card } from "./types";
+// import { DemoFlows } from "@tcb-web/create-credit";
+import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
+import useConstants from "./composables/useConstants";
 
 const promocode = ref("");
-const secectedId = ref(null);
+const selectedId = ref<number>();
+const installment = ref(3);
 
-const selectProgram = (id) => {
-  secectedId.value = id;
+const isSelectedProgram = computed(
+  () => selectedId.value !== null && typeof selectedId.value !== "undefined"
+);
+
+const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
+  useConstants(selectedId);
+
+const selectProgram = (id: number) => {
+  selectedId.value = id;
 };
 
-const cards = [
-  {
-    id: 0,
-    title: "Программа <span class='text-accent'>TESLA</span>",
-    price: {
-      value: 128000,
-      installment: 10666,
+const showProgram = (card: Card) => {
+  const link = card.linkToProgram;
+  window.open(link, "_blank")?.focus();
+};
+
+const buyProgramViaInstallment = () => {
+  tinkoff.createDemo(
+    {
+      sum: currentProgram.value?.price.value || 0,
+      items: [
+        {
+          name: currentProgram.value?.title || "",
+          price: currentProgram.value?.price.value || 0,
+          quantity: 1,
+        },
+      ],
+      // demoFlow: DemoFlows.sms,
+      promoCode: getCurrentInstallment(installment.value),
+      shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
+      showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
     },
-    description:
-      "Для тех кто готов выйти на middle уровень за минимальное время.",
-    items: [
-      "Трудоустройство в случае успешного прохождения обучения.",
-      "Диплом государственного образца.",
-      "3 коммерческие оплачиваемые задачи.",
-      "200,5 часов теории и 88,5 часов практических домашних заданий.",
-    ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">8</span>мес.',
-      },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">128 000</span> руб.',
-      },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">10 666</span> руб./мес',
-      },
-    ],
-  },
-  {
-    id: 1,
-    title: "Программа <span class='text-accent'>VIP</span>",
-    price: {
-      value: 88000,
-      installment: 7333,
-    },
-    description:
-      "Для тех, кто готов по-настоящему углубиться в сферу программирования 1С.",
-    items: [
-      "Трудоустройство в случае успешного прохождения обучения.",
-      "Диплом государственного образца.",
-      "150,5 часов теории и 66,5 часов практических домашних заданий.",
-    ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">6</span>мес.',
-      },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">88 000</span> руб.',
-      },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">7 333</span> руб./мес',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Программа <span class='text-accent'>PRO</span>",
-    price: {
-      value: 58000,
-      installment: 4833,
-    },
-    description:
-      "5 месяцев, для тех, кто хочет освоить 1С с нуля и получить базовые знания необходимые для трудоустройства.",
-    items: [
-      "Трудоустройство в случае успешного прохождения обучения.",
-      "124,5 часов теории и 59,5 часов практических домашних заданий.",
-    ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">5</span>мес.',
-      },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">58 000</span> руб.',
-      },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">4 833</span> руб./мес',
-      },
-    ],
-  },
-];
+    { view: "modal" }
+  );
+};
 </script>
 
 <style lang="scss">
-.ui-input.q-field--outlined .q-field__control {
-  border-radius: 16px;
+@import url("@/styles/variables.scss");
+.q-btn-group {
+  border-radius: $radius-lg !important;
+}
+
+.q-btn-dropdown button:first-child {
+  font-weight: 400;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: $radius-lg 0 0 $radius-lg;
+}
+
+.q-btn-dropdown button:last-child {
+  border-radius: 0 $radius-lg $radius-lg 0;
 }
 </style>
 
