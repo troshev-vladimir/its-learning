@@ -37,6 +37,7 @@
             :items="card.items"
             :criterias="card.criterias"
             :selected="card.id === selectedId"
+            class="full-height"
             @select="selectProgram(card.id)"
             @description="showProgram(card)"
           ></ui-card>
@@ -47,15 +48,26 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <div class="row q-col-gutter-y-md">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
+      <div class="row q-col-gutter-y-md q-mb-sm">
+        <div class="col-12 col-sm-10 col-md-6">
+          <q-chip
+            v-if="promocode && isPromocodeLegal"
+            outline
+            color="green"
+            text-color="white"
+            icon="fas fa-chevron-down"
+            class="q-mt-sm"
+          >
+            Промокод принят
+          </q-chip>
           <q-input
+            v-else
             v-model="promocode"
             label="Ввести промокод"
             color="primary"
             maxlength="6"
             lazy-rules
-            class="ui-input q-mb-sm"
+            class="ui-input"
             no-error-icon
             outlined
             :rules="[
@@ -64,6 +76,8 @@
                 val.length === 0 ||
                 'Неправильный промокод, необходимо 6 символов',
             ]"
+            :loading="promocodeLoadding"
+            @blur="proovePromocode"
           >
           </q-input>
         </div>
@@ -75,11 +89,11 @@
               order: currentProgram?.title || '',
               description: currentProgram?.description || '',
             }"
-            :amount="currentProgram?.price.value || 0"
+            :amount="currentSumm || 0"
           >
             <template #default="{ handler }">
               <UiButton
-                :disable="!isSelectedProgram"
+                :disable="!isSelectedProgram || promocodeLoadding"
                 color="white"
                 text-color="primary"
                 type="long"
@@ -95,7 +109,7 @@
           <q-btn-dropdown
             split
             color="white"
-            :disable-main-btn="!isSelectedProgram"
+            :disable-main-btn="!isSelectedProgram || promocodeLoadding"
             dropdown-icon="fas fa-chevron-down"
             :label="`Оформить рассрочку (${installment} мес.)`"
             class="full-width"
@@ -134,8 +148,8 @@ import { Card } from "./types";
 // import { DemoFlows } from "@tcb-web/create-credit";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import useConstants from "./composables/useConstants";
+import usePromocode from "./composables/usePromocode";
 
-const promocode = ref("");
 const selectedId = ref<number>();
 const installment = ref(3);
 
@@ -143,8 +157,27 @@ const isSelectedProgram = computed(
   () => selectedId.value !== null && typeof selectedId.value !== "undefined"
 );
 
+const currentSumm = computed(() => {
+  if (!currentProgram.value) return;
+
+  if (isPromocodeLegal.value) {
+    return (
+      currentProgram.value?.price.value - currentProgram.value?.price.discount
+    );
+  } else {
+    return currentProgram.value?.price.value || 0;
+  }
+});
+
 const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
   useConstants(selectedId);
+
+const {
+  isPromocodeLegal,
+  proovePromocode,
+  loadding: promocodeLoadding,
+  promocode,
+} = usePromocode();
 
 const selectProgram = (id: number) => {
   selectedId.value = id;
@@ -156,9 +189,10 @@ const showProgram = (card: Card) => {
 };
 
 const buyProgramViaInstallment = () => {
+  if (!currentSumm.value) return;
   tinkoff.createDemo(
     {
-      sum: currentProgram.value?.price.value || 0,
+      sum: currentSumm.value,
       items: [
         {
           name: currentProgram.value?.title || "",

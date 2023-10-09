@@ -4,6 +4,7 @@ export interface Card {
   price: {
     value: number;
     installment: number;
+    discount: number;
   };
   linkToProgram: string;
   description: string;

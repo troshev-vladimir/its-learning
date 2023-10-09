@@ -36,6 +36,7 @@ const cards = [
     price: {
       value: 128000,
       installment: 10666,
+      discount: 13500,
     },
     linkToProgram: "https://itseducation.ru/tesla",
     description:
@@ -70,6 +71,7 @@ const cards = [
     price: {
       value: 88000,
       installment: 7333,
+      discount: 6750,
     },
     description:
       "Для тех, кто готов по-настоящему углубиться в сферу программирования 1С.",
@@ -102,6 +104,7 @@ const cards = [
     price: {
       value: 58000,
       installment: 4833,
+      discount: 2700,
     },
     description:
       "5 месяцев, для тех, кто хочет освоить 1С с нуля и получить базовые знания необходимые для трудоустройства.",

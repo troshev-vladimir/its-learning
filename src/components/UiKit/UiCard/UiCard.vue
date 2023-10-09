@@ -13,13 +13,15 @@
       </li>
     </ul>
 
-    <div
-      v-for="(criteria, idx) in criterias"
-      :key="idx"
-      class="criteria text-body2 q-mb-md"
-    >
-      <span class="criteria__name q-mr-sm" v-html="criteria.name"></span>
-      <span class="text-body2" v-html="criteria.value"></span>
+    <div class="criterias q-mt-auto">
+      <div
+        v-for="(criteria, idx) in criterias"
+        :key="idx"
+        class="criteria text-body2 q-mb-md"
+      >
+        <span class="criteria__name q-mr-sm" v-html="criteria.name"></span>
+        <span class="text-body2" v-html="criteria.value"></span>
+      </div>
     </div>
 
     <div class="row q-col-gutter-sm">
@@ -75,6 +77,8 @@ const props = defineProps({
   background-color: var(--q-secondary);
   border-radius: 16px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
 
   .list-item::before {
     background-color: var(--q-accent);

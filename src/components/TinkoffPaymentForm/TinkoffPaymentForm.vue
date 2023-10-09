@@ -105,6 +105,7 @@ const props = defineProps<Props>();
 const form = ref(null);
 
 const clickHandler = () => {
+  if (!props.amount) return;
   // @ts-ignore
   window.pay(form.value);
 };
