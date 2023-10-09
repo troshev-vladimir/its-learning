@@ -124,7 +124,7 @@
                 v-close-popup
                 clickable
                 :active="installment === instalmentOption"
-                active-class="bg-teal-1 text-grey-8 no-pointer-events"
+                active-class="bg-blue-2 text-blue-5 no-pointer-events"
                 @click="installment = instalmentOption"
               >
                 <q-item-section>
@@ -227,6 +227,8 @@ const buyProgramViaInstallment = () => {
 
 .q-btn-dropdown button:last-child {
   border-radius: 0 $radius-lg $radius-lg 0;
+  background-color: var(--q-accent) !important;
+  color: #fff !important;
 }
 </style>
 
