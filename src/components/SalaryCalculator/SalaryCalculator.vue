@@ -52,8 +52,6 @@ const currentProgramm = computed<Tariff>(() => {
 });
 
 const selectedStep = computed(() => {
-  console.log(store.state.tariff.selectedProgrammIdx);
-
   return store.state.tariff.selectedProgrammIdx;
 });
 

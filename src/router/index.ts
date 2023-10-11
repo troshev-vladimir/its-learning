@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/TariffCalculatorPage";
 import TariffSelectorPage from "@/views/TariffSelectorPage";
 import Auth from "@/views/LoginPage";
+import store from "@/store";
+
 const routes = [
   {
     path: "/auth",
@@ -69,6 +71,13 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0, behavior: "instant" };
   },
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.getters.getUserToken;
+
+  if (to.name !== "auth" && !isAuthenticated) next({ name: "auth" });
+  else next();
 });
 
 export default router;

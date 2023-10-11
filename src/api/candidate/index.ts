@@ -1,6 +1,7 @@
 import { UserId, Candidate } from "@/types/candidate";
 import axios from "../axios";
 const event = new Event("server-error");
+
 export interface candidateCreateResp {
   id: string;
   Name: string;
@@ -34,6 +35,7 @@ class CandidateMethods {
       })
       .catch((error) => {
         window.dispatchEvent(event);
+        throw error;
       });
   }
 
@@ -45,6 +47,7 @@ class CandidateMethods {
       })
       .catch((error) => {
         window.dispatchEvent(event);
+        throw error;
       });
   }
 }

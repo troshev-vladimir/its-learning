@@ -32,7 +32,7 @@ const instalmentOptions = [3, 6, 12];
 const cards = [
   {
     id: 0,
-    title: "Программа <span class='text-accent'>TESLA</span>",
+    title: "TESLA",
     price: {
       value: 128000,
       installment: 10666,
@@ -66,7 +66,7 @@ const cards = [
   },
   {
     id: 1,
-    title: "Программа <span class='text-accent'>VIP</span>",
+    title: "VIP",
     linkToProgram: "https://itseducation.ru/vip",
     price: {
       value: 88000,
@@ -99,7 +99,7 @@ const cards = [
   },
   {
     id: 2,
-    title: "Программа <span class='text-accent'>PRO</span>",
+    title: "PRO",
     linkToProgram: "https://itseducation.ru/pro",
     price: {
       value: 58000,

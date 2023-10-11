@@ -8,7 +8,6 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
-import apiTariff from "@/api/tariff";
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -36,28 +35,6 @@ export default {
     this.$q.iconSet.field.error = "fas fa-exclamation-triangle fs-sm";
   },
 
-  mounted() {
-    apiTariff
-      .getTariffs()
-      .then((responce) => {
-        // Проверка на актуальность данных в ЛС и сторе
-        // if (Array.isArray(responce)) {
-        //   responce.reduce((el, acc) => {
-        //     return acc || el.id === this.$store.state.tariff.programs;
-        //   }, false);
-        // }
-        this.$store.commit("tariff/setPrograms", responce);
-      })
-      .then(() => {
-        this.setIntheMiddle();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    window.addEventListener("server-error", this.errorHandler);
-  },
-
   created() {
     setCssVar("primary", "#101010");
     setCssVar("secondary", "#CCCCCC");
@@ -72,6 +49,17 @@ export default {
     setCssVar("white", "#fff");
     setCssVar("black", "#000");
   },
+
+  mounted() {
+    window.addEventListener("server-error", this.errorHandler);
+    window.addEventListener("unauthorized", this.unauthorisedHandler);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("server-error", this.errorHandler);
+    window.removeEventListener("unauthorized", this.unauthorisedHandler);
+  },
+
   methods: {
     errorHandler() {
       this.$q.notify({
@@ -79,6 +67,10 @@ export default {
         position: "top",
         message: "Что то пошло не так",
       });
+    },
+
+    unauthorisedHandler() {
+      this.$router.push({ name: "auth" });
     },
 
     setIntheMiddle() {

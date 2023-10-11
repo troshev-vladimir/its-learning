@@ -1,140 +1,144 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <section class="q-mb-xl">
-    <div class="container">
-      <span class="text-body1 text-secondary">
-        Для тех кто уверен в своих возможностях
-      </span>
-      <h1 class="text-h1 q-mt-md q-mb-lg">
-        Полное погружение <br />
-        <span class="text-accent">в мир 1С программирования</span>
-      </h1>
+  <section>
+    <div class="q-mb-xl">
+      <div class="container">
+        <span class="text-body1 text-secondary">
+          Для тех кто уверен в своих возможностях
+        </span>
+        <h1 class="text-h1 q-mt-md q-mb-lg">
+          Полное погружение <br />
+          <span class="text-accent">в мир 1С программирования</span>
+        </h1>
 
-      <p class="text-body1 q-mb-md">
-        Для тех, кто уверен в своих силах, мы создали программы для максимально
-        быстрого и эффективного погружения в 1С программирование.
-      </p>
-      <p class="text-body1">
-        Выбирая наши комплексные программы, ты получаешь знания и практические
-        навыки, к которым 1С программист идет в течение года и более, набивая
-        шишки на собственном опыте, всего за 5 месяцев, обучившись у лучших
-        практиков отрасли.
-      </p>
+        <p class="text-body1 q-mb-md">
+          Для тех, кто уверен в своих силах, мы создали программы для
+          максимально быстрого и эффективного погружения в 1С программирование.
+        </p>
+        <p class="text-body1">
+          Выбирая наши комплексные программы, ты получаешь знания и практические
+          навыки, к которым 1С программист идет в течение года и более, набивая
+          шишки на собственном опыте, всего за 5 месяцев, обучившись у лучших
+          практиков отрасли.
+        </p>
+      </div>
     </div>
-  </section>
 
-  <section class="q-mb-xl">
-    <div class="container">
-      <div class="row">
+    <div class="q-mb-xl">
+      <div class="container">
+        <div class="row">
+          <div
+            v-for="card in cards"
+            :key="card.id"
+            class="col-12 col-md-4 q-mb-md q-mb-md-none"
+          >
+            <ui-card
+              :title="`Программа <span class='text-accent'>${card.title}</span>`"
+              :description="card.description"
+              :items="card.items"
+              :criterias="card.criterias"
+              :selected="card.id === selectedId"
+              class="full-height"
+              @select="selectProgram(card.id)"
+              @description="showProgram(card)"
+            ></ui-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-mb-xl">
+      <div class="container">
         <div
-          v-for="card in cards"
-          :key="card.id"
-          class="col-12 col-md-4 q-mb-md q-mb-md-none"
+          class="row justify-center justify-md-left q-col-gutter-y-md q-mb-sm"
         >
-          <ui-card
-            :title="card.title"
-            :description="card.description"
-            :items="card.items"
-            :criterias="card.criterias"
-            :selected="card.id === selectedId"
-            class="full-height"
-            @select="selectProgram(card.id)"
-            @description="showProgram(card)"
-          ></ui-card>
+          <div class="col-12 col-sm-10 col-md-6 text-center">
+            <q-chip
+              v-if="promocode && isPromocodeLegal"
+              outline
+              color="green"
+              text-color="white"
+              icon="fas fa-chevron-down"
+              class="q-mt-sm"
+            >
+              {{ acceptedPromocodeText }}
+            </q-chip>
+            <q-input
+              v-else
+              v-model="promocode"
+              label="Ввести промокод"
+              color="primary"
+              maxlength="6"
+              lazy-rules
+              class="ui-input"
+              no-error-icon
+              outlined
+              :rules="[
+                (val) =>
+                  val.length === 6 ||
+                  val.length === 0 ||
+                  'Неправильный промокод, необходимо 6 символов',
+              ]"
+              :loading="promocodeLoadding"
+              @blur="proovePromocode"
+            >
+            </q-input>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="q-mb-xl">
-    <div class="container">
-      <div class="row q-col-gutter-y-md q-mb-sm">
-        <div class="col-12 col-sm-10 col-md-6">
-          <q-chip
-            v-if="promocode && isPromocodeLegal"
-            outline
-            color="green"
-            text-color="white"
-            icon="fas fa-chevron-down"
-            class="q-mt-sm"
-          >
-            Промокод принят
-          </q-chip>
-          <q-input
-            v-else
-            v-model="promocode"
-            label="Ввести промокод"
-            color="primary"
-            maxlength="6"
-            lazy-rules
-            class="ui-input"
-            no-error-icon
-            outlined
-            :rules="[
-              (val) =>
-                val.length === 6 ||
-                val.length === 0 ||
-                'Неправильный промокод, необходимо 6 символов',
-            ]"
-            :loading="promocodeLoadding"
-            @blur="proovePromocode"
-          >
-          </q-input>
-        </div>
-      </div>
-      <div class="row justify-center q-col-gutter-y-md">
-        <div class="col-12 col-sm-10 col-md-6">
-          <TinkoffPaymentForm
-            :order-data="{
-              order: currentProgram?.title || '',
-              description: currentProgram?.description || '',
-            }"
-            :amount="currentSumm || 0"
-          >
-            <template #default="{ handler }">
-              <UiButton
-                :disable="!isSelectedProgram || promocodeLoadding"
-                color="white"
-                text-color="primary"
-                type="long"
-                class="full-width"
-                @click="handler"
-              >
-                КУПить ТАРИФ
-              </UiButton>
-            </template>
-          </TinkoffPaymentForm>
-        </div>
-        <div class="col-12 col-sm-10 col-md-6">
-          <q-btn-dropdown
-            split
-            color="white"
-            :disable-main-btn="!isSelectedProgram || promocodeLoadding"
-            dropdown-icon="fas fa-chevron-down"
-            :label="`Оформить рассрочку (${installment} мес.)`"
-            class="full-width"
-            auto-close
-            text-color="black"
-            @click="buyProgramViaInstallment"
-          >
-            <q-list>
-              <q-item
-                v-for="(instalmentOption, idx) in instalmentOptions"
-                :key="idx"
-                v-close-popup
-                clickable
-                :active="installment === instalmentOption"
-                active-class="bg-blue-2 text-blue-5 no-pointer-events"
-                @click="installment = instalmentOption"
-              >
-                <q-item-section>
-                  <q-item-label>
-                    На {{ instalmentOption }} месяца
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
+        <div class="row justify-center justify-md-left q-col-gutter-y-md">
+          <div class="col-12 col-sm-10 col-md-6">
+            <TinkoffPaymentForm
+              :order-data="{
+                order: currentProgram?.title || '',
+                description: currentProgram?.description || '',
+              }"
+              :amount="currentSumm || 0"
+            >
+              <template #default="{ handler }">
+                <UiButton
+                  :disable="!isSelectedProgram || promocodeLoadding"
+                  color="white"
+                  text-color="primary"
+                  type="long"
+                  class="full-width"
+                  @click="handler"
+                >
+                  КУПить ТАРИФ
+                </UiButton>
+              </template>
+            </TinkoffPaymentForm>
+          </div>
+          <div class="col-12 col-sm-10 col-md-6">
+            <q-btn-dropdown
+              split
+              color="white"
+              :disable-main-btn="!isSelectedProgram || promocodeLoadding"
+              dropdown-icon="fas fa-chevron-down"
+              :label="`В рассрочку (${installment} мес.)`"
+              class="full-width"
+              auto-close
+              text-color="black"
+              @click="buyProgramViaInstallment"
+            >
+              <q-list>
+                <q-item
+                  v-for="(instalmentOption, idx) in instalmentOptions"
+                  :key="idx"
+                  v-close-popup
+                  clickable
+                  :active="installment === instalmentOption"
+                  active-class="bg-blue-2 text-blue-5 no-pointer-events"
+                  @click="installment = instalmentOption"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      На {{ instalmentOption }} месяца
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
         </div>
       </div>
     </div>
@@ -152,6 +156,12 @@ import usePromocode from "./composables/usePromocode";
 
 const selectedId = ref<number>();
 const installment = ref(3);
+
+const acceptedPromocodeText = computed(() => {
+  return selectedId.value
+    ? `Скидка ${currentProgram.value?.price.discount}руб. на программу ${currentProgram.value?.title}`
+    : `Промокод принят`;
+});
 
 const isSelectedProgram = computed(
   () => selectedId.value !== null && typeof selectedId.value !== "undefined"
@@ -190,7 +200,7 @@ const showProgram = (card: Card) => {
 
 const buyProgramViaInstallment = () => {
   if (!currentSumm.value) return;
-  tinkoff.createDemo(
+  tinkoff.create(
     {
       sum: currentSumm.value,
       items: [
@@ -214,6 +224,12 @@ const buyProgramViaInstallment = () => {
 @import url("@/styles/variables.scss");
 .q-btn-group {
   border-radius: $radius-lg !important;
+}
+
+.q-btn__content {
+  @media screen and (max-width: $breakpoint-sm) {
+    font-size: 15px !important;
+  }
 }
 
 .q-btn-dropdown button:first-child {

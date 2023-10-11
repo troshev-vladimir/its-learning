@@ -136,6 +136,7 @@
 import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import candidate from "@/api/candidate";
+import store from "@/store";
 // import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
 // import { emailValidate } from "@/helpers/utils.ts";
@@ -194,7 +195,8 @@ const requestPin = async () => {
   if (!isFormValid) return;
 
   try {
-    await candidate.candidateCreate(userPhone.value);
+    const response = await candidate.candidateCreate(userPhone.value);
+    store.commit("setUserPhone", response.id);
 
     $q.notify({
       color: "green",
@@ -212,7 +214,11 @@ const logIn = async () => {
   if (!isFormValid) return;
 
   try {
-    await candidate.сandidateConfirmation(userPhone.value);
+    const response = await candidate.сandidateConfirmation(
+      userPhone.value,
+      pin.value
+    );
+    store.commit("setUserToken", response.token);
 
     $q.notify({
       color: "green",
