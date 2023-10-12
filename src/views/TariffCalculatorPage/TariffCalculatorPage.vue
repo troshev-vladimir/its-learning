@@ -2,9 +2,7 @@
 <template>
   <section>
     <div class="container">
-      <span class="text-body1 text-secondary"
-        >Учитесь в своем ритме adasdasd</span
-      >
+      <span class="text-body1 text-secondary">Учитесь в своем ритме</span>
       <h1 class="text-h1 q-mt-md">
         Получай знания и навыки <br />
         <span class="text-accent">так как удобно тебе</span>
@@ -132,6 +130,11 @@ import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
 import { useQuasar } from "quasar";
 import apiTariff from "@/api/tariff";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Конструктор тарифа | ITS",
+});
 
 const store = useStore();
 const router = useRouter();

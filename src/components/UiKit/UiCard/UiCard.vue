@@ -3,7 +3,23 @@
     class="ui-card shadow-2"
     :class="{ 'ui-card--selected': props.selected }"
   >
-    <h1 class="text-h2 q-mb-md" v-html="props.title"></h1>
+    <div class="row q-mb-md q-gutter-x-md q-gutter-y-md">
+      <div class="col-auto flex items-center">
+        <h1 class="text-h2" v-html="props.title"></h1>
+      </div>
+      <div class="col-auto">
+        <ui-button
+          size="sm"
+          outline
+          color="secondary"
+          text-class="text-secondary"
+          @click="emit('description')"
+        >
+          Подробнее
+        </ui-button>
+      </div>
+    </div>
+
     <p class="text-body2 q-mb-md">
       {{ description }}
     </p>
@@ -14,71 +30,88 @@
     </ul>
 
     <div class="criterias q-mt-auto">
-      <div
-        v-for="(criteria, idx) in criterias"
-        :key="idx"
-        class="criteria text-body2 q-mb-md"
-      >
-        <span class="criteria__name q-mr-sm" v-html="criteria.name"></span>
-        <span class="text-body2" v-html="criteria.value"></span>
+      <div class="criteria text-body2 q-mb-md">
+        <span class="criteria__name q-mr-sm">Продолжительность обучения:</span>
+        <span class="text-body2">
+          <p class="text-body2">
+            <span class="q-mr-sm text-body1 text-bold">
+              {{ criterias.duration.value }}
+            </span>
+            <span>{{ criterias.duration.dimension }}</span>
+          </p>
+        </span>
+      </div>
+      <div class="criteria text-body2 q-mb-md">
+        <span class="criteria__name q-mr-sm">Стоимость программы:</span>
+        <p class="text-body2">
+          <span
+            class="text-body1 text-bold"
+            :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
+          >
+            {{ criterias.price.value }}
+          </span>
+          <span
+            v-if="isPromocodeLegal"
+            class="text-body1 text-bold text-green-14"
+          >
+            {{ price.value - price.discount }}
+          </span>
+          <span>{{ criterias.price.dimension }}</span>
+        </p>
+      </div>
+
+      <div class="criteria text-body2 q-mb-md">
+        <span class="criteria__name q-mr-sm">Рассрочка от:</span>
+        <p class="text-body2">
+          <span
+            class="text-body1 text-bold"
+            :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
+          >
+            {{ price.installment }}
+          </span>
+          <span
+            v-if="isPromocodeLegal"
+            class="text-body1 text-bold text-green-14"
+          >
+            {{ price.discountInstallment }}
+          </span>
+          <span>{{ criterias.installment.dimension }}</span>
+        </p>
       </div>
     </div>
 
-    <div class="row q-col-gutter-sm">
-      <div class="col-auto">
-        <ui-button size="sm" text-class="text-white" @click="emit('select')">
-          выбрать
-        </ui-button>
-      </div>
-      <div class="col-auto">
-        <ui-button
-          size="sm"
-          color="white"
-          outline
-          text-class="text-accent"
-          @click="emit('description')"
-        >
-          Подробнее
-        </ui-button>
-      </div>
-    </div>
+    <slot> </slot>
   </article>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
-const emit = defineEmits(["select"]);
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  criterias: {
-    type: Array,
-    required: true,
-  },
-  items: {
-    type: Array,
-    required: true,
-  },
-  selected: {
-    type: Boolean,
-    default: false,
-  },
-});
+const emit = defineEmits(["description"]);
+import { Card } from "@/views/TariffSelectorPage/types";
+import usePromocode from "@/views/TariffSelectorPage/composables/usePromocode";
+const { isPromocodeLegal } = usePromocode();
+export interface Props {
+  title: string;
+  description: string;
+  criterias: Card["criterias"];
+  price: Card["price"];
+  items: [];
+  selected: boolean;
+}
+const props = defineProps<Props>();
 </script>
 
 <style lang="scss" scoped>
 .ui-card {
-  background-color: var(--q-secondary);
+  background-color: var(--q-white);
   border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
+  ._old-price {
+    text-decoration: line-through;
+    color: #999;
+  }
 
   .list-item::before {
     background-color: var(--q-accent);

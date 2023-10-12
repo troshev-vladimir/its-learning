@@ -4,7 +4,7 @@
     :class="style"
     :color="props.color"
     :type="role"
-    class="ui-button text-body1"
+    class="ui-button"
   >
     <span :class="textClass"><slot /></span>
   </q-btn>
@@ -35,7 +35,7 @@ const props = defineProps({
 
   textClass: {
     type: Array,
-    default: () => ["text-body1", "text-bold"],
+    default: () => ["text-bold"],
   },
 
   size: {
@@ -50,7 +50,7 @@ const props = defineProps({
     type: String,
     default: "accent",
     validator(value) {
-      return ["white", "accent"].includes(value);
+      return ["white", "accent", "secondary"].includes(value);
     },
   },
 });
@@ -58,6 +58,7 @@ const props = defineProps({
 const style = computed(() => {
   return {
     [`q-btn--type-${props.type}`]: props.type,
+    [`q-btn--color-${props.color}`]: props.color,
     [`q-btn--size-${props.size}`]: props.size,
     [`q-btn--outline`]: props.outline,
   };
@@ -81,6 +82,16 @@ const style = computed(() => {
     }
   }
 
+  &--color {
+    &-accent {
+      color: var(--q-accent) !important;
+    }
+
+    &-secondary {
+      color: var(--q-secondary) !important;
+    }
+  }
+
   &--size {
     &-sm {
       padding: 8px 16px;
@@ -94,7 +105,6 @@ const style = computed(() => {
 
   &--outline {
     background: transparent !important;
-    color: var(--q-accent) !important;
     border: 3px solid currentColor !important;
 
     &::before {

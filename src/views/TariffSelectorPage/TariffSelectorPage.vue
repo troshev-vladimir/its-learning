@@ -37,107 +37,95 @@
               :description="card.description"
               :items="card.items"
               :criterias="card.criterias"
-              :selected="card.id === selectedId"
+              :price="card.price"
               class="full-height"
-              @select="selectProgram(card.id)"
               @description="showProgram(card)"
-            ></ui-card>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="q-mb-xl">
-      <div class="container">
-        <div
-          class="row justify-center justify-md-left q-col-gutter-y-md q-mb-sm"
-        >
-          <div class="col-12 col-sm-10 col-md-6 text-center">
-            <q-chip
-              v-if="promocode && isPromocodeLegal"
-              outline
-              color="green"
-              text-color="white"
-              icon="fas fa-chevron-down"
-              class="q-mt-sm"
             >
-              {{ acceptedPromocodeText }}
-            </q-chip>
-            <q-input
-              v-else
-              v-model="promocode"
-              label="Ввести промокод"
-              color="primary"
-              maxlength="6"
-              lazy-rules
-              class="ui-input"
-              no-error-icon
-              outlined
-              :rules="[
-                (val) =>
-                  val.length === 6 ||
-                  val.length === 0 ||
-                  'Неправильный промокод, необходимо 6 символов',
-              ]"
-              :loading="promocodeLoadding"
-              @blur="proovePromocode"
-            >
-            </q-input>
-          </div>
-        </div>
-        <div class="row justify-center justify-md-left q-col-gutter-y-md">
-          <div class="col-12 col-sm-10 col-md-6">
-            <TinkoffPaymentForm
-              :order-data="{
-                order: currentProgram?.title || '',
-                description: currentProgram?.description || '',
-              }"
-              :amount="currentSumm || 0"
-            >
-              <template #default="{ handler }">
-                <UiButton
-                  :disable="!isSelectedProgram || promocodeLoadding"
-                  color="white"
-                  text-color="primary"
-                  type="long"
-                  class="full-width"
-                  @click="handler"
-                >
-                  КУПить ТАРИФ
-                </UiButton>
-              </template>
-            </TinkoffPaymentForm>
-          </div>
-          <div class="col-12 col-sm-10 col-md-6">
-            <q-btn-dropdown
-              split
-              color="white"
-              :disable-main-btn="!isSelectedProgram || promocodeLoadding"
-              dropdown-icon="fas fa-chevron-down"
-              :label="`В рассрочку (${installment} мес.)`"
-              class="full-width"
-              auto-close
-              text-color="black"
-              @click="buyProgramViaInstallment"
-            >
-              <q-list>
-                <q-item
-                  v-for="(instalmentOption, idx) in instalmentOptions"
-                  :key="idx"
-                  v-close-popup
-                  clickable
-                  :active="installment === instalmentOption"
-                  active-class="bg-blue-2 text-blue-5 no-pointer-events"
-                  @click="installment = instalmentOption"
-                >
-                  <q-item-section>
-                    <q-item-label>
-                      На {{ instalmentOption }} месяца
-                    </q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
+              <div class="row q-mb-md">
+                <!--  flex justify-center justify-md-left -->
+                <div class="col-12">
+                  <q-chip
+                    v-if="promocode && isPromocodeLegal"
+                    outline
+                    color="green"
+                    text-color="white"
+                    icon="fas fa-chevron-down"
+                    class="q-mt-sm"
+                  >
+                    {{ acceptedPromocodeText }}
+                  </q-chip>
+                  <q-input
+                    v-else
+                    v-model="promocode"
+                    label="Ввести промокод"
+                    color="primary"
+                    maxlength="6"
+                    lazy-rules
+                    class="ui-input size-sm full-width"
+                    dense
+                    no-error-icon
+                    outlined
+                    :rules="[
+                      (val) =>
+                        val.length === 6 ||
+                        val.length === 0 ||
+                        'Неправильный промокод, необходимо 6 символов',
+                    ]"
+                    :loading="promocodeLoadding"
+                    @blur="proovePromocode"
+                  >
+                  </q-input>
+                </div>
+              </div>
+              <TinkoffPaymentForm
+                :order-data="{
+                  order: currentProgram?.title || '',
+                  description: currentProgram?.description || '',
+                }"
+                :amount="currentSumm(card.price)"
+              >
+                <template #default="{ handler }">
+                  <UiButton
+                    :disable="promocodeLoadding"
+                    color="white"
+                    text-color="primary"
+                    size="sm"
+                    @click="handler"
+                  >
+                    КУПить ТАРИФ
+                  </UiButton>
+                </template>
+              </TinkoffPaymentForm>
+              <q-btn-dropdown
+                split
+                color="white"
+                :disable-main-btn="promocodeLoadding"
+                dropdown-icon="fas fa-chevron-down"
+                :label="`В рассрочку (${card.installmentPeriod} мес.)`"
+                class="full-width size--xs q-mt-md"
+                auto-close
+                text-color="black"
+                @click="buyProgramViaInstallment(card)"
+              >
+                <q-list>
+                  <q-item
+                    v-for="(instalmentOption, idx) in instalmentOptions"
+                    :key="idx"
+                    v-close-popup
+                    clickable
+                    :active="card.installmentPeriod === instalmentOption"
+                    active-class="bg-blue-2 text-blue-5 no-pointer-events"
+                    @click="selectInstallment(card, instalmentOption)"
+                  >
+                    <q-item-section>
+                      <q-item-label>
+                        На {{ instalmentOption }} месяца
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </ui-card>
           </div>
         </div>
       </div>
@@ -146,38 +134,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, getCurrentInstance } from "vue";
 import tinkoff from "@tcb-web/create-credit";
 import { Card } from "./types";
+import { useMeta } from "quasar";
 // import { DemoFlows } from "@tcb-web/create-credit";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import useConstants from "./composables/useConstants";
 import usePromocode from "./composables/usePromocode";
 
+const instance = getCurrentInstance();
+useMeta({
+  title: "BIG SALE | ITS",
+  link: {
+    name: { rel: "icon", href: "/favicon-promo.ico" },
+  },
+});
+
 const selectedId = ref<number>();
-const installment = ref(3);
 
 const acceptedPromocodeText = computed(() => {
-  return selectedId.value
-    ? `Скидка ${currentProgram.value?.price.discount}руб. на программу ${currentProgram.value?.title}`
-    : `Промокод принят`;
+  return "Промокод принят";
 });
 
-const isSelectedProgram = computed(
-  () => selectedId.value !== null && typeof selectedId.value !== "undefined"
-);
+const currentSumm = (price: Card["price"]) => {
+  return isPromocodeLegal.value ? price.value - price.discount : price.value;
+};
 
-const currentSumm = computed(() => {
-  if (!currentProgram.value) return;
-
-  if (isPromocodeLegal.value) {
-    return (
-      currentProgram.value?.price.value - currentProgram.value?.price.discount
-    );
-  } else {
-    return currentProgram.value?.price.value || 0;
-  }
-});
+const selectInstallment = (card: Card, instalmentOption: any) => {
+  card.installmentPeriod = instalmentOption;
+  instance?.proxy?.$forceUpdate();
+};
 
 const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
   useConstants(selectedId);
@@ -189,29 +176,24 @@ const {
   promocode,
 } = usePromocode();
 
-const selectProgram = (id: number) => {
-  selectedId.value = id;
-};
-
 const showProgram = (card: Card) => {
   const link = card.linkToProgram;
   window.open(link, "_blank")?.focus();
 };
 
-const buyProgramViaInstallment = () => {
-  if (!currentSumm.value) return;
+const buyProgramViaInstallment = (program: Card) => {
   tinkoff.create(
     {
-      sum: currentSumm.value,
+      sum: currentSumm(program.price),
       items: [
         {
-          name: currentProgram.value?.title || "",
-          price: currentProgram.value?.price.value || 0,
+          name: program.title || "",
+          price: currentSumm(program.price) || 0,
           quantity: 1,
         },
       ],
       // demoFlow: DemoFlows.sms,
-      promoCode: getCurrentInstallment(installment.value),
+      promoCode: getCurrentInstallment(program.installmentPeriod),
       shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
       showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
     },
@@ -229,6 +211,24 @@ const buyProgramViaInstallment = () => {
 .q-btn__content {
   @media screen and (max-width: $breakpoint-sm) {
     font-size: 15px !important;
+  }
+}
+
+.q-btn-group.size--sm {
+  font-size: 20px;
+  line-height: 135%;
+  color: #101010;
+  .q-btn {
+    padding: 8px 16px;
+  }
+}
+
+.q-btn-group.size--xs {
+  line-height: 135%;
+  color: #101010;
+  .q-btn {
+    font-size: 16px;
+    padding: 4px 8px;
   }
 }
 

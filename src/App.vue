@@ -9,6 +9,14 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
 import { mapGetters } from "vuex";
+import { useMeta } from "quasar";
+
+useMeta({
+  link: {
+    name: { rel: "icon", href: "/favicon.ico" },
+  },
+});
+
 export default {
   components: {
     DefaultLayout,

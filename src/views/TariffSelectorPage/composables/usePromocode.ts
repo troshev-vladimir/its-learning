@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import promocodeApi from "@/api/promocode";
 import { useQuasar } from "quasar";
+import store from "@/store";
 export default function usePromocode() {
   const $q = useQuasar();
-  const isPromocodeLegal = ref(false);
+  const isPromocodeLegal = ref(true);
   const loadding = ref(false);
   const promocode = ref("");
 
@@ -12,9 +13,10 @@ export default function usePromocode() {
     loadding.value = true;
 
     try {
+      if (!store.state.userPhone) return;
       const response = await promocodeApi.prmocodeAproove(
         promocode.value,
-        "89828139699"
+        store.state.userPhone
       );
       if (response) {
         isPromocodeLegal.value = true;

@@ -3,7 +3,7 @@ import tariff from "./modules/tariff";
 
 const store = createStore({
   state: () => ({
-    userToken: "asasd",
+    userToken: "фывфыв",
     userPhone: null,
   }),
   getters: {

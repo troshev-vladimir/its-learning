@@ -33,9 +33,11 @@ const cards = [
   {
     id: 0,
     title: "TESLA",
+    installmentPeriod: 3,
     price: {
       value: 128000,
       installment: 10666,
+      discountInstallment: 9541,
       discount: 13500,
     },
     linkToProgram: "https://itseducation.ru/tesla",
@@ -47,30 +49,31 @@ const cards = [
       "3 коммерческие оплачиваемые задачи.",
       "200,5 часов теории и 88,5 часов практических домашних заданий.",
     ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">8</span>мес.',
+    criterias: {
+      duration: {
+        value: 8,
+        dimension: "мес.",
       },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">128 000</span> руб.',
+      price: {
+        value: 128000,
+        dimension: "₽",
       },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">10 666</span> руб./мес',
+      installment: {
+        value: 10666,
+        dimension: "₽/мес.",
       },
-    ],
+    },
   },
   {
     id: 1,
     title: "VIP",
+    installmentPeriod: 3,
     linkToProgram: "https://itseducation.ru/vip",
     price: {
       value: 88000,
       installment: 7333,
+      discountInstallment: 6770,
+
       discount: 6750,
     },
     description:
@@ -80,30 +83,31 @@ const cards = [
       "Диплом государственного образца.",
       "150,5 часов теории и 66,5 часов практических домашних заданий.",
     ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">6</span>мес.',
+    criterias: {
+      duration: {
+        value: 6,
+        dimension: "мес.",
       },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">88 000</span> руб.',
+      price: {
+        value: 88000,
+        dimension: "₽",
       },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">7 333</span> руб./мес',
+      installment: {
+        value: 7333,
+        dimension: "₽/мес.",
       },
-    ],
+    },
   },
   {
     id: 2,
     title: "PRO",
+    installmentPeriod: 3,
     linkToProgram: "https://itseducation.ru/pro",
     price: {
       value: 58000,
       installment: 4833,
+      discountInstallment: 4608,
+
       discount: 2700,
     },
     description:
@@ -112,21 +116,19 @@ const cards = [
       "Трудоустройство в случае успешного прохождения обучения.",
       "124,5 часов теории и 59,5 часов практических домашних заданий.",
     ],
-    criterias: [
-      {
-        name: "Продолжительность обучения:",
-        value: '<span class="q-mr-sm text-body1 text-bold">5</span>мес.',
+    criterias: {
+      duration: {
+        value: 5,
+        dimension: "мес.",
       },
-      {
-        name: "Стоимость программы:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">58 000</span> руб.',
+      price: {
+        value: 58000,
+        dimension: "₽",
       },
-      {
-        name: "Рассрочка от:",
-        value:
-          '<span class="q-mr-sm text-body1 text-bold text-no-wrap">4 833</span> руб./мес',
+      installment: {
+        value: 4833,
+        dimension: "₽/мес.",
       },
-    ],
+    },
   },
 ];

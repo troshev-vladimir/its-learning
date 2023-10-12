@@ -20,15 +20,15 @@
               <q-input
                 ref="phoneRef"
                 v-model="userPhone"
-                placeholder="+7 (###) #### ## ##"
-                mask="+7 (###) #### ## ##"
+                placeholder="+7 (###) ### ## ##"
+                mask="+7 (###) ### ## ##"
                 unmasked-value
                 filled
                 fill-mask="_"
                 class="q-mb-md"
                 :rules="[
                   (val) => !!val || 'Надо заполнить',
-                  (val) => val.length === 11 || 'Введите корректный номер',
+                  (val) => val.length === 10 || 'Введите корректный номер',
                 ]"
                 lazy-rules
               >
@@ -139,6 +139,12 @@ import candidate from "@/api/candidate";
 import store from "@/store";
 // import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Авторизация | ITS",
+});
+
 // import { emailValidate } from "@/helpers/utils.ts";
 const $q = useQuasar();
 // const router = useRouter();
@@ -195,7 +201,7 @@ const requestPin = async () => {
   if (!isFormValid) return;
 
   try {
-    const response = await candidate.candidateCreate(userPhone.value);
+    const response = await candidate.candidateCreate("7" + userPhone.value);
     store.commit("setUserPhone", response.id);
 
     $q.notify({

@@ -9,7 +9,7 @@ export interface candidateCreateResp {
 class PrmocodeMethods {
   prmocodeAproove(promocode: string, id: string) {
     return axios
-      .get("PromoGet", {
+      .get("promoget", {
         params: {
           promo: promocode,
           id,

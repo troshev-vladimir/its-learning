@@ -16,7 +16,7 @@ const routes = [
 
   {
     path: "/tariff-selector",
-    name: "tariff-selector",
+    name: "tariffSelector",
     component: TariffSelectorPage,
   },
 
@@ -75,8 +75,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters.getUserToken;
+  const isFree = to.name == "auth" || to.name == "tariffSelector";
+  console.log(to.name);
 
-  if (to.name !== "auth" && !isAuthenticated) next({ name: "auth" });
+  if (!isFree && !isAuthenticated) next({ name: "auth" });
   else next();
 });
 

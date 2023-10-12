@@ -408,6 +408,12 @@
 <script setup>
 import UiAccordionItem from "@/components/UiKit/UiAccordion/UiAccordionItem.vue";
 import { useStore } from "vuex";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Программа TESLA | ITS",
+});
+
 const store = useStore();
 const currentProgram = store.getters["tariff/getCurrentProgramm"];
 </script>

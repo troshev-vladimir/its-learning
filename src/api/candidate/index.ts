@@ -17,7 +17,7 @@ export interface candidateCreateResp {
 class CandidateMethods {
   candidateCreate(phone: string): Promise<candidateCreateResp> {
     return axios
-      .get("CandidateCreate", { params: { id: phone } })
+      .get("candidatecreate", { params: { id: phone } })
       .then((response) => {
         return response.data;
       })
@@ -29,7 +29,7 @@ class CandidateMethods {
 
   сandidateConfirmation(id: UserId, pin: string) {
     axios
-      .put("CandidateConfirmation", { id, pin })
+      .put("candidateconfirmation", { id, pin })
       .then((response) => {
         return response.data;
       })
@@ -41,7 +41,7 @@ class CandidateMethods {
 
   candidateUpdate(user: Candidate) {
     axios
-      .put("CandidateUpdate", user)
+      .put("candidateupdate", user)
       .then((response) => {
         return response.data;
       })
