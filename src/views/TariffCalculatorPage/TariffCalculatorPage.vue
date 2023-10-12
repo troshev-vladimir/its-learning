@@ -18,6 +18,45 @@
         <div class="col-12 col-md-6">
           <!-- <SalaryGraph /> -->
           <AccentTariff class="shadow-2" />
+          <div class="q-mt-md flex items-end">
+            <p class="text-h2 q-mb-md">Потратить заработанное</p>
+            <div class="flex items-start full-width" style="gap: 10px">
+              <CashCounter class="shadow-2" style="flex: 1 1 auto" />
+              <q-input
+                v-model="promocode"
+                label="Ввести промокод"
+                color="primary"
+                maxlength="6"
+                lazy-rules
+                class="ui-input grow-1"
+                style="flex: 1 1 auto"
+                no-error-icon
+                outlined
+                :rules="[
+                  (val) =>
+                    val.length === 6 ||
+                    val.length === 0 ||
+                    'Неправильный промокод, необходимо 6 символов',
+                ]"
+              >
+              </q-input>
+            </div>
+            <div class="flex no-wrap q-mb-md">
+              <div class="q-mr-lg">
+                <div class="text-body1 q-mb-sm flex">Скидка на обучение</div>
+                <p class="text-h2 flex">13500 руб.</p>
+              </div>
+
+              <div class="">
+                <div class="text-body1 q-mb-sm">Премия к первой зарплате</div>
+                <p class="text-h2">13500 руб.</p>
+              </div>
+            </div>
+            <p class="text-body2 text-secondary">
+              Подробней о правилах подсчёта бонусов читай
+              <a class="text-accent" href="/">тут</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -46,10 +85,6 @@
           <p class="text-body1">
             Выбери один из вариантов куда ты потратишь зароботок
           </p>
-        </div>
-
-        <div class="col-auto col-md-3">
-          <CashCounter class="shadow-2" />
         </div>
       </div>
 
@@ -80,27 +115,7 @@
           </UiButton>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
-          <q-input
-            v-model="promocode"
-            label="Ввести промокод"
-            color="primary"
-            maxlength="6"
-            lazy-rules
-            class="ui-input q-mb-sm"
-            no-error-icon
-            outlined
-            :rules="[
-              (val) =>
-                val.length === 6 ||
-                val.length === 0 ||
-                'Неправильный промокод, необходимо 6 символов',
-            ]"
-          >
-          </q-input>
-        </div>
-      </div>
+
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
           <UiButton
@@ -193,6 +208,12 @@ const choiseSpendManyWay = (item) => {
   item.active = !item.active;
 };
 
+const setIntheMiddle = () => {
+  const program = store.getters["tariff/getCurrentProgramm"];
+
+  store.tariff.payment = program.offermin + program.offermax / 2;
+};
+
 onMounted(() => {
   apiTariff
     .getTariffs()
@@ -203,10 +224,10 @@ onMounted(() => {
       //     return acc || el.id === this.$store.state.tariff.programs;
       //   }, false);
       // }
-      this.$store.commit("tariff/setPrograms", responce);
+      store.commit("tariff/setPrograms", responce);
     })
     .then(() => {
-      this.setIntheMiddle();
+      setIntheMiddle();
     })
     .catch((e) => {
       console.log(e);
