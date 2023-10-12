@@ -83,23 +83,19 @@
       </div>
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
-          <q-input
+          <UiInput
             v-model="promocode"
             label="Ввести промокод"
-            color="primary"
             maxlength="6"
-            lazy-rules
-            class="ui-input q-mb-sm"
             no-error-icon
-            outlined
+            lazy-rules
             :rules="[
               (val) =>
                 val.length === 6 ||
                 val.length === 0 ||
                 'Неправильный промокод, необходимо 6 символов',
             ]"
-          >
-          </q-input>
+          ></UiInput>
         </div>
       </div>
       <div class="row">
@@ -182,12 +178,6 @@ const chooseSpendManyWay = (item) => {
   item.active = !item.active;
 };
 </script>
-
-<style lang="scss">
-.ui-input.q-field--outlined .q-field__control {
-  border-radius: 16px;
-}
-</style>
 
 <style scoped lang="scss">
 .learning-time {
