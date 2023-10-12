@@ -42,7 +42,7 @@ const cards = [
     },
     linkToProgram: "https://itseducation.ru/tesla",
     description:
-      "Для тех кто готов выйти на middle уровень за минимальное время.",
+      "<p class='text-body2'>Твоя будущая зарплата:<p /> <p class='text-h2 q-mb-md'>120&nbsp;000</p> <p class='text-h2'><span class='text-accent'>MIDDLE</span> уровень</p> <p class='text-body2'>Уже через пол года работы</p>",
     items: [
       "Трудоустройство в случае успешного прохождения обучения.",
       "Диплом государственного образца.",
@@ -77,7 +77,7 @@ const cards = [
       discount: 6750,
     },
     description:
-      "Для тех, кто готов по-настоящему углубиться в сферу программирования 1С.",
+      "<p class='text-body2'>Твоя будущая зарплата:<p /> <p class='text-h2 q-mb-md'>60&nbsp;000</p> <p class='text-h2'>На <span class='text-accent'>20%</span> больше</p> <p class='text-body2'>Вакансий на рынке труда</p>",
     items: [
       "Трудоустройство в случае успешного прохождения обучения.",
       "Диплом государственного образца.",
@@ -111,7 +111,7 @@ const cards = [
       discount: 2700,
     },
     description:
-      "5 месяцев, для тех, кто хочет освоить 1С с нуля и получить базовые знания необходимые для трудоустройства.",
+      "<p class='text-body2'>Твоя будущая зарплата:<p /> <p class='text-h2 q-mb-md'>30&nbsp;000</p> <p class='text-h2'>Зарплата <span class='text-accent'>Х3</span></p> <p class='text-body2'>Уже через год после обучения</p>",
     items: [
       "Трудоустройство в случае успешного прохождения обучения.",
       "124,5 часов теории и 59,5 часов практических домашних заданий.",
