@@ -20,15 +20,15 @@
               <q-input
                 ref="phoneRef"
                 v-model="userPhone"
-                placeholder="+7 (###) #### ## ##"
-                mask="+7 (###) #### ## ##"
+                placeholder="+7 (###) ### ## ##"
+                mask="+7 (###) ### ## ##"
                 unmasked-value
                 filled
                 fill-mask="_"
                 class="q-mb-md"
                 :rules="[
                   (val) => !!val || 'Надо заполнить',
-                  (val) => val.length === 11 || 'Введите корректный номер',
+                  (val) => val.length === 10 || 'Введите корректный номер',
                 ]"
                 lazy-rules
               >
@@ -135,8 +135,16 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
+import candidate from "@/api/candidate";
+import store from "@/store";
 // import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Авторизация | ITS",
+});
+
 // import { emailValidate } from "@/helpers/utils.ts";
 const $q = useQuasar();
 // const router = useRouter();
@@ -188,25 +196,45 @@ watch(pin, (value) => {
 //   return phoneValid && nameValid && emailValid && pinValid;
 // };
 
-const requestPin = () => {
+const requestPin = async () => {
   const isFormValid = phoneRef.value.validate();
   if (!isFormValid) return;
-  loginStage.value = false;
-  $q.notify({
-    color: "green",
-    message: "Пинкод отправлен",
-    actions: false,
-  });
+
+  try {
+    const response = await candidate.candidateCreate("7" + userPhone.value);
+    store.commit("setUserPhone", response.id);
+
+    $q.notify({
+      color: "green",
+      message: "Пинкод отправлен",
+      actions: false,
+    });
+    loginStage.value = false;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const logIn = () => {
+const logIn = async () => {
   const isFormValid = validatePin();
   if (!isFormValid) return;
-  $q.notify({
-    color: "green",
-    message: "Упешно выполнен вход",
-    actions: false,
-  });
+
+  try {
+    const response = await candidate.сandidateConfirmation(
+      userPhone.value,
+      pin.value
+    );
+    store.commit("setUserToken", response.token);
+
+    $q.notify({
+      color: "green",
+      message: "Упешно выполнен вход",
+      actions: false,
+    });
+  } catch (error) {
+    loginStage.value = true;
+  }
+
   window.location.href = "/lid-game";
   // router.push({ name: "tariff" });
 };

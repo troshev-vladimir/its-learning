@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/TariffCalculatorPage";
+import TariffSelectorPage from "@/views/TariffSelectorPage";
 import Auth from "@/views/LoginPage";
+import store from "@/store";
+
 const routes = [
   {
     path: "/auth",
@@ -9,6 +12,12 @@ const routes = [
     meta: {
       layout: "EmptyLayout",
     },
+  },
+
+  {
+    path: "/tariff-selector",
+    name: "tariffSelector",
+    component: TariffSelectorPage,
   },
 
   {
@@ -62,6 +71,15 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0, behavior: "instant" };
   },
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.getters.getUserToken;
+  const isFree = to.name == "auth" || to.name == "tariffSelector";
+  console.log(to.name);
+
+  if (!isFree && !isAuthenticated) next({ name: "auth" });
+  else next();
 });
 
 export default router;

@@ -2,10 +2,12 @@ module.exports = {
   root: true,
 
   env: {
+    browser: true,
+    es2021: true,
     node: true,
   },
 
-  plugins: ["prettier", "vue"],
+  plugins: ["prettier", "vue", "@typescript-eslint"],
 
   parserOptions: {
     parser: "@typescript-eslint/parser",
@@ -22,6 +24,8 @@ module.exports = {
         semi: true,
       },
     ],
+    "vue/multi-word-component-names": "off",
+    "vue/object-curly-spacing": [2, "always"],
   },
 
   extends: [

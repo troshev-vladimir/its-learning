@@ -8,8 +8,15 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
-import apiTariff from "@/api/tariff";
 import { mapGetters } from "vuex";
+import { useMeta } from "quasar";
+
+useMeta({
+  link: {
+    name: { rel: "icon", href: "/favicon.ico" },
+  },
+});
+
 export default {
   components: {
     DefaultLayout,
@@ -23,6 +30,7 @@ export default {
       return this.$route.meta.layout || "DefaultLayout";
     },
   },
+
   beforeCreate() {
     this.$store.commit("initialiseStore");
     this.$q.notify.setDefaults({
@@ -33,31 +41,6 @@ export default {
       // actions: [{ icon: "fas fa-times", color: "white" }],
     });
     this.$q.iconSet.field.error = "fas fa-exclamation-triangle fs-sm";
-  },
-
-  mounted() {
-    apiTariff
-      .getTariffs()
-      .then((responce) => {
-        // Проверка на актуальность данных в ЛС и сторе
-        // if (Array.isArray(responce)) {
-        //   responce.reduce((el, acc) => {
-        //     return acc || el.id === this.$store.state.tariff.programs;
-        //   }, false);
-        // }
-        this.$store.commit("tariff/setPrograms", responce);
-      })
-      .then(() => {
-        this.setIntheMiddle();
-      })
-      .catch((e) => {
-        console.log(e);
-        this.$q.notify({
-          color: "negative",
-          position: "top",
-          message: "Что то пошло не так",
-        });
-      });
   },
 
   created() {
@@ -72,9 +55,32 @@ export default {
     setCssVar("warning", "#f2c037");
 
     setCssVar("white", "#fff");
-    setCssVar("black", "#fff");
+    setCssVar("black", "#000");
   },
+
+  mounted() {
+    window.addEventListener("server-error", this.errorHandler);
+    window.addEventListener("unauthorized", this.unauthorisedHandler);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("server-error", this.errorHandler);
+    window.removeEventListener("unauthorized", this.unauthorisedHandler);
+  },
+
   methods: {
+    errorHandler() {
+      this.$q.notify({
+        color: "negative",
+        position: "top",
+        message: "Что то пошло не так",
+      });
+    },
+
+    unauthorisedHandler() {
+      this.$router.push({ name: "auth" });
+    },
+
     setIntheMiddle() {
       if (!this.$store.state.tariff.payment) {
         const value =

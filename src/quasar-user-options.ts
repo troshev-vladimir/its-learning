@@ -9,5 +9,6 @@ export default {
   framework: {
     cssAddon: true,
   },
+  supportTS: true,
   extras: ["fontawesome-v5"],
 };

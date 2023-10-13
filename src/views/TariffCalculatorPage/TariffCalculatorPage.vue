@@ -1,5 +1,4 @@
 <!-- eslint-disable no-unused-vars -->
-<!-- eslint-disable no-unused-vars -->
 <template>
   <section>
     <div class="container">
@@ -67,7 +66,7 @@
             class="button button--selectable full-width"
             :class="{ 'button--active': item.active }"
             selectable
-            @click="chooseSpendManyWay(item)"
+            @click="choiseSpendManyWay(item)"
           >
             <div class="d-flex q-gutter-lg items-center">
               <icon-base width="40" height="40">
@@ -121,16 +120,23 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
 import { useQuasar } from "quasar";
+import apiTariff from "@/api/tariff";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Конструктор тарифа | ITS",
+});
 
 const store = useStore();
 const router = useRouter();
 const $q = useQuasar();
 const promocode = ref("");
+const choosenSpandMethod = ref("salary");
 
 const goToTariff = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
@@ -138,7 +144,12 @@ const goToTariff = () => {
   const name = program?.name.toLowerCase() || "tesla";
 
   tariffApi
-    .getInstallment(program?.id, payment)
+    .getInstallment(
+      program?.id,
+      payment,
+      promocode.value,
+      choosenSpandMethod.value
+    )
     .then((responce) => {
       store.commit("tariff/setInstallment", responce[0]);
     })
@@ -172,11 +183,31 @@ const hoursItems = reactive([
   },
 ]);
 
-const chooseSpendManyWay = (item) => {
-  store.commit("tariff/setSpendManyType", item.id);
+const choiseSpendManyWay = (item) => {
+  choosenSpandMethod.value = item.id;
   hoursItems.forEach((el) => (el.active = false));
   item.active = !item.active;
 };
+
+onMounted(() => {
+  apiTariff
+    .getTariffs()
+    .then((responce) => {
+      // Проверка на актуальность данных в ЛС и сторе
+      // if (Array.isArray(responce)) {
+      //   responce.reduce((el, acc) => {
+      //     return acc || el.id === this.$store.state.tariff.programs;
+      //   }, false);
+      // }
+      this.$store.commit("tariff/setPrograms", responce);
+    })
+    .then(() => {
+      this.setIntheMiddle();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
 </script>
 
 <style scoped lang="scss">

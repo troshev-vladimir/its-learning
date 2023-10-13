@@ -286,6 +286,12 @@ import usePayment from "@/views/UserСabinetPage/composables/usePayment";
 import { formatNumber } from "@/helpers/utils";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import { DemoFlows } from "@tcb-web/create-credit";
+import { useMeta } from "quasar";
+
+useMeta({
+  title: "Личный кабинет | ITS",
+});
+
 const { pay } = usePayment();
 const { courseStep, courseSteps, paySteps, totalSumm, unpayedSteps } =
   useSteps();
