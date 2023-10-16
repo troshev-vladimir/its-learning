@@ -27,6 +27,7 @@ const store = useStore();
 const program = computed<Tariff>(
   () => store.getters["tariff/getCurrentProgramm"] || {}
 );
+
 const value = computed({
   get() {
     return store.state.tariff.payment;

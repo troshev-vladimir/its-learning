@@ -36,11 +36,16 @@ const tariff = {
     },
 
     setPayment(state: State, value: number) {
-      state.payment = value;
+      state.payment = Math.round(value);
     },
 
     setPrograms(state: State, value: Tariff[]) {
-      state.programs = value || [];
+      state.programs =
+        value.sort((a, b) => {
+          if (a.income < b.income) return -1;
+          if (a.income > b.income) return 1;
+          return 0;
+        }) || [];
     },
 
     setInstallment(state: State, value: Installment) {

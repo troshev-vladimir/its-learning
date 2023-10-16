@@ -1,12 +1,12 @@
 import { Card } from "../types";
 import { Ref, computed } from "vue";
-export default function useConstants(selectedId: Ref<number | undefined>) {
+export default function useConstants(selectedId?: Ref<number | undefined>) {
   const getCurrentInstallment = (term: number): string => {
     return installmentValues[term as keyof typeof installmentValues];
   };
 
   const currentProgram = computed((): Card | null => {
-    if (typeof selectedId.value !== "undefined") {
+    if (typeof selectedId?.value !== "undefined") {
       return cards[selectedId.value];
     }
 

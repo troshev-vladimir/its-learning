@@ -201,8 +201,8 @@ const requestPin = async () => {
   if (!isFormValid) return;
 
   try {
-    const response = await candidate.candidateCreate("7" + userPhone.value);
-    store.commit("setUserPhone", response.id);
+    await candidate.candidateCreate("7" + userPhone.value);
+    store.commit("setUserPhone", userPhone.value);
 
     $q.notify({
       color: "green",
@@ -221,22 +221,22 @@ const logIn = async () => {
 
   try {
     const response = await candidate.сandidateConfirmation(
-      userPhone.value,
+      "7" + userPhone.value,
       pin.value
     );
-    store.commit("setUserToken", response.token);
+    store.commit("setUserToken", response[0].token);
 
     $q.notify({
       color: "green",
       message: "Упешно выполнен вход",
       actions: false,
     });
+    // router.push({ name: "tariff" });
+    window.location.href = "/lid-game";
   } catch (error) {
+    console.log(error);
     loginStage.value = true;
   }
-
-  window.location.href = "/lid-game";
-  // router.push({ name: "tariff" });
 };
 </script>
 

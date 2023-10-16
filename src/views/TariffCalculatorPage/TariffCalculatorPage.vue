@@ -38,18 +38,19 @@
                     val.length === 0 ||
                     'Неправильный промокод, необходимо 6 символов',
                 ]"
+                @blur="getUserProgress"
               >
               </q-input>
             </div>
             <div class="flex no-wrap q-mb-md">
               <div class="q-mr-lg">
                 <div class="text-body1 q-mb-sm flex">Скидка на обучение</div>
-                <p class="text-h2 flex">13500 руб.</p>
+                <p class="text-h2 flex">{{ discount }} руб.</p>
               </div>
 
               <div class="">
                 <div class="text-body1 q-mb-sm">Премия к первой зарплате</div>
-                <p class="text-h2">13500 руб.</p>
+                <p class="text-h2">{{ bonus }} руб.</p>
               </div>
             </div>
             <p class="text-body2 text-secondary">
@@ -139,7 +140,7 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
@@ -167,7 +168,9 @@ const goToTariff = () => {
       program?.id,
       payment,
       promocode.value,
-      choosenSpandMethod.value
+      choosenSpandMethod.value,
+      store.state.userPhone,
+      store.state.userToken
     )
     .then((responce) => {
       store.commit("tariff/setInstallment", responce[0]);
@@ -210,9 +213,24 @@ const choiseSpendManyWay = (item) => {
 
 const setIntheMiddle = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
-
-  store.tariff.payment = program.offermin + program.offermax / 2;
+  store.commit("tariff/setPayment", program.offermin + program.offermax / 2);
 };
+
+const getUserProgress = () => {
+  store.dispatch("getUsersCash", promocode.value);
+};
+
+const discount = computed(() => {
+  return store.getters.getCurrentProgramDicounts(
+    store.getters["tariff/getCurrentProgramm"].id
+  ).discount;
+});
+
+const bonus = computed(() => {
+  return store.getters.getCurrentProgramDicounts(
+    store.getters["tariff/getCurrentProgramm"].id
+  ).bonus;
+});
 
 onMounted(() => {
   apiTariff
@@ -232,6 +250,8 @@ onMounted(() => {
     .catch((e) => {
       console.log(e);
     });
+
+  store.dispatch("getUsersCash");
 });
 </script>
 
