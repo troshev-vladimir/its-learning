@@ -80,16 +80,12 @@ export default {
 
     unauthorisedHandler() {
       this.$router.push({ name: "auth" });
-    },
 
-    setIntheMiddle() {
-      if (!this.$store.state.tariff.payment) {
-        const value =
-          this.program.offermax -
-          (this.program.offermax - this.program.offermin) / 2;
-
-        this.$store.commit("tariff/setPayment", value);
-      }
+      this.$q.notify({
+        color: "negative",
+        position: "top",
+        message: "Вы не авторизованы. Для начала авторизуйтесь",
+      });
     },
   },
 };

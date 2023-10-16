@@ -5,7 +5,7 @@
     </div>
 
     <div class="count">
-      <span>{{ formatNumber(10000) }}</span>
+      <span>{{ formatNumber(cashe) }}</span>
     </div>
   </div>
 </template>
@@ -13,8 +13,12 @@
 <script setup>
 import CoinImage from "@/assets/img/coin.png";
 import { formatNumber } from "@/helpers/utils";
-//import { useUserStore } from "@/store/modules/user";
-//const user = useUserStore();
+import { computed } from "vue";
+
+import store from "@/store";
+const cashe = computed(() => {
+  return store.state.userCache + store.state.userPromoBonus;
+});
 </script>
 
 <style lang="scss" scoped>

@@ -9,7 +9,11 @@
       прохождение курса если поймете что программирование не для вас
     </p>
 
-    <UiItem button-text="ОФОРМИТЬ" class="q-mb-lg" @click="pay">
+    <UiItem
+      button-text="ОФОРМИТЬ"
+      class="q-mb-lg"
+      @click="pay(currentProgram, currentInstallment.offerperiod)"
+    >
       <span>{{ currentInstallment.offerperiod }} мес. </span>
       <template #lableRight>
         <span>
@@ -29,12 +33,23 @@
         Получите дополнительный блок продвинутой программы
         <span class="text-bold">19 VIP</span> абсолютно бесплатно
       </p>
-      <UiItem button-text="КУПИТЬ" @click="payAll">
-        <span>
-          <span class="text-bold"> {{ currentProgram?.price }} </span>
-          руб.
-        </span>
-      </UiItem>
+
+      <TinkoffPaymentForm
+        :order-data="{
+          order: currentInstallment.offername || '',
+          description: currentInstallment.offername || '',
+        }"
+        :amount="currentInstallment.totalsum"
+      >
+        <template #default="{ handler }">
+          <UiItem button-text="КУПИТЬ" @click="handler">
+            <span>
+              <span class="text-bold"> {{ currentInstallment.totalsum }} </span>
+              руб.
+            </span>
+          </UiItem>
+        </template>
+      </TinkoffPaymentForm>
 
       <div class="column q-mt-md flex-inline">
         <a href="" download="" class="d-flex items-center q-mb-sm hoverable">
@@ -88,8 +103,9 @@
 import { useStore } from "vuex";
 const store = useStore();
 import BenefitsImage from "@/components/UiKit/IconBase/icons/BenefitsImage.vue";
+import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import usePayment from "@/views/UserСabinetPage/composables/usePayment";
-const { pay, payAll } = usePayment();
+const { pay } = usePayment();
 const currentProgram = store.getters["tariff/getCurrentProgramm"];
 const currentInstallment = store.state.tariff.installment;
 </script>

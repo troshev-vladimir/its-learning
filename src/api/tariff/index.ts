@@ -20,11 +20,20 @@ class TariffMethods {
     id: string,
     payment: number,
     promocode: string,
-    method: number
+    method: number,
+    userId: string,
+    token: string
   ) {
     return axios
       .get<Installment>("installment", {
-        params: { id, payment, promocode, method },
+        params: {
+          programid: id,
+          payment,
+          promocode,
+          method,
+          id: userId,
+          token,
+        },
       })
       .then((response) => {
         return response.data;

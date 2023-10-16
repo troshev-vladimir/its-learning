@@ -76,7 +76,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters.getUserToken;
   const isFree = to.name == "auth" || to.name == "tariffSelector";
-  console.log(to.name);
 
   if (!isFree && !isAuthenticated) next({ name: "auth" });
   else next();
