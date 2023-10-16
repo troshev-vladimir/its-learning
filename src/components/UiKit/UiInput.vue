@@ -1,5 +1,6 @@
 <template>
   <q-input v-model="value" color="accent" class="ui-input q-mb-sm" outlined>
+    <slot :item="item"></slot>
   </q-input>
 </template>
 
