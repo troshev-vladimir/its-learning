@@ -20,7 +20,7 @@
           <AccentTariff class="shadow-2" />
           <div class="q-mt-md flex items-end">
             <p class="text-h2 q-mb-md">Потратить заработанное</p>
-            <div class="flex items-start full-width" style="gap: 10px">
+            <div class="flex items-start full-width q-mb-sm" style="gap: 10px">
               <CashCounter class="shadow-2" style="flex: 1 1 auto" />
               <q-input
                 v-model="promocode"
@@ -32,6 +32,7 @@
                 style="flex: 1 1 auto"
                 no-error-icon
                 outlined
+                :readonly="store.state.userPromoBonus"
                 :rules="[
                   (val) =>
                     val.length === 6 ||
@@ -40,6 +41,13 @@
                 ]"
                 @blur="getUserProgress"
               >
+                <template #before>
+                  <q-icon
+                    v-if="store.state.userPromoBonus"
+                    name="fas fa-check"
+                    color="green-5"
+                  />
+                </template>
               </q-input>
             </div>
             <div class="flex no-wrap q-mb-md">

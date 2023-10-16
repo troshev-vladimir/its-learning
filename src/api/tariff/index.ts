@@ -27,7 +27,7 @@ class TariffMethods {
     return axios
       .get<Installment>("installment", {
         params: {
-          programId: id,
+          programid: id,
           payment,
           promocode,
           method,
