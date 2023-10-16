@@ -10,7 +10,7 @@ import EmptyLayout from "@/layouts/EmptyLayout";
 import { setCssVar } from "quasar";
 import { mapGetters } from "vuex";
 import { useMeta } from "quasar";
-
+import store from "@/store";
 useMeta({
   link: {
     name: { rel: "icon", href: "/favicon.ico" },
@@ -32,7 +32,8 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.commit("initialiseStore");
+    store.commit("initialiseStore");
+
     this.$q.notify.setDefaults({
       position: "top-right",
       timeout: 2500,

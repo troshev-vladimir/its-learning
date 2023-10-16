@@ -21,11 +21,8 @@ app.component("UiButton", UiButton);
 app.component("IconBase", IconBase);
 app.component("UiAccordion", UiAccordion);
 app.component("UiItem", UiItem);
-<<<<<<< HEAD
 app.component("UiInput", UiInput);
-=======
 app.component("UiCard", UiCard);
->>>>>>> master
 
 app.component("LearningImg", LearningImg);
 app.component("SalaryImg", SalaryImg);

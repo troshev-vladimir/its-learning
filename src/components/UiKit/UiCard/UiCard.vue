@@ -20,9 +20,7 @@
       </div>
     </div>
 
-    <p class="text-body2 q-mb-md">
-      {{ description }}
-    </p>
+    <p class="text-body2 q-mb-md" v-html="description"></p>
     <ul class="adventages q-mb-lg">
       <li v-for="(item, idx) in items" :key="idx" class="text-body2 list-item">
         {{ item }}

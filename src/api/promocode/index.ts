@@ -1,4 +1,3 @@
-//max43.ru:8333/ka_uprbase/hs/education/v1/PromoGet?id={id}&promo={promo}
 import axios from "../axios";
 const event = new Event("server-error");
 export interface candidateCreateResp {
