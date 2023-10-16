@@ -39,12 +39,12 @@
           order: currentInstallment.offername || '',
           description: currentInstallment.offername || '',
         }"
-        :amount="currentProgram.price"
+        :amount="currentInstallment.totalsum"
       >
         <template #default="{ handler }">
           <UiItem button-text="КУПИТЬ" @click="handler">
             <span>
-              <span class="text-bold"> {{ currentProgram?.price }} </span>
+              <span class="text-bold"> {{ currentInstallment.totalsum }} </span>
               руб.
             </span>
           </UiItem>
