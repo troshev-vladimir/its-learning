@@ -26,27 +26,15 @@
                 v-model="promocode"
                 label="Ввести промокод"
                 color="primary"
-                maxlength="6"
-                lazy-rules
                 class="ui-input grow-1"
                 style="flex: 1 1 auto"
                 no-error-icon
                 outlined
                 :readonly="store.state.userPromoBonus"
-                :rules="[
-                  (val) =>
-                    val.length === 6 ||
-                    val.length === 0 ||
-                    'Неправильный промокод, необходимо 6 символов',
-                ]"
                 @blur="getUserProgress"
               >
-                <template #before>
-                  <q-icon
-                    v-if="store.state.userPromoBonus"
-                    name="fas fa-check"
-                    color="green-5"
-                  />
+                <template v-if="store.state.userPromoBonus" #before>
+                  <q-icon name="fas fa-check" color="green-5" />
                 </template>
               </q-input>
             </div>
@@ -230,14 +218,14 @@ const getUserProgress = () => {
 
 const discount = computed(() => {
   return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"].id
-  ).discount;
+    store.getters["tariff/getCurrentProgramm"]?.id
+  )?.discount;
 });
 
 const bonus = computed(() => {
   return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"].id
-  ).bonus;
+    store.getters["tariff/getCurrentProgramm"]?.id
+  )?.bonus;
 });
 
 onMounted(() => {

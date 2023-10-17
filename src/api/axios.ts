@@ -6,14 +6,13 @@ const authorizationBasic = "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6";
 // const authorizationBasic = window.btoa(username + ":" + password);
 
 const instance = axios.create({
-  baseURL: "https://max43.ru:8333/ka_uprbase2/ru_RU/hs/education/v1/",
+  baseURL: "https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1",
 
   timeout: 10000,
-  withCredentials: true,
+  // withCredentials: true,
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
-    // Authorization: "Basic " + authorizationBasic,
+    "Content-Type": "application/json;charset=UTF-8",
   },
 });
 

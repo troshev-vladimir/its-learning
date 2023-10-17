@@ -50,7 +50,7 @@ const content = computed<Tariff>(
 .accent {
   & > h2 {
     display: block;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
   }
 
   flex-direction: column;

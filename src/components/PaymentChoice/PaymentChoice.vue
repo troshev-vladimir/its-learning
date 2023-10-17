@@ -12,7 +12,13 @@
     <UiItem
       button-text="ОФОРМИТЬ"
       class="q-mb-lg"
-      @click="pay(currentProgram, currentInstallment.offerperiod)"
+      @click="
+        pay(
+          { ...currentProgram, price: currentInstallment.totalsum },
+
+          currentInstallment.offerperiod
+        )
+      "
     >
       <span>{{ currentInstallment.offerperiod }} мес. </span>
       <template #lableRight>
