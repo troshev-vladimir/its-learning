@@ -76,7 +76,7 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <div class="row q-mb-xl justify-between items-center">
+      <!-- <div class="row q-mb-xl justify-between items-center">
         <div class="col-12 col-sm-6 col-md-8">
           <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
           <p class="text-body1">
@@ -106,12 +106,11 @@
               </icon-base>
               <div class="column q-row-gutter-xs items-start">
                 <p class="text-body1 text-bold">{{ item.title }}</p>
-                <!-- <p class="text-body1">{{ item.body }}</p> -->
               </div>
             </div>
           </UiButton>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
@@ -136,7 +135,7 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
-import { reactive, ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
@@ -182,29 +181,6 @@ const goToTariff = () => {
         message: "Что то пошло не так",
       });
     });
-};
-
-const hoursItems = reactive([
-  {
-    title: "ПОТРАТИТЬ НА ОБУЧЕНИЕ",
-    // body: "от 6 часов",
-    img: "LearningImg",
-    active: false,
-    id: "learning",
-  },
-  {
-    title: "ПОЛУЧИТЬ С ПЕРВОЙ ЗАРПЛАТОЙ",
-    // body: "3 - 4 часа",
-    img: "SalaryImg",
-    active: true,
-    id: "salary",
-  },
-]);
-
-const choiseSpendManyWay = (item) => {
-  choosenSpandMethod.value = item.id;
-  hoursItems.forEach((el) => (el.active = false));
-  item.active = !item.active;
 };
 
 const setIntheMiddle = () => {

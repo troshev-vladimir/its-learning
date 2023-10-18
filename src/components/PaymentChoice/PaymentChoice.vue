@@ -36,8 +36,7 @@
     >
       <h2 class="text-h2 q-mb-md q-mr-xl q-pr-xl">Оплатить курс целиком</h2>
       <p class="text-body2 q-mb-md text-white q-mr-xl q-pr-lg">
-        Получите дополнительный блок продвинутой программы
-        <span class="text-bold">19 VIP</span> абсолютно бесплатно
+        Получите дополнительный блок продвинутой программы абсолютно бесплатно
       </p>
 
       <TinkoffPaymentForm
