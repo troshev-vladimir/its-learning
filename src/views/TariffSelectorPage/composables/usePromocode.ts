@@ -22,10 +22,7 @@ export default function usePromocode() {
         });
         return;
       }
-      const response = await promocodeApi.prmocodeAproove(
-        promocode.value,
-        store.state.userPhone
-      );
+      const response = await promocodeApi.prmocodeAproove(promocode.value);
 
       if (response) {
         isPromocodeLegal.value = true;

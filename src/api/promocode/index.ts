@@ -6,12 +6,11 @@ export interface candidateCreateResp {
 }
 
 class PrmocodeMethods {
-  prmocodeAproove(promocode: string, id: string) {
+  prmocodeAproove(promocode: string) {
     return axios
-      .get("promoget", {
+      .get("tildapromo", {
         params: {
           promo: promocode,
-          id,
         },
       })
       .then((response) => {
