@@ -86,8 +86,7 @@
 import { defineProps, defineEmits } from "vue";
 const emit = defineEmits(["description"]);
 import { Card } from "@/views/TariffSelectorPage/types";
-import usePromocode from "@/views/TariffSelectorPage/composables/usePromocode";
-const { isPromocodeLegal } = usePromocode();
+
 export interface Props {
   title: string;
   description: string;
@@ -95,6 +94,7 @@ export interface Props {
   price: Card["price"];
   items: [];
   selected: boolean;
+  isPromocodeLegal: boolean;
 }
 const props = defineProps<Props>();
 </script>

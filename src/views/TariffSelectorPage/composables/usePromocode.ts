@@ -26,6 +26,11 @@ export default function usePromocode() {
 
       if (response) {
         isPromocodeLegal.value = true;
+        $q.notify({
+          color: "green",
+          position: "top",
+          message: "Промокод принят",
+        });
       } else {
         $q.notify({
           color: "negative",
