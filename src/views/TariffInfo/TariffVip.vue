@@ -33,7 +33,13 @@
     <ul>
       <li class="q-mb-lg">
         <div class="d-flex items-center">
-          <img src="@/assets/img/program/work.svg" alt="work" class="q-mr-lg" />
+          <img
+            src="@/assets/img/program/work.svg"
+            alt="work"
+            class="q-mr-lg"
+            width="120"
+            height="120"
+          />
           <p class="text-body1">
             Возможность трудоустройства в компанию IT Сервис или в компании
             партнеры.
@@ -46,6 +52,8 @@
             src="@/assets/img/program/sertificate.svg"
             alt="sertificate"
             class="q-mr-lg"
+            width="120"
+            height="120"
           />
           <p class="text-body1">
             Сертификат «1С Профессионал» подтверждающий качество твоих знаний и
@@ -57,9 +65,11 @@
       <li>
         <div class="d-flex items-center">
           <img
-            src="@/assets/img/program/sertificate.svg"
+            src="@/assets/img/program/diplom.svg"
             alt="sertificate"
             class="q-mr-lg"
+            width="120"
+            height="120"
           />
           <p class="text-body1">
             Диплом государственного образца от министерства образования
