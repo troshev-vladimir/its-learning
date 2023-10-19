@@ -6,7 +6,7 @@ const unauthorized = new Event("unauthorized");
 class TariffMethods {
   getTariffs() {
     return axios
-      .get<Tariff[]>("/list/")
+      .get<Tariff[]>("list")
       .then((response) => {
         return response.data;
       })

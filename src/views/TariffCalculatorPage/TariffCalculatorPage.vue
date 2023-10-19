@@ -20,20 +20,35 @@
           <AccentTariff class="shadow-2" />
           <div class="q-mt-md flex items-end">
             <p class="text-h2 q-mb-md">Потратить заработанное</p>
-            <div class="flex items-start full-width q-mb-sm" style="gap: 10px">
+            <div
+              class="flex items-center full-width q-mb-lg"
+              style="gap: 16px; flex-wrap: nowrap"
+            >
+              <TimerComponent
+                style="flex: 0 0 auto"
+                class="shadow-2"
+                :time="1697858188"
+              />
+
+              <p style="flex: 0 1 auto">
+                Твой заработок хранится 48 часов. Не упусти свой шанс.
+              </p>
+            </div>
+            <div class="flex items-start full-width q-mb-sm" style="gap: 16px">
               <CashCounter class="shadow-2" style="flex: 1 1 auto" />
               <UiInput
                 v-model="promocode"
                 label="Ввести промокод"
                 style="flex: 1 1 auto"
+                color="primary"
+                class="ui-input grow-1"
+                no-error-icon
+                outlined
+                :readonly="store.state.userPromoBonus"
                 @blur="getUserProgress"
               >
-                <template #before>
-                  <q-icon
-                    v-if="store.state.userPromoBonus"
-                    name="fas fa-check"
-                    color="green-5"
-                  />
+                <template v-if="store.state.userPromoBonus" #before>
+                  <q-icon name="fas fa-check" color="green-5" />
                 </template>
               </UiInput>
             </div>
@@ -75,7 +90,7 @@
 
   <section class="q-mb-xl">
     <div class="container">
-      <div class="row q-mb-xl justify-between items-center">
+      <!-- <div class="row q-mb-xl justify-between items-center">
         <div class="col-12 col-sm-6 col-md-8">
           <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
           <p class="text-body1">
@@ -105,12 +120,13 @@
               </icon-base>
               <div class="column q-row-gutter-xs items-start">
                 <p class="text-body1 text-bold">{{ item.title }}</p>
-                <!-- <p class="text-body1">{{ item.body }}</p> -->
               </div>
             </div>
           </UiButton>
         </div>
       </div>
+      </div> -->
+
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
           <UiButton
@@ -134,7 +150,8 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
-import { reactive, ref, onMounted, computed } from "vue";
+import TimerComponent from "@/components/TimerComponent";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import tariffApi from "@/api/tariff";
@@ -151,7 +168,6 @@ const router = useRouter();
 const $q = useQuasar();
 const promocode = ref("");
 const choosenSpandMethod = ref("salary");
-
 const goToTariff = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
   const payment = store.state.tariff.payment;
@@ -182,29 +198,6 @@ const goToTariff = () => {
     });
 };
 
-const hoursItems = reactive([
-  {
-    title: "ПОТРАТИТЬ НА ОБУЧЕНИЕ",
-    // body: "от 6 часов",
-    img: "LearningImg",
-    active: false,
-    id: "learning",
-  },
-  {
-    title: "ПОЛУЧИТЬ С ПЕРВОЙ ЗАРПЛАТОЙ",
-    // body: "3 - 4 часа",
-    img: "SalaryImg",
-    active: true,
-    id: "salary",
-  },
-]);
-
-const choiseSpendManyWay = (item) => {
-  choosenSpandMethod.value = item.id;
-  hoursItems.forEach((el) => (el.active = false));
-  item.active = !item.active;
-};
-
 const setIntheMiddle = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
   store.commit("tariff/setPayment", program.offermin + program.offermax / 2);
@@ -216,14 +209,14 @@ const getUserProgress = () => {
 
 const discount = computed(() => {
   return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"].id
-  ).discount;
+    store.getters["tariff/getCurrentProgramm"]?.id
+  )?.discount;
 });
 
 const bonus = computed(() => {
   return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"].id
-  ).bonus;
+    store.getters["tariff/getCurrentProgramm"]?.id
+  )?.bonus;
 });
 
 onMounted(() => {

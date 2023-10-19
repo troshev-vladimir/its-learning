@@ -79,6 +79,27 @@
     </div>
 
     <slot> </slot>
+
+    <div class="d-flex wrap q-mt-md">
+      <a
+        class="text-body2 text-blue-6 d-flex items-center"
+        :href="documents?.offerLink || '#'"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        документ оферты
+      </a>
+      <a
+        class="text-body2 text-blue-6 d-flex items-center"
+        :href="documents?.contractLink || '#'"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        документ договора
+      </a>
+    </div>
   </article>
 </template>
 
@@ -86,8 +107,7 @@
 import { defineProps, defineEmits } from "vue";
 const emit = defineEmits(["description"]);
 import { Card } from "@/views/TariffSelectorPage/types";
-import usePromocode from "@/views/TariffSelectorPage/composables/usePromocode";
-const { isPromocodeLegal } = usePromocode();
+
 export interface Props {
   title: string;
   description: string;
@@ -95,6 +115,11 @@ export interface Props {
   price: Card["price"];
   items: [];
   selected: boolean;
+  isPromocodeLegal: boolean;
+  documents: {
+    offerLink: string;
+    contractLink: string;
+  };
 }
 const props = defineProps<Props>();
 </script>

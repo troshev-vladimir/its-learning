@@ -92,11 +92,7 @@
               <p class="q-mb-md text-body1">ПИН-код</p>
 
               <div>
-                <PincodeInput
-                  ref="pincode"
-                  v-model="pin"
-                  :error="pincodeError"
-                />
+                <PincodeInput v-model="pin" :error="pincodeError" />
               </div>
               <div class="q-mt-lg">
                 <ui-button
@@ -110,8 +106,8 @@
 
                 <ui-button
                   size="sm"
-                  class="bg-accent"
-                  :text-class="['text-body2', 'text-white', 'text-bold']"
+                  outline
+                  :text-class="['text-body2', 'text-accent', 'text-bold']"
                   @click="loginStage = true"
                 >
                   Вернуться
@@ -156,7 +152,6 @@ const phoneRef = ref(null);
 // const emailRef = ref(null);
 // const nameRef = ref(null);
 const form = ref(null);
-const pincode = ref(null);
 const pincodeError = ref("");
 const loginStage = ref(true);
 // const remainPin = () => {

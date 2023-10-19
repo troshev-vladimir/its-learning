@@ -15,6 +15,7 @@
         standout
         :error="!!error"
         no-error-icon
+        :autofocus="i === 1"
         @update:model-value="nextInput"
         @click="onFocus(i)"
         @update:modelValue="onInput"

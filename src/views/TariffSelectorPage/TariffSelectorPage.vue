@@ -39,6 +39,7 @@
               :criterias="card.criterias"
               :price="card.price"
               class="full-height"
+              :is-promocode-legal="isPromocodeLegal"
               @description="showProgram(card)"
             >
               <div class="row q-mb-md">
@@ -157,10 +158,6 @@ const acceptedPromocodeText = computed(() => {
   return "Промокод принят";
 });
 
-const currentSumm = (price: Card["price"]) => {
-  return isPromocodeLegal.value ? price.value - price.discount : price.value;
-};
-
 const selectInstallment = (card: Card, instalmentOption: any) => {
   card.installmentPeriod = instalmentOption;
   instance?.proxy?.$forceUpdate();
@@ -175,6 +172,10 @@ const {
   loadding: promocodeLoadding,
   promocode,
 } = usePromocode();
+
+const currentSumm = (price: Card["price"]) => {
+  return isPromocodeLegal.value ? price.value - price.discount : price.value;
+};
 
 const showProgram = (card: Card) => {
   const link = card.linkToProgram;

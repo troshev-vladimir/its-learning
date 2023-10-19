@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import promocodeApi from "@/api/promocode";
 import { useQuasar } from "quasar";
-import store from "@/store";
+
 export default function usePromocode() {
   const $q = useQuasar();
   const isPromocodeLegal = ref(false);
@@ -14,21 +14,15 @@ export default function usePromocode() {
     loadding.value = true;
 
     try {
-      if (!store.state.userPhone) {
-        $q.notify({
-          color: "negative",
-          position: "top",
-          message: "Промокод не верный",
-        });
-        return;
-      }
-      const response = await promocodeApi.prmocodeAproove(
-        promocode.value,
-        store.state.userPhone
-      );
+      const response = await promocodeApi.prmocodeAproove(promocode.value);
 
       if (response) {
         isPromocodeLegal.value = true;
+        $q.notify({
+          color: "green",
+          position: "top",
+          message: "Промокод принят",
+        });
       } else {
         $q.notify({
           color: "negative",

@@ -3,7 +3,8 @@ export interface Tariff {
   name: string;
   income: number;
   period: number;
-  description: string;
+  description1: string;
+  description2: string;
   price: number;
   offermin: number;
   offermax: number;

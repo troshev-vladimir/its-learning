@@ -17,9 +17,32 @@ export interface candidateCreateResp {
 
 class CandidateMethods {
   candidateCreate(phone: string): Promise<candidateCreateResp> {
-    return axios
-      .post("candidatecreate", {
-        id: phone,
+    // .post(
+    //   "candidatecreate",
+    //   JSON.stringify({
+    //     id: phone,
+    //   }),
+    //   {
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json;charset=UTF-8",
+    //     },
+    //   }
+    // )
+    return fetch(
+      "https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1/candidatecreate",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          id: phone,
+        }),
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      }
+    )
+      .then((response) => {
+        return response.json();
       })
       .then((response) => {
         return response.data;
