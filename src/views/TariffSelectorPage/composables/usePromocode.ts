@@ -14,14 +14,6 @@ export default function usePromocode() {
     loadding.value = true;
 
     try {
-      if (!store.state.userPhone) {
-        $q.notify({
-          color: "negative",
-          position: "top",
-          message: "Промокод не верный",
-        });
-        return;
-      }
       const response = await promocodeApi.prmocodeAproove(promocode.value);
 
       if (response) {
