@@ -25,18 +25,7 @@
               <UiInput
                 v-model="promocode"
                 label="Ввести промокод"
-                maxlength="6"
-                no-error-icon
                 style="flex: 1 1 auto"
-                lazy-rules
-                outlined
-                :readonly="store.state.userPromoBonus"
-                :rules="[
-                  (val) =>
-                    val.length === 6 ||
-                    val.length === 0 ||
-                    'Неправильный промокод, необходимо 6 символов',
-                ]"
                 @blur="getUserProgress"
               >
                 <template #before>

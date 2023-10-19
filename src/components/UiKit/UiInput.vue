@@ -1,6 +1,21 @@
 <template>
-  <q-input v-model="value" color="accent" class="ui-input q-mb-sm" outlined>
-    <slot :item="item"></slot>
+  <q-input
+    v-model="value"
+    v-bind="$attrs"
+    color="accent"
+    class="ui-input q-mb-sm"
+    outlined
+    maxlength="6"
+    no-error-icon
+    lazy-rules
+    :readonly="store.state.userPromoBonus"
+    :rules="[
+      (val) =>
+        val.length === 6 ||
+        val.length === 0 ||
+        'Неправильный промокод, необходимо 6 символов',
+    ]"
+  >
   </q-input>
 </template>
 
