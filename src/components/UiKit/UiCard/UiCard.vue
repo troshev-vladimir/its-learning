@@ -80,16 +80,7 @@
 
     <slot> </slot>
 
-    <div class="d-flex wrap q-mt-md">
-      <a
-        class="text-body2 text-blue-6 d-flex items-center"
-        :href="documents?.offerLink || '#'"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        документ оферты
-      </a>
+    <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
         class="text-body2 text-blue-6 d-flex items-center"
         :href="documents?.contractLink || '#'"
@@ -97,7 +88,16 @@
         rel="noopener noreferrer"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        документ договора
+        Скачать договор оферты
+      </a>
+      <a
+        class="text-body2 text-blue-6 d-flex items-center"
+        :href="documents?.contractAditionLink || '#'"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Скачать приложение к договору
       </a>
     </div>
   </article>
@@ -117,7 +117,7 @@ export interface Props {
   selected: boolean;
   isPromocodeLegal: boolean;
   documents: {
-    offerLink: string;
+    contractAditionLink: string;
     contractLink: string;
   };
 }

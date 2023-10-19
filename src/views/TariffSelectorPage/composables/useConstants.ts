@@ -64,7 +64,7 @@ const cards = [
       },
     },
     documents: {
-      offerLink: "",
+      contractAditionLink: "",
       contractLink: "",
     },
   },
@@ -102,7 +102,7 @@ const cards = [
       },
     },
     documents: {
-      offerLink: "",
+      contractAditionLink: "",
       contractLink: "",
     },
   },
@@ -139,7 +139,7 @@ const cards = [
       },
     },
     documents: {
-      offerLink: "",
+      contractAditionLink: "",
       contractLink: "",
     },
   },
