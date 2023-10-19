@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import promocodeApi from "@/api/promocode";
 import { useQuasar } from "quasar";
-import store from "@/store";
+
 export default function usePromocode() {
   const $q = useQuasar();
   const isPromocodeLegal = ref(false);

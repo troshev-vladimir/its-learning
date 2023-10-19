@@ -20,6 +20,21 @@
           <AccentTariff class="shadow-2" />
           <div class="q-mt-md flex items-end">
             <p class="text-h2 q-mb-md">Потратить заработанное</p>
+            <div
+              class="flex items-center full-width q-mb-lg"
+              style="gap: 10px; flex-wrap: nowrap"
+            >
+              <TimerComponent
+                style="flex: 0 0 auto"
+                class="shadow-2"
+                :time="1697858188"
+              />
+
+              <p style="flex: 0 1 auto">
+                До конца этой ёбаной программы осталось мало времени. Покупай
+                бырей
+              </p>
+            </div>
             <div class="flex items-start full-width q-mb-sm" style="gap: 10px">
               <CashCounter class="shadow-2" style="flex: 1 1 auto" />
               <q-input
@@ -135,6 +150,7 @@ import SalaryCalculator from "@/components/SalaryCalculator";
 import PaymentCalculator from "@/components/PaymentCalculator";
 import AccentTariff from "@/components/AccentTariff";
 import CashCounter from "@/components/CashCounter";
+import TimerComponent from "@/components/TimerComponent";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -152,7 +168,6 @@ const router = useRouter();
 const $q = useQuasar();
 const promocode = ref("");
 const choosenSpandMethod = ref("salary");
-
 const goToTariff = () => {
   const program = store.getters["tariff/getCurrentProgramm"];
   const payment = store.state.tariff.payment;

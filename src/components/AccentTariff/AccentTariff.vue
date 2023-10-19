@@ -1,8 +1,8 @@
 <template>
   <div class="accent-container rounded bg-white q-pa-lg q-pa-lg-xl">
     <div class="accent wrap d-flex items-start">
-      <h2 class="q-mr-md q-mb-lg text-h2" v-html="content.description1"></h2>
-      <p class="text-body1" v-html="content.description2"></p>
+      <h2 class="q-mr-md text-h2" v-html="content.description1"></h2>
+      <!-- <p class="text-body1" v-html="content.description2"></p> -->
     </div>
     <div class="space"></div>
     <img src="@/assets/img/front/ann.png" alt="ann" />
@@ -62,7 +62,6 @@ const content = computed<Tariff>(
 
   @media screen and (min-width: $breakpoint-sm) {
     flex-direction: column;
-    min-height: 130px;
   }
 
   @media screen and (min-width: $breakpoint-md) {
