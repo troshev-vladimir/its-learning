@@ -85,7 +85,6 @@
         class="text-body2 text-blue-6 d-flex items-center"
         :href="documents?.contractLink || '#'"
         target="_blank"
-        rel="noopener noreferrer"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
         Скачать договор оферты
@@ -94,7 +93,6 @@
         class="text-body2 text-blue-6 d-flex items-center"
         :href="documents?.contractAditionLink || '#'"
         target="_blank"
-        rel="noopener noreferrer"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
         Скачать приложение к договору
