@@ -63,6 +63,10 @@ const cards = [
         dimension: "₽/мес.",
       },
     },
+    documents: {
+      offerLink: "",
+      contractLink: "",
+    },
   },
   {
     id: 1,
@@ -97,6 +101,10 @@ const cards = [
         dimension: "₽/мес.",
       },
     },
+    documents: {
+      offerLink: "",
+      contractLink: "",
+    },
   },
   {
     id: 2,
@@ -129,6 +137,10 @@ const cards = [
         value: 4833,
         dimension: "₽/мес.",
       },
+    },
+    documents: {
+      offerLink: "",
+      contractLink: "",
     },
   },
 ];

@@ -22,7 +22,7 @@
             <p class="text-h2 q-mb-md">Потратить заработанное</p>
             <div
               class="flex items-center full-width q-mb-lg"
-              style="gap: 10px; flex-wrap: nowrap"
+              style="gap: 16px; flex-wrap: nowrap"
             >
               <TimerComponent
                 style="flex: 0 0 auto"
@@ -31,11 +31,10 @@
               />
 
               <p style="flex: 0 1 auto">
-                До конца этой ёбаной программы осталось мало времени. Покупай
-                бырей
+                Твой заработок хранится 48 часов. Не упусти свой шанс.
               </p>
             </div>
-            <div class="flex items-start full-width q-mb-sm" style="gap: 10px">
+            <div class="flex items-start full-width q-mb-sm" style="gap: 16px">
               <CashCounter class="shadow-2" style="flex: 1 1 auto" />
               <q-input
                 v-model="promocode"
