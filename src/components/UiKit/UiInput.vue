@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+import store from "@/store";
 import { computed } from "vue";
 
 // eslint-disable-next-line no-undef
