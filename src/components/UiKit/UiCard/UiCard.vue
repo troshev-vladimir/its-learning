@@ -87,7 +87,7 @@
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Скачать договор оферты
+        Договор оферты
       </a>
       <a
         class="text-body2 text-blue-6 d-flex items-center"
@@ -95,7 +95,7 @@
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Скачать приложение к договору
+        Приложение к договору
       </a>
     </div>
   </article>
