@@ -80,7 +80,7 @@
 
     <slot> </slot>
 
-    <div class="d-flex wrap q-mt-md">
+    <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
         class="text-body2 text-blue-6 d-flex items-center"
         :href="documents?.contractLink || '#'"
