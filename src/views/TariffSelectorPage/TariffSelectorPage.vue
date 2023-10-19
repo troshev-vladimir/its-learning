@@ -38,6 +38,7 @@
               :items="card.items"
               :criterias="card.criterias"
               :price="card.price"
+              :documents="card.documents"
               class="full-height"
               :is-promocode-legal="isPromocodeLegal"
               @description="showProgram(card)"
