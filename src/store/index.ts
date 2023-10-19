@@ -8,6 +8,7 @@ const store = createStore({
     userCache: 0,
     usersDiscounts: [],
     userPromoBonus: 0,
+    expirationDate: "",
   }),
   getters: {
     getUserToken(state) {
@@ -44,6 +45,10 @@ const store = createStore({
       state.userCache = value || 0;
     },
 
+    setExpirationDate(state, value) {
+      state.expirationDate = value || 0;
+    },
+
     setUsersBonuss(state, { discounts, promoBonus }) {
       state.usersDiscounts = discounts || [];
       state.userPromoBonus = promoBonus || 0;
@@ -59,6 +64,7 @@ const store = createStore({
           state.userToken,
           promo
         );
+        commit("setExpirationDate", progress[0].finalsteptime);
         commit("setUserCashe", progress[0].sum);
         commit("setUsersBonuss", {
           discounts: progress[0].currentdiscounts,

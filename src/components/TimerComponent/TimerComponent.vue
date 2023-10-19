@@ -20,23 +20,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import CoinImage from "@/assets/img/timer.png";
 import moment from "moment";
+import store from "@/store";
 let interval: number | undefined;
-const props = defineProps({
-  time: {
-    type: Number,
-    required: true,
-  },
+
+const expirationDate = computed(() => {
+  return store.state.expirationDate;
 });
 
 const string = ref("");
-const isExpired = computed(() => moment.unix(props.time) < moment());
+const isExpired = computed(() => moment(expirationDate.value) < moment());
 
 const updateTime = () => {
   const now = moment();
-  const expiration = moment.unix(props.time);
+  const expiration = moment(expirationDate.value);
   // get the difference between the moments
   const diff = expiration.diff(now);
   //express as a duration

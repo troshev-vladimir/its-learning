@@ -24,11 +24,7 @@
               class="flex items-center full-width q-mb-lg"
               style="gap: 16px; flex-wrap: nowrap"
             >
-              <TimerComponent
-                style="flex: 0 0 auto"
-                class="shadow-2"
-                :time="1697858188"
-              />
+              <TimerComponent style="flex: 0 0 auto" class="shadow-2" />
 
               <p style="flex: 0 1 auto">
                 Твой заработок хранится 48 часов. Не упусти свой шанс.
