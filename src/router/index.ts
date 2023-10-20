@@ -73,12 +73,12 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = store.getters.getUserToken;
-  const isFree = to.name == "auth" || to.name == "tariffSelector";
+//router.beforeEach((to, from, next) => {
+// const isAuthenticated = store.getters.getUserToken;
+// const isFree = to.name == "auth" || to.name == "tariffSelector";
 
-  if (!isFree && !isAuthenticated) next({ name: "auth" });
-  else next();
-});
+// if (!isFree && !isAuthenticated) next({ name: "auth" });
+// else next();
+//});
 
 export default router;
