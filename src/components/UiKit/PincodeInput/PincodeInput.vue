@@ -19,6 +19,7 @@
         @update:model-value="nextInput"
         @click="onFocus(i)"
         @update:modelValue="onInput"
+        @keydown.delete="userPin = []"
       >
       </q-input>
     </div>
@@ -49,8 +50,8 @@ const props = defineProps({
 });
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(["update:modelValue"]);
-const { onFocus, nextInput, onInput, pin, userPin, inputs } = usePincode();
+const emit = defineEmits(["update:modelValue", "completed"]);
+const { onFocus, nextInput, onInput, pin, userPin, inputs } = usePincode(emit);
 
 watch(pin, (value) => {
   emit("update:modelValue", value);

@@ -1,10 +1,9 @@
-import { computed, ref } from "vue";
+import { computed, ref, defineEmits } from "vue";
 
-export default function usePincode() {
+export default function usePincode(emit: any) {
   const inputs = ref([]);
   const currentInput = ref(0);
   const userPin = ref([]);
-
   const pin = computed(() => {
     return userPin.value.reduce((acc, cur) => {
       if (!cur) return acc;
@@ -28,7 +27,10 @@ export default function usePincode() {
       onClear();
       return;
     }
-    if (currentInput.value === 3) return;
+    if (currentInput.value === 3) {
+      emit("completed");
+      return;
+    }
     currentInput.value += 1;
     // @ts-ignore
     inputs.value[currentInput.value].focus();

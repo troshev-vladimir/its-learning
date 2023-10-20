@@ -92,7 +92,11 @@
               <p class="q-mb-md text-body1">ПИН-код</p>
 
               <div>
-                <PincodeInput v-model="pin" :error="pincodeError" />
+                <PincodeInput
+                  v-model="pin"
+                  :error="pincodeError"
+                  @completed="logIn"
+                />
               </div>
               <div class="q-mt-lg">
                 <ui-button
