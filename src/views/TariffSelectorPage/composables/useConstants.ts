@@ -65,9 +65,9 @@ const cards = [
     },
     documents: {
       contractAditionLink:
-        "https://drive.google.com/file/d/1OjgXu6pTZA5fBU0v7XjV3z9WdBUZ7Imu/view?usp=share_link",
-      contractLink:
         "https://drive.google.com/file/d/1C10IkLNwBrSl60EZ-0lyA9IuJKhV3ylN/view?usp=share_link",
+      contractLink:
+        "https://drive.google.com/file/d/1OjgXu6pTZA5fBU0v7XjV3z9WdBUZ7Imu/view?usp=share_link",
     },
   },
   {
@@ -105,9 +105,9 @@ const cards = [
     },
     documents: {
       contractAditionLink:
-        "https://drive.google.com/file/d/1gW3yZeT6whVh1O7yzzsPPRKmMMFtBKC4/view?usp=share_link",
-      contractLink:
         "https://drive.google.com/file/d/13JDHYxyoM3I5j4D1f9Yj3g4EbarT-oP0/view?usp=share_link",
+      contractLink:
+        "https://drive.google.com/file/d/1gW3yZeT6whVh1O7yzzsPPRKmMMFtBKC4/view?usp=share_link",
     },
   },
   {
@@ -141,9 +141,9 @@ const cards = [
     },
     documents: {
       contractAditionLink:
-        "https://drive.google.com/file/d/1wj28Ow2zzo7CWhqZbcIKB_QkwR0rAt3F/view?usp=share_link",
-      contractLink:
         "https://drive.google.com/file/d/1H7KSxXj-nnRu3-2CKrl57yelwMG-8trv/view?usp=share_link",
+      contractLink:
+        "https://drive.google.com/file/d/1wj28Ow2zzo7CWhqZbcIKB_QkwR0rAt3F/view?usp=share_link",
     },
   },
 ];
