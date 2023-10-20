@@ -101,7 +101,7 @@ onBeforeUnmount(() => {
 
   .count {
     padding: 15px 5px 15px 5px;
-    width: 130px;
+    width: 140px;
     color: #000;
     font-family: Gogh;
     font-size: 30px;
