@@ -5,8 +5,8 @@
         class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3"
       >
         <div class="content column d-flex justify-center">
-          <h1 class="text-h1 q-mb-xs">Авторизуйтесь</h1>
-          <p class="q-mb-md text-body2">
+          <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
+          <p class="q-mb-md text-body2 text-center">
             что бы мы могли сохранить игровой процесс
           </p>
           <transition name="slide-fade" mode="out-in">
@@ -14,7 +14,6 @@
               v-if="loginStage"
               ref="form"
               class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
-              @submit.prevent="requestPin"
             >
               <p class="q-mb-sm text-body1">Номер телефона:</p>
               <q-input
@@ -73,15 +72,6 @@
                 lazy-rules
               />
             </label> -->
-
-              <ui-button
-                size="sm"
-                class="bg-accent q-mt-lg"
-                :text-class="['text-body2', 'text-white', 'text-bold']"
-                role="submit"
-              >
-                Отправить пин
-              </ui-button>
             </form>
             <form
               v-else
@@ -98,7 +88,8 @@
                   @completed="logIn"
                 />
               </div>
-              <div class="q-mt-lg">
+              <a v-if="userAlreadyExists" @click="resend">Не помню пароль</a>
+              <div class="flex q-mt-lg justify-center">
                 <ui-button
                   size="sm"
                   class="bg-accent q-mr-md"
@@ -150,6 +141,7 @@ const $q = useQuasar();
 // const router = useRouter();
 const pin = ref("");
 const userPhone = ref("");
+const userAlreadyExists = ref(false);
 // const userEmail = ref("");
 // const userName = ref("");
 const phoneRef = ref(null);
@@ -195,8 +187,14 @@ watch(pin, (value) => {
 //   return phoneValid && nameValid && emailValid && pinValid;
 // };
 
+watch(userPhone, (value) => {
+  if (value.length === 10) {
+    requestPin();
+  }
+});
+
 const requestPin = async () => {
-  const isFormValid = phoneRef.value.validate();
+  const isFormValid = userPhone.value.length === 10;
   if (!isFormValid) return;
 
   try {
@@ -208,9 +206,15 @@ const requestPin = async () => {
       message: "Пинкод отправлен",
       actions: false,
     });
-    loginStage.value = false;
   } catch (error) {
     console.log(error);
+
+    if (error.response.status === 400) {
+      userAlreadyExists.value = true;
+    }
+  } finally {
+    loginStage.value = false;
+    pin.value = "";
   }
 };
 
@@ -236,6 +240,10 @@ const logIn = async () => {
     console.log(error);
     loginStage.value = true;
   }
+};
+
+const resend = () => {
+  candidate.candidateCreate("7" + userPhone.value, true);
 };
 </script>
 

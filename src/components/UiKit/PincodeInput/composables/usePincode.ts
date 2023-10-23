@@ -11,24 +11,13 @@ export default function usePincode(emit: any) {
     }, "");
   });
 
-  // const onInput = (value: string) => {
-  //   if (value.split("").length > 1) {
-  //     const val = value.split("").pop();
-  //     value = val!;
-  //     // @ts-ignore
-  //     userPin.value[currentInput.value] = "";
-  //     // @ts-ignore
-  //     userPin.value[currentInput.value] = val;
-  //   }
-  // };
-
   const nextInput = (value: number) => {
     if (!value) {
       onClear();
       return;
     }
     if (currentInput.value === 5) {
-      emit("completed");
+      // emit("completed");
       return;
     }
     currentInput.value += 1;
@@ -38,8 +27,10 @@ export default function usePincode(emit: any) {
 
   const onFocus = () => {
     userPin.value = [];
-    // @ts-ignore
-    inputs.value[0].focus();
+    setTimeout(function () {
+      // @ts-ignore
+      inputs.value[0].focus();
+    });
   };
 
   const onClear = () => {
