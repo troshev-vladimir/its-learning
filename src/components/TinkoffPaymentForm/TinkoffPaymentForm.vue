@@ -4,12 +4,12 @@
     name="payform-tinkoff"
     style="visibility: hidden; position: absolute"
   >
-    <input
+    <!-- <input
       class="payform-tinkoff-row"
       type="hidden"
       name="terminalkey"
       value="TinkoffBankTest"
-    />
+    /> -->
     <input
       class="payform-tinkoff-row"
       type="hidden"

@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CoinImage from "@/assets/img/coin.png";
 import { formatNumber } from "@/helpers/utils";
 import { computed } from "vue";

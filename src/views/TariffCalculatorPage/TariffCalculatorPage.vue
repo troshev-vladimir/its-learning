@@ -1,204 +1,210 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <section>
-    <div class="container">
-      <span class="text-body1 text-secondary">Учитесь в своем ритме</span>
-      <h1 class="text-h1 q-mt-md">
-        Получай знания и навыки <br />
-        <span class="text-accent">так как удобно тебе</span>
-      </h1>
-    </div>
-  </section>
-
-  <section class="q-mt-xl q-mb-xl">
-    <div class="container">
-      <h2 class="text-h2 q-mb-lg">Выбери подходящие параметры</h2>
-      <div class="row items-center q-col-gutter-xl">
-        <div class="col-12 col-md-6"><SalaryCalculator /></div>
-        <div class="col-12 col-md-6">
-          <!-- <SalaryGraph /> -->
-          <AccentTariff class="shadow-2" />
-          <div class="q-mt-md flex items-end">
-            <p class="text-h2 q-mb-md">Потратить заработанное</p>
-            <div
-              class="flex items-center full-width q-mb-lg"
-              style="gap: 16px; flex-wrap: nowrap"
-            >
-              <TimerComponent style="flex: 0 0 auto" class="shadow-2" />
-
-              <p style="flex: 0 1 auto">
-                Твой заработок хранится 48 часов. Не упусти свой шанс.
-              </p>
-            </div>
-            <div class="flex items-start full-width q-mb-sm" style="gap: 16px">
-              <CashCounter class="shadow-2" style="flex: 1 1 auto" />
-              <UiInput
-                v-model="promocode"
-                label="Ввести промокод"
-                style="flex: 1 1 auto"
-                color="primary"
-                class="ui-input grow-1"
-                no-error-icon
-                outlined
-                :readonly="store.state.userPromoBonus"
-                @blur="getUserProgress"
-              >
-                <template v-if="store.state.userPromoBonus" #before>
-                  <q-icon name="fas fa-check" color="green-5" />
-                </template>
-              </UiInput>
-            </div>
-            <div class="flex no-wrap q-mb-md">
-              <div class="q-mr-lg">
-                <div class="text-body1 q-mb-sm flex">Скидка на обучение</div>
-                <p class="text-h2 flex">{{ discount }} руб.</p>
-              </div>
-
-              <div class="">
-                <div class="text-body1 q-mb-sm">Премия к первой зарплате</div>
-                <p class="text-h2">{{ bonus }} руб.</p>
-              </div>
-            </div>
-            <p class="text-body2 text-secondary">
-              Подробней о правилах подсчёта бонусов читай
-              <a class="text-accent" href="/">тут</a>
-            </p>
-          </div>
-        </div>
+    <div class="q-mb-xl">
+      <div class="container">
+        <span class="text-body1 text-secondary">
+          Для тех кто уверен в своих возможностях
+        </span>
+        <h1 class="text-h1 q-mt-md q-mb-lg">
+          Получай знания и навыки
+          <br />
+          <span class="text-accent">так как удобно тебе</span>
+        </h1>
       </div>
     </div>
-  </section>
 
-  <section class="q-mb-xl">
-    <div class="container column">
-      <h2 class="text-h2 q-mb-md text-center">Комфортный платеж в месяц</h2>
-      <div class="row q-mt-xl">
-        <div class="col-12 col-md-10 offset-md-1">
-          <PaymentCalculator />
-          <div class="justify-between q-mt-lg row">
-            <span class="col-4 col-md-2">Рассрочка без переплат</span>
-            <span class="col-4 col-md-2 text-right">Быстро и безопасно</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="q-mb-xl">
-    <div class="container">
-      <!-- <div class="row q-mb-xl justify-between items-center">
-        <div class="col-12 col-sm-6 col-md-8">
-          <h2 class="text-h2 q-mb-sm">Куда распределить заработанное?</h2>
-          <p class="text-body1">
-            Выбери один из вариантов куда ты потратишь зароботок
-          </p>
-        </div>
-      </div>
-
-      <div class="row q-col-gutter-lg no-wrap-md items-center q-mb-xl">
+    <div class="container q-mb-lg">
+      <div class="q-mt-md flex">
+        <h2 class="text-h2 q-mb-md">Потратить заработанное</h2>
         <div
-          v-for="(item, idx) in hoursItems"
-          :key="idx"
-          class="col-12 col-md-6"
-          style="flex-grow: 1"
+          class="flex wrap items-center full-width q-mb-lg"
+          style="gap: 16px"
         >
-          <UiButton
-            :color="item.active ? 'white' : 'secondary'"
-            text-color="primary"
-            class="button button--selectable full-width"
-            :class="{ 'button--active': item.active }"
-            selectable
-            @click="choiseSpendManyWay(item)"
-          >
-            <div class="d-flex q-gutter-lg items-center">
-              <icon-base width="40" height="40">
-                <component :is="item.img"></component>
-              </icon-base>
-              <div class="column q-row-gutter-xs items-start">
-                <p class="text-body1 text-bold">{{ item.title }}</p>
-              </div>
-            </div>
-          </UiButton>
-        </div>
-      </div>
-      </div> -->
+          <TimerComponent style="flex: 0 0 auto" class="shadow-2" />
 
-      <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-3">
-          <UiButton
-            color="white"
-            text-color="primary"
-            type="long"
-            class="full-width"
-            @click="goToTariff()"
+          <p>Твой заработок хранится 48 часов. Не упусти свой шанс.</p>
+        </div>
+        <div class="flex wrap items-start full-width q-mb-sm" style="gap: 16px">
+          <CashCounter class="shadow-2" />
+          <UiInput
+            v-model="promocode"
+            label="Ввести промокод"
+            color="primary"
+            class="ui-input"
+            no-error-icon
+            outlined
+            :readonly="store.state.userPromoBonus"
+            @blur="getUserProgress"
           >
-            ПОДОБРАТЬ ТАРИФ
-          </UiButton>
+            <template v-if="store.state.userPromoBonus" #before>
+              <q-icon name="fas fa-check" color="green-5" />
+            </template>
+          </UiInput>
+        </div>
+        <p class="text-body2 text-secondary">
+          Подробней о правилах подсчёта бонусов читай
+          <a class="text-accent" href="/">тут</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="q-mb-xl">
+      <div class="container">
+        <div class="row">
+          <div
+            v-for="card in cards"
+            :key="card.id"
+            class="col-12 col-md-4 q-mb-md q-mb-md-none"
+          >
+            <ui-card
+              :title="`Программа <span class='text-accent'>${card.title}</span>`"
+              :description="card.description"
+              :items="card.items"
+              :criterias="card.criterias"
+              :price="card.price"
+              :documents="card.documents"
+              class="full-height"
+              @description="showProgram(card)"
+            >
+              <div class="text-body2 q-mb-md flex wrap">
+                <span class="q-mr-sm">Скидка:</span>
+                <p class="text-body2">
+                  <span class="text-body1 text-bold"> {{ discount }}</span
+                  ><span>₽</span>
+                </p>
+              </div>
+
+              <div class="text-body2 q-mb-md flex wrap">
+                <span class="q-mr-sm">Сгорает:</span>
+                <p class="text-body2">
+                  <span class="text-body1 text-bold"> 10000</span>
+                  <span>₽</span>
+                </p>
+              </div>
+
+              <div class="text-body2 q-mb-md flex wrap">
+                <span class="q-mr-sm">Прибавка к зарплате:</span>
+                <p class="text-body2">
+                  <span class="text-body1 text-bold"> {{ bonus }}</span>
+                  <span>₽</span>
+                </p>
+              </div>
+              <TinkoffPaymentForm
+                :order-data="{
+                  order: currentProgram?.title || '',
+                  description: currentProgram?.description || '',
+                }"
+                :amount="currentSumm(card.price)"
+              >
+                <template #default="{ handler }">
+                  <UiButton
+                    color="white"
+                    text-color="primary"
+                    size="sm"
+                    @click="handler"
+                  >
+                    КУПить ТАРИФ
+                  </UiButton>
+                </template>
+              </TinkoffPaymentForm>
+              <q-btn-dropdown
+                split
+                color="white"
+                dropdown-icon="fas fa-chevron-down"
+                :label="`В рассрочку (${card.installmentPeriod} мес.)`"
+                class="full-width size--xs q-mt-md"
+                auto-close
+                text-color="black"
+                @click="buyProgramViaInstallment(card)"
+              >
+                <q-list>
+                  <q-item
+                    v-for="(instalmentOption, idx) in instalmentOptions"
+                    :key="idx"
+                    v-close-popup
+                    clickable
+                    :active="card.installmentPeriod === instalmentOption"
+                    active-class="bg-blue-2 text-blue-5 no-pointer-events"
+                    @click="selectInstallment(card, instalmentOption)"
+                  >
+                    <q-item-section>
+                      <q-item-label>
+                        На {{ instalmentOption }} месяца
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </ui-card>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script setup>
-// import SalaryGraph from "@/components/SlaryGraph";
-import SalaryCalculator from "@/components/SalaryCalculator";
-import PaymentCalculator from "@/components/PaymentCalculator";
-import AccentTariff from "@/components/AccentTariff";
-import CashCounter from "@/components/CashCounter";
-import TimerComponent from "@/components/TimerComponent";
-import { ref, onMounted, computed } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import tariffApi from "@/api/tariff";
-import { useQuasar } from "quasar";
-import apiTariff from "@/api/tariff";
+<script setup lang="ts">
+import { ref, getCurrentInstance, computed, onMounted } from "vue";
+import tinkoff from "@tcb-web/create-credit";
+import { Card } from "../TariffSelectorPage/types";
 import { useMeta } from "quasar";
-import axios from "@/api/axios";
+// import { DemoFlows } from "@tcb-web/create-credit";
+import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
+import useConstants from "../TariffSelectorPage/composables/useConstants";
+import store from "@/store";
+import axios from "axios";
+import TimerComponent from "@/components/TimerComponent";
+import CashCounter from "@/components/CashCounter";
 
+const instance = getCurrentInstance();
 useMeta({
-  title: "Конструктор тарифа | ITS",
+  title: "BIG SALE | ITS",
+  link: {
+    name: { rel: "icon", href: "/favicon-promo.ico" },
+  },
 });
 
-const store = useStore();
-const router = useRouter();
-const $q = useQuasar();
+const selectedId = ref<number>();
+
+const selectInstallment = (card: Card, instalmentOption: any) => {
+  card.installmentPeriod = instalmentOption;
+  instance?.proxy?.$forceUpdate();
+};
+
+const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
+  useConstants(selectedId);
+
+const currentSumm = (price: Card["price"]) => {
+  return price.value;
+};
+
+const showProgram = (card: Card) => {
+  const link = card.linkToProgram;
+  window.open(link, "_blank")?.focus();
+};
+
+const buyProgramViaInstallment = (program: Card) => {
+  tinkoff.create(
+    {
+      sum: currentSumm(program.price),
+      items: [
+        {
+          name: program.title || "",
+          price: currentSumm(program.price) || 0,
+          quantity: 1,
+        },
+      ],
+      // demoFlow: DemoFlows.sms,
+      promoCode: getCurrentInstallment(program.installmentPeriod),
+      shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
+      showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
+    },
+    { view: "modal" }
+  );
+};
+
 const promocode = ref("");
-const choosenSpandMethod = ref("salary");
-const goToTariff = () => {
-  const program = store.getters["tariff/getCurrentProgramm"];
-  const payment = store.state.tariff.payment;
-  const name = program?.name.toLowerCase() || "tesla";
-
-  tariffApi
-    .getInstallment(
-      program?.id,
-      payment,
-      promocode.value,
-      choosenSpandMethod.value,
-      store.state.userPhone,
-      store.state.userToken
-    )
-    .then((responce) => {
-      store.commit("tariff/setInstallment", responce[0]);
-    })
-    .then(() => {
-      router.push({ name });
-    })
-    .catch((error) => {
-      console.log(error);
-      $q.notify({
-        color: "negative",
-        position: "top",
-        message: "Что то пошло не так",
-      });
-    });
-};
-
-const setIntheMiddle = () => {
-  const program = store.getters["tariff/getCurrentProgramm"];
-  store.commit("tariff/setPayment", program.offermin + program.offermax / 2);
-};
 
 const getUserProgress = () => {
   store.dispatch("getUsersCash", promocode.value);
@@ -217,18 +223,6 @@ const bonus = computed(() => {
 });
 
 onMounted(() => {
-  apiTariff
-    .getTariffs()
-    .then((responce) => {
-      store.commit("tariff/setPrograms", responce);
-    })
-    .then(() => {
-      setIntheMiddle();
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-
   store.dispatch("getUsersCash");
 
   if (!localStorage.getItem("leadWasCreated")) {
@@ -255,6 +249,52 @@ onMounted(() => {
   }
 });
 </script>
+
+<style lang="scss">
+@import url("@/styles/variables.scss");
+.q-btn-group {
+  border-radius: $radius-lg !important;
+}
+
+.q-btn__content {
+  @media screen and (max-width: $breakpoint-sm) {
+    font-size: 15px !important;
+  }
+}
+
+.q-btn-group.size--sm {
+  font-size: 20px;
+  line-height: 135%;
+  color: #101010;
+  .q-btn {
+    padding: 8px 16px;
+  }
+}
+
+.q-btn-group.size--xs {
+  line-height: 135%;
+  color: #101010;
+  .q-btn {
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+}
+
+.q-btn-dropdown button:first-child {
+  font-weight: 400;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: $radius-lg 0 0 $radius-lg;
+}
+
+.q-btn-dropdown button:last-child {
+  border-radius: 0 $radius-lg $radius-lg 0;
+  background-color: var(--q-accent) !important;
+  color: #fff !important;
+}
+</style>
 
 <style scoped lang="scss">
 .learning-time {

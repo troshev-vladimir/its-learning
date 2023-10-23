@@ -33,53 +33,19 @@
               >
                 <template #hint>
                   <p style="font-size: 14px">
-                    Введите номер телефона, и мы отправим вам код безопасности
-                    для входа в игру
+                    Введите номер телефона, и мы отправим вам пароль для входа в
+                    игру
                   </p>
                 </template>
               </q-input>
-
-              <!-- <label>
-              <p class="q-mb-sm text-body1">E-mail</p>
-              <q-input
-                ref="emailRef"
-                v-model="userEmail"
-                placeholder="youremail@mail.ru"
-                class="q-mb-md"
-                filled
-                :rules="[
-                  (val) => !!val || 'Надо заполнить',
-                  (val) => emailValidate(val) || 'Введите корректный email',
-                ]"
-                lazy-rules
-              />
-            </label>
-
-            <label>
-              <p class="q-mb-sm text-body1">Имя</p>
-              <q-input
-                ref="nameRef"
-                v-model="userName"
-                placeholder="Введите ваше имя"
-                class="q-mb-md"
-                filled
-                :rules="[
-                  (val) => !!val || 'Надо заполнить',
-                  (val) =>
-                    val.length > 6 ||
-                    'Имя должно быть более 6 символов, сейчас ' + val.length,
-                ]"
-                lazy-rules
-              />
-            </label> -->
             </form>
             <form
               v-else
               ref="form"
               class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
-              @submit.prevent="logIn"
+              @submit.prevent="userAlreadyExists ? logIn() : resend()"
             >
-              <p class="q-mb-md text-body1">ПИН-код</p>
+              <p class="q-mb-md text-body1">Пароль</p>
 
               <div>
                 <PincodeInput
@@ -88,7 +54,6 @@
                   @completed="logIn"
                 />
               </div>
-              <a v-if="userAlreadyExists" @click="resend">Не помню пароль</a>
               <div class="flex q-mt-lg justify-center">
                 <ui-button
                   size="sm"
@@ -96,7 +61,7 @@
                   :text-class="['text-body2', 'text-white', 'text-bold']"
                   role="submit"
                 >
-                  Войти
+                  {{ userAlreadyExists ? "Войти" : "Получить пароль" }}
                 </ui-button>
 
                 <ui-button
@@ -110,13 +75,6 @@
               </div>
             </form>
           </transition>
-
-          <!-- <div
-            class="remain text-accent text-body2 text-center q-mt-md"
-            @click="remainPin"
-          >
-            Напомнить ПИН-код
-          </div> -->
         </div>
       </div>
     </div>
@@ -136,38 +94,18 @@ useMeta({
   title: "Авторизация | ITS",
 });
 
-// import { emailValidate } from "@/helpers/utils.ts";
 const $q = useQuasar();
-// const router = useRouter();
 const pin = ref("");
 const userPhone = ref("");
 const userAlreadyExists = ref(false);
-// const userEmail = ref("");
-// const userName = ref("");
 const phoneRef = ref(null);
-// const emailRef = ref(null);
-// const nameRef = ref(null);
 const form = ref(null);
 const pincodeError = ref("");
 const loginStage = ref(true);
-// const remainPin = () => {
-//   if (!userPhone.value || !phoneRef.value.validate()) {
-//     $q.notify({
-//       message: "Введите номер телефона",
-//       caption: "Туда будет отправлен пин-код",
-//     });
-//     return;
-//   } else {
-//     $q.notify({
-//       color: "green",
-//       message: "Пинкод отправлен",
-//     });
-//   }
-// };
 
 const validatePin = () => {
   if (pin.value.length < 4) {
-    pincodeError.value = "Неправильный пинкод";
+    pincodeError.value = "Неправильный пароль";
     return false;
   }
   return true;
@@ -178,14 +116,6 @@ watch(pin, (value) => {
     pincodeError.value = "";
   }
 });
-
-// const validate = () => {
-//   const phoneValid = phoneRef.value.validate();
-//   const nameValid = nameRef.value.validate();
-//   const emailValid = emailRef.value.validate();
-//   const pinValid = validatePin();
-//   return phoneValid && nameValid && emailValid && pinValid;
-// };
 
 watch(userPhone, (value) => {
   if (value.length === 10) {
@@ -198,19 +128,26 @@ const requestPin = async () => {
   if (!isFormValid) return;
 
   try {
-    await candidate.candidateCreate("7" + userPhone.value);
+    const responce = await candidate.candidateCreate("7" + userPhone.value);
     store.commit("setUserPhone", userPhone.value);
 
-    $q.notify({
-      color: "green",
-      message: "Пинкод отправлен",
-      actions: false,
-    });
+    if (responce) {
+      $q.notify({
+        color: "green",
+        message: "Пароль отправлен",
+        actions: false,
+      });
+    }
   } catch (error) {
     console.log(error);
 
-    if (error.response.status === 400) {
+    if (error.response?.status === 400) {
       userAlreadyExists.value = true;
+    } else {
+      $q.notify({
+        color: "negative",
+        message: "Что то пошло не так",
+      });
     }
   } finally {
     loginStage.value = false;
@@ -242,8 +179,29 @@ const logIn = async () => {
   }
 };
 
-const resend = () => {
-  candidate.candidateCreate("7" + userPhone.value, true);
+const resend = async () => {
+  if (!userPhone.value) return;
+
+  try {
+    const responce = await candidate.candidateCreate(
+      "7" + userPhone.value,
+      true
+    );
+
+    if (responce) {
+      $q.notify({
+        color: "green",
+        message: "Пароль отправлен",
+      });
+    } else {
+      $q.notify({
+        color: "negative",
+        message: "Что то пошло не так",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 

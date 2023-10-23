@@ -1,4 +1,4 @@
-import { computed, ref, defineEmits } from "vue";
+import { computed, ref, defineEmits, watch } from "vue";
 
 export default function usePincode(emit: any) {
   const inputs = ref([]);
@@ -11,13 +11,20 @@ export default function usePincode(emit: any) {
     }, "");
   });
 
+  watch(pin, (value) => {
+    console.log(value.length);
+
+    if (value.length === 6) {
+      emit("completed");
+    }
+  });
+
   const nextInput = (value: number) => {
     if (!value) {
       onClear();
       return;
     }
     if (currentInput.value === 5) {
-      // emit("completed");
       return;
     }
     currentInput.value += 1;
