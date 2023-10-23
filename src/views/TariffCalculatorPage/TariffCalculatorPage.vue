@@ -154,6 +154,7 @@ import tariffApi from "@/api/tariff";
 import { useQuasar } from "quasar";
 import apiTariff from "@/api/tariff";
 import { useMeta } from "quasar";
+import axios from "@/api/axios";
 
 useMeta({
   title: "Конструктор тарифа | ITS",
@@ -219,12 +220,6 @@ onMounted(() => {
   apiTariff
     .getTariffs()
     .then((responce) => {
-      // Проверка на актуальность данных в ЛС и сторе
-      // if (Array.isArray(responce)) {
-      //   responce.reduce((el, acc) => {
-      //     return acc || el.id === this.$store.state.tariff.programs;
-      //   }, false);
-      // }
       store.commit("tariff/setPrograms", responce);
     })
     .then(() => {
@@ -235,6 +230,29 @@ onMounted(() => {
     });
 
   store.dispatch("getUsersCash");
+
+  if (!localStorage.getItem("leadWasCreated")) {
+    axios
+      .get(
+        "https://itsportal.bitrix24.ru/rest/706/gc1c0iz28zvqxvlk/crm.lead.add.json",
+        {
+          params: {
+            "fields[NAME]": localStorage.getItem("userName"),
+            "fields[TITLE]":
+              "ITS Learning перешёл в конфигуратор НЕ ТРОГАЙТЕ плиз",
+            "fields[PHONE][N0][VALUE]": localStorage.getItem("userPhone"),
+            "fields[ASSIGNED_BY_ID]": 664,
+            "fields[OPPORTUNITY]": localStorage.getItem("userMany"),
+          },
+        }
+      )
+      .then(() => {
+        localStorage.setItem("leadWasCreated", "true");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 });
 </script>
 

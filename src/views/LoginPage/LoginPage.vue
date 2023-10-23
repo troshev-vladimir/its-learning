@@ -4,7 +4,7 @@
       <div
         class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3"
       >
-        <div class="content column d-flex">
+        <div class="content column d-flex justify-center">
           <h1 class="text-h1 q-mb-xs">Авторизуйтесь</h1>
           <p class="q-mb-md text-body2">
             что бы мы могли сохранить игровой процесс

@@ -2,7 +2,7 @@
   <div class="pin">
     <div class="d-flex">
       <q-input
-        v-for="i in 4"
+        v-for="i in 6"
         :key="i"
         ref="inputs"
         v-model="userPin[i - 1]"
@@ -11,14 +11,13 @@
         mask="#"
         unmasked-value
         class="pin-input q-pb-none"
-        :class="{ 'q-mr-md': i !== 4 }"
+        :class="{ 'q-mr-md': i !== 6 }"
         standout
         :error="!!error"
         no-error-icon
         :autofocus="i === 1"
         @update:model-value="nextInput"
         @click="onFocus(i)"
-        @update:modelValue="onInput"
         @keydown.delete="userPin = []"
       >
       </q-input>
@@ -51,7 +50,7 @@ const props = defineProps({
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(["update:modelValue", "completed"]);
-const { onFocus, nextInput, onInput, pin, userPin, inputs } = usePincode(emit);
+const { onFocus, nextInput, pin, userPin, inputs } = usePincode(emit);
 
 watch(pin, (value) => {
   emit("update:modelValue", value);
