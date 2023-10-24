@@ -160,11 +160,8 @@ const logIn = async () => {
   if (!isFormValid) return;
 
   try {
-    const response = await candidate.сandidateConfirmation(
-      "7" + userPhone.value,
-      pin.value
-    );
-    store.commit("setUserToken", response[0].token);
+    await candidate.сandidateConfirmation("7" + userPhone.value, pin.value);
+    store.commit("setUserToken", userPhone.value);
 
     $q.notify({
       color: "green",
