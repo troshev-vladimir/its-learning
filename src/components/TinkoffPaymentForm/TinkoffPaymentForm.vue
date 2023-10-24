@@ -8,7 +8,7 @@
       class="payform-tinkoff-row"
       type="hidden"
       name="terminalkey"
-      value="1662547243585"
+      value="24926751"
     />
     <input
       class="payform-tinkoff-row"
@@ -102,10 +102,35 @@ export interface Props {
 
 const props = defineProps<Props>();
 
-const form = ref(null);
+const form = ref<HTMLElement>();
 
 const clickHandler = () => {
   if (!props.amount) return;
+
+  // @ts-ignore
+  const { description, amount, email, phone, receipt } = form.value;
+
+  if (receipt) {
+    if (!email.value && !phone.value)
+      return alert("Поле E-mail или Phone не должно быть пустым");
+    // @ts-ignore
+    form.value.receipt.value = JSON.stringify({
+      EmailCompany: "mail@mail.com",
+      Taxation: "patent",
+      Items: [
+        {
+          Name: description.value || "Оплата",
+          Price: amount.value + "00",
+          Quantity: 1.0,
+          Amount: amount.value + "00",
+          PaymentMethod: "full_prepayment",
+          PaymentObject: "service",
+          Tax: "none",
+        },
+      ],
+    });
+  }
+
   // @ts-ignore
   window.pay(form.value);
 };

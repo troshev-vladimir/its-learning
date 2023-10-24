@@ -10,10 +10,11 @@
             что бы мы могли сохранить игровой процесс
           </p>
           <transition name="slide-fade" mode="out-in">
-            <form
+            <q-form
               v-if="loginStage"
               ref="form"
               class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
+              @submit.prevent="requestPin"
             >
               <p class="q-mb-sm text-body1">Номер телефона:</p>
               <q-input
@@ -38,7 +39,15 @@
                   </p>
                 </template>
               </q-input>
-            </form>
+              <ui-button
+                size="sm"
+                class="bg-accent q-mr-md q-mt-md"
+                :text-class="['text-body2', 'text-white', 'text-bold']"
+                type="submit"
+              >
+                Получить пароль
+              </ui-button>
+            </q-form>
             <form
               v-else
               ref="form"
@@ -61,17 +70,24 @@
                   :text-class="['text-body2', 'text-white', 'text-bold']"
                   role="submit"
                 >
-                  {{ userAlreadyExists ? "Войти" : "Получить пароль" }}
+                  Войти
                 </ui-button>
 
                 <ui-button
                   size="sm"
                   outline
                   :text-class="['text-body2', 'text-accent', 'text-bold']"
-                  @click="loginStage = true"
+                  @click="goBackToPhone"
                 >
                   Вернуться
                 </ui-button>
+              </div>
+              <div
+                v-if="!loginStage && userAlreadyExists"
+                class="remain text-accent text-body2 text-center q-mt-md"
+                @click="resend"
+              >
+                Напомнить пароль
               </div>
             </form>
           </transition>
@@ -117,15 +133,27 @@ watch(pin, (value) => {
   }
 });
 
-watch(userPhone, (value) => {
-  if (value.length === 10) {
-    requestPin();
-  }
-});
+// watch(userPhone, (value) => {
+//   if (value.length === 10) {
+//     requestPin();
+//   }
+// });
+
+const goBackToPhone = () => {
+  loginStage.value = true;
+  userPhone.value = "";
+};
+
+const goForwardToPin = () => {
+  loginStage.value = false;
+  pin.value = "";
+  pincodeError.value = "";
+};
 
 const requestPin = async () => {
   const isFormValid = userPhone.value.length === 10;
   if (!isFormValid) return;
+  userAlreadyExists.value = false;
 
   try {
     const responce = await candidate.candidateCreate("7" + userPhone.value);
@@ -150,8 +178,7 @@ const requestPin = async () => {
       });
     }
   } finally {
-    loginStage.value = false;
-    pin.value = "";
+    goForwardToPin();
   }
 };
 
@@ -175,7 +202,7 @@ const logIn = async () => {
     window.location.href = "/lid-game";
   } catch (error) {
     console.log(error);
-    loginStage.value = true;
+    goBackToPhone();
   }
 };
 

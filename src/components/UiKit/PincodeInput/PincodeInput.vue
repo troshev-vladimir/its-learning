@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { watch, onMounted } from "vue";
 import usePincode from "./composables/usePincode";
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -54,6 +54,12 @@ const { onFocus, nextInput, pin, userPin, inputs } = usePincode(emit);
 
 watch(pin, (value) => {
   emit("update:modelValue", value);
+});
+
+onMounted(() => {
+  inputs.value.forEach((input) => {
+    input?.resetValidation();
+  });
 });
 
 userPin.value = props.modelValue.split("");

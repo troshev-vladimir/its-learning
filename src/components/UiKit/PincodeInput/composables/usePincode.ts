@@ -16,6 +16,10 @@ export default function usePincode(emit: any) {
 
     if (value.length === 6) {
       emit("completed");
+      setTimeout(() => {
+        // @ts-ignore
+        inputs.value[currentInput.value].blur();
+      });
     }
   });
 
@@ -28,8 +32,11 @@ export default function usePincode(emit: any) {
       return;
     }
     currentInput.value += 1;
-    // @ts-ignore
-    inputs.value[currentInput.value].focus();
+
+    setTimeout(() => {
+      // @ts-ignore
+      inputs.value[currentInput.value].focus();
+    });
   };
 
   const onFocus = () => {
