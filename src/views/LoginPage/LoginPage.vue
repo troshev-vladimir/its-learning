@@ -52,7 +52,7 @@
               v-else
               ref="form"
               class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
-              @submit.prevent="userAlreadyExists ? logIn() : resend()"
+              @submit.prevent="logIn"
             >
               <p class="q-mb-md text-body1">Пароль</p>
 
@@ -83,11 +83,15 @@
                 </ui-button>
               </div>
               <div
-                v-if="!loginStage && userAlreadyExists"
+                v-if="!loginStage && userAlreadyExists && !currentTimeToResend"
                 class="remain text-accent text-body2 text-center q-mt-md"
                 @click="resend"
               >
                 Напомнить пароль
+              </div>
+
+              <div v-if="currentTimeToResend" class="text-body2 q-mt-md">
+                Повторная отправка доступна через: {{ getTime }}
               </div>
             </form>
           </transition>
@@ -105,10 +109,13 @@ import store from "@/store";
 // import { useRouter } from "vue-router";
 import PincodeInput from "@/components/UiKit/PincodeInput";
 import { useMeta } from "quasar";
+import useTimer from "./composables/useTimer";
 
 useMeta({
   title: "Авторизация | ITS",
 });
+
+const { setTimer, getTime, currentTimeToResend } = useTimer();
 
 const $q = useQuasar();
 const pin = ref("");
@@ -165,20 +172,21 @@ const requestPin = async () => {
         message: "Пароль отправлен",
         actions: false,
       });
+      goForwardToPin();
     }
   } catch (error) {
     console.log(error);
 
     if (error.response?.status === 400) {
       userAlreadyExists.value = true;
+      store.commit("setUserPhone", userPhone.value);
+      goForwardToPin();
     } else {
       $q.notify({
         color: "negative",
         message: "Что то пошло не так",
       });
     }
-  } finally {
-    goForwardToPin();
   }
 };
 
@@ -198,8 +206,11 @@ const logIn = async () => {
       message: "Упешно выполнен вход",
       actions: false,
     });
-    // router.push({ name: "tariff" });
-    window.location.href = "/lid-game";
+    if (process.env.NODE_ENV === "development") {
+      console.log("to game");
+    } else {
+      window.location.href = "/lid-game";
+    }
   } catch (error) {
     console.log(error);
     goBackToPhone();
@@ -220,6 +231,7 @@ const resend = async () => {
         color: "green",
         message: "Пароль отправлен",
       });
+      setTimer();
     } else {
       $q.notify({
         color: "negative",

@@ -10,7 +10,9 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "@tcb-web/create-credit": "^1.0.2",
+    "boring-webcrypto-sha256": "^1.0.0",
     "core-js": "^3.8.3",
+    "js-sha256": "^0.10.1",
     "moment": "^2.29.4",
     "quasar": "^2.0.0",
     "vue": "^3.2.13",

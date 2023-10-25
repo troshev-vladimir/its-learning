@@ -1,14 +1,14 @@
 <template>
   <form
     ref="form"
-    name="payform-tinkoff"
+    name="TinkoffPayForm"
     style="visibility: hidden; position: absolute"
   >
     <input
       class="payform-tinkoff-row"
       type="hidden"
       name="terminalkey"
-      value="24926751"
+      value="1662547243585"
     />
     <input
       class="payform-tinkoff-row"
@@ -81,6 +81,9 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
+import { getSHA256Hash } from "boring-webcrypto-sha256";
+import { useQuasar } from "quasar";
+const $q = useQuasar();
 
 export interface UserData {
   phone: string;
@@ -101,38 +104,80 @@ export interface Props {
 }
 
 const props = defineProps<Props>();
-
+const password = "l8w4z08uhfuj45tt";
 const form = ref<HTMLElement>();
+const TerminalKey = "1662547243585";
 
-const clickHandler = () => {
+const clickHandler = async () => {
   if (!props.amount) return;
 
-  // @ts-ignore
-  const { description, amount, email, phone, receipt } = form.value;
-
-  if (receipt) {
-    if (!email.value && !phone.value)
-      return alert("Поле E-mail или Phone не должно быть пустым");
-    // @ts-ignore
-    form.value.receipt.value = JSON.stringify({
+  const orderData = {
+    TerminalKey: TerminalKey,
+    Amount: props.amount + "00",
+    Description: props.orderData?.description || "Оплата",
+    OrderId: props.orderData?.order || 1234,
+    // Token: token,
+    DATA: {
+      Phone: "+71234567890",
+      Email: localStorage.getItem("userEmail") || "",
+    },
+    Receipt: {
       EmailCompany: "mail@mail.com",
-      Taxation: "patent",
+      Taxation: "osn",
+      Email: localStorage.getItem("userEmail") || "",
+      Phone: "+79031234567",
       Items: [
         {
-          Name: description.value || "Оплата",
-          Price: amount.value + "00",
+          Name: props.orderData?.description || "Оплата",
+          Price: props.amount + "00",
           Quantity: 1.0,
-          Amount: amount.value + "00",
+          Amount: props.amount + "00",
           PaymentMethod: "full_prepayment",
           PaymentObject: "service",
           Tax: "none",
         },
       ],
-    });
-  }
+    },
+  };
+
+  const dataToToken = [
+    { Amount: props.amount + "00" },
+    { Description: props.orderData?.description || "Оплата" },
+    { OrderId: props.orderData?.order || 1234 },
+    { Password: password },
+    { TerminalKey: TerminalKey },
+  ];
+
+  const tokenString = dataToToken.reduce((acc, el) => {
+    return acc + Object.values(el)[0];
+  }, "");
 
   // @ts-ignore
-  window.pay(form.value);
+  const token = await getSHA256Hash(tokenString);
+  const windowReference = window.open();
+
+  try {
+    const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...orderData,
+        Token: token,
+      }),
+    });
+
+    const responce = await resp.json();
+
+    // @ts-ignore
+    windowReference.location = responce?.PaymentURL;
+  } catch (error) {
+    $q.notify({
+      color: "negative",
+      message: "Что то пошло не так",
+    });
+  }
 };
 </script>
 <style lang="scss">
