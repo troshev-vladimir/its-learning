@@ -107,6 +107,7 @@ const props = defineProps<Props>();
 const password = "l8w4z08uhfuj45tt";
 const form = ref<HTMLElement>();
 const TerminalKey = "1662547243585";
+const windowReference = window.open();
 
 const clickHandler = async () => {
   if (!props.amount) return;
@@ -154,7 +155,6 @@ const clickHandler = async () => {
 
   // @ts-ignore
   const token = await getSHA256Hash(tokenString);
-  const windowReference = window.open();
 
   try {
     const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
