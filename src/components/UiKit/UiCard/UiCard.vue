@@ -46,13 +46,13 @@
             class="text-body1 text-bold"
             :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
           >
-            {{ criterias.price.value }}
+            {{ formatNumber(criterias.price.value) }}
           </span>
           <span
             v-if="isPromocodeLegal"
             class="text-body1 text-bold text-green-14"
           >
-            {{ price.value - price.discount }}
+            {{ formatNumber(price.value - price.discount) }}
           </span>
           <span>{{ criterias.price.dimension }}</span>
         </p>
@@ -65,13 +65,13 @@
             class="text-body1 text-bold"
             :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
           >
-            {{ price.installment }}
+            {{ formatNumber(price.installment) }}
           </span>
           <span
             v-if="isPromocodeLegal"
             class="text-body1 text-bold text-green-14"
           >
-            {{ price.discountInstallment }}
+            {{ formatNumber(price.discountInstallment) }}
           </span>
           <span>{{ criterias.installment.dimension }}</span>
         </p>
@@ -102,6 +102,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatNumber } from "@/helpers/utils";
 import { defineProps, defineEmits } from "vue";
 const emit = defineEmits(["description"]);
 import { Card } from "@/views/TariffSelectorPage/types";

@@ -41,7 +41,7 @@
                 </template>
               </q-input>
 
-              <div class="flex justify-end">
+              <div class="flex justify-center">
                 <ui-button
                   size="sm"
                   class="bg-accent q-mr-md q-mt-md"
@@ -67,7 +67,7 @@
                   @completed="logIn"
                 />
               </div>
-              <div class="flex q-mt-lg justify-end">
+              <div class="flex q-mt-lg justify-center">
                 <ui-button
                   size="sm"
                   outline

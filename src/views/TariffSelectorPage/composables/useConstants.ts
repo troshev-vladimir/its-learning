@@ -33,7 +33,7 @@ const cards = [
   {
     id: 0,
     title: "TESLA",
-    installmentPeriod: 3,
+    installmentPeriod: 12,
     price: {
       value: 128000,
       installment: 10666,
@@ -73,7 +73,7 @@ const cards = [
   {
     id: 1,
     title: "VIP",
-    installmentPeriod: 3,
+    installmentPeriod: 12,
     linkToProgram: "https://itseducation.ru/vip",
     price: {
       value: 88000,
@@ -113,7 +113,7 @@ const cards = [
   {
     id: 2,
     title: "PRO",
-    installmentPeriod: 3,
+    installmentPeriod: 12,
     linkToProgram: "https://itseducation.ru/pro",
     price: {
       value: 58000,
