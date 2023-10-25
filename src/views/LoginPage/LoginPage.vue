@@ -166,27 +166,25 @@ const requestPin = async () => {
     const responce = await candidate.candidateCreate("7" + userPhone.value);
     store.commit("setUserPhone", userPhone.value);
 
-    if (responce) {
+    if (responce.alreadyExists) {
+      userAlreadyExists.value = true;
+      store.commit("setUserPhone", userPhone.value);
+    } else {
       $q.notify({
         color: "green",
         message: "Пароль отправлен",
         actions: false,
       });
-      goForwardToPin();
     }
+
+    goForwardToPin();
   } catch (error) {
     console.log(error);
 
-    if (error.response?.status === 400) {
-      userAlreadyExists.value = true;
-      store.commit("setUserPhone", userPhone.value);
-      goForwardToPin();
-    } else {
-      $q.notify({
-        color: "negative",
-        message: "Что то пошло не так",
-      });
-    }
+    $q.notify({
+      color: "negative",
+      message: "Что то пошло не так",
+    });
   }
 };
 

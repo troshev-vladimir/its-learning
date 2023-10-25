@@ -118,14 +118,14 @@ const clickHandler = async () => {
     OrderId: props.orderData?.order || 1234,
     // Token: token,
     DATA: {
-      Phone: "+71234567890",
+      Phone: localStorage.getItem("userPhone") || "",
       Email: localStorage.getItem("userEmail") || "",
     },
     Receipt: {
-      EmailCompany: "mail@mail.com",
+      EmailCompany: "buh@itsportal.ru",
       Taxation: "osn",
       Email: localStorage.getItem("userEmail") || "",
-      Phone: "+79031234567",
+      Phone: "+79127177910",
       Items: [
         {
           Name: props.orderData?.description || "Оплата",

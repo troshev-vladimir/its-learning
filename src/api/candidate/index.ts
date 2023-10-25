@@ -13,6 +13,7 @@ export interface candidateCreateResp {
   Name: string;
   Confirm: boolean;
   RegistrationDate: string;
+  alreadyExists: boolean;
 }
 
 class CandidateMethods {
