@@ -1,8 +1,18 @@
 import { createStore } from "vuex";
 import tariff from "./modules/tariff";
 import apiCandidate from "@/api/candidate";
+
+export interface RootState {
+  userToken: string;
+  userPhone: string;
+  userCache: number;
+  usersDiscounts: any[];
+  userPromoBonus: number;
+  expirationDate: string;
+}
+
 const store = createStore({
-  state: () => ({
+  state: (): RootState => ({
     userToken: "",
     userPhone: "",
     userCache: 0,

@@ -30,7 +30,7 @@ class CandidateMethods {
         })
       )
       .then((response) => {
-        return response.data;
+        return response.data[0];
       })
       .catch((error) => {
         throw error;

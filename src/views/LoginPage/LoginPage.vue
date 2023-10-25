@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container auth">
     <div class="row">
       <div
         class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3"
@@ -13,7 +13,7 @@
             <q-form
               v-if="loginStage"
               ref="form"
-              class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
+              class="rounded-lg bg-white text-primary q-pa-lg shadow-2 text-center"
               @submit.prevent="requestPin"
             >
               <p class="q-mb-sm text-body1">Номер телефона:</p>
@@ -31,6 +31,7 @@
                   (val) => val.length === 10 || 'Введите корректный номер',
                 ]"
                 lazy-rules
+                autofocus
               >
                 <template #hint>
                   <p style="font-size: 14px">
@@ -39,22 +40,25 @@
                   </p>
                 </template>
               </q-input>
-              <ui-button
-                size="sm"
-                class="bg-accent q-mr-md q-mt-md"
-                :text-class="['text-body2', 'text-white', 'text-bold']"
-                type="submit"
-              >
-                Получить пароль
-              </ui-button>
+
+              <div class="flex justify-end">
+                <ui-button
+                  size="sm"
+                  class="bg-accent q-mr-md q-mt-md"
+                  :text-class="['text-body2', 'text-white', 'text-bold']"
+                  type="submit"
+                >
+                  Далее
+                </ui-button>
+              </div>
             </q-form>
             <form
               v-else
               ref="form"
-              class="rounded-lg bg-white text-primary q-pa-lg shadow-2"
+              class="rounded-lg bg-white text-primary q-pa-lg shadow-2 text-center"
               @submit.prevent="logIn"
             >
-              <p class="q-mb-md text-body1">Пароль</p>
+              <p class="q-mb-md text-body1">Пароль:</p>
 
               <div>
                 <PincodeInput
@@ -63,23 +67,14 @@
                   @completed="logIn"
                 />
               </div>
-              <div class="flex q-mt-lg justify-center">
-                <ui-button
-                  size="sm"
-                  class="bg-accent q-mr-md"
-                  :text-class="['text-body2', 'text-white', 'text-bold']"
-                  role="submit"
-                >
-                  Войти
-                </ui-button>
-
+              <div class="flex q-mt-lg justify-end">
                 <ui-button
                   size="sm"
                   outline
                   :text-class="['text-body2', 'text-accent', 'text-bold']"
                   @click="goBackToPhone"
                 >
-                  Вернуться
+                  Назад
                 </ui-button>
               </div>
               <div
@@ -124,7 +119,7 @@ const userAlreadyExists = ref(false);
 const phoneRef = ref(null);
 const form = ref(null);
 const pincodeError = ref("");
-const loginStage = ref(true);
+const loginStage = ref(true); //true
 
 const validatePin = () => {
   if (pin.value.length < 4) {
@@ -241,8 +236,16 @@ const resend = async () => {
   }
 };
 </script>
+<style>
+.auth .q-field__messages {
+  text-align: center;
+}
 
-<style lang="scss">
+.auth .pin p {
+  text-align: center;
+}
+</style>
+<style lang="scss" scoped>
 .pin {
   .q-field__control {
     padding-left: 16px;
@@ -250,6 +253,7 @@ const resend = async () => {
 }
 
 .content {
+  width: 360px;
   margin-top: 50vh;
   transform: translateY(-50%);
 }

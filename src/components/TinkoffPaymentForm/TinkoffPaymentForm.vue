@@ -170,6 +170,7 @@ const clickHandler = async () => {
     });
 
     const responce = await resp.json();
+    console.log(responce);
 
     // @ts-ignore
     windowReference.location = responce?.PaymentURL;

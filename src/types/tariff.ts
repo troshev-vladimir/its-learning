@@ -1,21 +1,18 @@
-export interface Tariff {
+export interface Program {
   id: string;
   name: string;
-  income: number;
+  futureSalary: number;
+  description: string;
+  advantages: string[];
   period: number;
-  description1: string;
-  description2: string;
-  price: number;
-  offermin: number;
-  offermax: number;
-  theoryhours: number;
-  practicehours: number;
-}
-
-export interface Installment {
-  offerid?: string;
-  offername?: string;
-  offerpayment?: number;
-  offerperiod?: number | string;
-  offerfrombank?: boolean;
+  price: {
+    actual: number;
+    withDiscaunt: number;
+  };
+  installment: {
+    actual: number;
+    withDiscaunt: number;
+  };
+  burnout: number;
+  salaryAddition: number;
 }

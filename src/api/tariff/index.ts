@@ -1,49 +1,24 @@
 import axios from "../axios";
-import { Tariff, Installment } from "@/types/tariff";
+import { Program } from "@/types/tariff";
 const event = new Event("server-error");
-const unauthorized = new Event("unauthorized");
+
+interface getTariffsRequest {
+  promocode: string;
+}
 
 class TariffMethods {
-  getTariffs() {
+  getTariffs(promocode: string): Promise<Program[]> {
     return axios
-      .get<Tariff[]>("list")
+      .get<Program[]>("programs", {
+        params: {
+          promocode,
+        } as getTariffsRequest,
+      })
       .then((response) => {
         return response.data;
       })
       .catch((error) => {
         window.dispatchEvent(event);
-        throw error;
-      });
-  }
-
-  getInstallment(
-    id: string,
-    payment: number,
-    promocode: string,
-    method: number,
-    userId: string,
-    token: string
-  ) {
-    return axios
-      .get<Installment>("installment", {
-        params: {
-          programid: id,
-          payment,
-          promocode,
-          method,
-          id: userId,
-          token,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        if (error.code === "401") {
-          window.dispatchEvent(unauthorized);
-        } else {
-          window.dispatchEvent(event);
-        }
         throw error;
       });
   }

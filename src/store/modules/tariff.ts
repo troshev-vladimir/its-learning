@@ -1,65 +1,38 @@
-import { Installment } from "./../../types/tariff";
-import { Tariff } from "@/types/tariff";
-
-type SpendManyType = "salary" | "learning";
+import { Program } from "@/types/tariff";
+import apiProgram from "@/api/tariff";
+import promocode from "@/api/promocode";
+import { RootState } from "../index";
+import { ActionContext } from "vuex";
 interface State {
-  selectedProgrammIdx: number;
-  programs: Tariff[];
-  payment: number;
-  installment: Installment;
-  spendManyType: SpendManyType;
+  programs: Program[];
 }
 
 const tariff = {
   namespaced: true,
   state: (): State => {
     return {
-      selectedProgrammIdx: 0,
-      payment: 0,
       programs: [],
-      installment: {},
-      spendManyType: "salary",
     };
   },
 
   mutations: {
-    increase(state: State) {
-      if (state.selectedProgrammIdx < state.programs.length - 1) {
-        state.selectedProgrammIdx += 1;
-      }
-    },
-
-    reduce(state: State) {
-      if (state.selectedProgrammIdx > 0) {
-        state.selectedProgrammIdx -= 1;
-      }
-    },
-
-    setPayment(state: State, value: number) {
-      state.payment = Math.round(value);
-    },
-
-    setPrograms(state: State, value: Tariff[]) {
-      state.programs =
-        value.sort((a, b) => {
-          if (a.income < b.income) return -1;
-          if (a.income > b.income) return 1;
-          return 0;
-        }) || [];
-    },
-
-    setInstallment(state: State, value: Installment) {
-      state.installment = value;
-    },
-
-    setSpendManyType(state: State, value: SpendManyType) {
-      state.spendManyType = value;
+    setPrograms(state: State, value: Program[]) {
+      state.programs = value;
+      value.sort((a, b) => {
+        if (a.futureSalary < b.futureSalary) return -1;
+        if (a.futureSalary > b.futureSalary) return 1;
+        return 0;
+      }) || [];
     },
   },
 
-  getters: {
-    getCurrentProgramm(state: State) {
-      return state.programs[state.selectedProgrammIdx];
+  actions: {
+    fetchPrograms(
+      { commit }: ActionContext<State, RootState>,
+      promocode: string
+    ) {
+      apiProgram.getTariffs(promocode);
+      commit("setPrograms");
     },
   },
 };
