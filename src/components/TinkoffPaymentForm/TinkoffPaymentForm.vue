@@ -107,7 +107,6 @@ const props = defineProps<Props>();
 const password = "l8w4z08uhfuj45tt";
 const form = ref<HTMLElement>();
 const TerminalKey = "1662547243585";
-const windowReference = window.open();
 
 const clickHandler = async () => {
   if (!props.amount) return;
@@ -152,6 +151,8 @@ const clickHandler = async () => {
   const tokenString = dataToToken.reduce((acc, el) => {
     return acc + Object.values(el)[0];
   }, "");
+
+  const windowReference = window.open();
 
   // @ts-ignore
   const token = await getSHA256Hash(tokenString);
