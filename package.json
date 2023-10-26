@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-dev": "cross-env FOR_PAGES=true vue-cli-service build --mode development",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -12,7 +13,6 @@
     "@tcb-web/create-credit": "^1.0.2",
     "boring-webcrypto-sha256": "^1.0.0",
     "core-js": "^3.8.3",
-    "js-sha256": "^0.10.1",
     "moment": "^2.29.4",
     "quasar": "^2.0.0",
     "vue": "^3.2.13",
@@ -32,6 +32,7 @@
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "axios": "^1.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.0.0",

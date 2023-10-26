@@ -199,10 +199,15 @@ const logIn = async () => {
       message: "Упешно выполнен вход",
       actions: false,
     });
-    if (process.env.NODE_ENV === "development") {
-      console.log("to game");
-    } else {
+
+    console.log(process.env.FOR_PAGES);
+
+    if (process.env.FOR_PAGES === "true") {
+      window.location.href = "/test/lid-game";
+    } else if (process.env.NODE_ENV === "production") {
       window.location.href = "/lid-game";
+    } else {
+      console.log("to game");
     }
   } catch (error) {
     console.log(error);

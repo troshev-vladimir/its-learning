@@ -1,14 +1,20 @@
 const { defineConfig } = require("@vue/cli-service");
+
+const getPublicPath = () => {
+  if (process.env.FOR_PAGES === "true") {
+    return "/test/configurator/";
+  } else if (process.env.NODE_ENV === "production") {
+    return "/configurator/";
+  }
+  return "/";
+};
+
 module.exports = defineConfig({
   transpileDependencies: ["quasar"],
 
-  // indexPath:
-  //   process.env.NODE_ENV === "production"
-  //     ? "/configurator/index.html"
-  //     : "index.html",
   css: { extract: false },
 
-  publicPath: process.env.NODE_ENV === "production" ? "/configurator/" : "/",
+  publicPath: getPublicPath(),
   productionSourceMap: false,
   pluginOptions: {
     quasar: {
