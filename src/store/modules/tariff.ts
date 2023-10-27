@@ -1,5 +1,5 @@
 import { Program } from "@/types/tariff";
-import apiProgram from "@/api/tariff";
+import apiTariff from "@/api/tariff";
 import promocode from "@/api/promocode";
 import { RootState } from "../index";
 import { ActionContext } from "vuex";

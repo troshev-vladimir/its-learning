@@ -146,9 +146,7 @@
 
 <script setup lang="ts">
 import { ref, getCurrentInstance, computed, onMounted } from "vue";
-import tinkoff from "@tcb-web/create-credit";
 import { Card } from "../TariffSelectorPage/types";
-import { useMeta } from "quasar";
 // import { DemoFlows } from "@tcb-web/create-credit";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import useConstants from "../TariffSelectorPage/composables/useConstants";
@@ -156,24 +154,18 @@ import store from "@/store";
 import axios from "axios";
 import TimerComponent from "@/components/TimerComponent";
 import CashCounter from "@/components/CashCounter";
+import { buyViaInstallment } from "@/helpers/utils";
 
-const instance = getCurrentInstance();
-useMeta({
-  title: "BIG SALE | ITS",
-  link: {
-    name: { rel: "icon", href: "/favicon-promo.ico" },
-  },
-});
-
+const promocode = ref("");
 const selectedId = ref<number>();
+const instance = getCurrentInstance();
+
+const { cards, instalmentOptions, currentProgram } = useConstants(selectedId);
 
 const selectInstallment = (card: Card, instalmentOption: any) => {
   card.installmentPeriod = instalmentOption;
   instance?.proxy?.$forceUpdate();
 };
-
-const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
-  useConstants(selectedId);
 
 const currentSumm = (price: Card["price"]) => {
   return price.value;
@@ -185,26 +177,12 @@ const showProgram = (card: Card) => {
 };
 
 const buyProgramViaInstallment = (program: Card) => {
-  tinkoff.create(
-    {
-      sum: currentSumm(program.price),
-      items: [
-        {
-          name: program.title || "",
-          price: currentSumm(program.price) || 0,
-          quantity: 1,
-        },
-      ],
-      // demoFlow: DemoFlows.sms,
-      promoCode: getCurrentInstallment(program.installmentPeriod),
-      shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
-      showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
-    },
-    { view: "modal" }
-  );
+  buyViaInstallment({
+    sum: +program.price,
+    period: program.installmentPeriod,
+    title: program.title,
+  });
 };
-
-const promocode = ref("");
 
 const getUserProgress = () => {
   store.dispatch("getUsersCash", promocode.value);

@@ -24,7 +24,7 @@
                 mask="+7 (###) ### ## ##"
                 unmasked-value
                 filled
-                fill-mask="_"
+                fill-mask=" "
                 class="q-mb-md"
                 :rules="[
                   (val) => !!val || 'Надо заполнить',
@@ -151,7 +151,7 @@ watch(pin, (value) => {
 const phonePasteEvent = (e) => {
   e.preventDefault();
   let paste = (event.clipboardData || window.clipboardData).getData("text");
-
+  paste = paste.replace(/[^\d]/g, "");
   const newString = String(paste).substring(String(paste).length - 10);
   userPhone.value = newString;
 };
