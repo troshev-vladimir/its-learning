@@ -1,8 +1,9 @@
 import { computed, ref } from "vue";
 
 export default function useTimer() {
-  const timeToResend = 60 * 5;
+  const timeToResend = 60 * 1;
   const currentTimeToResend = ref(0);
+  let interval: any = null;
 
   const reduseTime = () => {
     if (!currentTimeToResend.value) return;
@@ -11,8 +12,15 @@ export default function useTimer() {
 
   const setTimer = () => {
     currentTimeToResend.value = timeToResend;
-    window.setInterval(() => {
+    if (interval) {
+      window.clearInterval(interval);
+    }
+    interval = window.setInterval(() => {
       reduseTime();
+
+      if (currentTimeToResend.value <= 0) {
+        window.clearInterval(interval);
+      }
     }, 1000);
   };
 
