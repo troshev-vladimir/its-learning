@@ -1,10 +1,8 @@
 <template>
   <div class="container auth">
-    <div class="row">
-      <div
-        class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3"
-      >
-        <div class="content column d-flex justify-center">
+    <div class="row justify-center">
+      <div class="col-xs-10 col-sm-8 col-md-6">
+        <div class="content column d-flex justify-center q-mx-auto">
           <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
           <p class="q-mb-md text-body2 text-center">
             чтобы мы могли сохранить игровой процесс
@@ -18,8 +16,10 @@
             >
               <p class="q-mb-sm text-body1">Номер телефона:</p>
               <q-input
+                id="phone"
                 ref="phoneRef"
                 v-model="userPhone"
+                name="phone"
                 placeholder="+7 (___) ___ __ __"
                 mask="+7 (###) ### ## ##"
                 unmasked-value
@@ -99,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import candidate from "@/api/candidate";
 import store from "@/store";
@@ -144,9 +144,17 @@ watch(pin, (value) => {
 //   }
 // });
 
+const setSavedPhone = () => {
+  const savedPhone = localStorage.getItem("userPhone");
+
+  if (savedPhone) {
+    userPhone.value = savedPhone.substring(1);
+  }
+};
+
 const goBackToPhone = () => {
   loginStage.value = true;
-  userPhone.value = "";
+  setSavedPhone();
 };
 
 const goForwardToPin = () => {
@@ -247,6 +255,10 @@ const resend = async () => {
     console.log(error);
   }
 };
+
+onMounted(() => {
+  setSavedPhone();
+});
 </script>
 <style>
 .auth .q-field__messages {
@@ -265,7 +277,7 @@ const resend = async () => {
 }
 
 .content {
-  width: 360px;
+  max-width: 360px;
   margin-top: 50vh;
   transform: translateY(-50%);
 }

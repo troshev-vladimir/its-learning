@@ -12,8 +12,6 @@ export default function usePincode(emit: any) {
   });
 
   watch(pin, (value) => {
-    console.log(value.length);
-
     if (value.length === 6) {
       emit("completed");
       setTimeout(() => {
