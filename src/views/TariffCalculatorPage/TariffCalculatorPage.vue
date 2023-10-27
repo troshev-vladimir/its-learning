@@ -53,90 +53,11 @@
       <div class="container">
         <div class="row">
           <div
-            v-for="card in cards"
+            v-for="card in programs"
             :key="card.id"
             class="col-12 col-md-4 q-mb-md q-mb-md-none"
           >
-            <ui-card
-              :title="`Программа <span class='text-accent'>${card.title}</span>`"
-              :description="card.description"
-              :items="card.items"
-              :criterias="card.criterias"
-              :price="card.price"
-              :documents="card.documents"
-              class="full-height"
-              @description="showProgram(card)"
-            >
-              <div class="text-body2 q-mb-md flex wrap">
-                <span class="q-mr-sm">Скидка:</span>
-                <p class="text-body2">
-                  <span class="text-body1 text-bold"> {{ discount }}</span
-                  ><span>₽</span>
-                </p>
-              </div>
-
-              <div class="text-body2 q-mb-md flex wrap">
-                <span class="q-mr-sm">Сгорает:</span>
-                <p class="text-body2">
-                  <span class="text-body1 text-bold"> 10000</span>
-                  <span>₽</span>
-                </p>
-              </div>
-
-              <div class="text-body2 q-mb-md flex wrap">
-                <span class="q-mr-sm">Прибавка к зарплате:</span>
-                <p class="text-body2">
-                  <span class="text-body1 text-bold"> {{ bonus }}</span>
-                  <span>₽</span>
-                </p>
-              </div>
-              <TinkoffPaymentForm
-                :order-data="{
-                  order: currentProgram?.title || '',
-                  description: currentProgram?.description || '',
-                }"
-                :amount="currentSumm(card.price)"
-              >
-                <template #default="{ handler }">
-                  <UiButton
-                    color="white"
-                    text-color="primary"
-                    size="sm"
-                    @click="handler"
-                  >
-                    КУПить ТАРИФ
-                  </UiButton>
-                </template>
-              </TinkoffPaymentForm>
-              <q-btn-dropdown
-                split
-                color="white"
-                dropdown-icon="fas fa-chevron-down"
-                :label="`В рассрочку (${card.installmentPeriod} мес.)`"
-                class="full-width size--xs q-mt-md"
-                auto-close
-                text-color="black"
-                @click="buyProgramViaInstallment(card)"
-              >
-                <q-list>
-                  <q-item
-                    v-for="(instalmentOption, idx) in instalmentOptions"
-                    :key="idx"
-                    v-close-popup
-                    clickable
-                    :active="card.installmentPeriod === instalmentOption"
-                    active-class="bg-blue-2 text-blue-5 no-pointer-events"
-                    @click="selectInstallment(card, instalmentOption)"
-                  >
-                    <q-item-section>
-                      <q-item-label>
-                        На {{ instalmentOption }} месяца
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-            </ui-card>
+            <program-card :card="card"> </program-card>
           </div>
         </div>
       </div>
@@ -145,36 +66,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, computed, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { Card } from "../TariffSelectorPage/types";
 // import { DemoFlows } from "@tcb-web/create-credit";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
-import useConstants from "../TariffSelectorPage/composables/useConstants";
-import store from "@/store";
-import axios from "axios";
+import { useStore } from "vuex";
 import TimerComponent from "@/components/TimerComponent";
 import CashCounter from "@/components/CashCounter";
 import { buyViaInstallment } from "@/helpers/utils";
+import b24LeadCreate from "@/helpers/createLeadInB24";
+import usePrograms from "./composables/usePrograms";
+import ProgramCard from "@/components/ProgramCard";
+import { Program } from "@/types/program";
 
-const promocode = ref("");
-const selectedId = ref<number>();
-const instance = getCurrentInstance();
+const store = useStore();
+const { promocode } = usePrograms();
 
-const { cards, instalmentOptions, currentProgram } = useConstants(selectedId);
-
-const selectInstallment = (card: Card, instalmentOption: any) => {
-  card.installmentPeriod = instalmentOption;
-  instance?.proxy?.$forceUpdate();
-};
-
-const currentSumm = (price: Card["price"]) => {
-  return price.value;
-};
-
-const showProgram = (card: Card) => {
-  const link = card.linkToProgram;
-  window.open(link, "_blank")?.focus();
-};
+const programs = computed<Program[]>(() => store.state.programs.programs);
 
 const buyProgramViaInstallment = (program: Card) => {
   buyViaInstallment({
@@ -188,43 +96,9 @@ const getUserProgress = () => {
   store.dispatch("getUsersCash", promocode.value);
 };
 
-const discount = computed(() => {
-  return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"]?.id
-  )?.discount;
-});
-
-const bonus = computed(() => {
-  return store.getters.getCurrentProgramDicounts(
-    store.getters["tariff/getCurrentProgramm"]?.id
-  )?.bonus;
-});
-
 onMounted(() => {
   store.dispatch("getUsersCash");
-
-  if (!localStorage.getItem("leadWasCreated")) {
-    axios
-      .get(
-        "https://itsportal.bitrix24.ru/rest/706/gc1c0iz28zvqxvlk/crm.lead.add.json",
-        {
-          params: {
-            "fields[NAME]": localStorage.getItem("userName"),
-            "fields[TITLE]":
-              "ITS Learning перешёл в конфигуратор НЕ ТРОГАЙТЕ плиз",
-            "fields[PHONE][N0][VALUE]": localStorage.getItem("userPhone"),
-            "fields[ASSIGNED_BY_ID]": 664,
-            "fields[OPPORTUNITY]": localStorage.getItem("userMany"),
-          },
-        }
-      )
-      .then(() => {
-        localStorage.setItem("leadWasCreated", "true");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  b24LeadCreate();
 });
 </script>
 

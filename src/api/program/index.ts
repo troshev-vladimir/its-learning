@@ -1,5 +1,5 @@
 import axios from "../axios";
-import { Program } from "@/types/tariff";
+import { Program } from "@/types/program";
 const event = new Event("server-error");
 
 interface getTariffsRequest {
@@ -7,7 +7,7 @@ interface getTariffsRequest {
 }
 
 class TariffMethods {
-  getTariffs(promocode: string): Promise<Program[]> {
+  getPrograms(promocode: string): Promise<Program[]> {
     return axios
       .get<Program[]>("programs", {
         params: {

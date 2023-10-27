@@ -11,10 +11,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { Tariff } from "@/types/tariff";
 import { useStore } from "vuex";
 const store = useStore();
-const content = computed<Tariff>(
+const content = computed(
   () => store.getters["tariff/getCurrentProgramm"] || {}
 );
 </script>

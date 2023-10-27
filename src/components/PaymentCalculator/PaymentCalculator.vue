@@ -20,11 +20,10 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
-import { Tariff } from "@/types/tariff";
 
 const store = useStore();
 
-const program = computed<Tariff>(
+const program = computed(
   () => store.getters["tariff/getCurrentProgramm"] || {}
 );
 

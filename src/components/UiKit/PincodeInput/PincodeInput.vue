@@ -7,7 +7,6 @@
         ref="inputs"
         v-model="userPin[i - 1]"
         filled
-        placeholder="#"
         mask="#"
         unmasked-value
         class="pin-input q-pb-none"

@@ -21,7 +21,7 @@
                 v-model="userPhone"
                 name="phone"
                 placeholder="+7 (___) ___ __ __"
-                mask="+7 (###) ### ## ##"
+                mask="+7 ### ### ## ##"
                 unmasked-value
                 filled
                 fill-mask=" "

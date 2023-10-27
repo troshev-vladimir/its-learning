@@ -1,6 +1,5 @@
-import { Program } from "@/types/tariff";
-import apiTariff from "@/api/tariff";
-import promocode from "@/api/promocode";
+import { Program } from "@/types/program";
+import apiProgram from "@/api/program";
 import { RootState } from "../index";
 import { ActionContext } from "vuex";
 interface State {
@@ -18,11 +17,11 @@ const tariff = {
   mutations: {
     setPrograms(state: State, value: Program[]) {
       state.programs = value;
-      value.sort((a, b) => {
-        if (a.futureSalary < b.futureSalary) return -1;
-        if (a.futureSalary > b.futureSalary) return 1;
-        return 0;
-      }) || [];
+      // value.sort((a, b) => {
+      //   if (a.futureSalary < b.futureSalary) return -1;
+      //   if (a.futureSalary > b.futureSalary) return 1;
+      //   return 0;
+      // }) || [];
     },
   },
 
@@ -31,7 +30,7 @@ const tariff = {
       { commit }: ActionContext<State, RootState>,
       promocode: string
     ) {
-      apiProgram.getTariffs(promocode);
+      apiProgram.getPrograms(promocode);
       commit("setPrograms");
     },
   },

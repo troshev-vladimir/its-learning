@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import tariff from "./modules/tariff";
+import programs from "./modules/programs";
 import apiCandidate from "@/api/candidate";
 
 export interface RootState {
@@ -11,7 +11,7 @@ export interface RootState {
   expirationDate: string;
 }
 
-const store = createStore({
+const store = createStore<RootState>({
   state: (): RootState => ({
     userToken: "",
     userPhone: "",
@@ -85,7 +85,7 @@ const store = createStore({
     },
   },
   modules: {
-    tariff,
+    programs,
   },
 });
 

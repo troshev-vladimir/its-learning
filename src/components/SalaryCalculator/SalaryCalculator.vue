@@ -42,12 +42,11 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { formatNumber } from "@/helpers/utils";
-import { Tariff } from "@/types/tariff";
 import { computed } from "vue";
 
 const store = useStore();
 
-const currentProgramm = computed<Tariff>(() => {
+const currentProgramm = computed(() => {
   return store.getters["tariff/getCurrentProgramm"] || {};
 });
 
