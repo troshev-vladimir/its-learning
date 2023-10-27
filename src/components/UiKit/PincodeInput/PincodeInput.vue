@@ -27,8 +27,7 @@
       <span class="q-field__bottom">{{ error }}</span>
     </div>
     <p v-else class="q-mt-sm q-ml-sm" style="font-size: 14px; color: #999">
-      На указанный вами номер мы отправили пароль для входа с игру, введите его
-      в поле выше
+      <slot name="hint"></slot>
     </p>
   </div>
 </template>

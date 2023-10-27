@@ -67,7 +67,16 @@
                   v-model="pin"
                   :error="pincodeError"
                   @completed="logIn"
-                />
+                >
+                  <template v-if="userAlreadyExists" #hint>
+                    На указанный вами номер телефона, ранее мы отправляли смс с
+                    паролем для входа в игру. Используйте его для авторизации.
+                  </template>
+                  <template v-else #hint>
+                    На указанный вами номер мы отправили пароль для входа с
+                    игру, введите его в поле выше
+                  </template>
+                </PincodeInput>
               </div>
               <div class="flex q-mt-lg justify-center">
                 <ui-button
