@@ -67,7 +67,6 @@ const store = createStore({
   actions: {
     async getUsersCash({ commit, state }, promo) {
       // if (!state.userPhone || !state.userToken) return;
-
       try {
         const progress = await apiCandidate.candidateCurrentProgress(
           state.userPhone,

@@ -33,6 +33,7 @@
                 lazy-rules
                 autofocus
                 type="tel"
+                @paste="phonePasteEvent"
               >
                 <template #hint>
                   <p style="font-size: 14px">
@@ -147,6 +148,14 @@ watch(pin, (value) => {
   }
 });
 
+const phonePasteEvent = (e) => {
+  e.preventDefault();
+  let paste = (event.clipboardData || window.clipboardData).getData("text");
+
+  const newString = String(paste).substring(String(paste).length - 10);
+  userPhone.value = newString;
+};
+
 // watch(userPhone, (value) => {
 //   if (value.length === 10) {
 //     requestPin();
@@ -178,6 +187,16 @@ const requestPin = async () => {
   userAlreadyExists.value = false;
 
   try {
+    // window.grecaptcha.ready(function () {
+    //   window.grecaptcha
+    //     .execute("6LeSntMoAAAAADsyZB3lmDFD4uRt6WtnSQR0DJ9j", {
+    //       action: "submit",
+    //     })
+    //     .then(function (token) {
+    //       console.log("recaptcha", token);
+    //     });
+    // });
+
     const responce = await candidate.candidateCreate("7" + userPhone.value);
     store.commit("setUserPhone", userPhone.value);
 

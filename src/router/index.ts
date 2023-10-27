@@ -73,12 +73,19 @@ const router = createRouter({
   },
 });
 
-//router.beforeEach((to, from, next) => {
-// const isAuthenticated = store.getters.getUserToken;
-// const isFree = to.name == "auth" || to.name == "tariffSelector";
+router.beforeEach((to, from, next) => {
+  if (
+    process.env.NODE_ENV === "development" &&
+    process.env.FOR_PAGES !== "true"
+  ) {
+    next();
+  }
 
-// if (!isFree && !isAuthenticated) next({ name: "auth" });
-// else next();
-//});
+  const isAuthenticated = store.getters.getUserToken;
+  const isFree = to.name == "auth" || to.name == "tariffSelector";
+
+  if (!isFree && !isAuthenticated) next({ name: "auth" });
+  else next();
+});
 
 export default router;
