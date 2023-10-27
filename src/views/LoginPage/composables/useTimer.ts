@@ -1,7 +1,7 @@
 import { computed, ref } from "vue";
 
 export default function useTimer() {
-  const timeToResend = 60 * 1;
+  const timeToResend = 60 * 5;
   const currentTimeToResend = ref(0);
   let interval: any = null;
 
