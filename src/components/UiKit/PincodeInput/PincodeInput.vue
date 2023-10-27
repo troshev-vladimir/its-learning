@@ -50,7 +50,8 @@ const props = defineProps({
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(["update:modelValue", "completed"]);
-const { onFocus, nextInput, pin, userPin, inputs } = usePincode(emit);
+const { onFocus, nextInput, pin, userPin, inputs, defineExpose, clear } =
+  usePincode(emit);
 
 watch(pin, (value) => {
   emit("update:modelValue", value);
@@ -63,6 +64,10 @@ onMounted(() => {
 });
 
 userPin.value = props.modelValue.split("");
+
+defineExpose({
+  clear,
+});
 </script>
 
 <style></style>

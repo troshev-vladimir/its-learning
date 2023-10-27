@@ -7,7 +7,7 @@
         <div class="content column d-flex justify-center">
           <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
           <p class="q-mb-md text-body2 text-center">
-            что бы мы могли сохранить игровой процесс
+            чтобы мы могли сохранить игровой процесс
           </p>
           <transition name="slide-fade" mode="out-in">
             <q-form
@@ -20,7 +20,7 @@
               <q-input
                 ref="phoneRef"
                 v-model="userPhone"
-                placeholder="+7 (###) ### ## ##"
+                placeholder="+7 (___) ___ __ __"
                 mask="+7 (###) ### ## ##"
                 unmasked-value
                 filled
@@ -32,6 +32,7 @@
                 ]"
                 lazy-rules
                 autofocus
+                type="tel"
               >
                 <template #hint>
                   <p style="font-size: 14px">
@@ -62,6 +63,7 @@
 
               <div>
                 <PincodeInput
+                  ref="pinRef"
                   v-model="pin"
                   :error="pincodeError"
                   @completed="logIn"
@@ -86,7 +88,7 @@
               </div>
 
               <div v-if="currentTimeToResend" class="text-body2 q-mt-md">
-                Повторная отправка доступна через: {{ getTime }}
+                Повторная отправка возможна через: {{ getTime }}
               </div>
             </form>
           </transition>
@@ -117,6 +119,7 @@ const pin = ref("");
 const userPhone = ref("");
 const userAlreadyExists = ref(false);
 const phoneRef = ref(null);
+const pinRef = ref(null);
 const form = ref(null);
 const pincodeError = ref("");
 const loginStage = ref(true); //true
@@ -211,7 +214,11 @@ const logIn = async () => {
     }
   } catch (error) {
     console.log(error);
-    goBackToPhone();
+    pin.value = "";
+    setTimeout(() => {
+      // @ts-ignore
+      pinRef.value.clear();
+    });
   }
 };
 

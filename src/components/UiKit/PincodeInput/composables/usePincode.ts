@@ -49,6 +49,10 @@ export default function usePincode(emit: any) {
 
   const onClear = () => {
     if (currentInput.value === 0) return;
+    clear();
+  };
+
+  const clear = () => {
     userPin.value = [];
     // @ts-ignore
     inputs.value[0].focus();
@@ -66,5 +70,6 @@ export default function usePincode(emit: any) {
     userPin,
     currentInput,
     inputs,
+    clear,
   };
 }
