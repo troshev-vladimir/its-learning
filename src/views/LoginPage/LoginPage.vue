@@ -244,9 +244,9 @@ const logIn = async () => {
     console.log(process.env.FOR_PAGES);
 
     if (process.env.FOR_PAGES === "true") {
-      window.location.href = "/test/lid-game";
+      window.location.href = "/test/its_game";
     } else if (process.env.NODE_ENV === "production") {
-      window.location.href = "/lid-game";
+      window.location.href = "/its_game";
     } else {
       console.log("to game");
     }
