@@ -1,10 +1,12 @@
-import store from "@/store";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
+import { Program } from "@/types/program";
 
 export default function usePrograms() {
-  const promocode = ref("");
+  const store = useStore();
+  const programs = computed<Program[]>(() => store.state.programs.programs);
 
-  store.dispatch("tariff/fetchPrograms");
+  store.dispatch("programs/fetchPrograms");
 
-  return { promocode };
+  return { programs };
 }

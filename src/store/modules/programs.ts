@@ -26,12 +26,21 @@ const tariff = {
   },
 
   actions: {
-    fetchPrograms(
-      { commit }: ActionContext<State, RootState>,
+    async fetchPrograms(
+      { commit, rootState }: ActionContext<State, RootState>,
       promocode: string
     ) {
-      apiProgram.getPrograms(promocode);
-      commit("setPrograms");
+      try {
+        const programs = await apiProgram.getPrograms(
+          promocode,
+          rootState.userPhone,
+          rootState.userToken
+        );
+
+        commit("setPrograms", programs);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

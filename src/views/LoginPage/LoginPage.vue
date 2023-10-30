@@ -1,7 +1,7 @@
 <template>
   <div class="container auth">
     <div class="row justify-center">
-      <div class="col-xs-10 col-sm-8 col-md-6">
+      <div class="col-12 col-xs-10 col-sm-8 col-md-6">
         <div class="content column d-flex justify-center q-mx-auto">
           <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
           <p class="q-mb-md text-body2 text-center">
@@ -98,7 +98,8 @@
               </div>
 
               <div v-if="currentTimeToResend" class="text-body2 q-mt-md">
-                Повторная отправка возможна через: {{ getTime }}
+                Повторная отправка возможна через:
+                <span class="text-no-wrap">{{ getTime }}</span>
               </div>
             </form>
           </transition>

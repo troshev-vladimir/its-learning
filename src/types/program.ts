@@ -15,4 +15,10 @@ export interface Program {
   };
   burnout: number;
   salaryAddition: number;
+  discount: number;
+  discountApplyed: boolean;
+  linkToProgram: string;
+  linkToContract: string;
+  linkToContractAddition: string;
+  currentInstalmentPreiod?: number;
 }

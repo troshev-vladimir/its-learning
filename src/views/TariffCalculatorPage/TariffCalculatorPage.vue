@@ -57,7 +57,7 @@
             :key="card.id"
             class="col-12 col-md-4 q-mb-md q-mb-md-none"
           >
-            <program-card :card="card"> </program-card>
+            <ProgramCard :card="card" />
           </div>
         </div>
       </div>
@@ -66,38 +66,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { Card } from "../TariffSelectorPage/types";
-// import { DemoFlows } from "@tcb-web/create-credit";
-import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
+import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import TimerComponent from "@/components/TimerComponent";
 import CashCounter from "@/components/CashCounter";
-import { buyViaInstallment } from "@/helpers/utils";
+
 import b24LeadCreate from "@/helpers/createLeadInB24";
 import usePrograms from "./composables/usePrograms";
 import ProgramCard from "@/components/ProgramCard";
-import { Program } from "@/types/program";
 
+const promocode = ref("");
 const store = useStore();
-const { promocode } = usePrograms();
-
-const programs = computed<Program[]>(() => store.state.programs.programs);
-
-const buyProgramViaInstallment = (program: Card) => {
-  buyViaInstallment({
-    sum: +program.price,
-    period: program.installmentPeriod,
-    title: program.title,
-  });
-};
+const { programs } = usePrograms();
 
 const getUserProgress = () => {
   store.dispatch("getUsersCash", promocode.value);
 };
 
 onMounted(() => {
-  store.dispatch("getUsersCash");
+  // store.dispatch("getUsersCash");
   b24LeadCreate();
 });
 </script>

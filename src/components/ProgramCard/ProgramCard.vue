@@ -1,19 +1,19 @@
 <template>
-  <article
-    class="ui-card shadow-2"
-    :class="{ 'ui-card--selected': props.selected }"
-  >
+  <article class="ui-card shadow-2">
     <div class="row q-mb-md q-gutter-x-md q-gutter-y-md">
       <div class="col-auto flex items-center">
-        <h1 class="text-h2" v-html="props.title"></h1>
+        <h1 class="text-h2">
+          Программа <span class="text-accent">{{ card.name }}</span>
+        </h1>
       </div>
       <div class="col-auto">
         <ui-button
           size="sm"
           outline
           color="secondary"
+          tag="a"
           text-class="text-secondary"
-          @click="emit('description')"
+          :href="card.linkToProgram || '#'"
         >
           Подробнее
         </ui-button>
@@ -22,7 +22,9 @@
 
     <p class="text-body2 q-mb-md">
       Твоя будущая зарплата:
-      <span class="text-h2">{{ formatNumber() }}</span>
+      <span class="text-h2 text-no-wrap"
+        >{{ formatNumber(card.futureSalary) }} ₽</span
+      >
     </p>
 
     <ul class="adventages q-mb-lg">
@@ -37,9 +39,9 @@
         <span class="text-body2">
           <p class="text-body2">
             <span class="q-mr-sm text-body1 text-bold">
-              {{ criterias.duration.value }}
+              {{ card.period }}
             </span>
-            <span>{{ criterias.duration.dimension }}</span>
+            <span>мес.</span>
           </p>
         </span>
       </div>
@@ -48,17 +50,17 @@
         <p class="text-body2">
           <span
             class="text-body1 text-bold"
-            :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
+            :class="{ '_old-price q-mr-sm': card.discountApplyed }"
           >
-            {{ formatNumber(criterias.price.value) }}
+            {{ formatNumber(card.price.actual) }}
           </span>
           <span
-            v-if="isPromocodeLegal"
+            v-if="card.discountApplyed"
             class="text-body1 text-bold text-green-14"
           >
-            {{ formatNumber(price.value - price.discount) }}
+            {{ formatNumber(card.price.withDiscaunt) }}
           </span>
-          <span>{{ criterias.price.dimension }}</span>
+          <span>₽</span>
         </p>
       </div>
 
@@ -67,17 +69,17 @@
         <p class="text-body2">
           <span
             class="text-body1 text-bold"
-            :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
+            :class="{ '_old-price q-mr-sm': card.discountApplyed }"
           >
-            {{ formatNumber(price.installment) }}
+            {{ formatNumber(card.installment.actual) }}
           </span>
           <span
-            v-if="isPromocodeLegal"
+            v-if="card.discountApplyed"
             class="text-body1 text-bold text-green-14"
           >
-            {{ formatNumber(price.discountInstallment) }}
+            {{ formatNumber(card.installment.withDiscaunt) }}
           </span>
-          <span>{{ criterias.installment.dimension }}</span>
+          <span>₽/мес.</span>
         </p>
       </div>
     </div>
@@ -85,7 +87,7 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Скидка:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold"> {{ card. }}</span
+        <span class="text-body1 text-bold"> {{ card.discount }}</span
         ><span>₽</span>
       </p>
     </div>
@@ -93,7 +95,7 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Сгорает:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold"> 10000</span>
+        <span class="text-body1 text-bold"> {{ card.burnout }}</span>
         <span>₽</span>
       </p>
     </div>
@@ -101,16 +103,18 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Прибавка к зарплате:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold"> {{ bonus }}</span>
+        <span class="text-body1 text-bold"> {{ card.salaryAddition }}</span>
         <span>₽</span>
       </p>
     </div>
     <TinkoffPaymentForm
       :order-data="{
-        order: currentProgram?.title || '',
-        description: currentProgram?.description || '',
+        order: card.name || '',
+        description: card.description || '',
       }"
-      :amount="currentSumm(card.price)"
+      :amount="
+        card.discountApplyed ? card.price.withDiscaunt : card.price.actual
+      "
     >
       <template #default="{ handler }">
         <UiButton color="white" text-color="primary" size="sm" @click="handler">
@@ -122,21 +126,21 @@
       split
       color="white"
       dropdown-icon="fas fa-chevron-down"
-      :label="`В рассрочку (${card.installmentPeriod} мес.)`"
+      :label="`В рассрочку (${currentInstalmentPreiod} мес.)`"
       class="full-width size--xs q-mt-md"
       auto-close
       text-color="black"
-      @click="buyViaInstallment"
+      @click="buyProgramViaInstallment"
     >
       <q-list>
         <q-item
-          v-for="(instalmentOption, idx) in instalmentOptions"
+          v-for="(instalmentOption, idx) in [3, 6, 12]"
           :key="idx"
           v-close-popup
           clickable
-          :active="card.installmentPeriod === instalmentOption"
+          :active="currentInstalmentPreiod === instalmentOption"
           active-class="bg-blue-2 text-blue-5 no-pointer-events"
-          @click="selectInstallment(card, instalmentOption)"
+          @click="currentInstalmentPreiod = instalmentOption"
         >
           <q-item-section>
             <q-item-label> На {{ instalmentOption }} месяца </q-item-label>
@@ -169,11 +173,9 @@
 <script setup lang="ts">
 import { formatNumber } from "@/helpers/utils";
 import { Program } from "@/types/program";
-import { defineProps, defineEmits, computed } from "vue";
+import { defineProps, ref } from "vue";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import { buyViaInstallment } from "@/helpers/utils";
-
-const emit = defineEmits(["description"]);
 
 export interface Props {
   card: Program;
@@ -181,11 +183,17 @@ export interface Props {
 
 const props = defineProps<Props>();
 
-buyViaInstallment({
-  sum: +props.card.price,
-  period: props.card.period,
-  title: props.card.name,
-});
+const currentInstalmentPreiod = ref(12);
+
+const buyProgramViaInstallment = () => {
+  buyViaInstallment({
+    sum: props.card.discountApplyed
+      ? props.card.price.withDiscaunt
+      : props.card.price.actual,
+    period: currentInstalmentPreiod.value,
+    title: props.card.name,
+  });
+};
 </script>
 
 <style lang="scss" scoped>

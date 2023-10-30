@@ -10,7 +10,7 @@
         mask="#"
         unmasked-value
         class="pin-input q-pb-none"
-        :class="{ 'q-mr-md': i !== 6 }"
+        :class="{ 'q-mr-xs q-mr-sm-md': i !== 6 }"
         standout
         :error="!!error"
         no-error-icon

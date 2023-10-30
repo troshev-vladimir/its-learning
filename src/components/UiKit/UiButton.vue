@@ -1,5 +1,6 @@
 <template>
-  <q-btn
+  <component
+    :is="tag"
     v-bind="$attrs"
     :class="style"
     :color="props.color"
@@ -7,7 +8,7 @@
     class="ui-button"
   >
     <span :class="textClass"><slot /></span>
-  </q-btn>
+  </component>
 </template>
 
 <script setup>
@@ -21,6 +22,11 @@ const props = defineProps({
     validator(value) {
       return ["long", ""].includes(value);
     },
+  },
+
+  tag: {
+    type: String,
+    default: "q-btn",
   },
 
   role: {
