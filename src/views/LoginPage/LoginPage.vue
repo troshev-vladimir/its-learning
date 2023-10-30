@@ -118,6 +118,7 @@ import store from "@/store";
 import PincodeInput from "@/components/UiKit/PincodeInput";
 import { useMeta } from "quasar";
 import useTimer from "./composables/useTimer";
+import { useRoute } from "vue-router";
 
 useMeta({
   title: "Авторизация | ITS",
@@ -134,7 +135,7 @@ const pinRef = ref(null);
 const form = ref(null);
 const pincodeError = ref("");
 const loginStage = ref(true); //true
-
+const route = useRoute();
 const validatePin = () => {
   if (pin.value.length < 4) {
     pincodeError.value = "Неправильный пароль";
@@ -286,6 +287,12 @@ const resend = async () => {
 
 onMounted(() => {
   setSavedPhone();
+  if (route.query.unauthorised === true) {
+    $q.notify({
+      color: "negative",
+      message: "Вы не авторизованы или срок действия токена истёк",
+    });
+  }
 });
 </script>
 <style>
