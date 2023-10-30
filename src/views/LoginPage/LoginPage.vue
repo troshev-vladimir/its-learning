@@ -250,7 +250,6 @@ const logIn = async () => {
       console.log("to game");
     }
   } catch (error) {
-    console.log(error);
     pin.value = "";
     setTimeout(() => {
       // @ts-ignore

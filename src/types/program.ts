@@ -20,5 +20,4 @@ export interface Program {
   linkToProgram: string;
   linkToContract: string;
   linkToContractAddition: string;
-  currentInstalmentPreiod?: number;
 }

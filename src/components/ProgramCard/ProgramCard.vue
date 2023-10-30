@@ -1,5 +1,5 @@
 <template>
-  <article class="ui-card shadow-2">
+  <article class="ui-card shadow-2 full-height">
     <div class="row q-mb-md q-gutter-x-md q-gutter-y-md">
       <div class="col-auto flex items-center">
         <h1 class="text-h2">
@@ -21,19 +21,27 @@
     </div>
 
     <p class="text-body2 q-mb-md">
+      {{ card.description }}
+    </p>
+
+    <p class="text-body2 q-mb-md">
       Твоя будущая зарплата:
-      <span class="text-h2 text-no-wrap"
-        >{{ formatNumber(card.futureSalary) }} ₽</span
-      >
+      <span class="text-h2 text-no-wrap">
+        {{ formatNumber(card.futureSalary) }} ₽
+      </span>
     </p>
 
     <ul class="adventages q-mb-lg">
-      <li v-for="(item, idx) in items" :key="idx" class="text-body2 list-item">
-        {{ item }}
+      <li
+        v-for="(advantage, idx) in card.advantages"
+        :key="idx"
+        class="text-body2 list-item"
+      >
+        {{ advantage }}
       </li>
     </ul>
 
-    <div class="criterias q-mt-auto">
+    <div class="criterias">
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Продолжительность обучения:</span>
         <span class="text-body2">
@@ -100,7 +108,7 @@
       </p>
     </div>
 
-    <div class="text-body2 q-mb-md flex wrap">
+    <div class="text-body2 flex wrap q-mb-md" style="flex: 1 0 auto">
       <span class="q-mr-sm">Прибавка к зарплате:</span>
       <p class="text-body2">
         <span class="text-body1 text-bold"> {{ card.salaryAddition }}</span>

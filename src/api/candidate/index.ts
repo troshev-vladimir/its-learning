@@ -1,7 +1,10 @@
 import { UserId, Candidate } from "@/types/candidate";
 import axios from "../axios";
 import store from "@/store";
-const event = new Event("server-error");
+const event = new CustomEvent("server-error");
+const eventWithPayload = (payload: object) => {
+  return new CustomEvent("server-error", { detail: payload });
+};
 
 export interface candidateCreateResp {
   id: string;
@@ -45,7 +48,9 @@ class CandidateMethods {
         return response.data;
       })
       .catch((error) => {
-        window.dispatchEvent(event);
+        window.dispatchEvent(
+          eventWithPayload({ message: error.error?.message })
+        );
         throw error;
       });
   }

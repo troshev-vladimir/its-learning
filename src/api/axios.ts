@@ -1,5 +1,7 @@
 import axios from "axios";
+import { useQuasar } from "quasar";
 
+const q = useQuasar();
 const username = "";
 const password = "";
 const authorizationBasic = "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6";
@@ -18,5 +20,22 @@ const instance = axios.create({
     "Content-Type": "application/json;charset=UTF-8",
   },
 });
+
+axios.interceptors.response.use(
+  function (response) {
+    if (response.status === 401) {
+      window.dispatchEvent(
+        new CustomEvent("unauthorized", {
+          detail: { message: response.data.error.message },
+        })
+      );
+    }
+    return response;
+  },
+  function (error) {
+    console.log(error, "error");
+    return Promise.reject(error.response.data);
+  }
+);
 
 export default instance;

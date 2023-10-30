@@ -11,6 +11,7 @@ import { setCssVar } from "quasar";
 import { mapGetters } from "vuex";
 import { useMeta } from "quasar";
 import store from "@/store";
+
 useMeta({
   link: {
     name: { rel: "icon", href: "/favicon.ico" },
@@ -70,21 +71,22 @@ export default {
   },
 
   methods: {
-    errorHandler() {
+    errorHandler(e) {
       this.$q.notify({
         color: "negative",
         position: "top",
-        message: "Что то пошло не так",
+        message: e.detail?.message || "Что то пошло не так",
       });
     },
 
-    unauthorisedHandler() {
+    unauthorisedHandler(e) {
       this.$router.push({ name: "auth" });
 
       this.$q.notify({
         color: "negative",
         position: "top",
-        message: "Вы не авторизованы. Для начала авторизуйтесь",
+        message:
+          e.detail.message || "Вы не авторизованы. Для начала авторизуйтесь",
       });
     },
   },

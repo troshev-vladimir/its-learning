@@ -84,7 +84,7 @@ const getUserProgress = () => {
 };
 
 onMounted(() => {
-  // store.dispatch("getUsersCash");
+  store.dispatch("getUsersCash");
   b24LeadCreate();
 });
 </script>
