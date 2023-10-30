@@ -53,10 +53,11 @@ export default function usePincode(emit: any) {
   const clear = () => {
     userPin.value = [];
     // @ts-ignore
-    inputs.value[0].focus();
-    currentInput.value -= 1;
-    // @ts-ignore
-    inputs.value[currentInput.value].focus();
+    setTimeout(function () {
+      // @ts-ignore
+      inputs.value[0].focus();
+    });
+    currentInput.value = 0;
   };
 
   return {
