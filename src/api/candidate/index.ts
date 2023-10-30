@@ -49,7 +49,7 @@ class CandidateMethods {
       })
       .catch((error) => {
         window.dispatchEvent(
-          eventWithPayload({ message: error.error?.message })
+          eventWithPayload({ message: error.error?.message || error })
         );
         throw error;
       });

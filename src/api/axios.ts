@@ -21,7 +21,7 @@ const instance = axios.create({
   },
 });
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   function (response) {
     if (response.status === 401) {
       window.dispatchEvent(
@@ -33,7 +33,6 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log(error, "error");
     return Promise.reject(error.response.data);
   }
 );

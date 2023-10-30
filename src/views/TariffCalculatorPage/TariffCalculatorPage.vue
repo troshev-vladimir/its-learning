@@ -77,10 +77,11 @@ import ProgramCard from "@/components/ProgramCard";
 
 const promocode = ref("");
 const store = useStore();
-const { programs } = usePrograms();
+const { programs } = usePrograms(promocode);
 
 const getUserProgress = () => {
   store.dispatch("getUsersCash", promocode.value);
+  store.dispatch("programs/fetchPrograms", promocode.value);
 };
 
 onMounted(() => {
