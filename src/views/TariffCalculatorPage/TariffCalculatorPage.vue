@@ -23,11 +23,25 @@
         >
           <TimerComponent style="flex: 0 0 auto" class="shadow-2" />
 
-          <p>Твой заработок хранится 48 часов. Не упусти свой шанс.</p>
+          <p>
+            Твой заработок хранится 24 часa.<br />
+            Не упусти свой шанс.
+          </p>
         </div>
         <div class="flex wrap items-start full-width q-mb-sm" style="gap: 16px">
           <CashCounter class="shadow-2" />
+          <q-chip
+            v-if="promocode && store.state.userPromoBonus > 0"
+            outline
+            color="green"
+            text-color="white"
+            icon="fas fa-chevron-down"
+            class="q-mt-sm self-center"
+          >
+            Промокод принят
+          </q-chip>
           <UiInput
+            v-else
             v-model="promocode"
             label="Ввести промокод"
             color="primary"
@@ -36,6 +50,7 @@
             outlined
             :readonly="store.state.userPromoBonus"
             @blur="getUserProgress"
+            @keyup.enter="getUserProgress"
           >
             <template v-if="store.state.userPromoBonus" #before>
               <q-icon name="fas fa-check" color="green-5" />
@@ -80,6 +95,7 @@ const store = useStore();
 const { programs } = usePrograms(promocode);
 
 const getUserProgress = () => {
+  if (!promocode.value.length) return;
   store.dispatch("getUsersCash", promocode.value);
   store.dispatch("programs/fetchPrograms", promocode.value);
 };

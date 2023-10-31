@@ -137,13 +137,13 @@
 
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance } from "vue";
-import tinkoff from "@tcb-web/create-credit";
 import { Card } from "./types";
 import { useMeta } from "quasar";
 // import { DemoFlows } from "@tcb-web/create-credit";
 import TinkoffPaymentForm from "@/components/TinkoffPaymentForm";
 import useConstants from "./composables/useConstants";
 import usePromocode from "./composables/usePromocode";
+import { buyViaInstallment } from "@/helpers/utils";
 
 const instance = getCurrentInstance();
 useMeta({
@@ -164,8 +164,7 @@ const selectInstallment = (card: Card, instalmentOption: any) => {
   instance?.proxy?.$forceUpdate();
 };
 
-const { cards, instalmentOptions, getCurrentInstallment, currentProgram } =
-  useConstants(selectedId);
+const { cards, instalmentOptions, currentProgram } = useConstants(selectedId);
 
 const {
   isPromocodeLegal,
@@ -184,23 +183,11 @@ const showProgram = (card: Card) => {
 };
 
 const buyProgramViaInstallment = (program: Card) => {
-  tinkoff.create(
-    {
-      sum: currentSumm(program.price),
-      items: [
-        {
-          name: program.title || "",
-          price: currentSumm(program.price) || 0,
-          quantity: 1,
-        },
-      ],
-      // demoFlow: DemoFlows.sms,
-      promoCode: getCurrentInstallment(program.installmentPeriod),
-      shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
-      showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
-    },
-    { view: "modal" }
-  );
+  buyViaInstallment({
+    sum: +program.price,
+    period: program.installmentPeriod,
+    title: "Программа " + program.title,
+  });
 };
 </script>
 
