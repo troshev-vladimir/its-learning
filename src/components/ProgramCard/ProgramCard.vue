@@ -12,6 +12,7 @@
           outline
           color="secondary"
           tag="a"
+          target="_blank"
           text-class="text-secondary"
           :href="card.linkToProgram || '#'"
         >
@@ -24,7 +25,7 @@
 
     <p class="text-body2 q-mb-md">
       Твоя будущая зарплата:
-      <span class="text-h2 text-no-wrap">
+      <span class="text-body1 text-bold text-no-wrap">
         {{ formatNumber(card.futureSalary) }} ₽
       </span>
     </p>

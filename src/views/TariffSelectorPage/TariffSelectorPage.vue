@@ -148,9 +148,6 @@ import { buyViaInstallment } from "@/helpers/utils";
 const instance = getCurrentInstance();
 useMeta({
   title: "BIG SALE | ITS",
-  link: {
-    name: { rel: "icon", href: "/favicon-promo.ico" },
-  },
 });
 
 const selectedId = ref<number>();
