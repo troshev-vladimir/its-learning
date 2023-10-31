@@ -14,7 +14,7 @@ class TariffMethods {
     token: string
   ): Promise<Program[]> {
     return axios
-      .get<Program[]>("programs", {
+      .get<Program[]>("programms", {
         params: {
           promocode,
           id,

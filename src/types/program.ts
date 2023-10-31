@@ -7,11 +7,11 @@ export interface Program {
   period: number;
   price: {
     actual: number;
-    withDiscaunt: number;
+    withDiscount: number;
   };
   installment: {
     actual: number;
-    withDiscaunt: number;
+    withDiscount: number;
   };
   burnout: number;
   salaryAddition: number;

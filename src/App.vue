@@ -63,6 +63,12 @@ export default {
   mounted() {
     window.addEventListener("server-error", this.errorHandler);
     window.addEventListener("unauthorized", this.unauthorisedHandler);
+    if (
+      !localStorage.getItem("userToken")?.length ||
+      !localStorage.getItem("userPhone")?.length
+    ) {
+      this.$router.push({ name: "auth" });
+    }
   },
 
   beforeUnmount() {

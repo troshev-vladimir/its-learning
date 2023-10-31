@@ -8,11 +8,11 @@ const programs = [
     period: 123,
     price: {
       actual: 9004,
-      withDiscaunt: 9001,
+      withDiscount: 9001,
     },
     installment: {
       actual: 12344,
-      withDiscaunt: 12343,
+      withDiscount: 12343,
     },
     burnout: 123,
     salaryAddition: 123,
@@ -32,11 +32,11 @@ const programs = [
     period: 123,
     price: {
       actual: 9004,
-      withDiscaunt: 9001,
+      withDiscount: 9001,
     },
     installment: {
       actual: 12344,
-      withDiscaunt: 12343,
+      withDiscount: 12343,
     },
     burnout: 123,
     salaryAddition: 123,

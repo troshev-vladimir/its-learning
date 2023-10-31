@@ -20,9 +20,7 @@
       </div>
     </div>
 
-    <p class="text-body2 q-mb-md">
-      {{ card.description }}
-    </p>
+    <p class="text-body1 q-mb-md text-bold" v-html="card.description"></p>
 
     <p class="text-body2 q-mb-md">
       Твоя будущая зарплата:
@@ -56,17 +54,11 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Стоимость программы:</span>
         <p class="text-body2">
-          <span
-            class="text-body1 text-bold"
-            :class="{ '_old-price q-mr-sm': card.discountApplyed }"
-          >
+          <span class="text-body1 text-bold _old-price q-mr-sm">
             {{ formatNumber(card.price.actual) }}
           </span>
-          <span
-            v-if="card.discountApplyed"
-            class="text-body1 text-bold text-green-14"
-          >
-            {{ formatNumber(card.price.withDiscaunt) }}
+          <span class="text-body1 text-bold text-green-14">
+            {{ formatNumber(card.price.withDiscount) }}
           </span>
           <span>₽</span>
         </p>
@@ -75,17 +67,11 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Рассрочка от:</span>
         <p class="text-body2">
-          <span
-            class="text-body1 text-bold"
-            :class="{ '_old-price q-mr-sm': card.discountApplyed }"
-          >
-            {{ formatNumber(card.installment.actual) }}
+          <span class="text-body1 text-bold _old-price q-mr-sm">
+            {{ formatNumber(Math.floor(card.installment.actual)) }}
           </span>
-          <span
-            v-if="card.discountApplyed"
-            class="text-body1 text-bold text-green-14"
-          >
-            {{ formatNumber(card.installment.withDiscaunt) }}
+          <span class="text-body1 text-bold text-green-14">
+            {{ formatNumber(Math.floor(card.installment.withDiscount)) }}
           </span>
           <span>₽/мес.</span>
         </p>
@@ -95,7 +81,8 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Скидка:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold"> {{ card.discount }}</span
+        <span class="text-body1 text-bold">
+          {{ formatNumber(card.discount || 0) }}</span
         ><span>₽</span>
       </p>
     </div>
@@ -103,26 +90,31 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Сгорает:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold"> {{ card.burnout }}</span>
+        <span class="text-body1 text-bold">
+          {{ formatNumber(card.burnout || 0) }}</span
+        >
         <span>₽</span>
       </p>
     </div>
 
-    <div class="text-body2 flex wrap q-mb-md" style="flex: 1 0 auto">
-      <span class="q-mr-sm">Прибавка к зарплате:</span>
-      <p class="text-body2">
-        <span class="text-body1 text-bold"> {{ card.salaryAddition }}</span>
-        <span>₽</span>
-      </p>
+    <div class="" style="flex: 1 0 auto">
+      <div class="text-body2 flex wrap q-mb-md">
+        <span class="q-mr-sm">Прибавка к зарплате:</span>
+        <p class="text-body2">
+          <span class="text-body1 text-bold">
+            {{ formatNumber(card.salaryAddition || 0) }}</span
+          >
+          <span>₽</span>
+        </p>
+      </div>
     </div>
+
     <TinkoffPaymentForm
       :order-data="{
         order: card.name || '',
-        description: card.description || '',
+        description: 'Твой путь в 1С программирование начинается прямо сейчас',
       }"
-      :amount="
-        card.discountApplyed ? card.price.withDiscaunt : card.price.actual
-      "
+      :amount="card.price.withDiscount"
     >
       <template #default="{ handler }">
         <UiButton color="white" text-color="primary" size="sm" @click="handler">
@@ -159,16 +151,18 @@
 
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
+        v-if="card.linkToContract"
         class="text-body2 text-blue-6 d-flex items-center"
-        :href="documents?.contractLink || '#'"
+        :href="card.linkToContract"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
         Договор оферты
       </a>
       <a
+        v-if="card.linkToContractAddition"
         class="text-body2 text-blue-6 d-flex items-center"
-        :href="documents?.contractAditionLink || '#'"
+        :href="card.linkToContractAddition"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
@@ -195,11 +189,9 @@ const currentInstalmentPreiod = ref(12);
 
 const buyProgramViaInstallment = () => {
   buyViaInstallment({
-    sum: props.card.discountApplyed
-      ? props.card.price.withDiscaunt
-      : props.card.price.actual,
+    sum: props.card.price.withDiscount,
     period: currentInstalmentPreiod.value,
-    title: props.card.name,
+    title: "Программа " + props.card.name,
   });
 };
 </script>

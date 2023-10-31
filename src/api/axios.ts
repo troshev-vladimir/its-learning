@@ -8,10 +8,10 @@ const authorizationBasic = "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6";
 // const authorizationBasic = window.btoa(username + ":" + password);
 
 const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? "https://max43.ru:12244/ka_uprbase2/ru_RU/hs/education/v1"
-      : "https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1",
+  baseURL: "https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1",
+  // process.env.NODE_ENV === "development"
+  //   ? "https://max43.ru:12244/ka_uprbase2/ru_RU/hs/education/v1"
+  //   : "https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1",
 
   timeout: 10000,
   // withCredentials: true,
