@@ -23,16 +23,16 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   function (response) {
-    if (response.status === 401) {
-      window.dispatchEvent(
-        new CustomEvent("unauthorized", {
-          detail: { message: response.data.error.message },
-        })
-      );
-    }
     return response;
   },
   function (error) {
+    if (error.response.status === 401) {
+      window.dispatchEvent(
+        new CustomEvent("unauthorized", {
+          detail: { message: error.response.data.error.message },
+        })
+      );
+    }
     return Promise.reject(error.response.data);
   }
 );
