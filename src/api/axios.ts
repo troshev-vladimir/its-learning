@@ -26,6 +26,12 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
+    if (
+      process.env.NODE_ENV === "development" &&
+      process.env.FOR_PAGES !== "true"
+    )
+      return Promise.reject(error.response.data);
+
     if (error.response.status === 401) {
       window.dispatchEvent(
         new CustomEvent("unauthorized", {

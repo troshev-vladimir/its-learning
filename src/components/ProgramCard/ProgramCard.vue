@@ -91,7 +91,10 @@
     <div class="text-body2 q-mb-md flex wrap">
       <span class="q-mr-sm">Сгорает:</span>
       <p class="text-body2">
-        <span class="text-body1 text-bold">
+        <span
+          class="text-body1 text-bold"
+          :class="{ 'text-red-6': card.burnout > 0 }"
+        >
           {{ formatNumber(card.burnout || 0) }}</span
         >
         <span>₽</span>

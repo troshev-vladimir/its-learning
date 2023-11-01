@@ -174,6 +174,16 @@ const clickHandler = async () => {
 
     // @ts-ignore
     windowReference.location = responce?.PaymentURL;
+
+    // const respQR = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+    //   method: "post",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     TerminalKey: TerminalKey,
+    //   }),
+    // });
   } catch (error) {
     $q.notify({
       color: "negative",

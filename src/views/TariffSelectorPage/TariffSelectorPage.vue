@@ -180,8 +180,10 @@ const showProgram = (card: Card) => {
 };
 
 const buyProgramViaInstallment = (program: Card) => {
+  console.log(program);
+
   buyViaInstallment({
-    sum: +program.price,
+    sum: +program.price.value,
     period: program.installmentPeriod,
     title: "Программа " + program.title,
   });
