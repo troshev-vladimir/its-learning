@@ -55,10 +55,10 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Стоимость программы:</span>
         <p class="text-body2">
-          <span class="text-body1 text-bold _old-price q-mr-sm">
+          <span class="text-body2 text-bold _old-price q-mr-sm">
             {{ formatNumber(card.price.actual) }}
           </span>
-          <span class="text-body1 text-bold text-green-14">
+          <span class="text-body1 text-bold" style="color: var(--q-success)">
             {{ formatNumber(card.price.withDiscount) }}
           </span>
           <span>₽</span>
@@ -68,10 +68,10 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Рассрочка от:</span>
         <p class="text-body2">
-          <span class="text-body1 text-bold _old-price q-mr-sm">
+          <span class="text-body2 text-bold _old-price q-mr-sm">
             {{ formatNumber(Math.floor(card.installment.actual)) }}
           </span>
-          <span class="text-body1 text-bold text-green-14">
+          <span class="text-body1 text-bold" style="color: var(--q-success)">
             {{ formatNumber(Math.floor(card.installment.withDiscount)) }}
           </span>
           <span>₽/мес.</span>
@@ -122,7 +122,7 @@
     >
       <template #default="{ handler }">
         <UiButton color="white" text-color="primary" size="sm" @click="handler">
-          КУПить ТАРИФ
+          КУПить
         </UiButton>
       </template>
     </TinkoffPaymentForm>
@@ -156,7 +156,7 @@
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
         v-if="card.linkToContract"
-        class="text-body2 text-blue-6 d-flex items-center"
+        class="text-body2 text-secondary d-flex items-center"
         :href="card.linkToContract"
         target="_blank"
       >
@@ -165,7 +165,7 @@
       </a>
       <a
         v-if="card.linkToContractAddition"
-        class="text-body2 text-blue-6 d-flex items-center"
+        class="text-body2 text-secondary d-flex items-center"
         :href="card.linkToContractAddition"
         target="_blank"
       >

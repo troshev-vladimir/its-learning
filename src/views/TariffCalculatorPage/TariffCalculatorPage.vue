@@ -59,7 +59,7 @@
         </div>
         <p class="text-body2 text-secondary">
           Подробней о правилах подсчёта бонусов читай
-          <a class="text-accent" href="/">тут</a>
+          <a class="text-accent" href="/" @click.prevent>тут</a>
         </p>
       </div>
     </div>
