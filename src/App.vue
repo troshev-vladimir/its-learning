@@ -83,7 +83,7 @@ export default {
 
     unauthorisedHandler(e) {
       this.$router.push({ name: "auth" });
-
+      localStorage.removeItem("userToken");
       this.$q.notify({
         color: "negative",
         position: "top",

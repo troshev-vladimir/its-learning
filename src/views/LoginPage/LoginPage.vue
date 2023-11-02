@@ -300,6 +300,9 @@ const resend = async () => {
 };
 
 onMounted(() => {
+  if (localStorage.userToken) {
+    history.go(-1);
+  }
   setSavedPhone();
   if (route.query.unauthorised === true) {
     $q.notify({
