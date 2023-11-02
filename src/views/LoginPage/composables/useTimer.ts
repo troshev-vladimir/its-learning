@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 
 export default function useTimer() {
   const timeToResend = 60 * 5;
@@ -10,8 +10,7 @@ export default function useTimer() {
     currentTimeToResend.value -= 1;
   };
 
-  const setTimer = () => {
-    currentTimeToResend.value = timeToResend;
+  const initInterval = () => {
     if (interval) {
       window.clearInterval(interval);
     }
@@ -24,6 +23,12 @@ export default function useTimer() {
     }, 1000);
   };
 
+  const setTimer = () => {
+    currentTimeToResend.value = timeToResend;
+    localStorage.setItem("beginTimerToResend", String(Date.now()));
+    initInterval();
+  };
+
   const getTime = computed(() => {
     const minutes = Math.floor(currentTimeToResend.value / 60);
     const seconds = Math.ceil(currentTimeToResend.value % 60);
@@ -31,6 +36,19 @@ export default function useTimer() {
     return `${
       String(minutes).length < 2 ? "0" + String(minutes) : String(minutes)
     }: ${String(seconds).length < 2 ? "0" + String(seconds) : String(seconds)}`;
+  });
+
+  onMounted(() => {
+    const timestamp = Date.now() - localStorage.beginTimerToResend;
+    const time = timeToResend - Math.floor(timestamp / 1000);
+    console.log(time);
+
+    currentTimeToResend.value = time;
+    initInterval();
+  });
+
+  onBeforeUnmount(() => {
+    window.clearInterval(interval);
   });
 
   return {

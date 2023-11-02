@@ -14,6 +14,7 @@
         standout
         :error="!!error"
         no-error-icon
+        :disable="disabled"
         :autofocus="i === 1"
         @update:model-value="nextInput"
         @click="onFocus(i)"
@@ -43,6 +44,10 @@ const props = defineProps({
   error: {
     type: String,
     default: "",
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 
