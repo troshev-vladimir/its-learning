@@ -13,7 +13,6 @@ export default function b24LeadCreate() {
             "ITS Learning перешёл в конфигуратор НЕ ТРОГАЙТЕ плиз",
           "fields[PHONE][N0][VALUE]": localStorage.getItem("userPhone"),
           "fields[EMAIL][N0][VALUE]": localStorage.getItem("userEmail"),
-          "fields[EMAIL][0][VALUE_TYPE]": "WORK",
           "fields[ASSIGNED_BY_ID]": 664,
           "fields[OPPORTUNITY]": localStorage.getItem("userMany"),
         },
