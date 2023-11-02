@@ -49,7 +49,9 @@ const updateTime = () => {
   diffMinutes = diffMinutes.length < 2 ? "0" + diffMinutes : diffMinutes;
   diffHour = diffHour.length < 2 ? "0" + diffHour : diffHour;
 
-  string.value = `${diffHour ?? ""}:${diffMinutes ?? ""}:${diffSeconds ?? ""}`;
+  string.value = `${diffHour || "00"}:${diffMinutes || "00"}:${
+    diffSeconds || "00"
+  }`;
 };
 
 onMounted(() => {
