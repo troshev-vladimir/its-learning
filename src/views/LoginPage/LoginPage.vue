@@ -236,6 +236,16 @@ const requestPin = async () => {
   }
 };
 
+const goToGame = () => {
+  if (process.env.FOR_PAGES === "true") {
+    window.location.href = "/test/its_game";
+  } else if (process.env.NODE_ENV === "production") {
+    window.location.href = "/its_game";
+  } else {
+    console.log("to game");
+  }
+};
+
 const logIn = async () => {
   const isFormValid = validatePin();
   if (!isFormValid) return;
@@ -255,13 +265,7 @@ const logIn = async () => {
 
     console.log(process.env.FOR_PAGES);
 
-    if (process.env.FOR_PAGES === "true") {
-      window.location.href = "/test/its_game";
-    } else if (process.env.NODE_ENV === "production") {
-      window.location.href = "/its_game";
-    } else {
-      console.log("to game");
-    }
+    goToGame();
   } catch (error) {
     pin.value = "";
     setTimeout(() => {
@@ -301,7 +305,7 @@ const resend = async () => {
 
 onMounted(() => {
   if (localStorage.userToken) {
-    history.go(-1);
+    goToGame();
   }
   setSavedPhone();
   if (route.query.unauthorised === true) {

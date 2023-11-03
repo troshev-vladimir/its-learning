@@ -41,7 +41,8 @@ export default function useTimer() {
   onMounted(() => {
     const timestamp = Date.now() - localStorage.beginTimerToResend;
     const time = timeToResend - Math.floor(timestamp / 1000);
-    console.log(time);
+
+    if (time < 0) return;
 
     currentTimeToResend.value = time;
     initInterval();
