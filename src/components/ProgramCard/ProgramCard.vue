@@ -138,7 +138,7 @@
     >
       <q-list>
         <q-item
-          v-for="(instalmentOption, idx) in [3, 6, 12]"
+          v-for="(instalmentOption, idx) in [3, 6, 12, 24]"
           :key="idx"
           v-close-popup
           clickable
@@ -194,7 +194,10 @@ const currentInstalmentPreiod = ref(12);
 const buyProgramViaInstallment = () => {
   buyViaInstallment({
     sum: props.card.price.withDiscount,
-    period: currentInstalmentPreiod.value,
+    period:
+      currentInstalmentPreiod.value === 24
+        ? "default"
+        : currentInstalmentPreiod.value,
     title: "Программа " + props.card.name,
   });
 };

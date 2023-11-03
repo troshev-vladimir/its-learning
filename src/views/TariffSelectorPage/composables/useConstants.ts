@@ -16,7 +16,7 @@ export default function useConstants(selectedId?: Ref<number | undefined>) {
   };
 }
 
-const instalmentOptions = [3, 6, 12];
+const instalmentOptions = [3, 6, 12, 24];
 
 const cards = [
   {

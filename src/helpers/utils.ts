@@ -1,7 +1,7 @@
 import tinkoff from "@tcb-web/create-credit";
 interface Installment {
   sum: number;
-  period: number;
+  period: number | string;
   title: string;
 }
 

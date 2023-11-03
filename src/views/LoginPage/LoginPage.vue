@@ -238,9 +238,9 @@ const requestPin = async () => {
 
 const goToGame = () => {
   if (process.env.FOR_PAGES === "true") {
-    window.location.href = "/test/its_game";
+    window.location.replace("/test/its_game");
   } else if (process.env.NODE_ENV === "production") {
-    window.location.href = "/its_game";
+    window.location.replace("/its_game");
   } else {
     console.log("to game");
   }
