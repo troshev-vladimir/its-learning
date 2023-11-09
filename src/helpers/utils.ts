@@ -8,7 +8,7 @@ interface Installment {
 const installmentValues = {
   3: "installment_0_0_3_4",
   6: "installment_0_0_6_6,5",
-  12: "installment_0_0_12_11,5",
+  // 12: "installment_0_0_12_11,5",
 };
 
 export function formatNumber(number: number) {

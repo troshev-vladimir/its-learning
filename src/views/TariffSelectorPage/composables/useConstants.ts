@@ -16,13 +16,13 @@ export default function useConstants(selectedId?: Ref<number | undefined>) {
   };
 }
 
-const instalmentOptions = [3, 6, 12, 24];
+const instalmentOptions = [3, 6, 24];
 
 const cards = [
   {
     id: 0,
     title: "TESLA",
-    installmentPeriod: 12,
+    installmentPeriod: 6,
     price: {
       value: 128000,
       installment: 10666,

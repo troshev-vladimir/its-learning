@@ -69,10 +69,16 @@
         <span class="criteria__name q-mr-sm">Рассрочка от:</span>
         <p class="text-body2">
           <span class="text-body2 text-bold _old-price q-mr-sm">
-            {{ formatNumber(Math.floor(card.installment.actual)) }}
+            {{
+              formatNumber(Math.round((card.price.actual * 1.2108499096) / 24))
+            }}
           </span>
           <span class="text-body1 text-bold" style="color: var(--q-success)">
-            {{ formatNumber(Math.floor(card.installment.withDiscount)) }}
+            {{
+              formatNumber(
+                Math.round((card.price.withDiscount * 1.2108499096) / 24)
+              )
+            }}
           </span>
           <span>₽/мес.</span>
         </p>
@@ -130,7 +136,11 @@
       split
       color="white"
       dropdown-icon="fas fa-chevron-down"
-      :label="`В рассрочку (${currentInstalmentPreiod} мес.)`"
+      :label="
+        currentInstalmentPreiod === 24
+          ? `В кредит до (${currentInstalmentPreiod} мес.)`
+          : `В рассрочку (${currentInstalmentPreiod} мес.)`
+      "
       class="full-width size--xs q-mt-md"
       auto-close
       text-color="black"
@@ -138,7 +148,7 @@
     >
       <q-list>
         <q-item
-          v-for="(instalmentOption, idx) in [3, 6, 12, 24]"
+          v-for="(instalmentOption, idx) in [3, 6, 24]"
           :key="idx"
           v-close-popup
           clickable
@@ -147,7 +157,12 @@
           @click="currentInstalmentPreiod = instalmentOption"
         >
           <q-item-section>
-            <q-item-label> На {{ instalmentOption }} месяца </q-item-label>
+            <q-item-label v-if="instalmentOption === 24">
+              В кредит до {{ instalmentOption }} месяцев
+            </q-item-label>
+            <q-item-label v-else>
+              На {{ instalmentOption }} месяца
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -189,7 +204,7 @@ export interface Props {
 
 const props = defineProps<Props>();
 
-const currentInstalmentPreiod = ref(12);
+const currentInstalmentPreiod = ref(6);
 
 const buyProgramViaInstallment = () => {
   buyViaInstallment({

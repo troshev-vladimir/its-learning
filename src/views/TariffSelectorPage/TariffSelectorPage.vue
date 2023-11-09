@@ -103,7 +103,11 @@
                 color="white"
                 :disable-main-btn="promocodeLoadding"
                 dropdown-icon="fas fa-chevron-down"
-                :label="`В рассрочку (${card.installmentPeriod} мес.)`"
+                :label="
+                  card.installmentPeriod === 24
+                    ? `В кредит до (${card.installmentPeriod} мес.)`
+                    : `В рассрочку (${card.installmentPeriod} мес.)`
+                "
                 class="full-width size--xs q-mt-md"
                 auto-close
                 text-color="black"
@@ -120,7 +124,10 @@
                     @click="selectInstallment(card, instalmentOption)"
                   >
                     <q-item-section>
-                      <q-item-label>
+                      <q-item-label v-if="instalmentOption === 24">
+                        В кредит до {{ instalmentOption }} месяцев
+                      </q-item-label>
+                      <q-item-label v-else>
                         На {{ instalmentOption }} месяца
                       </q-item-label>
                     </q-item-section>
