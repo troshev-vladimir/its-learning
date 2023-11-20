@@ -16,6 +16,7 @@
         no-error-icon
         :disable="disabled"
         :autofocus="i === 1"
+        type="number"
         @update:model-value="nextInput"
         @click="onFocus(i)"
         @keydown.delete="userPin = []"
