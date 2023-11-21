@@ -14,7 +14,9 @@
         standout
         :error="!!error"
         no-error-icon
+        :disable="disabled"
         :autofocus="i === 1"
+        type="number"
         @update:model-value="nextInput"
         @click="onFocus(i)"
         @keydown.delete="userPin = []"
@@ -43,6 +45,10 @@ const props = defineProps({
   error: {
     type: String,
     default: "",
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

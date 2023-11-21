@@ -55,10 +55,10 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Стоимость программы:</span>
         <p class="text-body2">
-          <span class="text-body1 text-bold _old-price q-mr-sm">
+          <span class="text-body2 text-bold _old-price q-mr-sm">
             {{ formatNumber(card.price.actual) }}
           </span>
-          <span class="text-body1 text-bold text-green-14">
+          <span class="text-body1 text-bold" style="color: var(--q-success)">
             {{ formatNumber(card.price.withDiscount) }}
           </span>
           <span>₽</span>
@@ -68,11 +68,17 @@
       <div class="criteria text-body2 q-mb-md">
         <span class="criteria__name q-mr-sm">Рассрочка от:</span>
         <p class="text-body2">
-          <span class="text-body1 text-bold _old-price q-mr-sm">
-            {{ formatNumber(Math.floor(card.installment.actual)) }}
+          <span class="text-body2 text-bold _old-price q-mr-sm">
+            {{
+              formatNumber(Math.round((card.price.actual * 1.2108499096) / 24))
+            }}
           </span>
-          <span class="text-body1 text-bold text-green-14">
-            {{ formatNumber(Math.floor(card.installment.withDiscount)) }}
+          <span class="text-body1 text-bold" style="color: var(--q-success)">
+            {{
+              formatNumber(
+                Math.round((card.price.withDiscount * 1.2108499096) / 24)
+              )
+            }}
           </span>
           <span>₽/мес.</span>
         </p>
@@ -122,7 +128,7 @@
     >
       <template #default="{ handler }">
         <UiButton color="white" text-color="primary" size="sm" @click="handler">
-          КУПить ТАРИФ
+          КУПить
         </UiButton>
       </template>
     </TinkoffPaymentForm>
@@ -130,7 +136,11 @@
       split
       color="white"
       dropdown-icon="fas fa-chevron-down"
-      :label="`В рассрочку (${currentInstalmentPreiod} мес.)`"
+      :label="
+        currentInstalmentPreiod === 24
+          ? `В кредит до (${currentInstalmentPreiod} мес.)`
+          : `В рассрочку (${currentInstalmentPreiod} мес.)`
+      "
       class="full-width size--xs q-mt-md"
       auto-close
       text-color="black"
@@ -138,7 +148,7 @@
     >
       <q-list>
         <q-item
-          v-for="(instalmentOption, idx) in [3, 6, 12]"
+          v-for="(instalmentOption, idx) in [3, 6, 24]"
           :key="idx"
           v-close-popup
           clickable
@@ -147,7 +157,12 @@
           @click="currentInstalmentPreiod = instalmentOption"
         >
           <q-item-section>
-            <q-item-label> На {{ instalmentOption }} месяца </q-item-label>
+            <q-item-label v-if="instalmentOption === 24">
+              В кредит до {{ instalmentOption }} месяцев
+            </q-item-label>
+            <q-item-label v-else>
+              На {{ instalmentOption }} месяца
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -156,7 +171,7 @@
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
         v-if="card.linkToContract"
-        class="text-body2 text-blue-6 d-flex items-center"
+        class="text-body2 text-secondary d-flex items-center"
         :href="card.linkToContract"
         target="_blank"
       >
@@ -165,7 +180,7 @@
       </a>
       <a
         v-if="card.linkToContractAddition"
-        class="text-body2 text-blue-6 d-flex items-center"
+        class="text-body2 text-secondary d-flex items-center"
         :href="card.linkToContractAddition"
         target="_blank"
       >
@@ -189,12 +204,15 @@ export interface Props {
 
 const props = defineProps<Props>();
 
-const currentInstalmentPreiod = ref(12);
+const currentInstalmentPreiod = ref(6);
 
 const buyProgramViaInstallment = () => {
   buyViaInstallment({
     sum: props.card.price.withDiscount,
-    period: currentInstalmentPreiod.value,
+    period:
+      currentInstalmentPreiod.value === 24
+        ? "default"
+        : currentInstalmentPreiod.value,
     title: "Программа " + props.card.name,
   });
 };

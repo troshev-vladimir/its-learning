@@ -55,6 +55,8 @@ export default {
     setCssVar("negative", "#c10015");
     setCssVar("info", "#31ccec");
     setCssVar("warning", "#f2c037");
+    setCssVar("success", "#009900");
+    setCssVar("danger", "#f2c037");
 
     setCssVar("white", "#fff");
     setCssVar("black", "#000");
@@ -81,7 +83,7 @@ export default {
 
     unauthorisedHandler(e) {
       this.$router.push({ name: "auth" });
-
+      localStorage.removeItem("userToken");
       this.$q.notify({
         color: "negative",
         position: "top",

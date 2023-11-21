@@ -65,13 +65,17 @@
             class="text-body1 text-bold"
             :class="{ '_old-price q-mr-sm': isPromocodeLegal }"
           >
-            {{ formatNumber(price.installment) }}
+            {{ formatNumber(Math.round((price.value * 1.2108499096) / 24)) }}
           </span>
           <span
             v-if="isPromocodeLegal"
             class="text-body1 text-bold text-green-14"
           >
-            {{ formatNumber(price.discountInstallment) }}
+            {{
+              formatNumber(
+                Math.round(((price.value - price.discount) * 1.2108499096) / 24)
+              )
+            }}
           </span>
           <span>{{ criterias.installment.dimension }}</span>
         </p>

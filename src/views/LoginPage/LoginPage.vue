@@ -58,15 +58,15 @@
               v-else
               ref="form"
               class="rounded-lg bg-white text-primary q-pa-lg shadow-2 text-center"
-              @submit.prevent="logIn"
             >
               <p class="q-mb-md text-body1">Пароль:</p>
 
-              <div>
+              <div class="d-flex items-center">
                 <PincodeInput
                   ref="pinRef"
                   v-model="pin"
                   :error="pincodeError"
+                  :disabled="loadding"
                   @completed="logIn"
                 >
                   <template v-if="userAlreadyExists" #hint>
@@ -80,14 +80,25 @@
                 </PincodeInput>
               </div>
               <div class="flex q-mt-lg justify-center">
-                <ui-button
-                  size="sm"
-                  outline
-                  :text-class="['text-body2', 'text-accent', 'text-bold']"
-                  @click="goBackToPhone"
-                >
-                  Назад
-                </ui-button>
+                <div class="" style="position: relative">
+                  <ui-button
+                    size="sm"
+                    outline
+                    :text-class="['text-body2', 'text-accent', 'text-bold']"
+                    @click="goBackToPhone"
+                  >
+                    Назад
+                  </ui-button>
+
+                  <div class="loadder-wrappper">
+                    <q-spinner
+                      v-if="loadding"
+                      class="loadder"
+                      color="primary"
+                      size="32px"
+                    />
+                  </div>
+                </div>
               </div>
               <div
                 v-if="!loginStage && userAlreadyExists && !currentTimeToResend"
@@ -136,6 +147,7 @@ const form = ref(null);
 const pincodeError = ref("");
 const loginStage = ref(true); //true
 const route = useRoute();
+const loadding = ref(false);
 const validatePin = () => {
   if (pin.value.length < 4) {
     pincodeError.value = "Неправильный пароль";
@@ -224,10 +236,20 @@ const requestPin = async () => {
   }
 };
 
+const goToGame = () => {
+  if (process.env.FOR_PAGES === "true") {
+    window.location.replace("/test/its_game");
+  } else if (process.env.NODE_ENV === "production") {
+    window.location.replace("/its_game");
+  } else {
+    console.log("to game");
+  }
+};
+
 const logIn = async () => {
   const isFormValid = validatePin();
   if (!isFormValid) return;
-
+  loadding.value = true;
   try {
     const response = await candidate.сandidateConfirmation(
       "7" + userPhone.value,
@@ -243,19 +265,15 @@ const logIn = async () => {
 
     console.log(process.env.FOR_PAGES);
 
-    if (process.env.FOR_PAGES === "true") {
-      window.location.href = "/test/its_game";
-    } else if (process.env.NODE_ENV === "production") {
-      window.location.href = "/its_game";
-    } else {
-      console.log("to game");
-    }
+    goToGame();
   } catch (error) {
     pin.value = "";
     setTimeout(() => {
       // @ts-ignore
       pinRef.value.clear();
     });
+  } finally {
+    loadding.value = false;
   }
 };
 
@@ -286,6 +304,9 @@ const resend = async () => {
 };
 
 onMounted(() => {
+  if (localStorage.userToken) {
+    goToGame();
+  }
   setSavedPhone();
   if (route.query.unauthorised === true) {
     $q.notify({
@@ -309,6 +330,13 @@ onMounted(() => {
   .q-field__control {
     padding-left: 16px;
   }
+}
+
+.loadder-wrappper {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translate(100%, -50%);
 }
 
 .content {
