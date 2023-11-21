@@ -5,7 +5,8 @@
     </div>
 
     <div class="count">
-      <span>{{ string }}</span>
+      <span v-if="store.state.expirationDate">{{ string }}</span>
+      <span v-else>00:00:00</span>
     </div>
   </div>
   <q-chip
