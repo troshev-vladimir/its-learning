@@ -240,6 +240,7 @@ const goToGame = () => {
   if (process.env.FOR_PAGES === "true") {
     window.location.replace("/test/its_game");
   } else if (process.env.NODE_ENV === "production") {
+    history.pushState({}, "", "https://lk.itseducation.ru/configurator/auth/");
     window.location.replace("/its_game");
   } else {
     console.log("to game");
@@ -304,9 +305,9 @@ const resend = async () => {
 };
 
 onMounted(() => {
-  if (localStorage.userToken) {
-    goToGame();
-  }
+  // if (localStorage.userToken) {
+  //   goToGame();
+  // }
   setSavedPhone();
   if (route.query.unauthorised === true) {
     $q.notify({

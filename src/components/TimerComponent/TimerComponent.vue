@@ -5,7 +5,7 @@
     </div>
 
     <div class="count">
-      <span v-if="store.state.expirationDate">{{ string }}</span>
+      <span v-if="string">{{ string }}</span>
       <span v-else>00:00:00</span>
     </div>
   </div>
@@ -37,6 +37,9 @@ const isExpired = computed(() => moment(expirationDate.value) < moment());
 const updateTime = () => {
   const now = moment();
   const expiration = moment(expirationDate.value);
+  if (!expirationDate.value) {
+    return;
+  }
   // get the difference between the moments
   const diff = expiration.diff(now);
   //express as a duration
