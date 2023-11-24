@@ -21,20 +21,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, defineEmits } from "vue";
 import CoinImage from "@/assets/img/timer.png";
 import moment from "moment";
-import store from "@/store";
+// import store from "@/store";
 let interval: number | undefined;
 
+const emit = defineEmits(["timeIsGone"]);
+
 const expirationDate = computed(() => {
-  return store.state.expirationDate;
+  // return store.state.expirationDate;
+  return "2023-11-24 11:04:30";
 });
 
 const string = ref("");
-const isExpired = computed(() => moment(expirationDate.value) < moment());
+let isExpired = moment(expirationDate.value) < moment();
 
 const updateTime = () => {
+  if (isExpired) {
+    window.clearInterval(interval);
+    return;
+  }
   const now = moment();
   const expiration = moment(expirationDate.value);
   if (!expirationDate.value) {
@@ -48,6 +55,15 @@ const updateTime = () => {
   let diffSeconds = diffDuration.seconds().toString();
   let diffMinutes = diffDuration.minutes().toString();
   let diffHour = diffDuration.hours().toString();
+
+  if (
+    diffDuration.seconds() <= 0 &&
+    diffDuration.minutes() <= 0 &&
+    diffDuration.hours() <= 0
+  ) {
+    emit("timeIsGone");
+    isExpired = true;
+  }
 
   diffSeconds = diffSeconds.length < 2 ? "0" + diffSeconds : diffSeconds;
   diffMinutes = diffMinutes.length < 2 ? "0" + diffMinutes : diffMinutes;

@@ -21,7 +21,11 @@
           class="flex wrap items-center full-width q-mb-lg"
           style="gap: 16px"
         >
-          <TimerComponent style="flex: 0 0 auto" class="shadow-2" />
+          <TimerComponent
+            style="flex: 0 0 auto"
+            class="shadow-2"
+            @time-is-gone="updatePrograms"
+          />
 
           <p>
             Твой заработок хранится 24 часa.<br />
@@ -103,6 +107,10 @@ const getUserProgress = () => {
   if (!promocode.value.length) return;
   store.dispatch("getUsersCash", promocode.value);
   store.dispatch("programs/fetchPrograms", promocode.value);
+};
+
+const updatePrograms = () => {
+  store.dispatch("programs/fetchPrograms");
 };
 
 onMounted(() => {
