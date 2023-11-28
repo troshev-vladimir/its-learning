@@ -8,5 +8,9 @@ export default function usePrograms(promocode: Ref) {
 
   store.dispatch("programs/fetchPrograms", promocode.value);
 
-  return { programs };
+  const updatePrograms = () => {
+    store.dispatch("programs/fetchPrograms");
+  };
+
+  return { programs, updatePrograms };
 }
