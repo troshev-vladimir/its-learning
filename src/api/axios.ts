@@ -37,14 +37,21 @@ instance.interceptors.response.use(
     )
       return Promise.reject(error.response.data);
 
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
+      console.log(error);
+
       window.dispatchEvent(
         new CustomEvent("unauthorized", {
-          detail: { message: error.response.data.error.message },
+          detail: {
+            message:
+              error.response.data ||
+              "Время действия токена истекло. Пожалуйста авторизуйтесь",
+          },
         })
       );
+      return { data: null };
     }
-    return Promise.reject(error.response.data);
+    return Promise.reject(error.response?.data || error.message);
   }
 );
 

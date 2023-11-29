@@ -77,6 +77,7 @@ class CandidateMethods {
         params: { id, token, promo: programPromocode },
       })
       .then((response) => {
+        if (!response.data) return [];
         return response.data;
       })
       .catch((error) => {

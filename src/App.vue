@@ -81,15 +81,9 @@ export default {
       });
     },
 
-    unauthorisedHandler(e) {
+    unauthorisedHandler() {
       this.$router.push({ name: "auth" });
       localStorage.removeItem("userToken");
-      this.$q.notify({
-        color: "negative",
-        position: "top",
-        message:
-          e.detail.message || "Вы не авторизованы. Для начала авторизуйтесь",
-      });
     },
   },
 };
