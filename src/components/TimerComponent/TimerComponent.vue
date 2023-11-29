@@ -24,14 +24,14 @@
 import { computed, onBeforeUnmount, onMounted, ref, defineEmits } from "vue";
 import CoinImage from "@/assets/img/timer.png";
 import moment from "moment";
-// import store from "@/store";
+import store from "@/store";
 let interval: number | undefined;
 
 const emit = defineEmits(["timeIsGone"]);
 
 const expirationDate = computed(() => {
-  // return store.state.expirationDate;
-  return "2023-11-24 11:04:30";
+  return store.state.expirationDate;
+  // return "2023-11-24 11:04:30";
 });
 
 const string = ref("");
