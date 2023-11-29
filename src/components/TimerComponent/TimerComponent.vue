@@ -35,11 +35,12 @@ const expirationDate = computed(() => {
 });
 
 const string = ref("");
-let isExpired = moment(expirationDate.value) < moment();
+let isExpired = false;
 
 const updateTime = () => {
   if (isExpired) {
     window.clearInterval(interval);
+    emit("timeIsGone");
     return;
   }
   const now = moment();
@@ -78,8 +79,6 @@ onMounted(() => {
   interval = window.setInterval(() => {
     updateTime();
   }, 1000);
-
-  updateTime();
 });
 
 onBeforeUnmount(() => {

@@ -28,7 +28,7 @@ const tariff = {
   actions: {
     async fetchPrograms(
       { commit, rootState }: ActionContext<State, RootState>,
-      promocode: string
+      promocode = ""
     ) {
       try {
         const programs = await apiProgram.getPrograms(

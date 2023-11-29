@@ -20,11 +20,9 @@
                 ref="phoneRef"
                 v-model="userPhone"
                 name="phone"
-                placeholder="+7 (___) ___ __ __"
-                mask="+7 ### ### ## ##"
+                mask="+7 (###) ### ## ##"
                 unmasked-value
                 filled
-                fill-mask=" "
                 class="q-mb-md"
                 :rules="[
                   (val) => !!val || 'Надо заполнить',
