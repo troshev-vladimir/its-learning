@@ -191,9 +191,8 @@
 
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
-        v-if="card.linkToContract"
         class="text-body2 text-secondary d-flex items-center"
-        :href="card.linkToContract"
+        href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
@@ -206,7 +205,15 @@
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Приложение к договору
+        Приложение к договору №1
+      </a>
+      <a
+        class="text-body2 text-secondary d-flex items-center"
+        href="https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link"
+        target="_blank"
+      >
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Приложение к договору №2
       </a>
     </div>
   </article>

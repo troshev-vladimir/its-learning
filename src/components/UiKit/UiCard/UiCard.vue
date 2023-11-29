@@ -95,11 +95,19 @@
       </a>
       <a
         class="text-body2 text-blue-6 d-flex items-center"
-        :href="documents?.contractAditionLink || '#'"
+        :href="documents?.contractAditionOneLink || '#'"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Приложение к договору
+        Приложение к договору №1
+      </a>
+      <a
+        class="text-body2 text-blue-6 d-flex items-center"
+        :href="documents?.contractAditionTwoLink || '#'"
+        target="_blank"
+      >
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Приложение к договору №2
       </a>
     </div>
   </article>
@@ -120,8 +128,9 @@ export interface Props {
   selected: boolean;
   isPromocodeLegal: boolean;
   documents: {
-    contractAditionLink: string;
     contractLink: string;
+    contractAditionOneLink: string;
+    contractAditionTwoLink: string;
   };
 }
 const props = defineProps<Props>();

@@ -53,10 +53,12 @@ const cards = [
       },
     },
     documents: {
-      contractAditionLink:
-        "https://drive.google.com/file/d/1C10IkLNwBrSl60EZ-0lyA9IuJKhV3ylN/view?usp=share_link",
       contractLink:
-        "https://drive.google.com/file/d/1OjgXu6pTZA5fBU0v7XjV3z9WdBUZ7Imu/view?usp=share_link",
+        "https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link",
+      contractAditionOneLink:
+        "https://drive.google.com/file/d/1idYpXZ8xf3wNQbkAORbsFeHTs1rqWqqE/view?usp=share_link",
+      contractAditionTwoLink:
+        "https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link",
     },
   },
   {
@@ -93,10 +95,12 @@ const cards = [
       },
     },
     documents: {
-      contractAditionLink:
-        "https://drive.google.com/file/d/13JDHYxyoM3I5j4D1f9Yj3g4EbarT-oP0/view?usp=share_link",
       contractLink:
-        "https://drive.google.com/file/d/1gW3yZeT6whVh1O7yzzsPPRKmMMFtBKC4/view?usp=share_link",
+        "https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link",
+      contractAditionOneLink:
+        "https://drive.google.com/file/d/1F410CskezoFnWhrB_PILiKGb0Z8vOyg9/view?usp=share_link",
+      contractAditionTwoLink:
+        "https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link",
     },
   },
   {
@@ -129,10 +133,12 @@ const cards = [
       },
     },
     documents: {
-      contractAditionLink:
-        "https://drive.google.com/file/d/1H7KSxXj-nnRu3-2CKrl57yelwMG-8trv/view?usp=share_link",
       contractLink:
-        "https://drive.google.com/file/d/1wj28Ow2zzo7CWhqZbcIKB_QkwR0rAt3F/view?usp=share_link",
+        "https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link",
+      contractAditionOneLink:
+        "https://drive.google.com/file/d/1NRgZXZgoMgT6xds7bbetHNlPre5nUrCN/view?usp=share_link",
+      contractAditionTwoLink:
+        "https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link",
     },
   },
 ];
