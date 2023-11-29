@@ -22,7 +22,7 @@ class TariffMethods {
         } as getTariffsRequest,
       })
       .then((response) => {
-        if (!response.data || !response.data.length) throw new Error();
+        if (!response.data || !response.data.length) return [];
         return response.data;
       })
       .catch((error) => {

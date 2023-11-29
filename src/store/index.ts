@@ -73,11 +73,11 @@ const store = createStore<RootState>({
           state.userToken,
           promo
         );
-        commit("setExpirationDate", progress[0].finalsteptime);
-        commit("setUserCashe", progress[0].sum);
+        commit("setExpirationDate", progress[0]?.finalsteptime);
+        commit("setUserCashe", progress[0]?.sum);
         commit("setUsersBonuss", {
-          discounts: progress[0].currentdiscounts,
-          promoBonus: progress[0].promodiscount,
+          discounts: progress[0]?.currentdiscounts,
+          promoBonus: progress[0]?.promodiscount,
         });
       } catch (error) {
         console.log(error);
