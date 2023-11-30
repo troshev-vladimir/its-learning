@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useQuasar } from "quasar";
 
 const username = "REST_API";
 const password = "IPA_TSER";
