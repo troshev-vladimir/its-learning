@@ -1,9 +1,11 @@
-import { computed, ref, defineEmits, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 export default function usePincode(emit: any) {
   const inputs = ref([]);
   const currentInput = ref(0);
-  const userPin = ref([]);
+  const userPin = ref<string[]>([]);
+  const autocomplete = ref("");
+
   const pin = computed(() => {
     return userPin.value.reduce((acc, cur) => {
       if (!cur) return acc;
@@ -18,6 +20,13 @@ export default function usePincode(emit: any) {
         // @ts-ignore
         inputs.value[currentInput.value].blur();
       });
+    }
+  });
+
+  watch(autocomplete, (value) => {
+    if (value.length === 6) {
+      const autocompletedPin = value.split("");
+      userPin.value = [...autocompletedPin];
     }
   });
 
@@ -68,6 +77,7 @@ export default function usePincode(emit: any) {
     pin,
     userPin,
     currentInput,
+    autocomplete,
     inputs,
     clear,
   };

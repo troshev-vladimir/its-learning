@@ -1,4 +1,13 @@
 <template>
+  <input
+    v-model="autocomplete"
+    type="text"
+    name="token"
+    inputmode="numeric"
+    pattern="[0-9]"
+    autocomplete="one-time-code"
+    style="display: none"
+  />
   <div class="pin">
     <div class="d-flex">
       <q-input
@@ -54,8 +63,16 @@ const props = defineProps({
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(["update:modelValue", "completed"]);
-const { onFocus, nextInput, pin, userPin, inputs, defineExpose, clear } =
-  usePincode(emit);
+const {
+  onFocus,
+  nextInput,
+  pin,
+  userPin,
+  inputs,
+  defineExpose,
+  clear,
+  autocomplete,
+} = usePincode(emit);
 
 watch(pin, (value) => {
   emit("update:modelValue", value);
