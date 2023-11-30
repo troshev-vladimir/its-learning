@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useQuasar } from "quasar";
 
-const q = useQuasar();
 const username = "REST_API";
 const password = "IPA_TSER";
-const authorizationBasic = "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6";
 // const authorizationBasic = window.btoa(username + ":" + password);
 
 const instance = axios.create({
@@ -15,10 +13,10 @@ const instance = axios.create({
 
   timeout: 10000,
   // withCredentials: true,
-  // auth: {
-  //   username: "your-username",
-  //   password: "your-password",
-  // },
+  auth: {
+    username: username,
+    password: password,
+  },
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
