@@ -5,7 +5,12 @@ import { Notify } from "quasar";
 
 export default {
   plugins: { Notify },
-  config: { notify: {} },
+  config: {
+    notify: {},
+    screen: {
+      bodyClasses: true, // <<< add this
+    },
+  },
   framework: {
     cssAddon: true,
   },

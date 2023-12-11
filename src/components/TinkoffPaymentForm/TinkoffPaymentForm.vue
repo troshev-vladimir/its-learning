@@ -107,6 +107,7 @@ const props = defineProps<Props>();
 const password = "l8w4z08uhfuj45tt";
 const form = ref<HTMLElement>();
 const TerminalKey = "1662547243585";
+const windowReference = window.open();
 
 const clickHandler = async () => {
   if (!props.amount) return;
@@ -152,8 +153,6 @@ const clickHandler = async () => {
     return acc + Object.values(el)[0];
   }, "");
 
-  const windowReference = window.open();
-
   // @ts-ignore
   const token = await getSHA256Hash(tokenString);
 
@@ -171,9 +170,15 @@ const clickHandler = async () => {
 
     const responce = await resp.json();
     console.log(responce);
-
-    // @ts-ignore
-    windowReference.location = responce?.PaymentURL;
+    if (!responce.Success) {
+      $q.notify({
+        color: "negative",
+        message: responce.Message,
+      });
+    } else {
+      // @ts-ignore
+      windowReference.location = responce?.PaymentURL;
+    }
 
     // const respQR = await fetch("https://securepay.tinkoff.ru/v2/Init", {
     //   method: "post",

@@ -18,7 +18,30 @@ const routes = [
     path: "/tariff-selector",
     name: "tariffSelector",
     component: TariffSelectorPage,
+    meta: {
+      layout: "EmptyLayout",
+    },
   },
+  // <style>
+  // #tinkoff-modal {
+  //   overflow: hidden;
+  // }
+  //   #cards {
+  //     height: 1800px;
+  //     @media screen and (max-width: 1024px) {
+  //       height: 2600px;
+  //     }
+  //   }
+  // </style>
+  // <iframe
+  //   src="https://lk.itseducation.ru/configurator/tariff-selector/"
+  //   width="100%"
+  //   frameborder="0"
+  //   scrolling="no"
+  //   style="overflow: hidden;"
+  //   id="cards"
+  // >
+  // </iframe>
 
   {
     path: "/program",
