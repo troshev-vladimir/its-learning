@@ -1,4 +1,6 @@
-const programs = [
+import { Program } from "@/types/program";
+
+const programs: Program[] = [
   {
     id: "asd",
     name: "tesla",

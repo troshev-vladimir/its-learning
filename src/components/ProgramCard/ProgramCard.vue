@@ -140,6 +140,8 @@
       </div>
     </div>
 
+    <slot> </slot>
+
     <TinkoffPaymentForm
       :order-data="{
         order: card.name || '',

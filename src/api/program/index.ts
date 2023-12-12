@@ -12,7 +12,7 @@ class TariffMethods {
     promocode: string,
     id: string,
     token: string
-  ): Promise<Program[]> {
+  ): Promise<Program[]> | never {
     return axios
       .get<Program[]>("programms", {
         params: {
@@ -26,7 +26,11 @@ class TariffMethods {
         return response.data;
       })
       .catch((error) => {
-        if (process.env.NODE_ENV !== "production") return programsMock;
+        console.log(error);
+
+        if (process.env.NODE_ENV !== "production") {
+          return programsMock;
+        }
         window.dispatchEvent(event);
         throw error;
       });
