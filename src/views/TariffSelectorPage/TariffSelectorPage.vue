@@ -10,14 +10,14 @@
         >
           <ProgramCard :card="card">
             <q-chip
-              v-if="promocode && isPromocodeLegal"
+              v-if="promocode && card.discountApplyed"
               outline
               color="green"
               text-color="white"
               icon="fas fa-chevron-down"
               class="q-mt-sm"
             >
-              {{ acceptedPromocodeText }}
+              Промокод принят
             </q-chip>
             <q-input
               v-else
@@ -38,6 +38,7 @@
               ]"
               :loading="promocodeLoadding"
               @blur="proovePromocode"
+              @keyup.enter="proovePromocode"
             >
             </q-input>
           </ProgramCard>
@@ -60,7 +61,11 @@ useMeta({
 });
 const $q = useQuasar();
 
-const { promocode, isPromocodeLegal } = usePromocode();
+const {
+  proovePromocode,
+  loadding: promocodeLoadding,
+  promocode,
+} = usePromocode();
 const { programs } = usePrograms(promocode);
 
 const getSectionStyle = computed(() => {

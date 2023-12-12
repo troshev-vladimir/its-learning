@@ -7,7 +7,7 @@ export default function usePrograms(promocode: Ref) {
   const programs = computed<Program[]>(() => store.state.programs.programs);
 
   const updatePrograms = () => {
-    store.dispatch("programs/fetchPrograms");
+    store.dispatch("programs/fetchPrograms", promocode.value);
   };
 
   onMounted(() => {
