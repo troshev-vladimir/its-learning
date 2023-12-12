@@ -15,32 +15,44 @@
               color="green"
               text-color="white"
               icon="fas fa-chevron-down"
-              class="q-mt-sm"
+              class="q-mb-lg"
             >
               Промокод принят
             </q-chip>
-            <q-input
-              v-else
-              v-model="promocode"
-              label="Ввести промокод"
-              color="primary"
-              maxlength="6"
-              lazy-rules
-              class="ui-input size-sm full-width"
-              dense
-              no-error-icon
-              outlined
-              :rules="[
-                (val) =>
-                  val.length === 6 ||
-                  val.length === 0 ||
-                  'Неправильный промокод, необходимо 6 символов',
-              ]"
-              :loading="promocodeLoadding"
-              @blur="proovePromocode"
-              @keyup.enter="proovePromocode"
-            >
-            </q-input>
+            <div v-else class="row items-start q-mb-sm q-col-gutter-xs">
+              <div class="col-10">
+                <q-input
+                  v-model="promocode"
+                  label="Ввести промокод"
+                  color="primary"
+                  maxlength="6"
+                  lazy-rules
+                  class="ui-input size-sm full-width"
+                  dense
+                  no-error-icon
+                  outlined
+                  :rules="[
+                    (val) =>
+                      val.length === 6 ||
+                      val.length === 0 ||
+                      'Необходимо 6 символов',
+                  ]"
+                  :loading="promocodeLoadding"
+                  @keyup.enter="proovePromocode"
+                >
+                </q-input>
+              </div>
+
+              <div class="col-2">
+                <ui-button size="sm" @click="proovePromocode">
+                  <q-icon
+                    name="fas fa-chevron-right"
+                    size="20px"
+                    color="white"
+                  ></q-icon>
+                </ui-button>
+              </div>
+            </div>
           </ProgramCard>
         </div>
       </div>
