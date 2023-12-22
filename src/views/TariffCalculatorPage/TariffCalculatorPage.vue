@@ -76,11 +76,7 @@
     <div class="q-mb-xl">
       <div class="container">
         <div class="row">
-          <div
-            v-for="card in programs"
-            :key="card.id"
-            class="col-12 col-md-4 q-mb-md q-mb-md-none"
-          >
+          <div v-for="card in programs" :key="card.id" class="col-12">
             <ProgramCard :card="card" />
           </div>
         </div>
