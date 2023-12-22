@@ -46,78 +46,79 @@
           </div>
         </div>
       </div>
-      <div class="program-card__criterias">
-        <div class="criteria text-body2">
-          <span class="criteria__name q-mr-sm"> Стоимость программы: </span>
-          <p class="text-body2">
-            <span
-              v-if="card.price.withDiscount !== card.price.actual"
-              class="text-body2 text-bold _old-price q-mr-sm"
-            >
-              {{ formatNumber(card.price.actual) }}
-            </span>
-            <span
-              class="text-body1 text-bold"
-              :style="`color: ${
-                card.price.withDiscount !== card.price.actual
-                  ? 'var(--q-success)'
-                  : '#000'
-              }`"
-            >
-              {{ formatNumber(card.price.withDiscount) }}
-            </span>
-            <span>₽</span>
-          </p>
-        </div>
-
-        <div class="criteria text-body2">
-          <span class="criteria__name q-mr-sm">Рассрочка от:</span>
-          <p class="text-body2">
-            <span
-              v-if="card.price.withDiscount !== card.price.actual"
-              class="text-body2 text-bold _old-price q-mr-sm"
-            >
-              {{ formatNumber(getInstallment(card.price.actual)) }}
-            </span>
-            <span
-              class="text-body1 text-bold"
-              :style="`color: ${
-                card.price.withDiscount !== card.price.actual
-                  ? 'var(--q-success)'
-                  : '#000'
-              }`"
-            >
-              {{ formatNumber(getInstallment(card.price.withDiscount)) }}
-            </span>
-            <span>₽/мес.</span>
-          </p>
-        </div>
-
-        <div
-          v-if="card.price.withDiscount !== card.price.actual"
-          class="criteria text-body2"
-        >
-          <span class="q-mr-sm">Скидка:</span>
-          <p class="text-body2">
-            <span class="text-body1 text-bold">
-              {{ formatNumber(card.discount || 0) }}
-            </span>
-            <span> ₽ </span>
-          </p>
-        </div>
-
-        <div v-if="card.price.withDiscount !== card.price.actual" class="">
+      <div class="content__right-side">
+        <div class="program-card__criterias">
           <div class="criteria text-body2">
-            <span class="q-mr-sm">Прибавка к зарплате:</span>
+            <span class="criteria__name q-mr-sm"> Стоимость программы: </span>
             <p class="text-body2">
-              <span class="text-body1 text-bold">
-                {{ formatNumber(card.salaryAddition || 0) }}</span
+              <span
+                v-if="card.price.withDiscount !== card.price.actual"
+                class="text-body2 text-bold _old-price q-mr-sm"
               >
+                {{ formatNumber(card.price.actual) }}
+              </span>
+              <span
+                class="text-body1 text-bold"
+                :style="`color: ${
+                  card.price.withDiscount !== card.price.actual
+                    ? 'var(--q-success)'
+                    : '#000'
+                }`"
+              >
+                {{ formatNumber(card.price.withDiscount) }}
+              </span>
               <span>₽</span>
             </p>
           </div>
-        </div>
 
+          <div class="criteria text-body2">
+            <span class="criteria__name q-mr-sm">Рассрочка от:</span>
+            <p class="text-body2">
+              <span
+                v-if="card.price.withDiscount !== card.price.actual"
+                class="text-body2 text-bold _old-price q-mr-sm"
+              >
+                {{ formatNumber(getInstallment(card.price.actual)) }}
+              </span>
+              <span
+                class="text-body1 text-bold"
+                :style="`color: ${
+                  card.price.withDiscount !== card.price.actual
+                    ? 'var(--q-success)'
+                    : '#000'
+                }`"
+              >
+                {{ formatNumber(getInstallment(card.price.withDiscount)) }}
+              </span>
+              <span>₽/мес.</span>
+            </p>
+          </div>
+
+          <div
+            v-if="card.price.withDiscount !== card.price.actual"
+            class="criteria text-body2"
+          >
+            <span class="q-mr-sm">Скидка:</span>
+            <p class="text-body2">
+              <span class="text-body1 text-bold">
+                {{ formatNumber(card.discount || 0) }}
+              </span>
+              <span> ₽ </span>
+            </p>
+          </div>
+
+          <div v-if="card.price.withDiscount !== card.price.actual" class="">
+            <div class="criteria text-body2">
+              <span class="q-mr-sm">Прибавка к зарплате:</span>
+              <p class="text-body2">
+                <span class="text-body1 text-bold">
+                  {{ formatNumber(card.salaryAddition || 0) }}</span
+                >
+                <span>₽</span>
+              </p>
+            </div>
+          </div>
+        </div>
         <div class="program-card__buttons-block">
           <TinkoffPaymentForm
             :order-data="{
@@ -283,6 +284,12 @@ const getInstallment = (summ: number) => {
     @media (min-width: $breakpoint-sm) {
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
+    }
+
+    .content__right-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   }
 
