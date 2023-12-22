@@ -1,47 +1,52 @@
 <template>
   <article class="program-card shadow-2 full-height">
     <div class="program-card__header">
-      <div class="header__left-side">
-        <div class="text-body1 text-bold q-mb-md q-block">Программа</div>
-        <h1 class="text-h2">
-          <span class="text-accent">{{ card.name }}</span>
-        </h1>
-      </div>
-      <div class="header__right-side">
-        <p class="text-body1 text-bold" v-html="card.description"></p>
+      <div class="text-body1 text-bold q-mb-md q-block">Программа</div>
+      <div class="header__container">
+        <div class="header__left-side">
+          <h1 class="text-h2">
+            <span class="text-accent">{{ card.name }}</span>
+          </h1>
+        </div>
+        <div class="header__right-side">
+          <p class="text-body1 text-bold" v-html="card.description"></p>
+        </div>
       </div>
     </div>
 
-    <div class="program-card__content q-mb-sm">
-      <ul class="adventages" style="flex: 1 0 auto">
-        <li
-          v-for="(advantage, idx) in card.advantages"
-          :key="idx"
-          class="text-body2 list-item"
-        >
-          {{ advantage }}
-        </li>
-      </ul>
+    <div class="program-card__content">
+      <div class="q-mb-md">
+        <ul class="adventages q-mb-md" style="flex: 1 0 auto">
+          <li
+            v-for="(advantage, idx) in card.advantages"
+            :key="idx"
+            class="text-body2 list-item"
+          >
+            {{ advantage }}
+          </li>
+        </ul>
+        <div class="program-card__criterias">
+          <div class="criteria text-body2">
+            <span class="criteria__name q-mr-sm"> Срок обучения: </span>
+            <span class="text-body2">
+              <p class="text-body2">
+                <span class="q-mr-sm text-body1 text-bold">
+                  {{ card.period }}
+                </span>
+                <span>мес.</span>
+              </p>
+            </span>
+          </div>
+
+          <div class="criteria">
+            <p class="text-body2">Твоя будущая зарплата:</p>
+            <span class="text-body1 text-bold text-no-wrap">
+              {{ formatNumber(card.futureSalary) }} ₽
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="program-card__criterias">
-        <div class="criteria text-body2">
-          <span class="criteria__name q-mr-sm"> Срок обучения: </span>
-          <span class="text-body2">
-            <p class="text-body2">
-              <span class="q-mr-sm text-body1 text-bold">
-                {{ card.period }}
-              </span>
-              <span>мес.</span>
-            </p>
-          </span>
-        </div>
-
-        <div class="criteria">
-          <p class="text-body2">Твоя будущая зарплата:</p>
-          <span class="text-body1 text-bold text-no-wrap">
-            {{ formatNumber(card.futureSalary) }} ₽
-          </span>
-        </div>
-
         <div class="criteria text-body2">
           <span class="criteria__name q-mr-sm"> Стоимость программы: </span>
           <p class="text-body2">
@@ -87,68 +92,7 @@
             <span>₽/мес.</span>
           </p>
         </div>
-      </div>
-    </div>
 
-    <div class="program-card__content">
-      <div class="program-card__buttons-block">
-        <TinkoffPaymentForm
-          :order-data="{
-            order: card.name || '',
-            description:
-              'Твой путь в 1С программирование начинается прямо сейчас',
-          }"
-          :amount="card.price.withDiscount"
-        >
-          <template #default="{ handler }">
-            <UiButton
-              class="program-card__buy-button"
-              color="white"
-              text-color="primary"
-              size="sm"
-              @click="handler"
-            >
-              КУПить
-            </UiButton>
-          </template>
-        </TinkoffPaymentForm>
-        <q-btn-dropdown
-          split
-          color="white"
-          dropdown-icon="fas fa-chevron-down"
-          :label="
-            currentInstalmentPreiod === 24
-              ? `В кредит до (${currentInstalmentPreiod} мес.)`
-              : `В рассрочку (${currentInstalmentPreiod} мес.)`
-          "
-          class="full-width size--xs q-mt-md"
-          auto-close
-          text-color="black"
-          @click="buyProgramViaInstallment"
-        >
-          <q-list>
-            <q-item
-              v-for="(instalmentOption, idx) in [3, 6, 24]"
-              :key="idx"
-              v-close-popup
-              clickable
-              :active="currentInstalmentPreiod === instalmentOption"
-              active-class="bg-blue-2 text-blue-5 no-pointer-events"
-              @click="currentInstalmentPreiod = instalmentOption"
-            >
-              <q-item-section>
-                <q-item-label v-if="instalmentOption === 24">
-                  В кредит до {{ instalmentOption }} месяцев
-                </q-item-label>
-                <q-item-label v-else>
-                  На {{ instalmentOption }} месяца
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </div>
-      <div class="program-card__criterias">
         <div
           v-if="card.price.withDiscount !== card.price.actual"
           class="criteria text-body2"
@@ -162,22 +106,6 @@
           </p>
         </div>
 
-        <div
-          v-if="card.price.withDiscount !== card.price.actual"
-          class="criteria text-body2"
-        >
-          <span class="q-mr-sm">Сгорает:</span>
-          <p class="text-body2">
-            <span
-              class="text-body1 text-bold"
-              :class="{ 'text-red-6': card.burnout > 0 }"
-            >
-              {{ formatNumber(card.burnout || 0) }}</span
-            >
-            <span>₽</span>
-          </p>
-        </div>
-
         <div v-if="card.price.withDiscount !== card.price.actual" class="">
           <div class="criteria text-body2">
             <span class="q-mr-sm">Прибавка к зарплате:</span>
@@ -188,6 +116,64 @@
               <span>₽</span>
             </p>
           </div>
+        </div>
+
+        <div class="program-card__buttons-block">
+          <TinkoffPaymentForm
+            :order-data="{
+              order: card.name || '',
+              description:
+                'Твой путь в 1С программирование начинается прямо сейчас',
+            }"
+            :amount="card.price.withDiscount"
+          >
+            <template #default="{ handler }">
+              <UiButton
+                class="program-card__buy-button"
+                color="white"
+                text-color="primary"
+                size="sm"
+                @click="handler"
+              >
+                КУПить
+              </UiButton>
+            </template>
+          </TinkoffPaymentForm>
+          <q-btn-dropdown
+            split
+            color="white"
+            dropdown-icon="fas fa-chevron-down"
+            :label="
+              currentInstalmentPreiod === 24
+                ? `В кредит до (${currentInstalmentPreiod} мес.)`
+                : `В рассрочку (${currentInstalmentPreiod} мес.)`
+            "
+            class="full-width size--xs q-mt-md"
+            auto-close
+            text-color="black"
+            @click="buyProgramViaInstallment"
+          >
+            <q-list>
+              <q-item
+                v-for="(instalmentOption, idx) in [3, 6, 24]"
+                :key="idx"
+                v-close-popup
+                clickable
+                :active="currentInstalmentPreiod === instalmentOption"
+                active-class="bg-blue-2 text-blue-5 no-pointer-events"
+                @click="currentInstalmentPreiod = instalmentOption"
+              >
+                <q-item-section>
+                  <q-item-label v-if="instalmentOption === 24">
+                    В кредит до {{ instalmentOption }} месяцев
+                  </q-item-label>
+                  <q-item-label v-else>
+                    На {{ instalmentOption }} месяца
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </div>
       </div>
     </div>
@@ -266,11 +252,16 @@ const getInstallment = (summ: number) => {
   &__header {
     margin-bottom: $md;
     display: block;
-    @media (min-width: $breakpoint-sm) {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 24px;
+
+    .header__container {
+      display: block;
+
+      @media (min-width: $breakpoint-sm) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+      }
     }
 
     .header__left-side {
@@ -288,10 +279,10 @@ const getInstallment = (summ: number) => {
   &__content {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 24px;
 
     @media (min-width: $breakpoint-sm) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
   }
 
@@ -303,17 +294,15 @@ const getInstallment = (summ: number) => {
     display: flex;
     flex-direction: column;
     justify-content: end;
-    grid-row-start: 2;
-
-    @media (min-width: $breakpoint-sm) {
-      grid-row-start: 1;
-    }
+    grid-column-start: 1;
+    grid-column-end: 3;
   }
 
   &__criterias {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 16px;
+    height: fit-content;
 
     @media (min-width: 429px) {
       grid-template-columns: repeat(2, 1fr);
