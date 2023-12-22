@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/TariffCalculatorPage";
-import TariffSelectorPage from "@/views/TariffSelectorPage";
 import Auth from "@/views/LoginPage";
 import store from "@/store";
 
@@ -14,14 +13,6 @@ const routes = [
     },
   },
 
-  {
-    path: "/tariff-selector",
-    name: "tariffSelector",
-    component: TariffSelectorPage,
-    meta: {
-      layout: "EmptyLayout",
-    },
-  },
   // <style>
   // #tinkoff-modal {
   //   overflow: hidden;

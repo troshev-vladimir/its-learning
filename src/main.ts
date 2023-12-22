@@ -8,7 +8,6 @@ import "./styles/main.scss";
 import UiButton from "@/components/UiKit/UiButton.vue";
 import IconBase from "@/components/UiKit/IconBase";
 import UiItem from "@/components/UiKit/UiItem.vue";
-import UiCard from "@/components/UiKit/UiCard";
 import UiAccordion from "@/components/UiKit/UiAccordion/UiAccordion.vue";
 import UiInput from "@/components/UiKit/UiInput.vue";
 
@@ -22,7 +21,6 @@ app.component("IconBase", IconBase);
 app.component("UiAccordion", UiAccordion);
 app.component("UiItem", UiItem);
 app.component("UiInput", UiInput);
-app.component("UiCard", UiCard);
 
 app.component("LearningImg", LearningImg);
 app.component("SalaryImg", SalaryImg);
