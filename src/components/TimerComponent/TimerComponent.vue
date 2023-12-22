@@ -1,12 +1,12 @@
 <template>
   <div v-if="!isExpired" class="timer">
     <div class="image">
-      <img :src="CoinImage" alt="timer" />
+      <img src="@/assets/img/timer.png" alt="timer" />
     </div>
 
     <div class="count">
-      <span v-if="string">{{ string }}</span>
-      <span v-else>00:00:00</span>
+      <span style="display: block" v-if="string">{{ string }}</span>
+      <span style="display: block" v-else>00:00:00</span>
     </div>
   </div>
   <q-chip
@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, defineEmits } from "vue";
-import CoinImage from "@/assets/img/timer.png";
 import moment from "moment";
 import store from "@/store";
 let interval: number | undefined;
@@ -121,8 +120,8 @@ onBeforeUnmount(() => {
   }
 
   .count {
-    padding: 15px 5px 15px 5px;
-    width: 140px;
+    padding: 15px 5px;
+    width: fit-content;
     color: #000;
     font-family: Gogh;
     font-size: 30px;
