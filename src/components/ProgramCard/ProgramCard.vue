@@ -303,6 +303,7 @@ const getInstallment = (summ: number) => {
     justify-content: end;
     grid-column-start: 1;
     grid-column-end: 3;
+    margin-top: $md;
   }
 
   &__criterias {
