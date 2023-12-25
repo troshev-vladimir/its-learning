@@ -1,0 +1,91 @@
+@import "./variables.scss";
+@import "./container.scss";
+@import "./fonts.scss";
+$generic-border-radius: 200px;
+
+@mixin col-gap($gutter) {
+  .container > .row {
+    margin-left: -$gutter;
+
+    & > [class^="col-"],
+    & > .col {
+      padding-left: $gutter;
+    }
+  }
+}
+
+.text-h1 {
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 35px;
+}
+
+.text-h2 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+}
+
+.text-body1 {
+  font-size: 15px;
+  line-height: 21px;
+  color: #101010;
+}
+
+.text-body2 {
+  font-size: 12px;
+  line-height: 16px;
+  color: #101010;
+}
+
+@include col-gap(20px);
+
+$flex-cols: 8;
+
+
+@media (min-width: $breakpoint-xs) {
+  $flex-cols: 6;
+}
+
+@media (min-width: $breakpoint-sm) {
+  $flex-cols: 8;
+}
+
+@media (min-width: $breakpoint-md) {
+  $flex-cols: 12;
+}
+
+@media (min-width: $breakpoint-sm) {
+  // 1024
+  .text-h1 {
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 45px;
+  }
+
+  .text-h2 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 100%;
+  }
+  .text-body1 {
+    font-size: 20px;
+    line-height: 135%;
+    color: #101010;
+  }
+
+  .text-body2 {
+    font-size: 15px;
+    line-height: 180%;
+    color: #101010;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  // 1440
+  @include col-gap(40px);
+}
+@media (min-width: $breakpoint-lg) {
+  // 1920
+  @include col-gap(40px);
+}
