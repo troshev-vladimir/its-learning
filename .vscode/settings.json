@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "octref.vetur",
+  "[typescript]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "vetur.format.defaultFormatter.js": "prettier",
+  "eslint.format.enable": true,
+  "notebook.formatOnSave.enabled": true,
+  "notebook.formatOnCellExecution": true
+}

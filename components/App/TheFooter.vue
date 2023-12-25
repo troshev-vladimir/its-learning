@@ -1,8 +1,8 @@
 <template>
   <footer class="bg-primary q-py-xl">
     <div class="container">
-      <div class="row">
-        <div class="col-4">
+      <div class="row justify-between">
+        <div class="col-12 col-md-4">
           <div class="logo">
             <img src="~/assets/img/logo-white.svg" alt="logo" />
           </div>
@@ -10,7 +10,7 @@
             >Академия 1С программирования</span
           >
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-5">
           <a
             href="https://islod.obrnadzor.gov.ru/rlic/details/d90449fe-a5cc-b3f6-0cfd-374d13b8c672/"
             target="_blank"

@@ -1,3 +1,4 @@
+// $
 @import "./variables.scss";
 @import "./container.scss";
 @import "./fonts.scss";
@@ -40,20 +41,17 @@ $generic-border-radius: 200px;
 
 @include col-gap(20px);
 
-$flex-cols: 8;
-
-
-@media (min-width: $breakpoint-xs) {
-  $flex-cols: 6;
+@mixin theme-colors($light-theme: true) {
+  @if $light-theme {
+    background-color: $light-background;
+    color: $light-text;
+  } @else {
+    background-color: $dark-background;
+    color: $dark-text;
+  }
 }
 
-@media (min-width: $breakpoint-sm) {
-  $flex-cols: 8;
-}
-
-@media (min-width: $breakpoint-md) {
-  $flex-cols: 12;
-}
+$flex-cols: 12;
 
 @media (min-width: $breakpoint-sm) {
   // 1024

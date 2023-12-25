@@ -3,8 +3,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    'nuxt-quasar-ui'
+    'nuxt-quasar-ui',
+    '@pinia/nuxt',
   ],
+
+  pinia: {
+    storesDirs: ['./stores/**/*.ts'],
+  },
 
   quasar: {
     plugins: [

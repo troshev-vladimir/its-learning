@@ -1,10 +1,13 @@
 import axios from "../axios";
-import { Program } from "@/types/program";
+import { type AxiosResponse } from "axios";
+import { type Program } from "@/types/program";
 import programsMock from "./mock/programs";
 const event = new Event("server-error");
 
 interface getTariffsRequest {
   promocode: string;
+  id: string;
+  token: string;
 }
 
 class TariffMethods {
@@ -21,7 +24,7 @@ class TariffMethods {
           token,
         } as getTariffsRequest,
       })
-      .then((response) => {
+      .then((response: AxiosResponse<Program[]>) => {
         if (!response.data || !response.data.length) return [];
         return response.data;
       })
