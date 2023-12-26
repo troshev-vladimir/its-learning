@@ -30,4 +30,10 @@ onBeforeUnmount(() => {
   window.removeEventListener("server-error", errorHandler);
   window.removeEventListener("unauthorized", unauthorisedHandler);
 });
+
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} | ITS Education` : "ITS Education";
+  },
+});
 </script>

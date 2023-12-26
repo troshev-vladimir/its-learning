@@ -1,7 +1,7 @@
 <template>
-  <q-page-container>
-    <q-page class="column">
-      <router-view />
-    </q-page>
-  </q-page-container>
+  <div class="container">
+    <slot></slot>
+  </div>
 </template>
+
+<style lang="scss" scoped></style>
