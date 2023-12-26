@@ -11,6 +11,22 @@ export default defineNuxtConfig({
     storesDirs: ['./stores/**'],
   },
 
+  components: [
+    {
+      path: '~/components',
+      extensions: ['.vue'],
+    },
+    {
+      path: '~/features',
+      extensions: ['.vue'],
+      pathPrefix: true,
+      prefix: 'Feature',
+    },
+  ],
+  imports: {
+    dirs: ['features/**', 'components/**'],
+  },
+
   quasar: {
     plugins: [
       'Notify',

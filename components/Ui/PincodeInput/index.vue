@@ -1,14 +1,5 @@
 <template>
-  <input
-    v-model="autocomplete"
-    type="text"
-    name="token"
-    inputmode="numeric"
-    pattern="[0-9]"
-    autocomplete="one-time-code"
-    style="display: none"
-  />
-  <div class="pin">
+  <div :class="$style.pin">
     <div class="d-flex">
       <q-input
         v-for="i in 6"
@@ -18,17 +9,17 @@
         filled
         mask="#"
         unmasked-value
-        class="pin-input q-pb-none"
-        :class="{ 'q-mr-xs q-mr-sm-md': i !== 6 }"
-        standout
+        class="q-pb-none"
+        :class="[{ 'q-mr-xs q-mr-sm-md': i !== 6 }, $style['pin-input']]"
         :error="!!error"
         no-error-icon
         :disable="disabled"
         :autofocus="i === 1"
         inputmode="numeric"
         @update:model-value="nextInput"
-        @click="onFocus(i)"
+        @click="onFocus()"
         @keydown.delete="userPin = []"
+        @paste="pasteEvent"
       >
       </q-input>
     </div>
@@ -42,7 +33,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch, onMounted } from "vue";
 import usePincode from "./composables/usePincode";
 // eslint-disable-next-line no-undef
@@ -63,23 +54,12 @@ const props = defineProps({
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(["update:modelValue", "completed"]);
-const {
-  onFocus,
-  nextInput,
-  pin,
-  userPin,
-  inputs,
-  defineExpose,
-  clear,
-  autocomplete,
-} = usePincode(emit);
-
-watch(pin, (value) => {
-  emit("update:modelValue", value);
-});
+const { onFocus, nextInput, userPin, inputs, clear, pasteEvent } =
+  usePincode(emit);
 
 onMounted(() => {
   inputs.value.forEach((input) => {
+    // @ts-expect-error
     input?.resetValidation();
   });
 });
@@ -90,5 +70,40 @@ defineExpose({
   clear,
 });
 </script>
+<style module>
+.q-field__messages {
+  text-align: center;
+}
 
-<style></style>
+.pin p {
+  text-align: center;
+}
+</style>
+<style lang="scss" module>
+.pin {
+  .q-field__control {
+    padding-left: 16px;
+  }
+}
+
+.loadder-wrappper {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translate(100%, -50%);
+}
+
+.content {
+  max-width: 360px;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+}
+
+.remain {
+  cursor: pointer;
+}
+
+.pin-input {
+  width: 43px;
+}
+</style>

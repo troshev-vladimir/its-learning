@@ -2,7 +2,6 @@
 @import "./variables.scss";
 @import "./container.scss";
 @import "./fonts.scss";
-$generic-border-radius: 200px;
 
 @mixin col-gap($gutter) {
   .container > .row {

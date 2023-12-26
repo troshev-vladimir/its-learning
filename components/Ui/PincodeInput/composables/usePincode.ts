@@ -4,7 +4,6 @@ export default function usePincode(emit: any) {
   const inputs = ref([]);
   const currentInput = ref(0);
   const userPin = ref<string[]>([]);
-  const autocomplete = ref("");
 
   const pin = computed(() => {
     return userPin.value.reduce((acc, cur) => {
@@ -14,6 +13,8 @@ export default function usePincode(emit: any) {
   });
 
   watch(pin, (value) => {
+    emit("update:modelValue", value);
+
     if (value.length === 6) {
       emit("completed");
       setTimeout(() => {
@@ -23,14 +24,21 @@ export default function usePincode(emit: any) {
     }
   });
 
-  watch(autocomplete, (value) => {
-    if (value.length === 6) {
-      const autocompletedPin = value.split("");
+  const pasteEvent = async (e: ClipboardEvent) => {
+    e.preventDefault();
+  
+    const { clipboardData } = e;
+    let paste = clipboardData?.getData("text");
+    if (!paste) return;
+    paste = paste.replace(/[^\d]/g, "");
+
+    if (paste.length === 6) {
+      const autocompletedPin = paste.split("");
       userPin.value = [...autocompletedPin];
     }
-  });
+  };
 
-  const nextInput = (value: number) => {
+  const nextInput = (value: number | string | null) => {
     if (!value) {
       onClear();
       return;
@@ -77,7 +85,7 @@ export default function usePincode(emit: any) {
     pin,
     userPin,
     currentInput,
-    autocomplete,
+    pasteEvent,
     inputs,
     clear,
   };
