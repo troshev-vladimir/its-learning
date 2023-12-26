@@ -80,127 +80,126 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, defineProps } from "vue";
-  import { useQuasar } from "quasar";
-  const $q = useQuasar();
+import { ref, defineProps } from "vue";
+import { useQuasar } from "quasar";
+const $q = useQuasar();
 
-  export interface UserData {
-    phone: string;
-    email: string;
-    name: string;
-  }
+export interface UserData {
+  phone: string;
+  email: string;
+  name: string;
+}
 
-  export interface GoodData {
-    description: string;
-    order: string;
-  }
+export interface GoodData {
+  description: string;
+  order: string;
+}
 
-  export interface Props {
-    amount: number;
-    text?: string;
-    userData?: UserData;
-    orderData?: GoodData;
-  }
+export interface Props {
+  amount: number;
+  text?: string;
+  userData?: UserData;
+  orderData?: GoodData;
+}
 
-  const props = defineProps<Props>();
-  const password = "l8w4z08uhfuj45tt";
-  const form = ref<HTMLElement>();
-  const TerminalKey = "1662547243585";
+const props = defineProps<Props>();
+const password = "l8w4z08uhfuj45tt";
+const form = ref<HTMLElement>();
+const TerminalKey = "1662547243585";
 
-  const clickHandler = async () => {
-    if (!props.amount) return;
+const clickHandler = async () => {
+  if (!props.amount) return;
 
-    const orderData = {
-      TerminalKey: TerminalKey,
-      Amount: props.amount + "00",
-      Description: props.orderData?.description || "Оплата",
-      OrderId: props.orderData?.order || 1234,
-      // Token: token,
-      DATA: {
-        Phone: localStorage.getItem("userPhone") || "",
-        Email: localStorage.getItem("userEmail") || "",
-      },
-      Receipt: {
-        EmailCompany: "buh@itsportal.ru",
-        Taxation: "osn",
-        Email: localStorage.getItem("userEmail") || "",
-        Phone: "+79127177910",
-        Items: [
-          {
-            Name: props.orderData?.description || "Оплата",
-            Price: props.amount + "00",
-            Quantity: 1.0,
-            Amount: props.amount + "00",
-            PaymentMethod: "full_prepayment",
-            PaymentObject: "service",
-            Tax: "none",
-          },
-        ],
-      },
-    };
-
-    const dataToToken = [
-      { Amount: props.amount + "00" },
-      { Description: props.orderData?.description || "Оплата" },
-      { OrderId: props.orderData?.order || 1234 },
-      { Password: password },
-      { TerminalKey: TerminalKey },
-    ];
-
-    const tokenString = dataToToken.reduce((acc, el) => {
-      return acc + Object.values(el)[0];
-    }, "");
-
-    // @ts-ignore
-    // const token = await getSHA256Hash(tokenString);
-
-    try {
-      const windowReference = window.open();
-
-      const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
+  const orderData = {
+    TerminalKey: TerminalKey,
+    Amount: props.amount + "00",
+    Description: props.orderData?.description || "Оплата",
+    OrderId: props.orderData?.order || 1234,
+    // Token: token,
+    DATA: {
+      Phone: localStorage.getItem("userPhone") || "",
+      Email: localStorage.getItem("userEmail") || "",
+    },
+    Receipt: {
+      EmailCompany: "buh@itsportal.ru",
+      Taxation: "osn",
+      Email: localStorage.getItem("userEmail") || "",
+      Phone: "+79127177910",
+      Items: [
+        {
+          Name: props.orderData?.description || "Оплата",
+          Price: props.amount + "00",
+          Quantity: 1.0,
+          Amount: props.amount + "00",
+          PaymentMethod: "full_prepayment",
+          PaymentObject: "service",
+          Tax: "none",
         },
-        body: JSON.stringify({
-          ...orderData,
-          // Token: token,
-        }),
-      });
+      ],
+    },
+  };
 
-      const responce = await resp.json();
-      console.log(responce);
-      if (!responce.Success) {
-        $q.notify({
-          color: "negative",
-          message: responce.Message,
-        });
-      } else {
-        // @ts-ignore
-        windowReference.location = responce?.PaymentURL;
-      }
+  const dataToToken = [
+    { Amount: props.amount + "00" },
+    { Description: props.orderData?.description || "Оплата" },
+    { OrderId: props.orderData?.order || 1234 },
+    { Password: password },
+    { TerminalKey: TerminalKey },
+  ];
 
-      // const respQR = await fetch("https://securepay.tinkoff.ru/v2/Init", {
-      //   method: "post",
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     TerminalKey: TerminalKey,
-      //   }),
-      // });
-    } catch (error) {
+  const tokenString = dataToToken.reduce((acc, el) => {
+    return acc + Object.values(el)[0];
+  }, "");
+
+  // @ts-ignore
+  // const token = await getSHA256Hash(tokenString);
+
+  try {
+    const windowReference = window.open();
+
+    const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...orderData,
+        // Token: token,
+      }),
+    });
+
+    const responce = await resp.json();
+    if (!responce.Success) {
       $q.notify({
         color: "negative",
-        message: "Что то пошло не так",
+        message: responce.Message,
       });
+    } else {
+      // @ts-ignore
+      windowReference.location = responce?.PaymentURL;
     }
-  };
+
+    // const respQR = await fetch("https://securepay.tinkoff.ru/v2/Init", {
+    //   method: "post",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     TerminalKey: TerminalKey,
+    //   }),
+    // });
+  } catch (error) {
+    $q.notify({
+      color: "negative",
+      message: "Что то пошло не так",
+    });
+  }
+};
 </script>
 <style lang="scss">
-  .payform-tinkoff-row {
-    display: block;
-    margin: 1%;
-    width: 160px;
-  }
+.payform-tinkoff-row {
+  display: block;
+  margin: 1%;
+  width: 160px;
+}
 </style>

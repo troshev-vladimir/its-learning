@@ -19,7 +19,9 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "@quasar/extras": "^1.16.9",
+    "@tcb-web/create-credit": "^1.0.6",
     "axios": "^1.6.2",
+    "moment": "2.24.0",
     "pinia": "^2.1.7",
     "quasar": "^2.14.2",
     "sass": "^1.69.5"
