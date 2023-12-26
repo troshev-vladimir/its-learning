@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   ],
 
   pinia: {
-    storesDirs: ['./stores/**/*.ts'],
+    storesDirs: ['./stores/**'],
   },
 
   quasar: {

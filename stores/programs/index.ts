@@ -1,22 +1,24 @@
-import { type Program } from '@/types/program';
+import { type Program } from '~/api/program/types';
 import { defineStore } from 'pinia'
-import getPrograms from '~/api/program'
+import Programs from '~/api/program'
 
-const useProgramsStore = defineStore('programs', {
-  state: () => {
-    return {
-      programs: [] as Program[]
+const useProgramsStore = defineStore('programs',() => {
+  const programs = ref<Program[]>([])
+  
+  async function fetchPrograms () {
+    try {
+      const programsResp = await Programs.getAll('','79048628369', 'HOU6nPVBXp87rOQBHESr7gtCCugecQNH')
+      programs.value = programsResp
+      return programsResp
+    } catch (error) {
+      console.log(error);
+      return []
     }
-  },
+  }
 
-  actions: {
-    async fetchPrograms () {
-      try {
-        return await getPrograms
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  return {
+    fetchPrograms,
+    programs
   }
 
 })

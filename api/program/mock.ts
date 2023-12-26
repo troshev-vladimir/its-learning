@@ -1,4 +1,5 @@
-import { Program } from "@/types/program";
+
+import { type Program } from "~/api/program/types";
 
 const programs: Program[] = [
   {
@@ -32,4 +33,10 @@ const programs: Program[] = [
   },
 ];
 
-export default programs;
+class Programm {
+  getAll(): Promise<Program[]> | never {
+    return Promise.resolve(programs)
+  }
+}
+
+export default new Programm();

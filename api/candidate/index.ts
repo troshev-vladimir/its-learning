@@ -1,15 +1,13 @@
-import { UserId, Candidate } from "@/types/candidate";
+import { 
+  type UserId, 
+  type Candidate 
+} from "~/api/candidate/types";
+
 import axios from "../axios";
-import store from "@/store";
 const event = new CustomEvent("server-error");
 const eventWithPayload = (payload: object) => {
   return new CustomEvent("server-error", { detail: payload });
 };
-
-export interface candidateCreateResp {
-  id: string;
-  Name: string;
-}
 
 export interface candidateCreateResp {
   id: string;
@@ -44,7 +42,7 @@ class CandidateMethods {
     return axios
       .put("candidateconfirmation", { id, pin })
       .then((response) => {
-        store.commit("setUserToken", response.data.token);
+        // store.commit("setUserToken", response.data.token);
         return response.data;
       })
       .catch((error) => {

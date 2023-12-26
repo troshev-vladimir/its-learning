@@ -1,7 +1,6 @@
 import axios from "../axios";
 import { type AxiosResponse } from "axios";
-import { type Program } from "@/types/program";
-import programsMock from "./mock/programs";
+import { type Program } from "~/api/program/types";
 const event = new Event("server-error");
 
 interface getTariffsRequest {
@@ -10,8 +9,8 @@ interface getTariffsRequest {
   token: string;
 }
 
-class TariffMethods {
-  getPrograms(
+class Programm {
+  getAll(
     promocode: string,
     id: string,
     token: string
@@ -31,13 +30,12 @@ class TariffMethods {
       .catch((error) => {
         console.log(error);
 
-        if (process.env.NODE_ENV !== "production") {
-          return programsMock;
-        }
+        // if (process.env.NODE_ENV !== "production") {
+        // }
         window.dispatchEvent(event);
         throw error;
       });
   }
 }
 
-export default new TariffMethods();
+export default new Programm();

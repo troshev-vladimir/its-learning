@@ -1,23 +1,24 @@
 <template>
   <div>
-    <NuxtLink to="/user-cabinet">cabinet</NuxtLink>
-    {{ data }}
+    {{ programs }}
   </div>
 </template>
 
 <script setup lang="ts">
-  import useProgramsStore from "~/stores/programs";
-  const prpgramsStore = useProgramsStore();
+import useProgramsStore from "~/stores/programs";
+const prpgramsStore = useProgramsStore();
 
-  const { data, error } = await useAsyncData(`programs`, () => {
-    console.log(data);
-
-    return prpgramsStore.fetchPrograms();
-  });
+const {
+  data: programs,
+  error,
+  pending,
+} = await useAsyncData(`programs`, () => {
+  return prpgramsStore.fetchPrograms();
+});
 </script>
 
 <style lang="scss">
-  .app {
-    color: red;
-  }
+.app {
+  color: red;
+}
 </style>
