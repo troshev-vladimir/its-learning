@@ -130,7 +130,7 @@
           </div>
         </div>
         <div class="program-card__buttons-block">
-          <!-- <TinkoffPaymentForm
+          <FeaturePaymentTinkoff
             :order-data="{
               order: card.name || '',
               description:
@@ -149,7 +149,7 @@
                 КУПить
               </UiButton>
             </template>
-          </TinkoffPaymentForm> -->
+          </FeaturePaymentTinkoff>
           <q-btn-dropdown
             split
             color="white"
@@ -237,7 +237,7 @@
   import { formatNumber } from "~/utils/helpers";
   import { type Program } from "~/api/program/types";
   import { defineProps, ref } from "vue";
-
+  import buyViaInstallment from "~/utils/TinkoffInstallment";
   export interface Props {
     card: Program;
   }
@@ -246,7 +246,16 @@
 
   const currentInstalmentPreiod = ref(6);
 
-  // const buyProgramViaInstallment = () => {};
+  const buyProgramViaInstallment = () => {
+    buyViaInstallment({
+      sum: props.card.price.withDiscount,
+      period:
+        currentInstalmentPreiod.value === 24
+          ? "default"
+          : currentInstalmentPreiod.value,
+      title: "Программа " + props.card.name,
+    });
+  };
 
   const getInstallment = (summ: number) => {
     return Math.round((summ * 1.2108499096) / 24);

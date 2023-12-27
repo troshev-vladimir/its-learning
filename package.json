@@ -23,11 +23,14 @@
     "@pinia/nuxt": "^0.5.1",
     "@quasar/extras": "^1.16.9",
     "@tcb-web/create-credit": "^1.0.6",
+    "@types/sha256": "^0.2.2",
     "axios": "^1.6.2",
+    "boring-webcrypto-sha256": "^1.0.0",
     "moment": "2.24.0",
     "pinia": "^2.1.7",
     "quasar": "^2.14.2",
     "sass": "^1.69.5",
+    "sha256": "^0.2.0",
     "yarn": "^1.22.21"
   }
 }

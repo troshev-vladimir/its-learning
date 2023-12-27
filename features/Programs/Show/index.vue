@@ -1,6 +1,5 @@
 <template>
   <section>
-
     <div class="q-mb-xl">
       <div class="container">
         <div class="row">
