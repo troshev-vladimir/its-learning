@@ -17,11 +17,15 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/vue-fontawesome": "^3.0.5",
     "@pinia/nuxt": "^0.5.1",
     "@quasar/extras": "^1.16.9",
     "axios": "^1.6.2",
     "pinia": "^2.1.7",
     "quasar": "^2.14.2",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "yarn": "^1.22.21"
   }
 }
