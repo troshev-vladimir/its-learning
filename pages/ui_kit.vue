@@ -8,7 +8,9 @@
           v-model="form.email"
           :required="true"
         />
-        <UiBaseCheckbox v-model="checkboxValue" :value="123" />
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '123' }" />
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '1df23' }" />
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '12sd3' }" />
         {{ checkboxValue }}
       </div>
     </UiBaseForm>
