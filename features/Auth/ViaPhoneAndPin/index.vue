@@ -169,7 +169,7 @@ const goForwardToPin = () => {
 const requestPin = async () => {
   const isFormValid = userPhone.value.length === 10;
   if (!isFormValid) return;
-  userAlreadyExists.value = false;
+  userAlreadyExists.value = true;
 
   try {
     // const responce = await candidate.candidateCreate("7" + userPhone.value);
@@ -207,7 +207,6 @@ const goToGame = () => {
 
 const logIn = async () => {
   const isFormValid = validatePin();
-  console.log(isFormValid);
 
   if (!isFormValid) return;
   loadding.value = true;
