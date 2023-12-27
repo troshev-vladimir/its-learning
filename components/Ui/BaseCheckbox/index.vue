@@ -60,6 +60,7 @@ const indexOfValue = computed(() =>
 .base-checkbox {
   width: 20px;
   height: 20px;
+  display: block;
   border: 1px solid $gray;
   border-radius: 4px;
   transition: 0.2s;
