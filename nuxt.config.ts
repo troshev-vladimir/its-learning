@@ -47,5 +47,6 @@ export default defineNuxtConfig({
 
   css: [
     'quasar/css',
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
 })

@@ -29,13 +29,13 @@
 .text-body1 {
   font-size: 15px;
   line-height: 21px;
-  color: #101010;
+  color: $primary-text;
 }
 
 .text-body2 {
   font-size: 12px;
   line-height: 16px;
-  color: #101010;
+  color: $primary-text;
 }
 
 @include col-gap(20px);
@@ -68,13 +68,13 @@ $flex-cols: 12;
   .text-body1 {
     font-size: 20px;
     line-height: 135%;
-    color: #101010;
+    color: $primary-text;
   }
 
   .text-body2 {
     font-size: 15px;
     line-height: 180%;
-    color: #101010;
+    color: $primary-text;
   }
 }
 
