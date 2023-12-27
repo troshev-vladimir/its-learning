@@ -7,7 +7,7 @@ const useProgramsStore = defineStore('programs',() => {
   
   async function fetchPrograms () {
     try {
-      const programsResp = await Programs.getAll('','79048628369', 'HOU6nPVBXp87rOQBHESr7gtCCugecQNH')
+      const programsResp = await Programs.getAll('','79048628369', '7XC01SB53055e9rIvT0kyIHCL7JsLcN3')
       programs.value = programsResp
       return programsResp
     } catch (error) {

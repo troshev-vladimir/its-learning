@@ -29,10 +29,6 @@ class Programm {
       })
       .catch((error) => {
         console.log(error);
-
-        // if (process.env.NODE_ENV !== "production") {
-        // }
-        window.dispatchEvent(event);
         throw error;
       });
   }

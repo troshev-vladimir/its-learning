@@ -1,9 +1,5 @@
 import axios from "../axios";
 const event = new Event("server-error");
-export interface candidateCreateResp {
-  id: string;
-  Name: string;
-}
 
 class PrmocodeMethods {
   prmocodeAproove(promocode: string) {

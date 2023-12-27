@@ -1,3 +1,4 @@
+import { type CandidateProgressResp, type CandidateProgressReq } from './types';
 import { 
   type UserId, 
   type Candidate 
@@ -66,20 +67,17 @@ class CandidateMethods {
   }
 
   candidateCurrentProgress(
-    id: string,
-    token: string,
-    programPromocode: string
-  ): any {
+    params: CandidateProgressReq
+  ): Promise<CandidateProgressResp> {
     return axios
       .get("candidatecurrentprogress", {
-        params: { id, token, promo: programPromocode },
+        params,
       })
       .then((response) => {
         if (!response.data) return [];
-        return response.data;
+        return response.data[0];
       })
       .catch((error) => {
-        window.dispatchEvent(event);
         throw error;
       });
   }

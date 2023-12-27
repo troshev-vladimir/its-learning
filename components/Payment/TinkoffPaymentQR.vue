@@ -100,17 +100,17 @@ const TerminalKey = "1662547243585";
 const clickHandler = async () => {
   const widgetParameters = {
     terminalKey: TerminalKey,
-    paymentItems: [
-      {
-        container: document.getElementById("tinkoffWidgetContainer1"),
-        paymentInfo: function () {
-          return {
-            paymentData: form.value,
-          };
-        },
-      },
-    ],
-    paymentSystems: { TinkoffFps: {} },
+    // paymentItems: [
+    //   {
+    //     container: document.getElementById("tinkoffWidgetContainer1"),
+    //     paymentInfo: function () {
+    //       return {
+    //         paymentData: form.value,
+    //       };
+    //     },
+    //   },
+    // ],
+    // paymentSystems: { TinkoffFps: {} },
   };
   // @ts-ignore
   // eslint-disable-next-line no-undef

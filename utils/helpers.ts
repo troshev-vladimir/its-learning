@@ -24,22 +24,22 @@ export function emailValidate(email: string) {
     );
 }
 
-export function buyViaInstallment({ sum, period, title }: Installment) {
-  tinkoff.create(
-    {
-      sum: sum,
-      items: [
-        {
-          name: title || "",
-          price: sum || 0,
-          quantity: 1,
-        },
-      ],
-      // demoFlow: DemoFlows.sms,
-      promoCode: installmentValues[period as keyof typeof installmentValues],
-      shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
-      showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
-    },
-    { view: "modal" }
-  );
-}
+// export function buyViaInstallment({ sum, period, title }: Installment) {
+//   tinkoff.create(
+//     {
+//       sum: sum,
+//       items: [
+//         {
+//           name: title || "",
+//           price: sum || 0,
+//           quantity: 1,
+//         },
+//       ],
+//       // demoFlow: DemoFlows.sms,
+//       promoCode: installmentValues[period as keyof typeof installmentValues],
+//       shopId: "d7836c7b-d032-493f-a2e3-ce02961930ae",
+//       showcaseId: "ff69b584-4d85-4ff6-9c44-8572184eaa1d",
+//     },
+//     { view: "modal" }
+//   );
+// }

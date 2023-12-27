@@ -9,14 +9,20 @@
           </h1>
         </div>
         <div class="header__right-side">
-          <p class="text-body1 text-bold" v-html="card.description"></p>
+          <p
+            class="text-body1 text-bold"
+            v-html="card.description"
+          ></p>
         </div>
       </div>
     </div>
 
     <div class="program-card__content">
       <div class="q-mb-md">
-        <ul class="adventages q-mb-md" style="flex: 1 0 auto">
+        <ul
+          class="adventages q-mb-md"
+          style="flex: 1 0 auto"
+        >
           <li
             v-for="(advantage, idx) in card.advantages"
             :key="idx"
@@ -109,20 +115,22 @@
             </p>
           </div>
 
-          <div v-if="card.price.withDiscount !== card.price.actual" class="">
+          <div
+            v-if="card.price.withDiscount !== card.price.actual"
+            class=""
+          >
             <div class="criteria text-body2">
               <span class="q-mr-sm">Прибавка к зарплате:</span>
               <p class="text-body2">
                 <span class="text-body1 text-bold">
-                  {{ formatNumber(card.salaryAddition || 0) }}</span
-                >
+                  {{ formatNumber(card.salaryAddition || 0) }}</span>
                 <span>₽</span>
               </p>
             </div>
           </div>
         </div>
         <div class="program-card__buttons-block">
-          <TinkoffPaymentForm
+          <!-- <TinkoffPaymentForm
             :order-data="{
               order: card.name || '',
               description:
@@ -141,7 +149,7 @@
                 КУПить
               </UiButton>
             </template>
-          </TinkoffPaymentForm>
+          </TinkoffPaymentForm> -->
           <q-btn-dropdown
             split
             color="white"
@@ -183,13 +191,19 @@
 
     <slot> </slot>
 
-    <div class="d-flex wrap q-mt-md" style="gap: 16px">
+    <div
+      class="d-flex wrap q-mt-md"
+      style="gap: 16px"
+    >
       <a
         class="text-body2 text-secondary d-flex items-center"
         href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        <q-icon
+          name="fas fa-external-link-alt"
+          class="q-mr-sm"
+        />
         Договор оферты
       </a>
       <a
@@ -198,7 +212,10 @@
         :href="card.linkToContractAddition"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        <q-icon
+          name="fas fa-external-link-alt"
+          class="q-mr-sm"
+        />
         Приложение к договору №1
       </a>
       <a
@@ -206,7 +223,10 @@
         href="https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        <q-icon
+          name="fas fa-external-link-alt"
+          class="q-mr-sm"
+        />
         Приложение к договору №2
       </a>
     </div>
@@ -214,137 +234,137 @@
 </template>
 
 <script setup lang="ts">
-import { formatNumber } from "~/utils/helpers";
-import { type Program } from "~/api/program/types";
-import { defineProps, ref } from "vue";
+  import { formatNumber } from "~/utils/helpers";
+  import { type Program } from "~/api/program/types";
+  import { defineProps, ref } from "vue";
 
-export interface Props {
-  card: Program;
-}
+  export interface Props {
+    card: Program;
+  }
 
-const props = defineProps<Props>();
+  const props = defineProps<Props>();
 
-const currentInstalmentPreiod = ref(6);
+  const currentInstalmentPreiod = ref(6);
 
-const buyProgramViaInstallment = () => {};
+  // const buyProgramViaInstallment = () => {};
 
-const getInstallment = (summ: number) => {
-  return Math.round((summ * 1.2108499096) / 24);
-};
+  const getInstallment = (summ: number) => {
+    return Math.round((summ * 1.2108499096) / 24);
+  };
 </script>
 
 <style lang="scss" scoped>
-.program-card {
-  background-color: var(--q-white);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
+  .program-card {
+    background-color: var(--q-white);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
 
-  &__header {
-    margin-bottom: $md;
-    display: block;
-
-    .header__container {
+    &__header {
+      margin-bottom: $md;
       display: block;
 
+      .header__container {
+        display: block;
+
+        @media (min-width: $breakpoint-sm) {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 24px;
+        }
+      }
+
+      .header__left-side {
+        width: 100%;
+
+        @media (min-width: $breakpoint-xs) {
+          margin-bottom: $sm;
+        }
+      }
+      .header__right-side {
+        width: 100%;
+      }
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+
       @media (min-width: $breakpoint-sm) {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        grid-template-columns: repeat(2, 1fr);
         gap: 24px;
       }
-    }
 
-    .header__left-side {
-      width: 100%;
-
-      @media (min-width: $breakpoint-xs) {
-        margin-bottom: $sm;
+      .content__right-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
     }
-    .header__right-side {
+
+    &__buy-button {
       width: 100%;
     }
-  }
 
-  &__content {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-
-    @media (min-width: $breakpoint-sm) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .content__right-side {
+    &__buttons-block {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end;
+      grid-column-start: 1;
+      grid-column-end: 3;
+      margin-top: $md;
     }
-  }
 
-  &__buy-button {
-    width: 100%;
-  }
-
-  &__buttons-block {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    margin-top: $md;
-  }
-
-  &__criterias {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 16px;
-    height: fit-content;
-
-    @media (min-width: 429px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  ._old-price {
-    text-decoration: line-through;
-    color: #999;
-  }
-
-  .header {
-    min-height: 120px;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-
-    @media screen and (max-width: $breakpoint-sm) {
-      min-height: 0;
-      flex-wrap: wrap;
-      flex-direction: row;
-      align-items: center;
+    &__criterias {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
       gap: 16px;
+      height: fit-content;
+
+      @media (min-width: 429px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-  }
 
-  .list-item::before {
-    background-color: var(--q-accent);
-  }
+    ._old-price {
+      text-decoration: line-through;
+      color: #999;
+    }
 
-  .criteria {
-  }
+    .header {
+      min-height: 120px;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
 
-  &--selected {
-    background-color: #fff;
+      @media screen and (max-width: $breakpoint-sm) {
+        min-height: 0;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+      }
+    }
 
     .list-item::before {
-      background-color: var(--q-secondary);
+      background-color: var(--q-accent);
+    }
+
+    .criteria {
+    }
+
+    &--selected {
+      background-color: #fff;
+
+      .list-item::before {
+        background-color: var(--q-secondary);
+      }
+    }
+
+    * {
+      color: currentColor;
     }
   }
-
-  * {
-    color: currentColor;
-  }
-}
 </style>

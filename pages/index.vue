@@ -9,22 +9,23 @@
         <br />
         <span class="text-accent">так как удобно тебе</span>
       </h1>
+      <FeatureBonusCache />
+      <FeatureProgramsShow />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+  import { onMounted } from "vue";
+  import b24LeadCreate from "~/utils/createLeadInB24";
 
-import b24LeadCreate from "~/utils/createLeadInB24";
-
-onMounted(() => {
-  b24LeadCreate();
-});
+  onMounted(() => {
+    b24LeadCreate(); //TODO: на регистрацию
+  });
 </script>
 
 <style lang="scss">
-.app {
-  color: red;
-}
+  .app {
+    color: red;
+  }
 </style>
