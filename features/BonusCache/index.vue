@@ -67,6 +67,10 @@
   const { data: user, error } = useAsyncData("user", async () => {
     return await userStore.getUserBonus();
   });
+
+  onMounted(() => {
+    userStore.getUserBonus(); // TODO: How to auth on server
+  });
 </script>
 
 <style>

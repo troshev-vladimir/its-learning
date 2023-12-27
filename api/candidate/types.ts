@@ -8,6 +8,8 @@ export interface Candidate {
   SurName: string;
   DateOfBirth: string;
   Gender: "Male" | "Female";
+  alreadyExists?: boolean;
+  token?: string;
 }
 
 export interface CandidateProgressResp {

@@ -38,5 +38,3 @@ class Programm {
     return Promise.resolve(programs)
   }
 }
-
-export default new Programm();

@@ -22,9 +22,15 @@ export default defineNuxtConfig({
       pathPrefix: true,
       prefix: 'Feature',
     },
+    {
+      path: '~/widgets',
+      extensions: ['.vue'],
+      pathPrefix: true,
+      prefix: 'Widget',
+    },
   ],
   imports: {
-    dirs: ['features/**', 'components/**'],
+    dirs: ['features/**', 'components/**', 'widgets/**'],
   },
 
   quasar: {

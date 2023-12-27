@@ -18,6 +18,16 @@
 <script setup lang="ts">
   import { onMounted } from "vue";
   import b24LeadCreate from "~/utils/createLeadInB24";
+  import useUserStore from "~/stores/user";
+
+  useSeoMeta({
+    title: "Покупка програмы",
+    ogTitle: "Покупка програмы",
+    description: "Покупка програмы",
+    ogDescription: "Покупка програмы",
+    ogImage: "https://example.com/image.png",
+    twitterCard: "summary_large_image",
+  });
 
   onMounted(() => {
     b24LeadCreate(); //TODO: на регистрацию

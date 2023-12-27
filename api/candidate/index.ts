@@ -39,17 +39,13 @@ class CandidateMethods {
       });
   }
 
-  сandidateConfirmation(id: UserId, pin: string) {
+  сandidateConfirmation(id: UserId, pin: string): Promise<Candidate> {
     return axios
       .put("candidateconfirmation", { id, pin })
       .then((response) => {
-        // store.commit("setUserToken", response.data.token);
-        return response.data;
+        return response.data[0];
       })
       .catch((error) => {
-        window.dispatchEvent(
-          eventWithPayload({ message: error.error?.message || error })
-        );
         throw error;
       });
   }

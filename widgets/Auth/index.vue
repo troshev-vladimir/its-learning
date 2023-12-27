@@ -1,0 +1,53 @@
+<template>
+  <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
+  <p class="q-mb-md text-body2 text-center">
+    чтобы мы могли сохранить игровой процесс
+  </p>
+  <transition
+    name="slide-fade"
+    mode="out-in"
+  >
+    <FeatureAuthCreateCandidate
+      v-if="stage === 'phone'"
+      @go-further="stage = 'pin'"
+    />
+    <FeatureAuthConfirmCandidate
+      v-else-if="stage === 'pin'"
+      @go-back="stage = 'phone'"
+      @go-further="goToGame"
+    />
+  </transition>
+</template>
+
+<script lang="ts" setup>
+  const stage = ref<"phone" | "pin">("phone");
+
+  const goToGame = () => {
+    if (process.env.NODE_ENV === "production") {
+      history.pushState({}, "", "https://lk.itseducation.ru/configurator/auth/");
+      window.location.replace("/its_game");
+    } else {
+      console.log("to game");
+    }
+  };
+</script>
+
+<style lang="scss" scoped>
+  .slide-fade-enter-active {
+    transition: all 0.4s ease-out;
+  }
+
+  .slide-fade-leave-active {
+    transition: all 0.4s ease-in;
+  }
+
+  .slide-fade-enter-from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+
+  .slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+</style>
