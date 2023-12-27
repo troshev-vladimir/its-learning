@@ -8,11 +8,12 @@
           v-model="form.email"
           :required="true"
         />
-        <UiBaseCheckbox v-model="checkboxValue" :value="123" />
-        {{ checkboxValue }}
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '123' }" />
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '1df23' }" />
+        <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '12sd3' }" />
+        <UiBaseRadioButton v-model="radioButtonValue" />
       </div>
     </UiBaseForm>
-    {{ form }}
   </div>
 </template>
 
@@ -22,7 +23,8 @@ let form = ref({
   email: "",
 });
 
-let checkboxValue = ref();
+let checkboxValue = ref(),
+  radioButtonValue = ref(false);
 </script>
 
 <style scoped lang="scss">

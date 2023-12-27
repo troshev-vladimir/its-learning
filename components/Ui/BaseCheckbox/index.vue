@@ -1,4 +1,6 @@
 
+import type { Value } from 'sass';
+
 <template>
   <span
     class="base-checkbox"
@@ -19,16 +21,20 @@
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
     modelValue: Array,
-    value: [String, Array, Number],
+    value: [String, Array, Number, Object],
   }),
   { modelValue, value } = toRefs(props);
 
 const onClickCheckbox = () => {
-  if (isActiveCheckbox.value) {
-    emit(
-      "update:modelValue",
-      modelValue?.value?.filter((item) => item !== value?.value)
-    );
+  if (
+    isActiveCheckbox.value &&
+    modelValue?.value &&
+    indexOfValue?.value != undefined &&
+    indexOfValue?.value > -1
+  ) {
+    let result = modelValue.value.concat();
+    result?.splice(indexOfValue?.value, 1);
+    emit("update:modelValue", result);
     return;
   }
   emit(
@@ -38,7 +44,15 @@ const onClickCheckbox = () => {
 };
 
 const isActiveCheckbox = computed(() =>
-  modelValue?.value?.includes(value?.value)
+  modelValue?.value
+    ?.map((el) => JSON.stringify(el))
+    .includes(JSON.stringify(value?.value))
+);
+
+const indexOfValue = computed(() =>
+  modelValue?.value
+    ?.map((el) => JSON.stringify(el))
+    .findIndex((el) => el == JSON.stringify(value?.value))
 );
 </script>
 
@@ -46,6 +60,7 @@ const isActiveCheckbox = computed(() =>
 .base-checkbox {
   width: 20px;
   height: 20px;
+  display: block;
   border: 1px solid $gray;
   border-radius: 4px;
   transition: 0.2s;

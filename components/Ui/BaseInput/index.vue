@@ -46,12 +46,13 @@ let focused = ref(false);
   }
 
   &__placeholder {
+    top: 50%;
+    left: 12px;
+    position: absolute;
+    margin: 0;
     pointer-events: none;
     color: $secondary;
     transition: 0.2s;
-    position: absolute;
-    top: 50%;
-    left: 12px;
 
     &.top {
       color: $accent;
