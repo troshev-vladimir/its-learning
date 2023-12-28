@@ -45,6 +45,8 @@
         </template>
         Базовая кнопка
       </UiBaseButton>
+      <UiBaseButton type="link" size="big"> Базовая ссылка </UiBaseButton>
+      <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
     </UiBaseForm>
     <UiBasePopup ref="refBasePopup">
       <template #header> 123 </template>

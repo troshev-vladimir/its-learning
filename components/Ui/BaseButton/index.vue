@@ -3,6 +3,11 @@
     class="base-button"
     :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
   >
+    <font-awesome-icon
+      class="base-button__icon"
+      icon="fa-solid fa-up-right-from-square"
+      v-if="type == 'link'"
+    />
     <span class="base-button__icon" v-if="$slots['left-icon']">
       <slot name="left-icon"></slot>
     </span>
@@ -29,7 +34,8 @@ const props = defineProps({
     type: {
       type: String,
       default: 'primary',
-      validator: (value: string) => ['primary', 'secondary'].includes(value),
+      validator: (value: string) =>
+        ['primary', 'secondary', 'link'].includes(value),
     },
     size: {
       type: String,
@@ -111,6 +117,20 @@ $blue-active: #0253a4;
 
     &:active {
       border-color: $blue-active;
+      color: $blue-active;
+    }
+  }
+
+  &.link {
+    padding: 0 !important;
+    color: $accent;
+    background: transparent;
+    text-decoration: underline;
+
+    &:hover {
+      color: $blue-hover;
+    }
+    &:active {
       color: $blue-active;
     }
   }
