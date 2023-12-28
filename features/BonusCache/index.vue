@@ -60,8 +60,7 @@
 
 <script setup lang="ts">
 import useUserStore from '~/stores/user'
-import minMaxLength from '~/shared/validators/minMaxLength'
-import PrmocodeMethods from '~/api/promocode'
+import { minMaxLength } from '~/shared/validators'
 
 const userStore = useUserStore()
 

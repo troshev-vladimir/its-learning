@@ -1,8 +1,5 @@
 <template>
-  <button
-    class="base-button"
-    :class="`${type} ${size}`"
-  >
+  <button class="base-button" :class="`${type} ${size}`">
     <slot />
   </button>
 </template>
@@ -11,15 +8,15 @@
 defineProps({
   type: {
     type: String,
-    default: "primary",
-    validator: (value: string) => ["primary", "secondary"].includes(value),
+    default: 'primary',
+    validator: (value: string) => ['primary', 'secondary'].includes(value),
   },
   size: {
     type: String,
-    default: "big",
-    validator: (value: string) => ["small", "big"].includes(value),
+    default: 'big',
+    validator: (value: string) => ['small', 'big'].includes(value),
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -29,6 +26,7 @@ $blue-active: #0253a4;
 .base-button {
   border: none;
   cursor: pointer;
+  font-weight: 600;
 
   &.primary {
     color: $white;
@@ -65,18 +63,20 @@ $blue-active: #0253a4;
   }
 
   &.small {
-    padding: 16px 24px;
+    padding: 12px 24px;
     border-radius: 8px;
+    line-height: 20px;
   }
 
   &.big {
     padding: 16px 32px;
     border-radius: 8px;
+    line-height: 20px;
     font-size: 20px;
+
     * {
       font-size: 20px;
     }
   }
 }
 </style>
- 

@@ -11,5 +11,8 @@
   "vetur.format.defaultFormatter.html": "js-beautify-html",
   "html.format.enable": true,
   "vetur.format.defaultFormatter.ts": "prettier-tslint",
-  "prettier.configPath": ".prettierrc.json"
+  "prettier.configPath": ".prettierrc.json",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
