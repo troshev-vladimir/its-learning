@@ -28,14 +28,15 @@
       <div class="d-flex items-center" v-else>
         <UiBaseInput
           ref="refPromocodeInput"
-          @valid="sendPromocode"
+          @enter="sendPromocode"
+          @blur="sendPromocode"
           placeholder="Введите промокод"
-          class="q-mr-md"
+          class="q-mr-md code-input"
           v-model="codeValue"
           :rules="[minMaxLength(6, 6)]"
         />
 
-        <span v-if="codeSended"> Не правильно </span>
+        <span v-if="codeSended"> Код неверный </span>
       </div>
     </div>
     <p class="text-body2 text-secondary">
@@ -74,9 +75,17 @@ watch(userPromocode, () => {
   userStore.getUserBonus()
 })
 
+watch(codeValue, () => {
+  codeSended.value = false
+})
+
 onMounted(() => {
   userStore.getUserBonus() // TODO: How to auth on server
 })
 </script>
 
-<style></style>
+<style lang="scss">
+.code-input {
+  width: 200px;
+}
+</style>

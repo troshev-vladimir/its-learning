@@ -5,7 +5,7 @@ export function minMaxLength(minLength: number, maxLength: number) {
     if (minLength == maxLength) {
       throw {
         status: 'error',
-        message: `Длина значения должна состоять из ${minLength} символов`,
+        message: `Длина значения минимум ${minLength} символов`,
       }
     } else {
       throw {
