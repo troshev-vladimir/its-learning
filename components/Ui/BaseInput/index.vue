@@ -11,7 +11,10 @@
     </p>
     <input
       ref="refInput"
-      @input="(event) => $emit('update:modelValue', event.target?.value)"
+      @input="
+        (event) =>
+          $emit('update:modelValue', (event.target as HTMLInputElement)?.value)
+      "
       :value="modelValue"
       @focus="
         () => {
@@ -128,6 +131,7 @@ $warning-shadow: #ffd857;
       border-color: $accent;
     }
 
+    &:hover:focus,
     &:hover {
       box-shadow: 0 0 0 2px $light-blue;
     }
