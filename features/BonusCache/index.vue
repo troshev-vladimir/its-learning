@@ -35,11 +35,10 @@
           v-model="codeValue"
           :rules="[minMaxLength(6, 6)]"
         />
-
         <span v-if="codeSended"> Код неверный </span>
       </div>
     </div>
-    <p class="text-body2 text-secondary">
+    <p class="q-mt-lg text-body2 text-secondary">
       Подробней о правилах подсчёта бонусов читай
       <a
         class="text-accent"
@@ -67,6 +66,7 @@ const codeSended = ref(false)
 // })
 
 const sendPromocode = async () => {
+  if (!codeValue.value.length) return
   codeSended.value = true
   userStore.userPromocode = codeValue.value
 }
