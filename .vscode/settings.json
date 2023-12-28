@@ -10,6 +10,6 @@
   "notebook.formatOnCellExecution": false,
   "vetur.format.defaultFormatter.html": "js-beautify-html",
   "html.format.enable": true,
-  "vetur.format.defaultFormatter.ts": "prettier-tslint",
+  "vetur.format.defaultFormatter.ts": "prettier",
   "prettier.configPath": ".prettierrc.json"
 }

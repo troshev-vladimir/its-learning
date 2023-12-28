@@ -2,6 +2,7 @@
 @import "./variables.scss";
 @import "./container.scss";
 @import "./fonts.scss";
+@import "./quasar.scss";
 
 @mixin col-gap($gutter) {
   .container > .row {
