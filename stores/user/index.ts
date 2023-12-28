@@ -27,8 +27,6 @@ const useUserStore = defineStore("user", () => {
         console.log('error', e)
         return []
       });
-
-
   }
 
   async function createUser(phone: string) {
