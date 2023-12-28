@@ -80,108 +80,108 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, defineProps } from "vue";
-  import { useQuasar } from "quasar";
-  const $q = useQuasar();
+import { ref, defineProps } from 'vue'
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 
-  export interface UserData {
-    phone: string;
-    email: string;
-    name: string;
-  }
+export interface UserData {
+  phone: string
+  email: string
+  name: string
+}
 
-  export interface GoodData {
-    description: string;
-    order: string;
-  }
+export interface GoodData {
+  description: string
+  order: string
+}
 
-  export interface Props {
-    amount: number;
-    text?: string;
-    userData?: UserData;
-    orderData?: GoodData;
-  }
+export interface Props {
+  amount: number
+  text?: string
+  userData?: UserData
+  orderData?: GoodData
+}
 
-  const props = defineProps<Props>();
-  const form = ref<HTMLElement>();
-  const TerminalKey = "1662547243585";
+const props = defineProps<Props>()
+const form = ref<HTMLElement>()
+const TerminalKey = '1662547243585'
 
-  async function clickHandler() {
-    if (!props.amount) return;
+async function clickHandler() {
+  if (!props.amount) return
 
-    let orderData = {
-      TerminalKey: TerminalKey,
-      Amount: props.amount + "00",
-      Description: props.orderData?.description || "Оплата",
-      OrderId: props.orderData?.order || 1234,
-      DATA: {
-        Phone: localStorage.getItem("userPhone") || "",
-        Email: localStorage.getItem("userEmail") || "",
-      },
-      Receipt: {
-        EmailCompany: "buh@itsportal.ru",
-        Taxation: "osn",
-        Email: localStorage.getItem("userEmail") || "",
-        Phone: "+79127177910",
-        Items: [
-          {
-            Name: props.orderData?.description || "Оплата",
-            Price: props.amount + "00",
-            Quantity: 1.0,
-            Amount: props.amount + "00",
-            PaymentMethod: "full_prepayment",
-            PaymentObject: "service",
-            Tax: "none",
-          },
-        ],
-      },
-    };
-
-    const responce = await useFetch("api/payment/", {
-      method: "POST",
-      body: JSON.stringify(orderData),
-    });
-
-    if (responce.data.value) {
-      const resp = responce.data.value as { token: string };
-      orderData = { ...orderData, ...{ Token: resp.token } };
-    }
-
-    try {
-      const windowReference = window.open();
-
-      const resp = await fetch("https://securepay.tinkoff.ru/v2/Init", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
+  let orderData = {
+    TerminalKey: TerminalKey,
+    Amount: props.amount + '00',
+    Description: props.orderData?.description || 'Оплата',
+    OrderId: props.orderData?.order || 1234,
+    DATA: {
+      Phone: localStorage.getItem('userPhone') || '',
+      Email: localStorage.getItem('userEmail') || '',
+    },
+    Receipt: {
+      EmailCompany: 'buh@itsportal.ru',
+      Taxation: 'osn',
+      Email: localStorage.getItem('userEmail') || '',
+      Phone: '+79127177910',
+      Items: [
+        {
+          Name: props.orderData?.description || 'Оплата',
+          Price: props.amount + '00',
+          Quantity: 1.0,
+          Amount: props.amount + '00',
+          PaymentMethod: 'full_prepayment',
+          PaymentObject: 'service',
+          Tax: 'none',
         },
-        body: JSON.stringify({
-          ...orderData,
-        }),
-      });
-
-      const responce = await resp.json();
-      if (!responce.Success) {
-        $q.notify({
-          color: "negative",
-          message: responce.Message,
-        });
-      } else {
-        // @ts-ignore
-        windowReference.location = responce?.PaymentURL;
-      }
-    } catch (error) {
-      $q.notify({
-        color: "negative",
-        message: "Что то пошло не так",
-      });
-    }
+      ],
+    },
   }
+
+  const responce = await useFetch('api/payment/', {
+    method: 'POST',
+    body: JSON.stringify(orderData),
+  })
+
+  if (responce.data.value) {
+    const resp = responce.data.value as { token: string }
+    orderData = { ...orderData, ...{ Token: resp.token } }
+  }
+
+  try {
+    const windowReference = window.open()
+
+    const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...orderData,
+      }),
+    })
+
+    const responce = await resp.json()
+    if (!responce.Success) {
+      $q.notify({
+        color: 'negative',
+        message: responce.Message,
+      })
+    } else {
+      // @ts-ignore
+      windowReference.location = responce?.PaymentURL
+    }
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      message: 'Что то пошло не так',
+    })
+  }
+}
 </script>
 <style lang="scss">
-  .payform-tinkoff-row {
-    display: block;
-    margin: 1%;
-    width: 160px;
-  }
+.payform-tinkoff-row {
+  display: block;
+  margin: 1%;
+  width: 160px;
+}
 </style>

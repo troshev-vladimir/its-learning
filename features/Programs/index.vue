@@ -15,32 +15,32 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref, watch } from "vue";
-  import useProgramsStore from "~/stores/programs";
-  import useUserStore from "~/stores/user";
-  const prpgramsStore = useProgramsStore();
-  const userStore = useUserStore();
-  const { userPromocode } = storeToRefs(userStore)
+import { onMounted, ref, watch } from 'vue'
+import useProgramsStore from '~/stores/programs'
+import useUserStore from '~/stores/user'
+const prpgramsStore = useProgramsStore()
+const userStore = useUserStore()
+const { userPromocode } = storeToRefs(userStore)
 
-  // const { data: programs, error } = await useAsyncData(`programs`, () => {
-  //   return prpgramsStore.fetchPrograms();
-  // });
+// const { data: programs, error } = await useAsyncData(`programs`, () => {
+//   return prpgramsStore.fetchPrograms();
+// });
 
-  const fetchPrograms = () => {
-    prpgramsStore.fetchPrograms({
-      promocode: userStore.userPromocode,
-      id: userStore.userId,
-      token: userStore.userToken,
-    });
-  }
-
-  watch(userPromocode, () => {
-    fetchPrograms()
+const fetchPrograms = () => {
+  prpgramsStore.fetchPrograms({
+    promocode: userStore.userPromocode,
+    id: userStore.userId,
+    token: userStore.userToken,
   })
+}
 
-  onMounted(() => {
-    fetchPrograms()
-  });
+watch(userPromocode, () => {
+  fetchPrograms()
+})
+
+onMounted(() => {
+  fetchPrograms()
+})
 </script>
 
 <style></style>

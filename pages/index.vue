@@ -8,33 +8,33 @@
       <br />
       <span class="text-accent">так как удобно тебе</span>
     </h1>
-    <FeatureBonusCache class="q-mb-lg q-mt-md"/>
+    <FeatureBonusCache class="q-mb-lg q-mt-md" />
     <FeaturePrograms />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from "vue";
-  import b24LeadCreate from "~/utils/createLeadInB24";
+import { onMounted } from 'vue'
+import b24LeadCreate from '~/utils/createLeadInB24'
 
-  useSeoMeta({
-    title: "Покупка програмы",
-    ogTitle: "Покупка програмы",
-    description: "Покупка програмы",
-    ogDescription: "Покупка програмы",
-    ogImage: "https://example.com/image.png",
-    twitterCard: "summary_large_image",
-  });
+useSeoMeta({
+  title: 'Покупка програмы',
+  ogTitle: 'Покупка програмы',
+  description: 'Покупка програмы',
+  ogDescription: 'Покупка програмы',
+  ogImage: 'https://example.com/image.png',
+  twitterCard: 'summary_large_image',
+})
 
-  onMounted(() => {
-    if (process.env.NODE_ENV === "production") {
-      b24LeadCreate(); //TODO: на регистрацию
-    }
-  });
+onMounted(() => {
+  if (process.env.NODE_ENV === 'production') {
+    b24LeadCreate() //TODO: на регистрацию
+  }
+})
 </script>
 
 <style lang="scss">
-  .app {
-    color: red;
-  }
+.app {
+  color: red;
+}
 </style>
