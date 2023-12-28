@@ -3,9 +3,15 @@
     class="base-button"
     :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
   >
-    <p class="base-button__text">
+    <span class="base-button__icon" v-if="$slots['left-icon']">
+      <slot name="left-icon"></slot>
+    </span>
+    <p class="base-button__text" v-if="$slots['default']">
       <slot />
     </p>
+    <span class="base-button__icon" v-if="$slots['right-icon']">
+      <slot name="right-icon"></slot>
+    </span>
     <SpinnerIcon
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
@@ -52,6 +58,10 @@ $blue-hover: #499bed;
 $blue-active: #0253a4;
 
 .base-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   position: relative;
   border: none;
   cursor: pointer;

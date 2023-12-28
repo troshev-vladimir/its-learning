@@ -15,12 +15,30 @@
         <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '12sd3' }" />
         <UiBaseRadioButton v-model="radioButtonValue" />
       </div>
-      <UiBaseButton type="primary" size="big"> Базовая кнопка </UiBaseButton>
+      <UiBaseButton type="primary" size="big">
+        <template #left-icon>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </template>
+        Базовая кнопка
+      </UiBaseButton>
 
-      <UiBaseButton type="secondary" size="big"> Базовая кнопка </UiBaseButton>
+      <UiBaseButton type="secondary" size="big">
+        <template #right-icon>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </template>
+        Базовая кнопка
+      </UiBaseButton>
 
-      <UiBaseButton type="primary" size="small"> Базовая кнопка </UiBaseButton>
+      <UiBaseButton type="primary" size="small">
+        <template #left-icon>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </template>
+        Базовая кнопка
+      </UiBaseButton>
       <UiBaseButton type="secondary" size="small">
+        <template #right-icon>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </template>
         Базовая кнопка
       </UiBaseButton>
     </UiBaseForm>
