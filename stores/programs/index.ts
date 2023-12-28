@@ -1,17 +1,14 @@
 import { type Program } from '~/api/program/types'
 import { defineStore } from 'pinia'
 import Programs from '~/api/program'
+import type { getProgramsRequest } from '~/api/program/types'
 
 const useProgramsStore = defineStore('programs', () => {
   const programs = ref<Program[]>([])
 
-  async function fetchPrograms() {
+  async function fetchPrograms(params: getProgramsRequest) {
     try {
-      const programsResp = await Programs.getAll(
-        '',
-        '79048628369',
-        'MrdEMlu5ZN8GuPhu3mYBCLI0txcSNbWM'
-      )
+      const programsResp = await Programs.getAll(params)
       programs.value = programsResp
       return programsResp
     } catch (error) {

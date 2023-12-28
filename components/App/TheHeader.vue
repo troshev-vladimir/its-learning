@@ -5,7 +5,7 @@
         <img src="~/assets/img/logo.svg" alt="logo" />
         <span class="text-body1">Академия 1С программирования</span>
       </div>
-      <div class="row items-center q-gutter-md">
+      <div class="row items-center justify-end q-gutter-md">
         <a class="text-h2 text-weight-bold" href="tel:+78003010828">
           8(800)301-08-28
         </a>

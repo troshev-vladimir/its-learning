@@ -151,7 +151,7 @@
             </template>
           </FeaturePaymentTinkoff>
           <ClientOnly>
-            <UiTinkoffInstallment 
+            <FeaturePaymentTinkoffInstallment 
               :summ="card.price.withDiscount"
               :title="card.name"
             />

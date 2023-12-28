@@ -43,7 +43,7 @@ const props = defineProps<{
   title: string;
 }>()
 
-const localPeriod = ref(12)
+const localPeriod = ref(24)
 
 interface Installment {
   sum: number
@@ -78,14 +78,14 @@ function buyViaInstallment({ sum, period, title }: Installment) {
 }
 
 const buyProgramViaInstallment = () => {
-    buyViaInstallment({
-      sum: props.summ,
-      period:
-      localPeriod.value === 24
-          ? 'default'
-          : localPeriod.value,
-      title: 'Программа ' + props.title,
-    })
+  buyViaInstallment({
+    sum: props.summ,
+    period:
+    localPeriod.value === 24
+        ? 'default'
+        : localPeriod.value,
+    title: 'Программа ' + props.title,
+  })
   }
 </script>
 
