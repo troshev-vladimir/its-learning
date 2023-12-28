@@ -1,6 +1,6 @@
-export default function (minLength: number, maxLength: number) {
+export function minMaxLength(minLength: number, maxLength: number) {
   return (value: string | [any]) => {
-    if (value.length >= minLength && value.length <= maxLength) return true
+    if (value.length >= minLength && value.length <= maxLength) return
 
     if (minLength == maxLength) {
       throw {
