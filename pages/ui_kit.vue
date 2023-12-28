@@ -15,11 +15,15 @@
         <UiBaseCheckbox v-model="checkboxValue" :value="{ new: '12sd3' }" />
         <UiBaseRadioButton v-model="radioButtonValue" />
       </div>
-      <UiBaseButton type="primary" size="big">
+      <UiBaseButton
+        @click="$refs.refBasePopup?.open()"
+        type="primary"
+        size="big"
+      >
         <template #left-icon>
           <font-awesome-icon icon="fa-solid fa-user-astronaut" />
         </template>
-        Базовая кнопка
+        Нажми
       </UiBaseButton>
 
       <UiBaseButton type="secondary" size="big">
@@ -42,6 +46,11 @@
         Базовая кнопка
       </UiBaseButton>
     </UiBaseForm>
+    <UiBasePopup ref="refBasePopup">
+      <template #header> 123 </template>
+      <template #default></template>
+      <template #footer></template>
+    </UiBasePopup>
   </div>
 </template>
 
