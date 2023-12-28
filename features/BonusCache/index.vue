@@ -44,8 +44,9 @@
         class="text-accent"
         href="https://drive.google.com/file/d/1plR7AYYlzmD26AJ-P_nxkmjeiHzirqol/view?usp=share_link"
         target="_blank"
-        >тут</a
       >
+        тут
+      </a>
     </p>
   </div>
 </template>

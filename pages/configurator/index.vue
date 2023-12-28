@@ -22,7 +22,7 @@ useSeoMeta({
   ogTitle: 'Покупка програмы',
   description: 'Покупка програмы',
   ogDescription: 'Покупка програмы',
-  ogImage: '',
+  ogImage: 'https://example.com/image.png',
   twitterCard: 'summary_large_image',
 })
 

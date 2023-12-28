@@ -22,8 +22,7 @@ const useUserStore = defineStore('user', () => {
         return responce
       })
       .catch((e) => {
-        console.log('error', e)
-        return []
+        throw e
       })
   }
 
@@ -34,7 +33,7 @@ const useUserStore = defineStore('user', () => {
       userId.value = phone
       localStorage.setItem('userPhone', userId.value) // TODO: replace to controller
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
@@ -45,7 +44,7 @@ const useUserStore = defineStore('user', () => {
       userToken.value = newUser.token || ''
       localStorage.setItem('userToken', userToken.value) // TODO: replace to controller
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 

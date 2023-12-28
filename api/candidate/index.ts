@@ -50,7 +50,6 @@ class CandidateMethods {
         return response.data
       })
       .catch((error) => {
-        window.dispatchEvent(event)
         throw error
       })
   }

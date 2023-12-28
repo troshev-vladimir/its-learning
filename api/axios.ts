@@ -28,15 +28,11 @@ instance.interceptors.response.use(
     return response
   },
   function (error) {
-    if (
-      process.env.NODE_ENV === 'development' &&
-      process.env.FOR_PAGES !== 'true'
-    ) {
-      return Promise.reject('unauthorized')
-    }
-
     if (error.response && error.response.status === 401) {
-      return { data: null }
+      if (window) {
+        window.location.replace('/auth?unauthorized=true')
+      }
+      return Promise.reject({ data: null, message: 'unauthorized' })
     }
     return Promise.reject(error.response?.data || error.message)
   }

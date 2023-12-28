@@ -5,7 +5,6 @@
     @submit.prevent
   >
     <p class="q-mb-md text-body1">Пароль:</p>
-
     <div class="d-flex items-center">
       <UiPincodeInput
         ref="pinRef"
@@ -34,7 +33,6 @@
         >
           Назад
         </UiButton>
-
         <div class="loadder-wrappper">
           <q-spinner
             v-if="loadding"
@@ -120,6 +118,11 @@ const logIn = async () => {
     setTimeout(() => {
       // @ts-ignore
       pinRef.value.clear()
+    })
+
+    $q.notify({
+      color: 'negative',
+      message: 'Неправильный пароль',
     })
   } finally {
     loadding.value = false
