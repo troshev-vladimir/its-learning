@@ -20,14 +20,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useRouter } from 'vue-router'
   const stage = ref<"phone" | "pin">("phone");
-
+  const router = useRouter()
   const goToGame = () => {
     if (process.env.NODE_ENV === "production") {
       history.pushState({}, "", "https://lk.itseducation.ru/configurator/auth/");
       window.location.replace("/its_game");
     } else {
-      console.log("to game");
+      router.push('/')
     }
   };
 </script>

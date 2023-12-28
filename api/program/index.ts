@@ -1,37 +1,22 @@
-import axios from "../axios";
-import { type AxiosResponse } from "axios";
-import { type Program } from "~/api/program/types";
-const event = new Event("server-error");
-
-interface getTariffsRequest {
-  promocode: string;
-  id: string;
-  token: string;
-}
-
+import axios from '../axios'
+import type { AxiosResponse } from 'axios'
+import type { Program } from '~/api/program/types'
+import type { getProgramsRequest } from './types'
 class Programm {
-  getAll(
-    promocode: string,
-    id: string,
-    token: string
-  ): Promise<Program[]> | never {
+  getAll(params: getProgramsRequest): Promise<Program[]> | never {
     return axios
-      .get<Program[]>("programms", {
-        params: {
-          promocode,
-          id,
-          token,
-        } as getTariffsRequest,
+      .get<Program[]>('programms', {
+        params,
       })
       .then((response: AxiosResponse<Program[]>) => {
-        if (!response.data || !response.data.length) return [];
-        return response.data;
+        if (!response.data || !response.data.length) return []
+        return response.data
       })
       .catch((error) => {
-        console.log(error);
-        throw error;
-      });
+        console.log(error)
+        throw error
+      })
   }
 }
 
-export default new Programm();
+export default new Programm()

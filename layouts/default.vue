@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    <AppTheHeader />
+    <AppTheHeader class="q-pb-xl" />
     <div class="container">
       <slot></slot>
     </div>
