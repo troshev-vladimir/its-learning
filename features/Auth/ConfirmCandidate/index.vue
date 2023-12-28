@@ -14,27 +14,18 @@
         :disabled="loadding"
         @completed="logIn"
       >
-        <template
-          v-if="userStore.user.alreadyExists"
-          #hint
-        >
+        <template v-if="userStore.user.alreadyExists" #hint>
           На указанный вами номер телефона, ранее мы отправляли смс с паролем
           для входа в игру. Используйте его для авторизации.
         </template>
-        <template
-          v-else
-          #hint
-        >
-          На указанный вами номер мы отправили пароль для входа с игру,
-          введите его в поле выше
+        <template v-else #hint>
+          На указанный вами номер мы отправили пароль для входа с игру, введите
+          его в поле выше
         </template>
       </UiPincodeInput>
     </div>
     <div class="flex q-mt-lg justify-center">
-      <div
-        class=""
-        style="position: relative"
-      >
+      <div class="" style="position: relative">
         <UiButton
           size="sm"
           outline
@@ -62,10 +53,7 @@
       Напомнить пароль
     </p>
 
-    <div
-      v-if="currentTimeToResend"
-      class="text-body2 q-mt-md"
-    >
+    <div v-if="currentTimeToResend" class="text-body2 q-mt-md">
       Повторная отправка возможна через:
       <span class="text-no-wrap">{{ getTime }}</span>
     </div>
@@ -73,93 +61,92 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch, onMounted } from "vue";
-  import useTimer from "./composables/useTimer";
-  import { useQuasar } from "quasar";
-  import useUserStore from "~/stores/user";
+import { ref, watch, onMounted } from 'vue'
+import useTimer from './composables/useTimer'
+import { useQuasar } from 'quasar'
+import useUserStore from '~/stores/user'
 
-  const userStore = useUserStore();
+const userStore = useUserStore()
 
-  const { setTimer, getTime, currentTimeToResend } = useTimer();
-  const emit = defineEmits(["goBack", "goFurther"]);
+const { setTimer, getTime, currentTimeToResend } = useTimer()
+const emit = defineEmits(['goBack', 'goFurther'])
 
-  const pincodeError = ref("");
-  const pin = ref("");
-  const pinRef = ref(null);
-  const form = ref(null);
-  const loadding = ref(false);
-  const $q = useQuasar();
+const pincodeError = ref('')
+const pin = ref('')
+const pinRef = ref(null)
+const form = ref(null)
+const loadding = ref(false)
+const $q = useQuasar()
 
-  const goBack = () => {
-    emit("goBack");
-  };
+const goBack = () => {
+  emit('goBack')
+}
 
-  watch(pin, (value) => {
-    if (value) {
-      pincodeError.value = "";
-    }
-  });
+watch(pin, (value) => {
+  if (value) {
+    pincodeError.value = ''
+  }
+})
 
-  const resotre = () => {
-    pin.value = "";
-    pincodeError.value = "";
-  };
+const resotre = () => {
+  pin.value = ''
+  pincodeError.value = ''
+}
 
-  const validatePin = () => {
-    if (pin.value.length < 4) {
-      pincodeError.value = "Неправильный пароль";
-      return false;
-    }
-    return true;
-  };
+const validatePin = () => {
+  if (pin.value.length < 4) {
+    pincodeError.value = 'Неправильный пароль'
+    return false
+  }
+  return true
+}
 
-  const logIn = async () => {
-    const isFormValid = validatePin();
+const logIn = async () => {
+  const isFormValid = validatePin()
 
-    if (!isFormValid) return;
-    loadding.value = true;
+  if (!isFormValid) return
+  loadding.value = true
 
-    try {
-      await userStore.confirmUser(pin.value);
-      $q.notify({
-        color: "green",
-        message: "Упешно выполнен вход",
-      });
+  try {
+    await userStore.confirmUser(pin.value)
+    $q.notify({
+      color: 'green',
+      message: 'Упешно выполнен вход',
+    })
 
-      emit("goFurther");
-    } catch (error) {
-      pin.value = "";
-      setTimeout(() => {
-        // @ts-ignore
-        pinRef.value.clear();
-      });
-    } finally {
-      loadding.value = false;
-    }
-  };
+    emit('goFurther')
+  } catch (error) {
+    pin.value = ''
+    setTimeout(() => {
+      // @ts-ignore
+      pinRef.value.clear()
+    })
+  } finally {
+    loadding.value = false
+  }
+}
 
-  const resend = async () => {
-    try {
-      await userStore.createUser(userStore.userId);
+const resend = async () => {
+  try {
+    await userStore.createUser(userStore.userId)
 
-      $q.notify({
-        color: "green",
-        message: "Пароль отправлен",
-      });
-      setTimer();
-    } catch (error) {
-      $q.notify({
-        color: "negative",
-        message: "Что то пошло не так",
-      });
-      console.log(error);
-    }
-  };
+    $q.notify({
+      color: 'green',
+      message: 'Пароль отправлен',
+    })
+    setTimer()
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      message: 'Что то пошло не так',
+    })
+    console.log(error)
+  }
+}
 
-  onMounted(() => {
-    resotre();
-  });
+onMounted(() => {
+  resotre()
+})
 </script>
 
-<style>
-</style>
+<style></style>

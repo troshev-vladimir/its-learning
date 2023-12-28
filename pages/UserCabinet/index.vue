@@ -1,6 +1,4 @@
 <template>Cabinet</template>
 
-<script lang="ts" setup>
-</script>
-<style>
-</style>
+<script lang="ts" setup></script>
+<style></style>

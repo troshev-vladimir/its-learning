@@ -1,3 +1,3 @@
-import Programs from "./index.vue"
+import Programs from './index.vue'
 
 export default Programs

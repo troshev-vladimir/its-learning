@@ -39,8 +39,8 @@ import tinkoff from '@tcb-web/create-credit'
 import { ref } from 'vue'
 
 const props = defineProps<{
-  summ: number;
-  title: string;
+  summ: number
+  title: string
 }>()
 
 const localPeriod = ref(24)
@@ -80,13 +80,10 @@ function buyViaInstallment({ sum, period, title }: Installment) {
 const buyProgramViaInstallment = () => {
   buyViaInstallment({
     sum: props.summ,
-    period:
-    localPeriod.value === 24
-        ? 'default'
-        : localPeriod.value,
+    period: localPeriod.value === 24 ? 'default' : localPeriod.value,
     title: 'Программа ' + props.title,
   })
-  }
+}
 </script>
 
 <style lang="scss" scoped>
