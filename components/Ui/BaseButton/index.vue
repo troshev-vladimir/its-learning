@@ -1,25 +1,42 @@
 <template>
   <button
     class="base-button"
-    :class="`${type} ${size}`"
+    :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
   >
-    <slot />
+    <p class="base-button__text">
+      <slot />
+    </p>
+    <SpinnerIcon
+      :style="['primary'].includes(type) ? 'light' : 'accent'"
+      class="base-button__spinner"
+      v-if="isLoading"
+    />
   </button>
 </template>
 
 <script lang="ts" setup>
+import SpinnerIcon from '~/assets/img/icons/SpinnerIcon.vue'
+
 defineProps({
   type: {
     type: String,
-    default: "primary",
-    validator: (value: string) => ["primary", "secondary"].includes(value),
+    default: 'primary',
+    validator: (value: string) => ['primary', 'secondary'].includes(value),
   },
   size: {
     type: String,
-    default: "big",
-    validator: (value: string) => ["small", "big"].includes(value),
+    default: 'big',
+    validator: (value: string) => ['small', 'big'].includes(value),
   },
-});
+})
+
+const isLoading = ref(false)
+
+const setLoadingStatus = (status: boolean) => {
+  isLoading.value = status
+}
+
+defineExpose({ setLoadingStatus })
 </script>
 
 <style lang="scss" scoped>
@@ -27,8 +44,23 @@ $blue-hover: #499bed;
 $blue-active: #0253a4;
 
 .base-button {
+  position: relative;
   border: none;
   cursor: pointer;
+  font-weight: 600;
+
+  &__spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.loading {
+    .base-button__text {
+      visibility: hidden;
+    }
+  }
 
   &.primary {
     color: $white;
@@ -65,18 +97,20 @@ $blue-active: #0253a4;
   }
 
   &.small {
-    padding: 16px 24px;
+    padding: 12px 24px;
     border-radius: 8px;
+    line-height: 20px;
   }
 
   &.big {
     padding: 16px 32px;
     border-radius: 8px;
+    line-height: 20px;
     font-size: 20px;
+
     * {
       font-size: 20px;
     }
   }
 }
 </style>
- 

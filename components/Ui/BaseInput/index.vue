@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="base-input"
-    :class="`${status}`"
-  >
+  <div class="base-input" :class="`${status}`">
     <p
       class="base-input__placeholder"
       :class="{ top: focused || modelValue?.length > 0 }"
@@ -14,16 +11,21 @@
     </p>
     <input
       ref="refInput"
-      @input="(event) => $emit('update:modelValue', event.target?.value)"
+      @input="
+        (event) =>
+          $emit('update:modelValue', (event.target as HTMLInputElement)?.value)
+      "
       :value="modelValue"
-      @focus="() => {
-        focused = true
-        $emit('focus', {status})
-      }"
+      @focus="
+        () => {
+          focused = true
+          $emit('focus', { status })
+        }
+      "
       @blur="
         () => {
           focused = false
-          $emit('blur', {status})
+          $emit('blur', { status })
         }
       "
       class="base-input__input"
@@ -40,7 +42,7 @@ const props = defineProps<{
     modelValue: string
     placeholder?: string
     required?: boolean
-    rules?: [(...args: any) => { status: string; message: string } | boolean]
+    rules?: [(...args: any) => { status: string; message: string } | void]
     isValidate?: boolean
   }>(),
   { modelValue, isValidate } = toRefs(props)
@@ -59,9 +61,8 @@ watch(
         message.value = null
         validate()
       } catch (error: any) {
+        if (process.env.NODE_ENV == 'development') console.error(error)
         let { message: errorMessage, status: errorStatus } = error
-        console.log(error)
-
         status.value = errorStatus
         message.value = errorMessage
       }
@@ -77,6 +78,9 @@ let focused = ref(false)
 </script>
 
 <style lang="scss">
+$error-shadow: #f97b7b;
+$warning-shadow: #ffd857;
+
 .base-input {
   position: relative;
 
@@ -127,6 +131,7 @@ let focused = ref(false)
       border-color: $accent;
     }
 
+    &:hover:focus,
     &:hover {
       box-shadow: 0 0 0 2px $light-blue;
     }
@@ -160,6 +165,18 @@ let focused = ref(false)
     }
     .base-input__input {
       border-color: $error;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $error-shadow;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $error-shadow;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $error-shadow;
+      }
     }
   }
 
@@ -181,6 +198,18 @@ let focused = ref(false)
     }
     .base-input__input {
       border-color: $warning;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $warning-shadow;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $warning-shadow;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $warning-shadow;
+      }
     }
   }
 }

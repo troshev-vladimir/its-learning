@@ -1,5 +1,5 @@
 export default function (
-  rules?: [(...args: any) => { status: string; message: string } | boolean],
+  rules?: [(...args: any) => { status: string; message: string } | void],
   value?: Ref<any>
 ) {
   const validate = () => {

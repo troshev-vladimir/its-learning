@@ -1,5 +1,5 @@
 <template>
-  <div class=" flex">
+  <div class="flex">
     <h2 class="text-h2 q-mb-md">Потратить заработанное</h2>
     <div class="flex wrap items-center full-width q-mb-lg" style="gap: 16px">
       <TimerComponent
@@ -57,9 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted} from 'vue'
+import { watch, onMounted } from 'vue'
 import useUserStore from '~/stores/user'
-import minMaxLength from '~/shared/validators/minMaxLength'
+import { minMaxLength } from '~/shared/validators'
 
 const userStore = useUserStore()
 const { userPromocode } = storeToRefs(userStore)
@@ -79,7 +79,7 @@ const sendPromocode = async (status: string) => {
 }
 
 watch(userPromocode, () => {
-  userStore.getUserBonus() 
+  userStore.getUserBonus()
 })
 
 onMounted(() => {
