@@ -28,17 +28,11 @@
       <div class="d-flex items-center" v-else>
         <UiBaseInput
           ref="refPromocodeInput"
-          @blur="({ status }) => sendPromocode(status)"
+          @valid="sendPromocode"
           placeholder="Введите промокод"
           class="q-mr-md"
           v-model="codeValue"
           :rules="[minMaxLength(6, 6)]"
-          :message="
-            codeValue.length != 6 && validate
-              ? 'Промокод состоит из 6 символов'
-              : ''
-          "
-          :is-validate="validate"
         />
 
         <span v-if="codeSended"> Не правильно </span>
@@ -65,15 +59,12 @@ const userStore = useUserStore()
 const { userPromocode } = storeToRefs(userStore)
 
 const codeValue = ref('')
-const validate = ref(false)
 const codeSended = ref(false)
 // const { data: user, error } = useAsyncData('user', async () => {
 //   return await userStore.getUserBonus()
 // })
 
-const sendPromocode = async (status: string) => {
-  validate.value = true
-  if (status && ['error', 'warning'].includes(status)) return
+const sendPromocode = async () => {
   codeSended.value = true
   userStore.userPromocode = codeValue.value
 }

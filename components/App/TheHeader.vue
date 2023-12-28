@@ -1,16 +1,21 @@
 <template>
   <header class="header q-pt-md">
     <div class="header__container container">
-      <div class="logo column items-start">
-        <img src="~/assets/img/logo.svg" alt="logo" />
-        <span class="text-body1">Академия 1С программирования</span>
-      </div>
+      <router-link to="/" title="На главную">
+        <div class="logo column items-start">
+          <img src="~/assets/img/logo.svg" alt="logo" />
+          <span class="text-body1">Академия 1С программирования</span>
+        </div>
+      </router-link>
       <div class="row items-center justify-end q-gutter-md">
         <a class="text-h2 text-weight-bold" href="tel:+78003010828">
           8(800)301-08-28
         </a>
         <UiBaseButton size="small" type="primary" @click="exit">
           Выйти
+          <template #right-icon>
+            <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+          </template>
         </UiBaseButton>
       </div>
     </div>

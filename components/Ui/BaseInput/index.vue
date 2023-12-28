@@ -19,13 +19,12 @@
       @focus="
         () => {
           focused = true
-          $emit('focus', { status })
         }
       "
       @blur="
         () => {
           focused = false
-          $emit('blur', { status })
+          isValidate = true
         }
       "
       class="base-input__input"
@@ -35,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
+const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'valid'])
 import useUiValidation from '~/shared/composables/useUiValidation'
 
 const props = defineProps<{
@@ -43,14 +42,15 @@ const props = defineProps<{
     placeholder?: string
     required?: boolean
     rules?: [(...args: any) => { status: string; message: string } | void]
-    isValidate?: boolean
   }>(),
-  { modelValue, isValidate } = toRefs(props)
+  { modelValue } = toRefs(props)
 
 const { validate } = useUiValidation(props.rules, modelValue)
 
 let message = ref(),
   status = ref()
+
+let isValidate = ref(false)
 
 watch(
   [isValidate, modelValue],
@@ -60,6 +60,7 @@ watch(
         status.value = null
         message.value = null
         validate()
+        if (!['error', 'warning'].includes(status.value)) emit('valid')
       } catch (error: any) {
         if (process.env.NODE_ENV == 'development') console.error(error)
         let { message: errorMessage, status: errorStatus } = error
