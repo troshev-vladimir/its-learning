@@ -1,17 +1,18 @@
-
 <template>
   <form @submit.prevent class="base-form">
     <slot></slot>
+    {{ form }}
   </form>
 </template>
 
 <script setup lang="ts">
 const slots = defineSlots<{
-  default(): any;
-}>();
+  default(): any
+}>()
 
-let form = ref({});
+let form: Ref<any> = ref({})
 
+provide('parentForm', form)
 </script>
 
 <style lang="scss">

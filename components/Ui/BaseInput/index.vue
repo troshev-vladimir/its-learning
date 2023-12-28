@@ -2,7 +2,7 @@
   <div class="base-input" :class="`${status}`">
     <p
       class="base-input__placeholder"
-      :class="{ top: focused || modelValue?.length > 0 }"
+      :class="{ top: focused || inputValue?.length > 0 }"
     >
       {{ placeholder }}
       <span class="placeholder__required-span">
@@ -12,21 +12,16 @@
     <input
       ref="refInput"
       @input="
-        (event) =>
-          $emit('update:modelValue', (event.target as HTMLInputElement)?.value)
+        (event) => (inputValue = (event.target as HTMLInputElement)?.value)
       "
-      :value="modelValue"
+      :value="inputValue"
       @focus="
         () => {
           focused = true
         }
       "
-      @blur="
-        () => {
-          focused = false
-          isValidate = true
-        }
-      "
+      @blur="onBlur"
+      @keyup.enter="onUpKeyEnter"
       class="base-input__input"
     />
     <p class="base-input__message">{{ message ?? 'Ошибка' }}</p>
@@ -34,45 +29,57 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'valid'])
+const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'enter'])
 import useUiValidation from '~/shared/composables/useUiValidation'
 
 const props = defineProps<{
-    modelValue: string
-    placeholder?: string
-    required?: boolean
-    rules?: [(...args: any) => { status: string; message: string } | void]
-  }>(),
-  { modelValue } = toRefs(props)
+  modelValue?: string
+  placeholder?: string
+  required?: boolean
+  rules?: [(...args: any) => { status: string; message: string } | void]
+  name?: string
+}>()
 
-const { validate } = useUiValidation(props.rules, modelValue)
+let inputValue = ref()
 
-let message = ref(),
-  status = ref()
+const { validate, status, message } = useUiValidation(props.rules, inputValue)
 
 let isValidate = ref(false)
 
+let parentForm = inject('parentForm')
+
+const onUpKeyEnter = () => {
+  focused.value = false
+  isValidate.value = true
+  validate()
+  if (!['error', 'warning'].includes(status.value)) emit('enter')
+}
+
+const onBlur = () => {
+  focused.value = false
+  isValidate.value = true
+  validate()
+  if (!['error', 'warning'].includes(status.value)) emit('blur')
+}
+
+watch(inputValue, (value) => {
+  emit('update:modelValue', value)
+  if (parentForm && props.name) {
+    parentForm.value[props.name] = inputValue.value
+  }
+})
+
 watch(
-  [isValidate, modelValue],
+  () => inputValue.value,
   () => {
     if (isValidate.value) {
       try {
-        status.value = null
-        message.value = null
         validate()
-        if (!['error', 'warning'].includes(status.value)) emit('valid')
       } catch (error: any) {
         if (process.env.NODE_ENV == 'development') console.error(error)
-        let { message: errorMessage, status: errorStatus } = error
-        status.value = errorStatus
-        message.value = errorMessage
       }
-    } else {
-      status.value = null
-      message.value = null
     }
-  },
-  { immediate: true, deep: true }
+  }
 )
 
 let focused = ref(false)
@@ -85,13 +92,13 @@ $warning-shadow: #ffd857;
 .base-input {
   position: relative;
 
-  &::before {
-    content: '';
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 17px;
-  }
+  // &::before {
+  //   content: '';
+  //   display: block;
+  //   position: relative;
+  //   width: 100%;
+  //   height: 17px;
+  // }
 
   &__placeholder {
     top: calc(50% - 10px);
@@ -108,7 +115,7 @@ $warning-shadow: #ffd857;
       line-height: 17px;
       top: 0;
       left: 0;
-      transform: translateY(0%);
+      transform: translateY(calc(-100% + -2px));
     }
 
     .placeholder__required-span {
@@ -143,6 +150,7 @@ $warning-shadow: #ffd857;
   }
 
   &__message {
+    position: absolute;
     visibility: hidden;
     margin-top: 4px;
     font-size: 12px;
