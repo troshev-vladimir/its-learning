@@ -18,7 +18,6 @@
 <script setup lang="ts">
   import { onMounted } from "vue";
   import b24LeadCreate from "~/utils/createLeadInB24";
-  import useUserStore from "~/stores/user";
 
   useSeoMeta({
     title: "Покупка програмы",

@@ -4,7 +4,6 @@
     :class="style"
     :color="props.color"
     :type="role"
-    class="ui-button"
   >
     <span :class="textClass"><slot /></span>
   </q-btn>

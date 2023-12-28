@@ -1,5 +1,5 @@
 <template>
-  <article class="program-card shadow-2 full-height">
+  <article class="program-card shadow-2 full-height bg-white">
     <div class="program-card__header">
       <div class="text-body1 text-bold q-mb-md q-block">Программа</div>
       <div class="header__container">
@@ -130,7 +130,7 @@
           </div>
         </div>
         <div class="program-card__buttons-block">
-          <!-- <TinkoffPaymentForm
+          <FeaturePaymentTinkoff
             :order-data="{
               order: card.name || '',
               description:
@@ -149,42 +149,14 @@
                 КУПить
               </UiButton>
             </template>
-          </TinkoffPaymentForm> -->
-          <q-btn-dropdown
-            split
-            color="white"
-            dropdown-icon="fas fa-chevron-down"
-            :label="
-              currentInstalmentPreiod === 24
-                ? `В кредит до (${currentInstalmentPreiod} мес.)`
-                : `В рассрочку (${currentInstalmentPreiod} мес.)`
-            "
-            class="full-width size--xs q-mt-md"
-            auto-close
-            text-color="black"
-            @click="buyProgramViaInstallment"
-          >
-            <q-list>
-              <q-item
-                v-for="(instalmentOption, idx) in [3, 6, 24]"
-                :key="idx"
-                v-close-popup
-                clickable
-                :active="currentInstalmentPreiod === instalmentOption"
-                active-class="bg-blue-2 text-blue-5 no-pointer-events"
-                @click="currentInstalmentPreiod = instalmentOption"
-              >
-                <q-item-section>
-                  <q-item-label v-if="instalmentOption === 24">
-                    В кредит до {{ instalmentOption }} месяцев
-                  </q-item-label>
-                  <q-item-label v-else>
-                    На {{ instalmentOption }} месяца
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
+          </FeaturePaymentTinkoff>
+          <ClientOnly>
+            <UiTinkoffInstallment 
+              :summ="card.price.withDiscount"
+              :title="card.name"
+            />
+          </ClientOnly>
+          
         </div>
       </div>
     </div>
@@ -234,28 +206,23 @@
 </template>
 
 <script setup lang="ts">
-  import { formatNumber } from "~/utils/helpers";
-  import { type Program } from "~/api/program/types";
-  import { defineProps, ref } from "vue";
-
+  import { formatNumber } from '~/utils/helpers'
+  import { type Program } from '~/api/program/types'
+  import { defineProps, ref } from 'vue'
   export interface Props {
-    card: Program;
+    card: Program
   }
 
-  const props = defineProps<Props>();
-
-  const currentInstalmentPreiod = ref(6);
-
-  // const buyProgramViaInstallment = () => {};
+  const props = defineProps<Props>()
+  const currentInstalmentPreiod = ref(6)
 
   const getInstallment = (summ: number) => {
-    return Math.round((summ * 1.2108499096) / 24);
-  };
+    return Math.round((summ * 1.2108499096) / 24)
+  }
 </script>
 
 <style lang="scss" scoped>
   .program-card {
-    background-color: var(--q-white);
     border-radius: 16px;
     padding: 24px;
     display: flex;
