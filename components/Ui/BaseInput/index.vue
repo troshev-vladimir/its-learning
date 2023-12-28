@@ -1,44 +1,87 @@
 <template>
-  <div class="base-input">
+  <div
+    class="base-input"
+    :class="`${status}`"
+  >
     <p
       class="base-input__placeholder"
       :class="{ top: focused || modelValue?.length > 0 }"
     >
       {{ placeholder }}
       <span class="placeholder__required-span">
-        {{ required ? "*" : "" }}
+        {{ required ? '*' : '' }}
       </span>
     </p>
     <input
       ref="refInput"
       @input="(event) => $emit('update:modelValue', event.target?.value)"
       :value="modelValue"
-      @focus="() => (focused = true)"
-      @blur="() => (focused = false)"
+      @focus="() => {
+        focused = true
+        $emit('focus', {status})
+      }"
+      @blur="
+        () => {
+          focused = false
+          $emit('blur', {status})
+        }
+      "
       class="base-input__input"
     />
-    <p class="base-input__message">Ошибка</p>
+    <p class="base-input__message">{{ message ?? 'Ошибка' }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
+import useUiValidation from '~/shared/composables/useUiValidation'
 
-defineProps({
-  placeholder: String,
-  required: Boolean,
-  modelValue: String,
-});
+const props = defineProps<{
+    modelValue: string
+    placeholder?: string
+    required?: boolean
+    rules?: [(...args: any) => { status: string; message: string } | boolean]
+    isValidate?: boolean
+  }>(),
+  { modelValue, isValidate } = toRefs(props)
 
-let focused = ref(false);
+const { validate } = useUiValidation(props.rules, modelValue)
+
+let message = ref(),
+  status = ref()
+
+watch(
+  [isValidate, modelValue],
+  () => {
+    if (isValidate.value) {
+      try {
+        status.value = null
+        message.value = null
+        validate()
+      } catch (error: any) {
+        let { message: errorMessage, status: errorStatus } = error
+        console.log(error)
+
+        status.value = errorStatus
+        message.value = errorMessage
+      }
+    } else {
+      status.value = null
+      message.value = null
+    }
+  },
+  { immediate: true, deep: true }
+)
+
+let focused = ref(false)
 </script>
 
-<style  lang="scss">
+<style lang="scss">
 .base-input {
   position: relative;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     position: relative;
     width: 100%;
@@ -94,7 +137,7 @@ let focused = ref(false);
   }
 
   &__message {
-    display: none;
+    visibility: hidden;
     margin-top: 4px;
     font-size: 12px;
     line-height: 17px;
