@@ -36,7 +36,7 @@
           :rules="[minMaxLength(6, 6)]"
         />
 
-        <span v-if="codeSended"> Код не верный </span>
+        <span v-if="codeSended"> Код неверный </span>
       </div>
     </div>
     <p class="text-body2 text-secondary">
