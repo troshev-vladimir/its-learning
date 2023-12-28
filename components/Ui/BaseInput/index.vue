@@ -89,7 +89,7 @@ let focused = ref(false)
   }
 
   &__placeholder {
-    top: 50%;
+    top: calc(50% - 10px);
     left: 12px;
     position: absolute;
     margin: 0;
@@ -145,7 +145,7 @@ let focused = ref(false)
 
   &.error {
     .base-input__message {
-      display: block;
+      visibility: visible;
       color: $error;
     }
 
@@ -165,7 +165,7 @@ let focused = ref(false)
 
   &.warning {
     .base-input__message {
-      display: block;
+      visibility: visible;
       color: $warning;
     }
 
