@@ -68,7 +68,7 @@ const codeSended = ref(false)
 const sendPromocode = async () => {
   if (!codeValue.value.length) return
   codeSended.value = true
-  userStore.userPromocode = codeValue.value
+  userPromocode.value = codeValue.value
 }
 
 watch(userPromocode, () => {

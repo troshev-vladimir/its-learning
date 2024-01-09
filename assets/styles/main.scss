@@ -1,8 +1,9 @@
 @import "./reset-styles.scss";
-@import "./variables.scss";
 
 body {
   background-color: #f2f2f2;
+  
+  --q-success: #{$green};
 }
 
 a {
