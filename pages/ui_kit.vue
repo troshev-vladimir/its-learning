@@ -41,8 +41,8 @@
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
     <UiBasePopup ref="refBasePopup">
       <template #header> 123 </template>
-      <template #default></template>
-      <template #footer></template>
+      <template #default>123</template>
+      <template #footer>123</template>
     </UiBasePopup>
   </div>
 </template>

@@ -1,22 +1,26 @@
 <template>
   <div class="base-popup" :class="{ active: isOpen }">
-    <div class="base-popup__card">
-      <div class="card__header">
-        <slot name="header"></slot>
-        <font-awesome-icon
-          @click="close"
-          class="card__cancel"
-          icon="fa-solid fa-xmark"
-        />
+    <client-only>
+      <font-awesome-icon
+        @click="close"
+        class="cancel"
+        icon="fa-solid fa-xmark"
+      />
+    </client-only>
+    <div class="card">
+      <div class="header">
+        <div>
+          <slot name="header"></slot>
+        </div>
       </div>
-      <div class="card__container">
+      <div class="cardContainer">
         <slot></slot>
       </div>
-      <div class="card__footer">
+      <div class="footer">
         <slot name="footer"></slot>
       </div>
     </div>
-    <span class="base-popup__background" @click="close"></span>
+    <span class="background" @click="close"></span>
   </div>
 </template>
 
@@ -33,6 +37,17 @@ const open = () => {
   })
 }
 
+watch(
+  () => isOpen.value,
+  () => {
+    if (isOpen.value) {
+      document.body.classList.add('freez')
+    } else {
+      document.body.classList.remove('freez')
+    }
+  }
+)
+
 const confirm = () => {
   isOpen.value = false
   resolveFn.value(true)
@@ -46,51 +61,67 @@ const close = () => {
 defineExpose({ open, confirm, close })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module scoped>
 .base-popup {
   display: none;
   transition: 0.2s;
   &.active {
     display: block;
     position: fixed;
+    z-index: 1000;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
   }
+}
 
-  &__card {
-    position: absolute;
-    overflow: hidden;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    transform: translate(-50%, -50%);
-    min-width: 100px;
-    min-height: 100px;
+.background {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #00000056;
+}
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  min-width: 100px;
+  min-height: 100px;
+  width: max-content;
+  height: max-content;
+  max-width: 95vw;
+  max-height: 90vh;
+  background: $white;
+  border-radius: 16px;
+  overflow: auto;
+
+  @media (min-width: $breakpoint-sm) {
     max-width: 80vw;
     max-height: 80vh;
-    background: $white;
-    border-radius: 16px;
-
-    .card__cancel {
-      font-size: $lg;
-      float: right;
-      margin: 8px;
-      color: $black;
-      cursor: pointer;
-    }
-    .card__container {
-      flex: 1 1 auto;
-    }
   }
+}
+.cancel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  font-size: $lg;
+  color: $white;
+  cursor: pointer;
+}
+.cardContainer {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+</style>
 
-  &__background {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: #00000056;
-  }
+<style>
+body.freez {
+  position: fixed !important;
+  overflow-y: scroll !important;
 }
 </style>
