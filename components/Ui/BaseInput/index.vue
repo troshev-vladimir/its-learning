@@ -1,106 +1,90 @@
 <template>
-  <div class="base-input" :class="`${status}`">
-    <p
-      class="base-input__placeholder"
-      :class="{ top: focused || inputValue?.length > 0 }"
-    >
-      {{ placeholder }}
-      <span class="placeholder__required-span">
-        {{ required ? '*' : '' }}
-      </span>
-    </p>
+  <div :class="[$style['base-input'], $style[`base-input--${status}`]]">
     <input
       ref="refInput"
-      @input="
-        (event) => (inputValue = (event.target as HTMLInputElement)?.value)
-      "
-      :value="inputValue"
-      @focus="
-        () => {
-          focused = true
-        }
-      "
-      @blur="onBlur"
-      @keyup.enter="onUpKeyEnter"
-      class="base-input__input"
+      v-model="inputValue"
+      @blur="update"
+      @keyup.enter="update"
+      :name="name"
+      :class="$style['native-input']"
+      placeholder=""
     />
-    <p class="base-input__message">{{ message ?? 'Ошибка' }}</p>
+    <p :class="$style['placeholder']">
+      {{ placeholder }}
+      <span v-if="required">*</span>
+    </p>
+    <p v-if="isError" :class="$style['message']">{{ message }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'enter'])
-import useUiValidation from '~/shared/composables/useUiValidation'
+import { inject } from 'vue'
+import { dataFromParentForm } from '~/utils/symbols'
+import type { Provide } from '../BaseForm/types'
+import useValidation from '~/components/Ui/BaseForm/composables/useValidation'
+import type { Validator } from '~/utils/validators/types'
 
-const props = defineProps<{
+export interface Props {
   modelValue?: string
   placeholder?: string
   required?: boolean
-  rules?: [(...args: any) => { status: string; message: string } | void]
-  name?: string
-}>()
-
-let inputValue = ref()
-
-const { validate, status, message } = useUiValidation(props.rules, inputValue)
-
-let isValidate = ref(false)
-
-let parentForm = inject('parentForm')
-
-const onUpKeyEnter = () => {
-  focused.value = false
-  isValidate.value = true
-  validate()
-  if (!['error', 'warning'].includes(status.value)) emit('enter')
+  rules?: Array<Validator>
+  name: string
+  message?: string
 }
 
-const onBlur = () => {
-  focused.value = false
-  isValidate.value = true
+const emit = defineEmits(['update:modelValue'])
+const props = withDefaults(defineProps<Props>(), {})
+
+const { formData, mutateFormData } = inject(dataFromParentForm) as Provide
+const currentInput = formData.value[props.name]
+let inputValue = ref(currentInput.value)
+const { status, validate, message } = useValidation(props.rules, inputValue)
+
+const update = () => {
   validate()
-  if (!['error', 'warning'].includes(status.value)) emit('blur')
+
+  if (!isError.value) {
+    mutateFormData(props.name, {
+      value: inputValue.value,
+      status,
+      message,
+    })
+  }
 }
 
-watch(inputValue, (value) => {
-  emit('update:modelValue', value)
-  if (parentForm && props.name) {
-    parentForm.value[props.name] = inputValue.value
+watch(inputValue, () => {
+  if (isError.value) {
+    update()
   }
 })
 
-watch(
-  () => inputValue.value,
-  () => {
-    if (isValidate.value) {
-      try {
-        validate()
-      } catch (error: any) {
-        if (process.env.NODE_ENV == 'development') console.error(error)
-      }
-    }
+onMounted(() => {
+  if (!isError.value) {
+    validate()
   }
-)
+})
 
-let focused = ref(false)
+const isError = computed(() => {
+  return status.value === 'error'
+})
 </script>
 
-<style lang="scss">
-$error-shadow: #f97b7b;
-$warning-shadow: #ffd857;
-
+<style lang="scss" module>
 .base-input {
   position: relative;
 
-  // &::before {
-  //   content: '';
-  //   display: block;
-  //   position: relative;
-  //   width: 100%;
-  //   height: 17px;
-  // }
+  .native-input:focus ~ .placeholder,
+  .native-input:not(:placeholder-shown) ~ .placeholder {
+    color: $accent;
+    font-size: 12px;
+    line-height: 17px;
+    top: 0;
+    left: 0;
+    transform: translateY(calc(-100% + -2px));
+  }
 
-  &__placeholder {
+  .placeholder {
     top: calc(50% - 10px);
     left: 12px;
     position: absolute;
@@ -108,22 +92,9 @@ $warning-shadow: #ffd857;
     pointer-events: none;
     color: $secondary;
     transition: 0.2s;
-
-    &.top {
-      color: $accent;
-      font-size: 12px;
-      line-height: 17px;
-      top: 0;
-      left: 0;
-      transform: translateY(calc(-100% + -2px));
-    }
-
-    .placeholder__required-span {
-      color: $error;
-    }
   }
 
-  &__input {
+  .native-input {
     width: 100%;
     height: 100%;
     padding: 10px 12px;
@@ -135,89 +106,63 @@ $warning-shadow: #ffd857;
     transition: 0.2s;
 
     &:hover,
-    &:focus {
+    &:focus,
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus {
       border-color: $accent;
     }
 
     &:hover:focus,
+    &:-internal-autofill-selected:hover,
     &:hover {
       box-shadow: 0 0 0 2px $light-blue;
     }
 
-    &:focus {
+    &:focus,
+    &:-internal-autofill-selected:focus {
+      -webkit-box-shadow: 0 0 0 1px $light-blue;
       box-shadow: 0 0 0 1px $light-blue;
     }
   }
 
-  &__message {
+  .message {
     position: absolute;
-    visibility: hidden;
-    margin-top: 4px;
     font-size: 12px;
+    margin-top: 2px;
     line-height: 17px;
   }
 
-  &.error {
-    .base-input__message {
-      visibility: visible;
+  &--error {
+    .message {
       color: $error;
     }
 
-    .base-input__placeholder {
-      color: $error;
-      top: calc(50% - 10px);
-      &.top {
-        color: $error;
-        top: 0;
-        left: 0;
-      }
+    .placeholder {
+      color: $error !important;
     }
-    .base-input__input {
+
+    .native-input {
       border-color: $error;
 
       &:hover:focus {
-        box-shadow: 0 0 0 2px $error-shadow;
+        box-shadow: 0 0 0 2px $error;
       }
 
       &:hover {
-        box-shadow: 0 0 0 2px $error-shadow;
+        box-shadow: 0 0 0 2px $error;
+        border-color: $red;
       }
 
       &:focus {
-        box-shadow: 0 0 0 1px $error-shadow;
-      }
-    }
-  }
-
-  &.warning {
-    .base-input__message {
-      visibility: visible;
-      color: $warning;
-    }
-
-    .base-input__placeholder {
-      color: $warning;
-      top: calc(50% - 10px);
-
-      &.top {
-        color: $warning;
-        top: 0;
-        left: 0;
-      }
-    }
-    .base-input__input {
-      border-color: $warning;
-
-      &:hover:focus {
-        box-shadow: 0 0 0 2px $warning-shadow;
+        box-shadow: 0 0 0 1px $error;
       }
 
-      &:hover {
-        box-shadow: 0 0 0 2px $warning-shadow;
-      }
-
-      &:focus {
-        box-shadow: 0 0 0 1px $warning-shadow;
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $error;
+        -webkit-text-fill-color: #000;
       }
     }
   }
