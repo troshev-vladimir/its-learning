@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="submit" ref="formEl" class="base-form">
+    <h2 :class="$style.title">{{ title }}</h2>
     <slot :validators="validators"></slot>
 
     <div :class="$style.actions">
@@ -21,6 +22,7 @@ import * as validators from '~/utils/validators'
 
 const props = defineProps<{
   modelValue?: Record<string, any>
+  title: string
 }>()
 
 const emit = defineEmits(['update:modelValue'])
@@ -73,6 +75,12 @@ provide(dataFromParentForm, {
   padding: 24px;
   background: $white;
   border-radius: 16px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
 .actions {

@@ -10,7 +10,7 @@
       placeholder=""
     />
     <p :class="$style['placeholder']">
-      {{ placeholder }}
+      {{ label }}
       <span v-if="required">*</span>
     </p>
     <p v-if="isError" :class="$style['message']">{{ message }}</p>
@@ -26,7 +26,7 @@ import type { Validator } from '~/utils/validators/types'
 
 export interface Props {
   modelValue?: string
-  placeholder?: string
+  label: string
   required?: boolean
   rules?: Array<Validator>
   name: string

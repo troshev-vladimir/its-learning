@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiBaseForm v-model="form">
+    <UiBaseForm title="Форма" v-model="form">
       <template #default="{ validators }">
         <UiBaseInput
           :rules="[validators.minMaxLength(1, 4)]"
