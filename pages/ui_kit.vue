@@ -1,10 +1,19 @@
 <template>
   <div>
+    <UiBaseButton @click="$refs.refBasePopup?.open()" type="primary" size="big">
+      <template #left-icon>
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
+      </template>
+      Нажми
+    </UiBaseButton>
+
     <UiBaseForm title="Форма" v-model="form">
       <template #default="{ validators }">
         <UiBaseInput
           :rules="[validators.minMaxLength(1, 4)]"
-          name="name12"
+          name="name"
           label="Введите имя"
           class="q-mb-xl"
         />
@@ -15,25 +24,33 @@
 
     <UiBaseButton type="primary" size="small">
       <template #left-icon>
-        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
       </template>
       Базовая кнопка
     </UiBaseButton>
     <UiBaseButton type="secondary" size="small">
       <template #right-icon>
-        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
       </template>
       Базовая кнопка
     </UiBaseButton>
     <UiBaseButton type="boarded" size="big">
       <template #right-icon>
-        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
       </template>
       Базовая кнопка
     </UiBaseButton>
     <UiBaseButton type="boarded" size="small">
       <template #right-icon>
-        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
       </template>
       Базовая кнопка
     </UiBaseButton>
@@ -49,7 +66,7 @@
 
 <script setup lang="ts">
 const form = ref({
-  name12: {
+  name: {
     value: '1asasdad',
     status: 'error',
     message: 'asdasd',
@@ -61,5 +78,3 @@ const form = ref({
   },
 })
 </script>
-
-<style scoped lang="scss"></style>

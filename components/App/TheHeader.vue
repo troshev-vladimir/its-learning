@@ -14,7 +14,9 @@
         <UiBaseButton size="small" type="primary" @click="exit">
           Выйти
           <template #right-icon>
-            <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+            <client-only>
+              <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+            </client-only>
           </template>
         </UiBaseButton>
       </div>
