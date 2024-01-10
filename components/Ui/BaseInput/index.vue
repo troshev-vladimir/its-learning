@@ -37,8 +37,8 @@ const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(defineProps<Props>(), {})
 
 const { formData, mutateFormData } = inject(dataFromParentForm) as Provide
-const currentInput = formData.value[props.name]
-let inputValue = ref(currentInput.value)
+const currentInput = formData?.value[props.name]
+let inputValue = ref(currentInput?.value || null)
 const { status, validate, message } = useValidation(props.rules, inputValue)
 
 const update = () => {
@@ -56,12 +56,6 @@ const update = () => {
 watch(inputValue, () => {
   if (isError.value) {
     update()
-  }
-})
-
-onMounted(() => {
-  if (!isError.value) {
-    validate()
   }
 })
 

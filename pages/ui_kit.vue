@@ -48,18 +48,7 @@
 </template>
 
 <script setup lang="ts">
-const form = ref({
-  name12: {
-    value: '1asasdad',
-    status: 'error',
-    message: 'asdasd',
-  },
-  email: {
-    value: 'asdasd',
-    status: null,
-    message: 'asdasd',
-  },
-})
+const form = ref({})
 </script>
 
 <style scoped lang="scss"></style>
