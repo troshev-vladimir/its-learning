@@ -12,6 +12,38 @@
         <UiBaseInput name="email" label="Введите почту" class="q-mb-lg" />
       </template>
     </UiBaseForm>
+
+    <UiBaseButton type="primary" size="small">
+      <template #left-icon>
+        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+      </template>
+      Базовая кнопка
+    </UiBaseButton>
+    <UiBaseButton type="secondary" size="small">
+      <template #right-icon>
+        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+      </template>
+      Базовая кнопка
+    </UiBaseButton>
+    <UiBaseButton type="boarded" size="big">
+      <template #right-icon>
+        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+      </template>
+      Базовая кнопка
+    </UiBaseButton>
+    <UiBaseButton type="boarded" size="small">
+      <template #right-icon>
+        <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+      </template>
+      Базовая кнопка
+    </UiBaseButton>
+    <UiBaseButton type="link" size="big"> Базовая ссылка </UiBaseButton>
+    <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
+    <UiBasePopup ref="refBasePopup">
+      <template #header> 123 </template>
+      <template #default></template>
+      <template #footer></template>
+    </UiBasePopup>
   </div>
 </template>
 

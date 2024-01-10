@@ -26,7 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-import SpinnerIcon from '~/assets/img/icons/SpinnerIcon.vue'
+import { toRefs, computed } from 'vue'
+import SpinnerIcon from '../../../assets/img/icons/SpinnerIcon.vue'
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -35,7 +36,7 @@ const props = defineProps({
       type: String,
       default: 'primary',
       validator: (value: string) =>
-        ['primary', 'secondary', 'link'].includes(value),
+        ['primary', 'secondary', 'boarded', 'link'].includes(value),
     },
     size: {
       type: String,
@@ -62,7 +63,6 @@ const isLoading = computed({
 <style lang="scss" scoped>
 $blue-hover: #499bed;
 $blue-active: #0253a4;
-
 .base-button {
   display: flex;
   align-items: center;
@@ -105,6 +105,23 @@ $blue-active: #0253a4;
   }
 
   &.secondary {
+    color: $accent;
+    background: $white;
+
+    &:hover {
+      color: $blue-hover;
+    }
+
+    &:active {
+      color: $blue-active;
+    }
+
+    &.disabled {
+      color: $gray !important;
+    }
+  }
+
+  &.boarded {
     outline: 2px solid $accent;
     outline-offset: -2px;
     color: $accent;
