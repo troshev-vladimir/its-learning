@@ -131,15 +131,14 @@
             :amount="card.price.withDiscount"
           >
             <template #default="{ handler }">
-              <UiButton
+              <UiBaseButton
+                type="info"
+                size="small"
                 class="program-card__buy-button"
-                color="white"
-                text-color="primary"
-                size="sm"
                 @click="handler"
               >
-                КУПить
-              </UiButton>
+                Купить
+              </UiBaseButton>
             </template>
           </FeaturePaymentTinkoff>
           <ClientOnly>
@@ -160,8 +159,9 @@
         href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Договор оферты
+        <UiBaseButton type="link-light" size="small">
+          Договор оферты
+        </UiBaseButton>
       </a>
       <a
         v-if="card.linkToContractAddition"
@@ -169,16 +169,18 @@
         :href="card.linkToContractAddition"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Приложение к договору №1
+        <UiBaseButton type="link-light" size="small">
+          Приложение к договору №1
+        </UiBaseButton>
       </a>
       <a
         class="text-body2 text-secondary d-flex items-center"
         href="https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link"
         target="_blank"
       >
-        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
-        Приложение к договору №2
+        <UiBaseButton type="link-light" size="small">
+          Приложение к договору №2
+        </UiBaseButton>
       </a>
     </div>
   </article>
@@ -296,6 +298,17 @@ const getInstallment = (summ: number) => {
 
   .list-item::before {
     background-color: var(--q-accent);
+  }
+
+  .criteria {
+  }
+
+  &--selected {
+    background-color: #fff;
+
+    .list-item::before {
+      background-color: var(--q-secondary);
+    }
   }
 
   * {
