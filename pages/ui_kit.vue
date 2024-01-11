@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiBaseForm title="Форма" v-model="form">
+    <UiBaseForm title="Форма" @submit="sendForm">
       <template #default="{ validators }">
         <UiBaseInput
           :rules="[validators.minMaxLength(1, 4)]"
@@ -10,6 +10,7 @@
         />
 
         <UiBaseInput name="email" label="Введите почту" class="q-mb-lg" />
+        <UiBaseInput name="user" label="Введите почту" class="q-mb-lg" />
       </template>
     </UiBaseForm>
 
@@ -48,7 +49,11 @@
 </template>
 
 <script setup lang="ts">
-const form = ref({})
+const sendForm = (formData: FormData) => {
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1])
+  }
+}
 </script>
 
 <style scoped lang="scss"></style>

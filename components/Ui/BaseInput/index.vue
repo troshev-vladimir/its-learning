@@ -44,13 +44,11 @@ const { status, validate, message } = useValidation(props.rules, inputValue)
 const update = () => {
   validate()
 
-  if (!isError.value) {
-    mutateFormData(props.name, {
-      value: inputValue.value,
-      status,
-      message,
-    })
-  }
+  mutateFormData(props.name, {
+    value: inputValue.value,
+    status,
+    message,
+  })
 }
 
 watch(inputValue, () => {

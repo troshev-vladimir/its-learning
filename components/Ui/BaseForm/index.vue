@@ -21,20 +21,21 @@ import { provide } from 'vue'
 import * as validators from '~/utils/validators'
 
 const props = defineProps<{
-  modelValue?: Record<string, any>
   title: string
 }>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'submit'])
 const formEl = ref<HTMLFormElement | null>(null)
 const message = ref('')
 const isSuccessfullyFilled = ref(true)
 
+const _lockalData = ref({})
 const localData = computed({
   get() {
-    return props.modelValue
+    return _lockalData.value
   },
   set(value) {
+    _lockalData.value = value
     emit('update:modelValue', value)
   },
 })
@@ -53,7 +54,7 @@ const submit = () => {
   isSuccessfullyFilled.value = checkAllFields()
 
   if (isSuccessfullyFilled.value) {
-    console.log(new FormData(formEl.value))
+    emit('submit', new FormData(formEl.value))
   } else {
     message.value = 'Форма заполенена не верно'
   }
