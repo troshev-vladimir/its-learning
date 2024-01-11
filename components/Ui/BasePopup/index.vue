@@ -1,5 +1,5 @@
 <template>
-  <div class="base-popup" :class="{ active: isOpen }">
+  <div class="base-popup" :class="{ active: modelValue }">
     <client-only>
       <font-awesome-icon
         @click="close"
@@ -25,22 +25,20 @@
 </template>
 
 <script lang="ts" setup>
-let resolveFn = ref()
-let rejectFn = ref()
-let isOpen = ref(false)
+const emit = defineEmits(['update:modelValue'])
+
+const props = defineProps<{
+  modelValue?: boolean
+}>()
 
 const open = () => {
-  return new Promise((resolve, reject) => {
-    resolveFn.value = resolve
-    rejectFn.value = reject
-    isOpen.value = true
-  })
+  emit('update:modelValue', true)
 }
 
 watch(
-  () => isOpen.value,
+  () => props.modelValue,
   () => {
-    if (isOpen.value) {
+    if (props.modelValue) {
       document.body.classList.add('freez')
     } else {
       document.body.classList.remove('freez')
@@ -49,30 +47,39 @@ watch(
 )
 
 const confirm = () => {
-  isOpen.value = false
-  resolveFn.value(true)
+  emit('update:modelValue', false)
 }
 
 const close = () => {
-  isOpen.value = false
-  resolveFn.value(false)
+  emit('update:modelValue', false)
 }
 
 defineExpose({ open, confirm, close })
 </script>
 
-<style lang="scss" module scoped>
+<style lang="scss" scoped>
 .base-popup {
   display: none;
   transition: 0.2s;
-  &.active {
-    display: block;
-    position: fixed;
-    z-index: 1000;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
+}
+
+.base-popup.active {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  animation: showPopup 0.2s ease;
+}
+
+@keyframes showPopup {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -121,13 +128,6 @@ defineExpose({ open, confirm, close })
 
 <style>
 body.freez {
-  position: fixed !important;
-  overflow-y: scroll !important;
-}
-</style>
-
-<style>
-.body.freez {
   position: fixed !important;
   overflow-y: scroll !important;
 }
