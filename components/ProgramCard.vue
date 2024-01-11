@@ -159,9 +159,7 @@
         href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
         target="_blank"
       >
-        <UiBaseButton type="link-light" size="small">
-          Договор оферты
-        </UiBaseButton>
+        <UiBaseButton type="link" size="small"> Договор оферты </UiBaseButton>
       </a>
       <a
         v-if="card.linkToContractAddition"
@@ -169,7 +167,7 @@
         :href="card.linkToContractAddition"
         target="_blank"
       >
-        <UiBaseButton type="link-light" size="small">
+        <UiBaseButton type="link" size="small">
           Приложение к договору №1
         </UiBaseButton>
       </a>
@@ -178,7 +176,7 @@
         href="https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link"
         target="_blank"
       >
-        <UiBaseButton type="link-light" size="small">
+        <UiBaseButton type="link" size="small">
           Приложение к договору №2
         </UiBaseButton>
       </a>
