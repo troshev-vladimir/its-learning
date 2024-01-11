@@ -132,7 +132,7 @@
           >
             <template #default="{ handler }">
               <UiBaseButton
-                type="info"
+                type="secondary"
                 size="small"
                 class="program-card__buy-button"
                 @click="handler"
