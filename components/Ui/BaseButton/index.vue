@@ -1,13 +1,16 @@
 <template>
-  <button
+  <component
+    :is="tag"
     class="base-button"
     :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
   >
-    <font-awesome-icon
-      class="base-button__icon"
-      icon="fa-solid fa-up-right-from-square"
-      v-if="type == 'link'"
-    />
+    <client-only>
+      <font-awesome-icon
+        class="base-button__icon"
+        icon="fa-solid fa-up-right-from-square"
+        v-if="type == 'link'"
+      />
+    </client-only>
     <span class="base-button__icon" v-if="$slots['left-icon']">
       <slot name="left-icon"></slot>
     </span>
@@ -22,7 +25,7 @@
       class="base-button__spinner"
       v-if="isLoading"
     />
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
@@ -46,6 +49,10 @@ const props = defineProps({
     modelValue: {
       type: Boolean,
       default: false,
+    },
+    tag: {
+      type: String,
+      default: 'button',
     },
   }),
   { modelValue } = toRefs(props)

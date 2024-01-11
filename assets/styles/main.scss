@@ -1,9 +1,10 @@
-@import "./reset-styles.scss";
+@import './reset-styles.scss';
+@import './variables.scss';
 
 body {
   background-color: #f2f2f2;
-  
-  --q-success: #{$green};
+
+  --q-success: $green;
 }
 
 a {
@@ -29,7 +30,7 @@ a {
   padding-left: 28px;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     width: 12px;
     height: 12px;

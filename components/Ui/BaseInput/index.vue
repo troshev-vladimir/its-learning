@@ -36,14 +36,14 @@ export interface Props {
 const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(defineProps<Props>(), {})
 
-const { formData, mutateFormData } = inject(dataFromParentForm) as Provide
+const { formData, mutateFormData } = inject(dataFromParentForm, {}) as Provide
 const currentInput = formData?.value[props.name]
 let inputValue = ref(currentInput?.value || null)
 const { status, validate, message } = useValidation(props.rules, inputValue)
 
 const update = () => {
   validate()
-
+  emit('update:modelValue', inputValue.value)
   mutateFormData(props.name, {
     value: inputValue.value,
     status,
