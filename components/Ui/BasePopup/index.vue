@@ -125,3 +125,10 @@ body.freez {
   overflow-y: scroll !important;
 }
 </style>
+
+<style>
+.body.freez {
+  position: fixed !important;
+  overflow-y: scroll !important;
+}
+</style>
