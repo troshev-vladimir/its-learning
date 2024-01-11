@@ -5,13 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  style: {
-    type: String,
-    default: 'light',
-    validator: (style) => ['light', 'accent'].includes(style),
-  },
-})
+withDefaults(
+  defineProps<{
+    style: 'light' | 'accent'
+  }>(),
+  { style: 'light' }
+)
 </script>
 
 <style lang="scss" scoped>
