@@ -33,6 +33,8 @@
 
         <UiBaseInput name="email" label="Введите почту" class="q-mb-lg" />
         <UiBaseInput name="user" label="Введите почту" class="q-mb-lg" />
+
+        <UiBaseCheckbox>asdasd</UiBaseCheckbox>
       </template>
     </UiBaseForm>
 

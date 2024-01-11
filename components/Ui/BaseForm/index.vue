@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import type { Provide } from './types'
 import { dataFromParentForm } from '~/utils/symbols'
-import { provide } from 'vue'
 import * as validators from '~/utils/validators'
 
 const props = defineProps<{
@@ -30,7 +29,7 @@ const message = ref('')
 const isSuccessfullyFilled = ref(true)
 
 const _lockalData = ref({})
-const localData = computed({
+const localData = computed<any>({
   get() {
     return _lockalData.value
   },
@@ -42,7 +41,7 @@ const localData = computed({
 
 const checkAllFields = () => {
   // @ts-ignore
-  const fields = Object.values(localData.value)
+  const fields = Object.values(localData.value) as ValidatorResp[]
   const values = fields.map((el) => el.status)
   const isExistError = values.includes('error')
 

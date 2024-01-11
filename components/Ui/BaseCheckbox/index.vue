@@ -1,90 +1,95 @@
-
 import type { Value } from 'sass';
 
 <template>
-  <span
-    class="base-checkbox"
-    @click="onClickCheckbox"
-    :class="{ active: isActiveCheckbox }"
-  >
-    <span class="base-checkbox__container">
-      <font-awesome-icon
-        v-if="isActiveCheckbox"
-        class="base-chekbox__icon"
-        icon="fa-solid fa-check"
-      />
+  <label :class="[$style.baseCheckbox]">
+    <input
+      v-model="value"
+      :class="$style.nativeInput"
+      type="checkbox"
+      :name="name"
+    />
+    <span :class="[$style.container]">
+      <client-only>
+        <font-awesome-icon :class="$style.icon" icon="fa-solid fa-check" />
+      </client-only>
     </span>
-  </span>
+    <slot>
+      <span>{{ label }}</span>
+    </slot>
+  </label>
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits(["update:modelValue"]);
-const props = defineProps({
-    modelValue: Array,
-    value: [String, Array, Number, Object],
-  }),
-  { modelValue, value } = toRefs(props);
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps<{
+  modelValue?: boolean
+  label: string
+  name: string
+}>()
+const { formData, mutateFormData } = inject(dataFromParentForm, {}) as Provide
+const currentInput = formData?.value[props.name]
 
-const onClickCheckbox = () => {
-  if (
-    isActiveCheckbox.value &&
-    modelValue?.value &&
-    indexOfValue?.value != undefined &&
-    indexOfValue?.value > -1
-  ) {
-    let result = modelValue.value.concat();
-    result?.splice(indexOfValue?.value, 1);
-    emit("update:modelValue", result);
-    return;
-  }
-  emit(
-    "update:modelValue",
-    [modelValue?.value, value?.value].flat().filter((el) => el != null)
-  );
-};
-
-const isActiveCheckbox = computed(() =>
-  modelValue?.value
-    ?.map((el) => JSON.stringify(el))
-    .includes(JSON.stringify(value?.value))
-);
-
-const indexOfValue = computed(() =>
-  modelValue?.value
-    ?.map((el) => JSON.stringify(el))
-    .findIndex((el) => el == JSON.stringify(value?.value))
-);
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value: boolean) {
+    emit('update:modelValue', value)
+    mutateFormData(props.name, {
+      value: value,
+    })
+  },
+})
 </script>
 
-<style lang="scss" scoped>
-.base-checkbox {
-  width: 20px;
-  height: 20px;
-  display: block;
-  border: 1px solid $gray;
-  border-radius: 4px;
+<style lang="scss" module>
+.baseCheckbox {
+  $root: &;
   transition: 0.2s;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 
   &:hover {
-    border-color: $accent;
-    box-shadow: 0 0 0 2px $light-blue;
+    .container {
+      border-color: $accent;
+      box-shadow: 0 0 0 2px $light-blue;
+    }
   }
 
-  &__container {
-    width: 100%;
-    height: 100%;
+  .container {
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: $white;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    position: relative;
+    margin-right: 4px;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      color: $accent;
+      display: none;
+    }
   }
 
-  &.active {
-    background: $accent;
-    border-color: $accent;
-
-    .base-checkbox__container {
+  .nativeInput {
+    display: none;
+    &:checked {
+      color: red;
+      & ~ .container {
+        .icon {
+          display: block;
+        }
+      }
     }
   }
 }
