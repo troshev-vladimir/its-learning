@@ -68,8 +68,6 @@ const isLoading = computed({
 </script>
 
 <style lang="scss" scoped>
-$blue-hover: #499bed;
-$blue-active: #0253a4;
 .base-button {
   display: flex;
   align-items: center;
@@ -99,11 +97,11 @@ $blue-active: #0253a4;
     background: $accent;
 
     &:hover {
-      background: $blue-hover;
+      background: $cornflower-blue;
     }
 
     &:active {
-      background: $blue-active;
+      background: $cobalt;
     }
 
     &.disabled {
@@ -116,11 +114,11 @@ $blue-active: #0253a4;
     background: $white;
 
     &:hover {
-      color: $blue-hover;
+      color: $cornflower-blue;
     }
 
     &:active {
-      color: $blue-active;
+      color: $cobalt;
     }
 
     &.disabled {
@@ -135,13 +133,13 @@ $blue-active: #0253a4;
     background: transparent;
 
     &:hover {
-      border-color: $blue-hover;
-      color: $blue-hover;
+      border-color: $cornflower-blue;
+      color: $cornflower-blue;
     }
 
     &:active {
-      border-color: $blue-active;
-      color: $blue-active;
+      border-color: $cobalt;
+      color: $cobalt;
     }
   }
 
@@ -152,10 +150,10 @@ $blue-active: #0253a4;
     text-decoration: underline;
 
     &:hover {
-      color: $blue-hover;
+      color: $cornflower-blue;
     }
     &:active {
-      color: $blue-active;
+      color: $cobalt;
     }
   }
 
