@@ -26,7 +26,7 @@
         Промокод принят
       </q-chip>
       <div class="d-flex items-center" v-else>
-        <UiBaseInput
+        <!-- <UiBaseInput
           ref="refPromocodeInput"
           @enter="sendPromocode"
           @blur="sendPromocode"
@@ -34,7 +34,7 @@
           class="q-mr-md code-input"
           v-model="codeValue"
           :rules="[minMaxLength(6, 6)]"
-        />
+        /> -->
         <span v-if="codeSended"> Код неверный </span>
       </div>
     </div>
@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { watch, onMounted } from 'vue'
 import useUserStore from '~/stores/user'
-import { minMaxLength } from '~/shared/validators'
+import { minMaxLength } from '~/utils/validators'
 
 const userStore = useUserStore()
 const { userPromocode } = storeToRefs(userStore)

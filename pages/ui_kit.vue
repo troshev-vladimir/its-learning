@@ -1,6 +1,10 @@
 <template>
   <div>
-    <UiBaseButton @click="$refs.refBasePopup?.open()" type="primary" size="big">
+    <UiBaseButton
+      @click="() => (isPopupOpen = !isPopupOpen)"
+      type="primary"
+      size="big"
+    >
       <template #left-icon>
         <client-only>
           <font-awesome-icon icon="fa-solid fa-user-astronaut" />
@@ -8,6 +12,9 @@
       </template>
       Нажми
     </UiBaseButton>
+    <UiBasePopup ref="refBasePopup" v-model="isPopupOpen">
+      <template #default>123</template>
+    </UiBasePopup>
 
     <UiBaseForm title="Форма" v-model="form">
       <template #default="{ validators }">
@@ -46,25 +53,43 @@
       </template>
       Базовая кнопка
     </UiBaseButton>
-    <UiBaseButton type="boarded" size="small">
+    <UiBaseButton
+      type="boarded"
+      size="small"
+      prev-icon="fa-up-right-from-square"
+    >
       <template #right-icon>
         <client-only>
           <font-awesome-icon icon="fa-solid fa-user-astronaut" />
         </client-only>
       </template>
-      Базовая кнопка
+      Базовая кнопка1
     </UiBaseButton>
-    <UiBaseButton type="link" size="big"> Базовая ссылка </UiBaseButton>
+    <UiBaseButton
+      type="boarded"
+      size="small"
+      prev-icon="fa-up-right-from-square"
+    >
+      <template #right-icon>
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
+      </template>
+      Базовая кнопка2
+    </UiBaseButton>
+    <UiBaseButton
+      type="external-link"
+      size="big"
+      to="https://yandex.ru/search/?clid=2353835&text=git+stash+delete&lr=46"
+    >
+      Базовая ссылка
+    </UiBaseButton>
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
-    <UiBasePopup ref="refBasePopup">
-      <template #header> 123 </template>
-      <template #default>123</template>
-      <template #footer>123</template>
-    </UiBasePopup>
   </div>
 </template>
 
 <script setup lang="ts">
+let isPopupOpen = ref(false)
 const form = ref({
   name: {
     value: '1asasdad',
