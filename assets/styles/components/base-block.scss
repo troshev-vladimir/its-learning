@@ -1,0 +1,8 @@
+@import '../variables.scss';
+
+.base-block {
+  display: block;
+  padding: 24px;
+  border-radius: 8px;
+  background: $white;
+}
