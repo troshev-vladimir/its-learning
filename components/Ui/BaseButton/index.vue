@@ -76,10 +76,7 @@ const prevIconName = computed(() => {
 })
 
 const tagName = computed(() => {
-  if (props.type == 'link') {
-    return 'router-link'
-  }
-  if (props.type == 'external-link') {
+  if (['link', 'external-link'].includes(props.type)) {
     return 'router-link'
   }
   return props.tag
@@ -169,13 +166,15 @@ const tagName = computed(() => {
     padding: 0 !important;
     color: $accent;
     background: transparent;
-    text-decoration: underline;
+    font-weight: 400;
 
     &:hover {
       color: $cornflower-blue;
+      text-decoration: underline;
     }
     &:active {
       color: $cobalt;
+      text-decoration: underline;
     }
   }
 
