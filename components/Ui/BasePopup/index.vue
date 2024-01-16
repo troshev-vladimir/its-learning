@@ -1,27 +1,29 @@
 <template>
-  <div class="base-popup" :class="{ active: modelValue }">
-    <client-only>
-      <font-awesome-icon
-        @click="close"
-        class="cancel"
-        icon="fa-solid fa-xmark"
-      />
-    </client-only>
-    <div class="card">
-      <div class="header">
-        <div>
-          <slot name="header"></slot>
+  <teleport to="#popups-container">
+    <div class="base-popup" :class="{ active: modelValue }">
+      <client-only>
+        <font-awesome-icon
+          @click="close"
+          class="cancel"
+          icon="fa-solid fa-xmark"
+        />
+      </client-only>
+      <div class="card">
+        <div class="header">
+          <div>
+            <slot name="header"></slot>
+          </div>
+        </div>
+        <div class="cardContainer">
+          <slot></slot>
+        </div>
+        <div class="footer">
+          <slot name="footer"></slot>
         </div>
       </div>
-      <div class="cardContainer">
-        <slot></slot>
-      </div>
-      <div class="footer">
-        <slot name="footer"></slot>
-      </div>
+      <span class="background" @click="close"></span>
     </div>
-    <span class="background" @click="close"></span>
-  </div>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -39,22 +41,22 @@ watch(
   () => props.modelValue,
   () => {
     if (props.modelValue) {
+      document.body.style.top = `-${window.scrollY}px`
       document.body.classList.add('freez')
     } else {
+      const scrollY = document.body.style.top
       document.body.classList.remove('freez')
+      document.body.style.top = ''
+      window.scrollTo(0, parseInt(scrollY || '0') * -1)
     }
   }
 )
-
-const confirm = () => {
-  emit('update:modelValue', false)
-}
 
 const close = () => {
   emit('update:modelValue', false)
 }
 
-defineExpose({ open, confirm, close })
+defineExpose({ open, close })
 </script>
 
 <style lang="scss" scoped>
