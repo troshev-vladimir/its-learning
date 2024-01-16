@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit" ref="formEl" class="base-form">
+  <form @submit.prevent="submit" class="base-form">
     <h2 :class="$style.title">{{ title }}</h2>
     <slot :validators="validators"></slot>
 
@@ -7,7 +7,9 @@
       <UiBaseButton :disabled="!isSuccessfullyFilled" size="small">
         Submit
       </UiBaseButton>
-      <span :class="$style.errorMessage">{{ message }}</span>
+      <span v-if="!isSuccessfullyFilled" :class="$style.errorMessage">{{
+        message
+      }}</span>
     </div>
   </form>
 
@@ -15,19 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Provide } from './types'
-import { dataFromParentForm } from '~/utils/symbols'
 import * as validators from '~/utils/validators'
-
+import useProvide from './composables/useProvide'
+import useValidation from './composables/useValidation'
 const props = defineProps<{
   title: string
 }>()
-
 const emit = defineEmits(['update:modelValue', 'submit'])
-const formEl = ref<HTMLFormElement | null>(null)
-const message = ref('')
-const isSuccessfullyFilled = ref(true)
-
 const _lockalData = ref({})
 const localData = computed<any>({
   get() {
@@ -39,35 +35,16 @@ const localData = computed<any>({
   },
 })
 
-const checkAllFields = () => {
-  // @ts-ignore
-  const fields = Object.values(localData.value) as ValidatorResp[]
-  const values = fields.map((el) => el.status)
-  const isExistError = values.includes('error')
-
-  return !isExistError
-}
+const { checkAllFields, message, isSuccessfullyFilled } =
+  useValidation(localData)
+const {} = useProvide(localData, isSuccessfullyFilled)
 
 const submit = () => {
-  if (!formEl.value) return
-  isSuccessfullyFilled.value = checkAllFields()
-
+  checkAllFields()
   if (isSuccessfullyFilled.value) {
-    emit('submit', new FormData(formEl.value))
-  } else {
-    message.value = 'Форма заполенена не верно'
+    emit('submit', localData.value)
   }
 }
-
-const changeFormData = (elName: keyof typeof localData.value, value: any) => {
-  if (!localData || !localData.value) return
-  localData.value[elName] = value
-}
-
-provide(dataFromParentForm, {
-  formData: readonly(localData),
-  mutateFormData: changeFormData,
-} as Provide)
 </script>
 
 <style lang="scss" module>

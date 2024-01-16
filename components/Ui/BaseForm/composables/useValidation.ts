@@ -1,20 +1,26 @@
-import type { Validator, ValidatorResp } from '~/utils/validators/types'
-export default function useValidation(
-  rules: Validator[] | undefined,
-  value: Ref<string>
-) {
-  const status = ref<null | ValidatorResp['status']>(null)
+import type { ValidatorResp } from '~/utils/validators/types'
+
+export default function useValidation(localData: Ref<any>) {
   const message = ref('')
+  const isSuccessfullyFilled = ref(true)
 
-  const validate = () => {
-    if (!rules || !rules.length) return
+  const checkAllFields = () => {
+    const fields = Object.values(localData.value) as ValidatorResp[]
+    const values = fields.map((el) => el.status)
+    const isExistError = values.includes('error') || fields.length === 0
 
-    for (let index = 0; index < rules.length; index++) {
-      const result = rules[index](value.value)
-      status.value = result.status
-      message.value = result.message
+    if (isExistError) {
+      message.value = 'Форма заполенена не верно'
+      isSuccessfullyFilled.value = false
+    } else {
+      message.value = ''
+      isSuccessfullyFilled.value = true
     }
   }
 
-  return { validate, status, message }
+  return {
+    checkAllFields,
+    message,
+    isSuccessfullyFilled,
+  }
 }

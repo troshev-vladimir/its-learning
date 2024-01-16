@@ -18,11 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
-import { dataFromParentForm } from '~/utils/symbols'
-import type { Provide } from '../BaseForm/types'
-import useValidation from '~/components/Ui/BaseForm/composables/useValidation'
-import type { Validator } from '~/utils/validators/types'
+import useInject from './composables/useInject'
+import useValidation from './composables/useValidation'
+import type { Validator, ValidatorResp } from '~/utils/validators/types'
 
 export interface Props {
   modelValue?: string
@@ -30,24 +28,46 @@ export interface Props {
   required?: boolean
   rules?: Array<Validator>
   name: string
-  message?: string
+  validationResult?: ValidatorResp
 }
-
+const props = withDefaults(defineProps<Props>(), {
+  name: '',
+  validationResult: () => ({
+    status: 'success',
+    message: '',
+  }),
+})
 const emit = defineEmits(['update:modelValue'])
-const props = withDefaults(defineProps<Props>(), {})
 
-const { formData, mutateFormData } = inject(dataFromParentForm, {}) as Provide
-const currentInput = formData?.value[props.name]
-let inputValue = ref(currentInput?.value || null)
-const { status, validate, message } = useValidation(props.rules, inputValue)
+const { status, validate, message } = useValidation(
+  props.rules,
+  props.validationResult
+)
+const { updateParentFormData, formData } = useInject(props, emit)
+
+const currentForm = formData
+let inputValue = computed({
+  get() {
+    return typeof props.modelValue === 'string'
+      ? props.modelValue
+      : currentForm.value[props.name]?.value
+  },
+  set(value: string) {
+    validate(inputValue.value)
+    updateParentFormData({
+      value,
+      status: status.value,
+      message: message.value,
+    })
+  },
+})
 
 const update = () => {
-  validate()
-  emit('update:modelValue', inputValue.value)
-  mutateFormData(props.name, {
+  validate(inputValue.value)
+  updateParentFormData({
     value: inputValue.value,
-    status,
-    message,
+    status: status.value,
+    message: message.value,
   })
 }
 
@@ -59,6 +79,14 @@ watch(inputValue, () => {
 
 const isError = computed(() => {
   return status.value === 'error'
+})
+
+onMounted(() => {
+  updateParentFormData({
+    value: inputValue.value,
+    status: props.required ? 'error' : 'success',
+    message: props.required ? 'Поле обязательное' : message.value,
+  })
 })
 </script>
 
