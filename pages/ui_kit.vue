@@ -1,5 +1,7 @@
 <template>
   <div>
+    <FeatureCourseCard />
+
     <UiBaseInput
       :rules="[validators.required()]"
       v-model="input"
