@@ -1,51 +1,27 @@
 <template>
   <form @submit.prevent="submit" class="base-form">
     <h2 :class="$style.title">{{ title }}</h2>
-    <slot :validators="validators"></slot>
+    <slot></slot>
 
     <div :class="$style.actions">
-      <UiBaseButton :disabled="!isSuccessfullyFilled" size="small">
-        Submit
-      </UiBaseButton>
-      <span v-if="!isSuccessfullyFilled" :class="$style.errorMessage">{{
-        message
-      }}</span>
+      <UiBaseButton :disabled="fuckedUp" size="small"> Submit </UiBaseButton>
+      <span v-if="fuckedUp" :class="$style.errorMessage">
+        Форма заполнена не верно
+      </span>
     </div>
   </form>
-  {{ localData }}
 </template>
 
 <script setup lang="ts">
-import * as validators from '~/utils/validators'
-import useProvide from './composables/useProvide'
-import useValidation from './composables/useValidation'
 const props = defineProps<{
   title: string
-  modelValue?: Record<string, any>
+  fuckedUp?: boolean
 }>()
-const emit = defineEmits(['update:modelValue', 'submit', 'check'])
-const _lockalData = ref({})
-const localData = computed<any>({
-  get() {
-    return props.modelValue ? props.modelValue : _lockalData.value
-  },
-  set(value) {
-    props.modelValue
-      ? emit('update:modelValue', value)
-      : (_lockalData.value = value)
-  },
-})
-
-const { checkAllFields, message, isSuccessfullyFilled } =
-  useValidation(localData)
-const {} = useProvide(localData, isSuccessfullyFilled)
+const emit = defineEmits(['submit'])
 
 const submit = () => {
-  checkAllFields()
-  emit('check')
-  if (isSuccessfullyFilled.value) {
-    emit('submit', localData.value)
-  }
+  if (props.fuckedUp) return
+  emit('submit')
 }
 </script>
 
