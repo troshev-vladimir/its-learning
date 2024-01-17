@@ -88,6 +88,8 @@ onMounted(() => {
     message: props.required ? 'Поле обязательное' : message.value,
   })
 })
+
+defineExpose({ update })
 </script>
 
 <style lang="scss" module>

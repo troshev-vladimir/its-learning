@@ -12,11 +12,11 @@
     />
     {{ input }}
 
-    <UiBaseForm title="Форма" @submit="sendForm">
+    <UiBaseForm title="Форма" @submit="sendForm" @check="checkForm">
       <template #default="{ validators }">
         <UiBaseInput
           name="name"
-          :rules="[validators.required()]"
+          :rules="[validators.required(), validators.minMaxLength(2, 4)]"
           label="Введите имя"
           required
           class="q-mb-xl"
@@ -25,11 +25,7 @@
             status: 'success',
             message: 'Ошибка на беке',
           }"
-          :ref="
-            (el) => {
-              if (el) inputs.value?.push(el)
-            }
-          "
+          ref="nameInput"
         />
         <UiBaseInput
           name="email"
@@ -37,7 +33,7 @@
           :rules="[validators.required()]"
           class="q-mb-lg"
           v-model="form.email"
-          ref="inputs"
+          ref="emailInput"
         />
         <!-- <UiBaseCheckbox>asdasd</UiBaseCheckbox> -->
       </template>
@@ -97,9 +93,15 @@ import * as validators from '~/utils/validators'
 const form = reactive<Record<string, string>>({})
 
 const input = ref('1')
-const inputs = ref<any>([])
+const nameInput = ref(null)
+const emailInput = ref(null)
 
-const formValidate = () => {}
+const checkForm = () => {
+  // @ts-ignore
+  nameInput.value.update()
+  // @ts-ignore
+  emailInput.value.update()
+}
 
 const sendForm = (formData: Record<string, any>) => {
   console.log(formData)

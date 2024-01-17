@@ -16,6 +16,8 @@ export default function useValidation(
       const result = rules[index](value)
       status.value = result.status
       message.value = result.message
+
+      if (status.value === 'error') break
     }
   }
 

@@ -12,7 +12,6 @@
       }}</span>
     </div>
   </form>
-
   {{ localData }}
 </template>
 
@@ -22,16 +21,18 @@ import useProvide from './composables/useProvide'
 import useValidation from './composables/useValidation'
 const props = defineProps<{
   title: string
+  modelValue?: Record<string, any>
 }>()
-const emit = defineEmits(['update:modelValue', 'submit'])
+const emit = defineEmits(['update:modelValue', 'submit', 'check'])
 const _lockalData = ref({})
 const localData = computed<any>({
   get() {
-    return _lockalData.value
+    return props.modelValue ? props.modelValue : _lockalData.value
   },
   set(value) {
-    _lockalData.value = value
-    emit('update:modelValue', value)
+    props.modelValue
+      ? emit('update:modelValue', value)
+      : (_lockalData.value = value)
   },
 })
 
@@ -41,6 +42,7 @@ const {} = useProvide(localData, isSuccessfullyFilled)
 
 const submit = () => {
   checkAllFields()
+  emit('check')
   if (isSuccessfullyFilled.value) {
     emit('submit', localData.value)
   }
