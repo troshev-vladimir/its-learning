@@ -28,7 +28,7 @@
         />
       </client-only>
     </slot>
-    <SpinnerIcon
+    <UiSpinnerIcon
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
       v-if="isLoading"

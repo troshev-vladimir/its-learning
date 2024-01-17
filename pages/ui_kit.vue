@@ -96,16 +96,8 @@
       Базовая ссылка
     </UiBaseButton>
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
-    <!-- <UiBasePopup ref="refBasePopup">
-      <template #header> 123 </template>
-      <template #default>123</template>
-      <template #footer>123</template>
-    </UiBasePopup>
-    <UiBasePopup ref="refBasePopup2">
-      <template #header> asdsad </template>
-      <template #default>1asdasd23</template>
-      <template #footer>asdasd</template>
-    </UiBasePopup> -->
+
+    <UiBaseFileinput multiple="true" />
   </div>
 </template>
 
