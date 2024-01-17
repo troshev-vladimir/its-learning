@@ -9,7 +9,7 @@
       :class="$style['native-input']"
       placeholder=""
     />
-    <p :class="$style['placeholder']">
+    <p :class="$style['placeholder']" class="small">
       {{ label }}
       <span v-if="required">*</span>
     </p>
