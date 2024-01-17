@@ -16,7 +16,7 @@
         />
       </client-only>
     </slot>
-    <p class="base-button__text">
+    <p class="base-button__text" :class="{ small: size == 'small' }">
       <slot />
     </p>
     <slot name="post-icon">
@@ -28,7 +28,7 @@
         />
       </client-only>
     </slot>
-    <SpinnerIcon
+    <UiSpinnerIcon
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
       v-if="isLoading"
@@ -113,12 +113,16 @@ const tagName = computed(() => {
     color: $white;
     background: $accent;
 
+    * {
+      color: $white;
+    }
+
     &:hover {
-      background: $cornflower-blue;
+      background: $blue-400;
     }
 
     &:active {
-      background: $cobalt;
+      background: $blue-900;
     }
 
     &.disabled {
@@ -131,12 +135,16 @@ const tagName = computed(() => {
     background: $white;
     box-shadow: 0px 2px 4px 0px rgba(16, 16, 16, 0.25);
 
+    * {
+      color: $accent;
+    }
+
     &:hover {
-      color: $cornflower-blue;
+      color: $blue-400;
     }
 
     &:active {
-      color: $cobalt;
+      color: $blue-900;
     }
 
     &.disabled {
@@ -150,14 +158,25 @@ const tagName = computed(() => {
     color: $accent;
     background: transparent;
 
+    * {
+      color: $accent;
+    }
+
     &:hover {
-      border-color: $cornflower-blue;
-      color: $cornflower-blue;
+      outline: 2px solid $blue-400;
+      color: $blue-400;
+
+      * {
+        color: $blue-400;
+      }
     }
 
     &:active {
-      border-color: $cobalt;
-      color: $cobalt;
+      outline: 2px solid $blue-900;
+      color: $blue-900;
+      * {
+        color: $blue-900;
+      }
     }
   }
 
@@ -168,13 +187,25 @@ const tagName = computed(() => {
     background: transparent;
     font-weight: 400;
 
+    * {
+      color: $accent;
+    }
+
     &:hover {
-      color: $cornflower-blue;
+      color: $blue-400;
       text-decoration: underline;
+
+      * {
+        color: $blue-400;
+      }
     }
     &:active {
-      color: $cobalt;
+      color: $blue-900;
       text-decoration: underline;
+
+      * {
+        color: $blue-900;
+      }
     }
   }
 
