@@ -1,78 +1,87 @@
 <template>
-  <div class="base-popup" :class="{ active: isOpen }">
-    <client-only>
-      <font-awesome-icon
-        @click="close"
-        class="cancel"
-        icon="fa-solid fa-xmark"
-      />
-    </client-only>
-    <div class="card">
-      <div class="header">
-        <div>
-          <slot name="header"></slot>
+  <teleport to="#popups-container">
+    <div class="base-popup" :class="{ active: modelValue }">
+      <client-only>
+        <font-awesome-icon
+          @click="close"
+          class="cancel"
+          icon="fa-solid fa-xmark"
+        />
+      </client-only>
+      <div class="card">
+        <div class="header">
+          <div>
+            <slot name="header"></slot>
+          </div>
+        </div>
+        <div class="cardContainer">
+          <slot></slot>
+        </div>
+        <div class="footer">
+          <slot name="footer"></slot>
         </div>
       </div>
-      <div class="cardContainer">
-        <slot></slot>
-      </div>
-      <div class="footer">
-        <slot name="footer"></slot>
-      </div>
+      <span class="background" @click="close"></span>
     </div>
-    <span class="background" @click="close"></span>
-  </div>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
-let resolveFn = ref()
-let rejectFn = ref()
-let isOpen = ref(false)
+const emit = defineEmits(['update:modelValue'])
+
+const props = defineProps<{
+  modelValue?: boolean
+}>()
 
 const open = () => {
-  return new Promise((resolve, reject) => {
-    resolveFn.value = resolve
-    rejectFn.value = reject
-    isOpen.value = true
-  })
+  emit('update:modelValue', true)
 }
 
 watch(
-  () => isOpen.value,
+  () => props.modelValue,
   () => {
-    if (isOpen.value) {
+    if (props.modelValue) {
+      document.body.style.top = `-${window.scrollY}px`
       document.body.classList.add('freez')
     } else {
+      const scrollY = document.body.style.top
       document.body.classList.remove('freez')
+      document.body.style.top = ''
+      window.scrollTo(0, parseInt(scrollY || '0') * -1)
     }
   }
 )
 
-const confirm = () => {
-  isOpen.value = false
-  resolveFn.value(true)
-}
-
 const close = () => {
-  isOpen.value = false
-  resolveFn.value(false)
+  emit('update:modelValue', false)
 }
 
-defineExpose({ open, confirm, close })
+defineExpose({ open, close })
 </script>
 
-<style lang="scss" module scoped>
+<style lang="scss" scoped>
 .base-popup {
   display: none;
   transition: 0.2s;
-  &.active {
-    display: block;
-    position: fixed;
-    z-index: 1000;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
+}
+
+.base-popup.active {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  animation: showPopup 0.2s ease;
+}
+
+@keyframes showPopup {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -121,13 +130,6 @@ defineExpose({ open, confirm, close })
 
 <style>
 body.freez {
-  position: fixed !important;
-  overflow-y: scroll !important;
-}
-</style>
-
-<style>
-.body.freez {
   position: fixed !important;
   overflow-y: scroll !important;
 }

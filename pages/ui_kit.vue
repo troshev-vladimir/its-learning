@@ -64,15 +64,37 @@
       </template>
       Базовая кнопка
     </UiBaseButton>
-    <UiBaseButton type="boarded" size="small">
+    <UiBaseButton
+      type="boarded"
+      size="small"
+      prev-icon="fa-up-right-from-square"
+    >
       <template #right-icon>
         <client-only>
           <font-awesome-icon icon="fa-solid fa-user-astronaut" />
         </client-only>
       </template>
-      Базовая кнопка
+      Базовая кнопка1
     </UiBaseButton>
-    <UiBaseButton type="link" size="big"> Базовая ссылка </UiBaseButton>
+    <UiBaseButton
+      type="boarded"
+      size="small"
+      prev-icon="fa-up-right-from-square"
+    >
+      <template #right-icon>
+        <client-only>
+          <font-awesome-icon icon="fa-solid fa-user-astronaut" />
+        </client-only>
+      </template>
+      Базовая кнопка2
+    </UiBaseButton>
+    <UiBaseButton
+      type="external-link"
+      size="big"
+      to="https://yandex.ru/search/?clid=2353835&text=git+stash+delete&lr=46"
+    >
+      Базовая ссылка
+    </UiBaseButton>
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
     <!-- <UiBasePopup ref="refBasePopup">
       <template #header> 123 </template>

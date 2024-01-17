@@ -1,25 +1,33 @@
 <template>
   <component
-    :is="tag"
+    :is="tagName"
+    :to="type === 'link' && to ? to : ''"
+    :href="type === 'external-link' && typeof to == 'string' ? to : ''"
+    :target="type == 'external-link' ? '_blank' : 'none'"
     class="base-button"
-    :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
+    :class="[type, size, isLoading ? 'loading' : true]"
   >
-    <client-only>
-      <font-awesome-icon
-        class="base-button__icon"
-        icon="fa-solid fa-up-right-from-square"
-        v-if="type == 'link'"
-      />
-    </client-only>
-    <span class="base-button__icon" v-if="$slots['left-icon']">
-      <slot name="left-icon"></slot>
-    </span>
-    <p class="base-button__text" v-if="$slots['default']">
+    <slot name="prev-icon">
+      <client-only>
+        <font-awesome-icon
+          v-if="prevIconName"
+          class="base-button__icon"
+          :icon="prevIconName"
+        />
+      </client-only>
+    </slot>
+    <p class="base-button__text">
       <slot />
     </p>
-    <span class="base-button__icon" v-if="$slots['right-icon']">
-      <slot name="right-icon"></slot>
-    </span>
+    <slot name="post-icon">
+      <client-only>
+        <font-awesome-icon
+          v-if="postIcon"
+          class="base-button__icon"
+          :icon="postIcon"
+        />
+      </client-only>
+    </slot>
     <SpinnerIcon
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
@@ -29,41 +37,49 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue'
-import SpinnerIcon from '../../../assets/img/icons/SpinnerIcon.vue'
+import { computed } from 'vue'
+import type { RouterLinkProps } from 'vue-router'
 
 const emit = defineEmits(['update:modelValue'])
 
-const props = defineProps({
-    type: {
-      type: String,
-      default: 'primary',
-      validator: (value: string) =>
-        ['primary', 'secondary', 'boarded', 'link'].includes(value),
-    },
-    size: {
-      type: String,
-      default: 'big',
-      validator: (value: string) => ['small', 'big'].includes(value),
-    },
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-    tag: {
-      type: String,
-      default: 'button',
-    },
-  }),
-  { modelValue } = toRefs(props)
+interface IProps {
+  type?: 'primary' | 'secondary' | 'boarded' | 'link' | 'external-link'
+  to?: string | RouterLinkProps
+  size?: 'big' | 'small'
+  modelValue?: boolean
+  tag?: string
+  prevIcon?: string
+  postIcon?: string
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  type: 'primary',
+  size: 'big',
+  tag: 'button',
+})
 
 const isLoading = computed({
   get() {
-    return modelValue.value
+    return props.modelValue
   },
   set(value) {
     emit('update:modelValue', value)
   },
+})
+
+const prevIconName = computed(() => {
+  if (['link', 'external-link'].includes(props.type)) {
+    return 'fa-solid fa-up-right-from-square'
+  } else {
+    return props.prevIcon
+  }
+})
+
+const tagName = computed(() => {
+  if (['link', 'external-link'].includes(props.type)) {
+    return 'router-link'
+  }
+  return props.tag
 })
 </script>
 
@@ -73,6 +89,7 @@ const isLoading = computed({
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width: fit-content;
   position: relative;
   border: none;
   cursor: pointer;
@@ -112,6 +129,7 @@ const isLoading = computed({
   &.secondary {
     color: $accent;
     background: $white;
+    box-shadow: 0px 2px 4px 0px rgba(16, 16, 16, 0.25);
 
     &:hover {
       color: $cornflower-blue;
@@ -143,34 +161,56 @@ const isLoading = computed({
     }
   }
 
-  &.link {
+  &.link,
+  &.external-link {
     padding: 0 !important;
     color: $accent;
     background: transparent;
-    text-decoration: underline;
+    font-weight: 400;
 
     &:hover {
       color: $cornflower-blue;
+      text-decoration: underline;
     }
     &:active {
       color: $cobalt;
+      text-decoration: underline;
     }
   }
 
   &.small {
-    padding: 12px 24px;
+    padding: 8px 16px;
     border-radius: 8px;
     line-height: 20px;
+    font-size: 12px;
+
+    @media screen and (min-width: $breakpoint-sm) {
+      padding: 12px 24px;
+      border-radius: 8px;
+      line-height: 20px;
+      font-size: 16px;
+    }
   }
 
   &.big {
-    padding: 16px 32px;
+    padding: 12px 24px;
     border-radius: 8px;
+    font-size: 16px;
     line-height: 20px;
-    font-size: 20px;
 
     * {
+      font-size: 16px;
+    }
+
+    @media screen and (min-width: $breakpoint-sm) {
+      padding: 16px 32px;
+      border-radius: 8px;
       font-size: 20px;
+      line-height: 20px;
+
+      * {
+        font-size: 20px;
+      }
     }
   }
 }
