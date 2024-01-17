@@ -1,34 +1,42 @@
 <template>
-  <div :class="[$style['base-input'], $style[`base-input--${status}`]]">
+  <div
+    :class="[
+      $style['base-input'],
+      $style[`base-input--${validationResult.status}`],
+      rootClass,
+    ]"
+  >
     <input
       ref="refInput"
       v-model="inputValue"
-      @blur="update"
-      @keyup.enter="update"
       :name="name"
+      :id="name"
       :class="$style['native-input']"
       placeholder=""
+      v-bind="attrs"
     />
     <p :class="$style['placeholder']">
       {{ label }}
       <span v-if="required">*</span>
     </p>
-    <p v-if="isError" :class="$style['message']">{{ message }}</p>
+    <p v-if="isError" :class="$style['message']">
+      {{ validationResult.message }}
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import useInject from './composables/useInject'
-import useValidation from './composables/useValidation'
-import type { Validator, ValidatorResp } from '~/utils/validators/types'
+import type { ValidatorResp } from '~/utils/validators/types'
+
+const attrs = useAttrs()
 
 export interface Props {
-  modelValue?: string
+  modelValue: string | number
   label: string
   required?: boolean
-  rules?: Array<Validator>
   name: string
   validationResult?: ValidatorResp
+  rootClass: string | string[]
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -38,58 +46,18 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 })
 const emit = defineEmits(['update:modelValue'])
-
-const { status, validate, message } = useValidation(
-  props.rules,
-  props.validationResult
-)
-const { updateParentFormData, formData } = useInject(props, emit)
-
-const currentForm = formData
 let inputValue = computed({
   get() {
-    return typeof props.modelValue === 'string'
-      ? props.modelValue
-      : currentForm.value[props.name]?.value
+    return props.modelValue
   },
-  set(value: string) {
-    validate(inputValue.value)
-    updateParentFormData({
-      value,
-      status: status.value,
-      message: message.value,
-    })
+  set(value: string | number) {
+    emit('update:modelValue', value)
   },
-})
-
-const update = () => {
-  validate(inputValue.value)
-  updateParentFormData({
-    value: inputValue.value,
-    status: status.value,
-    message: message.value,
-  })
-}
-
-watch(inputValue, () => {
-  if (isError.value) {
-    update()
-  }
 })
 
 const isError = computed(() => {
-  return status.value === 'error'
+  return props.validationResult.status === 'error'
 })
-
-onMounted(() => {
-  updateParentFormData({
-    value: inputValue.value,
-    status: props.required ? 'error' : 'success',
-    message: props.required ? 'Поле обязательное' : message.value,
-  })
-})
-
-defineExpose({ update })
 </script>
 
 <style lang="scss" module>

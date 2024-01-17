@@ -1,45 +1,7 @@
 <template>
+  <FeatureCV></FeatureCV>
+
   <div>
-    <UiBaseInput
-      :rules="[validators.required()]"
-      v-model="input"
-      name="name"
-      label="Отдельно"
-      :validation-result="{
-        status: 'error',
-        message: 'Ошибка на беке',
-      }"
-    />
-    {{ input }}
-
-    <UiBaseForm title="Форма" @submit="sendForm" @check="checkForm">
-      <template #default="{ validators }">
-        <UiBaseInput
-          name="name"
-          :rules="[validators.required(), validators.minMaxLength(2, 4)]"
-          label="Введите имя"
-          required
-          class="q-mb-xl"
-          v-model="form.name"
-          :validation-result="{
-            status: 'success',
-            message: 'Ошибка на беке',
-          }"
-          ref="nameInput"
-        />
-        <UiBaseInput
-          name="email"
-          label="Введите почту"
-          :rules="[validators.required()]"
-          class="q-mb-lg"
-          v-model="form.email"
-          ref="emailInput"
-        />
-        <!-- <UiBaseCheckbox>asdasd</UiBaseCheckbox> -->
-      </template>
-    </UiBaseForm>
-    <!-- <p>{{ form }}</p> -->
-
     <UiBaseButton type="primary" size="small">
       <template #left-icon>
         <client-only>
@@ -109,23 +71,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import * as validators from '~/utils/validators'
-
-const form = reactive<Record<string, string>>({})
-
-const input = ref('1')
-const nameInput = ref(null)
-const emailInput = ref(null)
-
-const checkForm = () => {
-  // @ts-ignore
-  nameInput.value.update()
-  // @ts-ignore
-  emailInput.value.update()
-}
-
-const sendForm = (formData: Record<string, any>) => {
-  console.log(formData)
-}
-</script>
+<script setup lang="ts"></script>
