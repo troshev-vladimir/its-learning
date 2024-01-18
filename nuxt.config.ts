@@ -2,10 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: [
-    'nuxt-quasar-ui',
-    '@pinia/nuxt',
-  ],
+  modules: ['nuxt-quasar-ui', '@pinia/nuxt'],
 
   pinia: {
     storesDirs: ['./stores/**'],
@@ -34,25 +31,20 @@ export default defineNuxtConfig({
   },
 
   quasar: {
-    plugins: [
-      'Notify',
-    ],
+    plugins: ['Notify'],
     config: {
-      notify: {  
-        position: "top",
-        timeout: 2500
+      notify: {
+        position: 'top',
+        timeout: 2500,
       },
     },
-    cssAddon: true, 
+    cssAddon: true,
     extras: {
       font: 'roboto-font',
-      fontIcons: ["fontawesome-v5"] 
+      fontIcons: ['fontawesome-v5'],
     },
-    sassVariables: './assets/styles/quasar.variables.scss'
+    sassVariables: './assets/styles/quasar.variables.scss',
   },
 
-  css: [
-    'quasar/css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
-  ],
+  css: ['quasar/css', '@fortawesome/fontawesome-svg-core/styles.css'],
 })

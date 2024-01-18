@@ -6,14 +6,32 @@
       rootClass,
     ]"
   >
-    <input
-      ref="refInput"
-      v-model="inputValue"
+    <textarea
+      v-if="textarea"
+      type="text"
+      style="resize: vertical"
+      rows="4"
+      v-model="value"
       :name="name"
       :id="name"
       :class="$style['native-input']"
       placeholder=""
       v-bind="attrs"
+      @blur="update"
+    />
+
+    <input
+      v-else
+      type="text"
+      style="resize: vertical"
+      rows="4"
+      v-model="value"
+      :name="name"
+      :id="name"
+      :class="$style['native-input']"
+      placeholder=""
+      v-bind="attrs"
+      @blur="update"
     />
     <p :class="$style['placeholder']" class="small">
       {{ label }}
@@ -36,7 +54,8 @@ export interface Props {
   required?: boolean
   name: string
   validationResult?: ValidatorResp
-  rootClass: string | string[]
+  textarea?: boolean
+  rootClass?: string | string[]
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -45,18 +64,12 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue'])
-let inputValue = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value: string | number) {
-    emit('update:modelValue', value)
-  },
-})
+const emit = defineEmits(['update:modelValue', 'update'])
 
-const isError = computed(() => {
-  return props.validationResult.status === 'error'
+const { value, isError, update } = useFormItem(props, emit)
+
+const currentComponent = computed(() => {
+  return !!props.textarea ? 'textarea' : 'input'
 })
 </script>
 
@@ -75,13 +88,14 @@ const isError = computed(() => {
   }
 
   .placeholder {
-    top: calc(50% - 10px);
+    top: 50%;
     left: 12px;
     position: absolute;
     margin: 0;
     pointer-events: none;
     color: $secondary;
     transition: 0.2s;
+    transform: translate(0, -50%);
   }
 
   .native-input {
@@ -155,6 +169,12 @@ const isError = computed(() => {
         -webkit-text-fill-color: #000;
       }
     }
+  }
+}
+
+.base-input {
+  textarea + .placeholder {
+    top: 20px;
   }
 }
 </style>

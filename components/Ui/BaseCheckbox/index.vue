@@ -1,12 +1,16 @@
-import type { Value } from 'sass';
-
 <template>
-  <label :class="[$style.baseCheckbox]">
+  <label
+    :class="[
+      $style.baseCheckbox,
+      $style[`baseCheckbox--${validationResult.status}`],
+    ]"
+  >
     <input
       v-model="value"
       :class="$style.nativeInput"
       type="checkbox"
-      :name="name"
+      :name="props.name"
+      @change="update"
     />
     <span :class="[$style.container]">
       <client-only>
@@ -14,32 +18,37 @@ import type { Value } from 'sass';
       </client-only>
     </span>
     <slot>
-      <span>{{ label }}</span>
+      <span>{{ props.label }}</span>
     </slot>
+    <sup v-if="required">*</sup>
+
+    <p v-if="isError" :class="$style['message']">
+      {{ props.validationResult.message }}
+    </p>
   </label>
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits(['update:modelValue'])
-const props = defineProps<{
-  modelValue?: boolean
-  label: string
-  name: string
-}>()
-const { formData, mutateFormData } = inject(dataFromParentForm, {}) as Provide
-const currentInput = formData?.value[props.name]
+import type { ValidatorResp } from '~/utils/validators/types'
 
-const value = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value: boolean) {
-    emit('update:modelValue', value)
-    mutateFormData(props.name, {
-      value: value,
-    })
-  },
+interface Props {
+  modelValue: string | number | string[] | boolean
+  label: string
+  required?: boolean
+  name: string
+  validationResult?: ValidatorResp
+  rootClass?: string | string[]
+}
+const props = withDefaults(defineProps<Props>(), {
+  name: '',
+  validationResult: () => ({
+    status: 'success',
+    message: '',
+  }),
 })
+const emit = defineEmits(['update:modelValue', 'update'])
+
+const { value, isError, update } = useFormItem(props, emit)
 </script>
 
 <style lang="scss" module>
@@ -49,6 +58,7 @@ const value = computed({
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  position: relative;
 
   &:hover {
     .container {
@@ -89,6 +99,38 @@ const value = computed({
         .icon {
           display: block;
         }
+      }
+    }
+  }
+
+  .message {
+    position: absolute;
+    font-size: 12px;
+    margin-top: 2px;
+    line-height: 17px;
+    bottom: 0;
+    transform: translate(0, 100%);
+  }
+
+  &--error {
+    .message {
+      color: $error;
+    }
+
+    .container {
+      border-color: $error;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $error;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $error;
+        border-color: $red;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $error;
       }
     }
   }

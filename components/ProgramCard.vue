@@ -187,7 +187,6 @@
 <script setup lang="ts">
 import { formatNumber } from '~/utils/helpers'
 import { type Program } from '~/api/program/types'
-import { defineProps, ref } from 'vue'
 export interface Props {
   card: Program
 }
