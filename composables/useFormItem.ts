@@ -6,10 +6,27 @@ export default function useFromItem(
 ) {
   const value = computed({
     get() {
-      return props.modelValue
+      console.log(props.modelValue, typeof props.modelValue)
+
+      if (Array.isArray(props.modelValue)) {
+        return props.modelValue.includes(props.name)
+      } else {
+        return props.modelValue
+      }
     },
-    set(value: string | number | boolean) {
-      emit('update:modelValue', value)
+    set(value: typeof props.modelValue) {
+      console.log(value, typeof props.modelValue)
+
+      if (Array.isArray(props.modelValue)) {
+        value
+          ? emit('update:modelValue', [...props.modelValue, props.name])
+          : emit(
+              'update:modelValue',
+              props.modelValue.filter((el) => el !== props.name)
+            )
+      } else {
+        emit('update:modelValue', value)
+      }
     },
   })
 
@@ -24,7 +41,6 @@ export default function useFromItem(
   return {
     value,
     isError,
-    props,
     update,
   }
 }

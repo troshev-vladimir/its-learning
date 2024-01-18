@@ -6,8 +6,25 @@
       rootClass,
     ]"
   >
+    <textarea
+      v-if="textarea"
+      type="text"
+      style="resize: vertical"
+      rows="4"
+      v-model="value"
+      :name="name"
+      :id="name"
+      :class="$style['native-input']"
+      placeholder=""
+      v-bind="attrs"
+      @blur="update"
+    />
+
     <input
-      ref="refInput"
+      v-else
+      type="text"
+      style="resize: vertical"
+      rows="4"
       v-model="value"
       :name="name"
       :id="name"
@@ -37,6 +54,7 @@ export interface Props {
   required?: boolean
   name: string
   validationResult?: ValidatorResp
+  textarea?: boolean
   rootClass?: string | string[]
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -49,6 +67,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['update:modelValue', 'update'])
 
 const { value, isError, update } = useFormItem(props, emit)
+
+const currentComponent = computed(() => {
+  return !!props.textarea ? 'textarea' : 'input'
+})
 </script>
 
 <style lang="scss" module>
@@ -66,13 +88,14 @@ const { value, isError, update } = useFormItem(props, emit)
   }
 
   .placeholder {
-    top: calc(50% - 10px);
+    top: 50%;
     left: 12px;
     position: absolute;
     margin: 0;
     pointer-events: none;
     color: $secondary;
     transition: 0.2s;
+    transform: translate(0, -50%);
   }
 
   .native-input {
@@ -146,6 +169,12 @@ const { value, isError, update } = useFormItem(props, emit)
         -webkit-text-fill-color: #000;
       }
     }
+  }
+}
+
+.base-input {
+  textarea + .placeholder {
+    top: 20px;
   }
 }
 </style>

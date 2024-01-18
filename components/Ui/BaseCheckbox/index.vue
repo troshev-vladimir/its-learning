@@ -32,7 +32,7 @@
 import type { ValidatorResp } from '~/utils/validators/types'
 
 interface Props {
-  modelValue: string | number | boolean
+  modelValue: string | number | string[] | boolean
   label: string
   required?: boolean
   name: string
@@ -115,10 +115,6 @@ const { value, isError, update } = useFormItem(props, emit)
   &--error {
     .message {
       color: $error;
-    }
-
-    .placeholder {
-      color: $error !important;
     }
 
     .container {
