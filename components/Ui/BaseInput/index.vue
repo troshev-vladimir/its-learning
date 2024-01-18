@@ -8,12 +8,13 @@
   >
     <input
       ref="refInput"
-      v-model="inputValue"
+      v-model="value"
       :name="name"
       :id="name"
       :class="$style['native-input']"
       placeholder=""
       v-bind="attrs"
+      @blur="update"
     />
     <p :class="$style['placeholder']" class="small">
       {{ label }}
@@ -36,7 +37,7 @@ export interface Props {
   required?: boolean
   name: string
   validationResult?: ValidatorResp
-  rootClass: string | string[]
+  rootClass?: string | string[]
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -45,19 +46,9 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue'])
-let inputValue = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value: string | number) {
-    emit('update:modelValue', value)
-  },
-})
+const emit = defineEmits(['update:modelValue', 'update'])
 
-const isError = computed(() => {
-  return props.validationResult.status === 'error'
-})
+const { value, isError, update } = useFormItem(props, emit)
 </script>
 
 <style lang="scss" module>

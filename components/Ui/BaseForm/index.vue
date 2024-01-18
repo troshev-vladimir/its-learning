@@ -4,7 +4,9 @@
     <slot></slot>
 
     <div :class="$style.actions">
-      <UiBaseButton :disabled="fuckedUp" size="small"> Submit </UiBaseButton>
+      <UiBaseButton :disabled="fuckedUp || dirty" size="small">
+        Submit
+      </UiBaseButton>
       <span v-if="fuckedUp" :class="$style.errorMessage">
         Форма заполнена не верно
       </span>
@@ -16,6 +18,7 @@
 const props = defineProps<{
   title: string
   fuckedUp?: boolean
+  dirty?: boolean
 }>()
 const emit = defineEmits(['submit'])
 
