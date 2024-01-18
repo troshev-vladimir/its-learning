@@ -32,10 +32,16 @@ const deleteFile = (fileIndex: number) => {
   <div class="base-fileinput">
     <div class="base-fileinput__input-wrapper">
       <input
-        @dragenter="dragFileInput($refs.refFileInput)"
-        @dragleave="dragEndFileInput($refs.refFileInput)"
-        @input="(event) => onSetFiles(event, $refs.refFileInput)"
-        :multiple="$attrs.multiple"
+        @dragenter="dragFileInput($refs.refFileInput as HTMLInputElement)"
+        @dragleave="dragEndFileInput($refs.refFileInput as HTMLInputElement)"
+        @input="
+          (event) =>
+            onSetFiles(
+              event as InputEvent,
+              $refs.refFileInput as HTMLInputElement
+            )
+        "
+        v-bind="$attrs"
         ref="refFileInput"
         type="file"
         class="base-fileinput__file-input"
@@ -64,7 +70,7 @@ const deleteFile = (fileIndex: number) => {
     padding: 12px 24px;
     border-radius: 8px;
     border: 1px solid $accent;
-    font-size: $text-small;
+    font-size: 16px;
     font-weight: 600;
     color: $accent;
     cursor: pointer;
@@ -93,7 +99,7 @@ const deleteFile = (fileIndex: number) => {
     &__item,
     .item {
       &__delete-icon {
-        font-size: $text-small;
+        font-size: 16px;
         cursor: pointer;
 
         &:hover {
