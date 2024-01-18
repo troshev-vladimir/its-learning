@@ -63,6 +63,12 @@
     }
   }
 
+  &__left-side {
+    @media (min-width: 820px) {
+      width: 80%;
+    }
+  }
+
   &__right-side {
     margin-top: 16px;
     @media (min-width: 820px) {
@@ -73,10 +79,12 @@
   &__link-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    column-gap: $md;
+    row-gap: $sm;
 
     @media (min-width: $breakpoint-xs) {
       justify-content: flex-end;
+      gap: 16px;
     }
   }
 
