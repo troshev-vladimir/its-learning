@@ -1,7 +1,7 @@
 <template>
   <div>
     <FeatureCourseCard />
-    <FeatureCV></FeatureCV>
+    <!-- <FeatureCV></FeatureCV> -->
 
     <UiBaseButton type="primary" size="small">
       <template #left-icon>
