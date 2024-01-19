@@ -9,6 +9,7 @@
         [$style['baseSelect--disabled']]: disabled,
       },
     ]"
+    v-click-outside="closeDropdown"
   >
     <div :class="$style['selectContainer']" @click="toggle">
       <p :class="$style['placeholder']">
@@ -101,7 +102,7 @@ export interface Option {
 }
 
 export interface Props {
-  modelValue: string | number
+  modelValue: string | number | []
   label: string
   required?: boolean
   name: string

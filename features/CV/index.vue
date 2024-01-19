@@ -94,6 +94,7 @@
       clearable
       class="q-mb-xl"
       name="items"
+      multiple
       label="Выберите элементы"
       v-model="form.items"
       @update="updateValue('items')"
