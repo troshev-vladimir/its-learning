@@ -84,14 +84,22 @@
     </div>
 
     <UiSelect
+      :options="[
+        { label: 'item1', value: '1', selected: false },
+        { label: 'item2', value: '2', selected: false },
+        { label: 'item3', value: '3', selected: false },
+        { label: 'item4', value: '4', selected: false },
+        { label: 'item5', value: '5', selected: true },
+      ]"
+      clearable
       class="q-mb-xl"
-      name="email"
-      label="Введите почту"
-      v-model="form.email"
-      @update="updateValue('email')"
+      name="items"
+      label="Выберите элементы"
+      v-model="form.items"
+      @update="updateValue('items')"
       :validation-result="{
-        status: v$.email.$error ? 'error' : 'success',
-        message: getErrorMessage(v$.email),
+        status: v$.items.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.items),
       }"
     ></UiSelect>
   </UiBaseForm>
@@ -108,6 +116,7 @@ const form = reactive<Record<string, any>>({
   isCurrent: false,
   options: ['o2'],
   picked: '2',
+  items: [],
 })
 
 const rules = computed(() => {
@@ -138,6 +147,14 @@ const rules = computed(() => {
         (value: boolean) => {
           return value
         }
+      ),
+    },
+
+    items: {
+      required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
+        minLength(2)
       ),
     },
   }
