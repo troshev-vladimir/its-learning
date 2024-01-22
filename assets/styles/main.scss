@@ -2,6 +2,32 @@
 @import './variables.scss';
 @import './components/index.scss';
 
+// tippy custom theme
+.tippy-box[data-theme~='custom'] {
+  text-align: center;
+  border-radius: 8px;
+  background: rgba(16, 16, 16, 0.5);
+}
+
+.tippy-box[data-theme~='custom'] {
+  &[data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: rgba(16, 16, 16, 0.5);
+  }
+
+  &[data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: rgba(16, 16, 16, 0.5);
+  }
+
+  [data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: rgba(16, 16, 16, 0.5);
+  }
+
+  [data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: rgba(16, 16, 16, 0.5);
+  }
+}
+// ___________________________________________________
+
 body {
   background-color: #f2f2f2;
 

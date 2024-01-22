@@ -1,13 +1,9 @@
 <template>
   <div class="cabinet-page">
-    <div class="user-profile row">
+    <div class="user-profile row no-wrap">
       <span class="photo-span col-2">
         <div class="photo-span__cntainer">
-          <img
-            src="https://gas-kvas.com/uploads/posts/2023-02/1675495569_gas-kvas-com-p-luchshie-kartinki-dlya-fonovogo-risunka-ra-31.jpg"
-            alt=""
-            class="photo-span__image"
-          />
+          <img src="" alt="" class="photo-span__image" />
         </div>
       </span>
       <div class="user-profile__info-bock column col-8">
@@ -18,9 +14,7 @@
         </div>
         <UiBaseButton type="boarded" size="small"> Редактировать </UiBaseButton>
       </div>
-      <div class="col-2">
-        <UiBaseAverageScore />
-      </div>
+      <UiBaseAverageScore class="col-2" />
     </div>
   </div>
 </template>
