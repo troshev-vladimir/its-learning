@@ -1,7 +1,13 @@
 <template>
-  <div>
+  <div class="he">
     <FeatureCourseCard />
-    <FeatureCV></FeatureCV>
+    <!-- <FeatureCV></FeatureCV> -->
+    <client-only>
+      <UiBaseTracker :value="80" class="h" size="big" />
+    </client-only>
+    <client-only>
+      <UiBaseTracker :value="80" class="h" size="small" />
+    </client-only>
 
     <UiBaseButton type="primary" size="small">
       <template #left-icon>
@@ -65,3 +71,15 @@
 </template>
 
 <script setup lang="ts"></script>
+
+<style>
+.he {
+  height: 2000px;
+}
+
+.h {
+  /* height: 200px; */
+  margin: 64px 0;
+  /* width: 500px; */
+}
+</style>
