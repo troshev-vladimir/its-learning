@@ -33,7 +33,7 @@ import type { ValidatorResp } from '~/utils/validators/types'
 
 interface Props {
   modelValue: string | number | string[] | boolean
-  label: string
+  label?: string
   required?: boolean
   name: string
   validationResult?: ValidatorResp

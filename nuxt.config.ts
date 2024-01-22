@@ -46,5 +46,7 @@ export default defineNuxtConfig({
     sassVariables: './assets/styles/quasar.variables.scss',
   },
 
+  plugins: ['~/plugins/directives.js'],
+
   css: ['quasar/css', '@fortawesome/fontawesome-svg-core/styles.css'],
 })

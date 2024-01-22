@@ -5,8 +5,6 @@ export default function useValidation(localData: Ref<any>) {
   const isSuccessfullyFilled = ref(true)
 
   const checkAllFields = () => {
-    console.log(localData.value)
-
     const fields = Object.values(localData.value) as ValidatorResp[]
     const values = fields.map((el) => el.status)
 

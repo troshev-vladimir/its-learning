@@ -1,4 +1,4 @@
-import { defineEmits, computed } from 'vue'
+import { computed } from 'vue'
 
 export default function useFromItem(
   props: Record<string, any>,
@@ -6,8 +6,6 @@ export default function useFromItem(
 ) {
   const value = computed({
     get() {
-      console.log(props.modelValue, typeof props.modelValue)
-
       if (Array.isArray(props.modelValue)) {
         return props.modelValue.includes(props.name)
       } else {
@@ -15,8 +13,6 @@ export default function useFromItem(
       }
     },
     set(value: typeof props.modelValue) {
-      console.log(value, typeof props.modelValue)
-
       if (Array.isArray(props.modelValue)) {
         value
           ? emit('update:modelValue', [...props.modelValue, props.name])

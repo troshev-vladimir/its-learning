@@ -5,8 +5,11 @@
       $style[`baseSelect--${validationResult.status}`],
       {
         [$style['baseSelect--open']]: isOpen,
+        [$style['baseSelect--selected']]: !!selectedLabels.length,
+        [$style['baseSelect--disabled']]: disabled,
       },
     ]"
+    v-click-outside="closeDropdown"
   >
     <div :class="$style['selectContainer']" @click="toggle">
       <p :class="$style['placeholder']">
@@ -14,19 +17,71 @@
         <span v-if="required">*</span>
       </p>
 
+      <div v-if="eachClearable" :class="$style.selectedLabels">
+        <span
+          :class="$style.selectedLabel"
+          v-for="(label, index) in selectedLabels.slice(0, shownItems)"
+          :key="index"
+        >
+          {{ typeof label === 'string' ? '' : label.label }}
+
+          <client-only>
+            <span
+              v-if="!disabled"
+              :class="$style['clearItem']"
+              @click.stop="
+                clearItem(typeof label === 'string' ? '' : label.value)
+              "
+            >
+              <font-awesome-icon :icon="['fas', 'close']" color="#ccc" />
+            </span>
+          </client-only>
+        </span>
+
+        <span
+          :class="$style.selectedLabel"
+          v-if="selectedLabels.length > shownItems"
+        >
+          И ещё {{ selectedLabels.length - shownItems }}
+        </span>
+      </div>
+
+      <span v-else>
+        {{ selectedLabels }}
+      </span>
+
       <client-only>
         <span :class="$style['icon']">
           <font-awesome-icon :icon="['fas', 'chevron-down']" color="#ccc" />
+        </span>
+
+        <span
+          :class="$style['clear']"
+          @click.stop="clearAll()"
+          v-if="canClearAll"
+        >
+          <font-awesome-icon :icon="['fas', 'close']" color="#ccc" />
         </span>
       </client-only>
     </div>
     <ul :class="$style['dropdown']" v-if="isOpen">
       <li
-        :class="[$style['option'], $style['option--selected']]"
-        v-for="option in options"
+        v-for="option in currentOptions"
         :key="option.value"
+        :class="[
+          $style['option'],
+          {
+            [$style['option--selected']]: option.selected && !multiple,
+          },
+        ]"
         @click="select(option.value)"
       >
+        <UiBaseCheckbox
+          :name="option.value"
+          :model-value="option.selected"
+          @click.prevent
+          v-if="multiple"
+        />
         <span :class="[$style['label'], 'text-body2']">{{ option.label }}</span>
       </li>
     </ul>
@@ -40,40 +95,133 @@
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
 
+export interface Option {
+  label: string
+  value: string
+  selected: boolean
+}
+
 export interface Props {
-  modelValue: string | number
+  modelValue: string | number | []
   label: string
   required?: boolean
   name: string
   validationResult?: ValidatorResp
-  options?: Array[{ label: string; value: string; selected: boolean }]
+  options: Option[]
+  multiple?: boolean
+  clearable?: boolean
+  eachClearable?: boolean
+  disabled?: boolean
+  shownItems?: number
 }
+
 const props = withDefaults(defineProps<Props>(), {
   name: '',
+  shownItems: 2,
   validationResult: () => ({
     status: 'success',
     message: '',
   }),
-  options: [
-    { label: 'asdasd', value: '1', selected: false },
-    { label: '23123', value: '2', selected: false },
-  ],
 })
 const emit = defineEmits(['update:modelValue', 'update'])
 const { value, isError, update } = useFormItem(props, emit)
 
-const currentOptions = ref(props.options)
+let currentOptions = reactive(props.options)
+
+const selectedLabels = computed(() => {
+  const selectedOptions = currentOptions.filter((el) => {
+    return el.selected
+  })
+
+  if (props.eachClearable) {
+    return selectedOptions
+  } else {
+    let labelsString = selectedOptions.reduce((acc, el, idx) => {
+      if (!acc) return acc + el.label
+      if (idx >= props.shownItems) return acc
+      return acc + ', ' + el.label
+    }, '')
+
+    if (selectedOptions.length > props.shownItems) {
+      labelsString =
+        labelsString + ' и ещё ' + (selectedOptions.length - props.shownItems)
+    }
+
+    return labelsString
+  }
+})
 
 const isOpen = ref(false)
+const canClearAll = computed(() => {
+  if (!props.clearable || props.disabled) return false
+  return selectedLabels.value.length
+})
 const toggle = () => {
   isOpen.value = !isOpen.value
 }
 
-const select = (value: string) => {
-  const selectedOption = currentOptions.value.find((el) => el.value === value)
-  selectedOption.selected = !selectedOption.selected
-  console.log(selectedOption)
+const emitValues = () => {
+  const selectedValues = currentOptions
+    .filter((el) => el.selected)
+    .map((el) => el.value)
+  emit('update:modelValue', selectedValues)
+  update()
 }
+
+const select = (value: string) => {
+  // TODO: Надо не мутировать опции, а добавлять в массив выбранных элементов и испольховать value из useFormItem
+  const newOptions = currentOptions.map((el) => {
+    if (el.value === value) {
+      // Текущий элемент
+      el.selected = !el.selected
+    } else {
+      // Если не multiple то осталным надо выключать выбор
+      if (!props.multiple) {
+        el.selected = false
+        closeDropdown()
+      }
+    }
+
+    return el
+  })
+
+  currentOptions = newOptions
+  emitValues()
+  filterOptions()
+}
+const clearAll = () => {
+  const newOptions = currentOptions.map((el) => {
+    el.selected = false
+    return el
+  })
+  currentOptions = newOptions
+  emitValues()
+}
+const clearItem = (value: string) => {
+  const newOptions = currentOptions.map((el) => {
+    if (el.value === value) {
+      el.selected = false
+    }
+    return el
+  })
+  currentOptions = newOptions
+  emitValues()
+}
+
+const closeDropdown = () => {
+  isOpen.value = false
+}
+
+const filterOptions = () => {
+  currentOptions = currentOptions.sort((a) => {
+    return a.selected ? -1 : 1
+  })
+}
+
+onMounted(() => {
+  emitValues()
+  filterOptions()
+})
 </script>
 
 <style lang="scss" module>
@@ -101,6 +249,8 @@ const select = (value: string) => {
     background: $white;
     font-size: $md;
     transition: 0.2s;
+    display: flex;
+    align-items: center;
 
     &:hover,
     &:focus,
@@ -113,6 +263,68 @@ const select = (value: string) => {
       -webkit-box-shadow: 0 0 0 1px $light-blue;
       box-shadow: 0 0 0 1px $light-blue;
     }
+    .selectedLabels {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      .selectedLabel {
+        background-color: var(--q-secondary);
+        padding: 0 4px;
+        border-radius: 40px;
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        gap: 6px;
+
+        .clearItem {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          border-radius: 16px;
+          cursor: pointer;
+          transition: all ease 0.2s;
+
+          svg {
+            transition: all ease 0.2s;
+            color: var(--q-primary);
+          }
+
+          &:hover {
+            background-color: var(--q-primary);
+
+            svg {
+              color: var(--q-secondary);
+            }
+          }
+        }
+      }
+    }
+
+    .clear {
+      position: absolute;
+      top: 50%;
+      right: 38px;
+      transform: translate(0, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--q-secondary);
+        transition: all ease 0.2s;
+
+        svg {
+          transition: all ease 0.2s;
+          color: #fff;
+        }
+      }
+    }
 
     .icon {
       position: absolute;
@@ -123,7 +335,7 @@ const select = (value: string) => {
     }
   }
 
-  &--open {
+  &--selected {
     .selectContainer {
       .placeholder {
         color: $accent;
@@ -133,10 +345,23 @@ const select = (value: string) => {
         left: 0;
         transform: translateY(calc(-100% + -2px));
       }
+    }
+  }
 
+  &--open {
+    .selectContainer {
+      border-color: var(--q-accent);
       .icon {
         transform: translate(0, -50%) rotate(180deg);
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .selectContainer {
+      color: var(--gray-400, #a3a3a3);
     }
   }
 
@@ -154,6 +379,9 @@ const select = (value: string) => {
       padding: 8px 16px;
       cursor: pointer;
       transition: all ease 0.4s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
       &:not(:last-child) {
         border-bottom: 1px solid var(--gray-300, #ccc);
@@ -161,7 +389,7 @@ const select = (value: string) => {
 
       &:hover {
         background: var(--gray-100, #eee);
-        cursor: poniter;
+        cursor: pointer;
         transition: all ease 0.2s;
       }
 
