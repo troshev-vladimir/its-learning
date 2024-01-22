@@ -48,5 +48,9 @@ export default defineNuxtConfig({
 
   plugins: ['~/plugins/directives.js'],
 
+  build: {
+    transpile: ['@vuepic/vue-datepicker'],
+  },
+
   css: ['quasar/css', '@fortawesome/fontawesome-svg-core/styles.css'],
 })
