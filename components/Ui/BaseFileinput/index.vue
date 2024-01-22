@@ -1,5 +1,8 @@
 <template>
-  <div class="base-fileinput">
+  <div
+    class="base-fileinput"
+    :class="[`base-fileinput--${validationResult.status}`]"
+  >
     <label class="base-fileinput__input-wrapper">
       <client-only>
         <font-awesome-icon :class="['q-mr-sm']" :icon="['fas', 'file']" />
@@ -7,18 +10,23 @@
       <input
         @dragenter="dragFileInput"
         @dragleave="dragEndFileInput"
-        :multiple="multiple"
+        :multiple="!!multiple"
         type="file"
         @change="onFileChange"
         ref="fileInputRef"
         class="base-fileinput__file-input"
         :class="{ drag: isDraging }"
+        :accept="acceptTypesString"
       />
       <span v-if="multiple"> Добавить файлы </span>
       <span v-else>{{
         uploadedFiles.length ? uploadedFiles[0].name : 'Добавить файл'
       }}</span>
     </label>
+
+    <p v-if="isError" class="message">
+      {{ validationResult.message }}
+    </p>
 
     <div class="base-fileinput__file-list file-list" v-if="multiple">
       <a
@@ -45,24 +53,59 @@ import { useQuasar } from 'quasar'
 import useDragDrop from './composables/useDragDrop'
 export interface Props {
   maxSize?: number
-  fileExtensions?: string
+  accept?: string | string[]
   multiple?: boolean
-  modelValue: []
+  // modelValue: []
   validationResult?: ValidatorResp
 }
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  validationResult: () => ({
+    status: 'success',
+    message: '',
+  }),
+})
 const emit = defineEmits(['update:modelValue', 'update'])
 const $q = useQuasar()
 const { isDraging, dragFileInput, dragEndFileInput } = useDragDrop()
-// const { value, isError, update } = useFormItem(props, emit)
+const { isError, update } = useFormItem(props, emit)
 const uploadedFiles = ref<File[]>([])
 const fileInputRef = ref<HTMLInputElement | null>(null)
+
+const acceptTypesString = computed(() => {
+  if (!props.accept) return ''
+  return Array.isArray(props.accept) ? props.accept.join(', ') : props.accept
+})
 
 const onFileChange = (e: Event) => {
   const input = e.target as HTMLInputElement
   const files: FileList | null = input.files
 
   if (!files || !files.length) return
+
+  if (files[0].size > (props.maxSize || 2000)) {
+    // TODO: эти условия надо покаозывать польхователю, он не вкрсе что можно пихать сюда чере драгдроп
+    $q.notify({
+      type: 'negative',
+      message: `Максимум доступны файлы ${props.maxSize}kb. Файл ${files[0].name} слишком тяжёлый`,
+    })
+
+    return
+  }
+  console.log('Тип файла:' + files[0].type)
+
+  if (
+    props.accept && Array.isArray(props.accept)
+      ? !props.accept.includes(files[0].type)
+      : props.accept === files[0].type
+  ) {
+    // TODO: эти условия надо покаозывать польхователю, он не вкрсе что можно пихать сюда чере драгдроп
+    $q.notify({
+      type: 'negative',
+      message: `Файл не подходящего формата`,
+    })
+
+    return
+  }
 
   if (props.multiple) {
     const filesArray = Array.from(files).filter((gonaBeUploadFile) => {
@@ -106,10 +149,16 @@ const deleteFile = (fileIndex: number) => {
 // }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .base-fileinput {
   display: flex;
   flex-direction: column;
+
+  .message {
+    font-size: 12px;
+    margin-top: 2px;
+    line-height: 17px;
+  }
 
   &__input-wrapper {
     position: relative;
@@ -142,6 +191,7 @@ const deleteFile = (fileIndex: number) => {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 8px;
 
     &__item,
     .item {
@@ -152,6 +202,33 @@ const deleteFile = (fileIndex: number) => {
         &:hover {
           color: $accent;
         }
+      }
+    }
+  }
+
+  &--error {
+    .message {
+      color: $error;
+    }
+
+    .placeholder {
+      color: $error !important;
+    }
+
+    .native-input {
+      border-color: $error;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $error;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $error;
+        border-color: $red;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $error;
       }
     }
   }

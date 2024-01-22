@@ -106,6 +106,9 @@
     <UiBaseFileinput
       v-model="form.files"
       multiple
+      :accept="['text/html', 'text/javascript']"
+      :max-size="9000"
+      @update:modelValue="updateValue('files')"
       :validation-result="{
         status: v$.files.$error ? 'error' : 'success',
         message: getErrorMessage(v$.files),
@@ -168,7 +171,13 @@ const rules = computed(() => {
       ),
     },
 
-    files: {},
+    files: {
+      required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
+        minLength(2)
+      ),
+    },
   }
 })
 
