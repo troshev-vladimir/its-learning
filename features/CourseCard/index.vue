@@ -42,33 +42,31 @@ withDefaults(defineProps<PropsCourse>(), {
   <div class="course-card base-block">
     <div class="course-card__container">
       <div class="course-card__left-side">
-        <p class="text-h2">{{ course.title }}</p>
-        <p class="text-body2 text-gray-600" v-if="course.trial?.state">
-          Бесплатный период на {{ course.trial?.days }} день
-        </p>
-        <p class="text-body2 text-gray-600" v-if="course.academ?.state">
-          Предоставлен академический отпуск до {{ course.academ?.date }}
-        </p>
+        <div class="left-side__block">
+          <p class="text-h2">{{ course.title }}</p>
+          <p class="text-body2 text-gray-600" v-if="course.trial?.state">
+            Бесплатный период на {{ course.trial?.days }} день
+          </p>
+          <p class="text-body2 text-gray-600" v-if="course.academ?.state">
+            Предоставлен академический отпуск до {{ course.academ?.date }}
+          </p>
+        </div>
+        <div class="left-side__block">
+          <p class="text-body2" v-if="course.started && course.startDate">
+            Дата начала: {{ course.startDate }}
+          </p>
+          <p class="text-body2" v-if="course.started && course.planEndDate">
+            Планируемая дата окончания: {{ course.startDate }}
+          </p>
+        </div>
+      </div>
+      <div class="course-card__right-side">
         <p class="text-body2">
           Средний балл
           <span class="text-body1 text-bold" v-if="course.averageScore">
             {{ course.averageScore }}
           </span>
           <span class="text-body1 text-bold" v-else> - </span>
-        </p>
-      </div>
-      <div class="course-card__right-side">
-        <p
-          class="right-side__date text-body2"
-          v-if="course.started && course.startDate"
-        >
-          Дата начала: {{ course.startDate }}
-        </p>
-        <p
-          class="right-side__date text-body2"
-          v-if="course.started && course.planEndDate"
-        >
-          Планируемая дата окончания: {{ course.startDate }}
         </p>
         <UiBaseButton
           class="course-card__button"
@@ -112,10 +110,12 @@ withDefaults(defineProps<PropsCourse>(), {
 <style lang="scss">
 .course-card {
   &__container {
+    position: relative;
+
     @media (min-width: 820px) {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
     }
   }
 
@@ -124,6 +124,7 @@ withDefaults(defineProps<PropsCourse>(), {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    justify-content: space-between;
 
     @media (min-width: 820px) {
       display: flex;
@@ -133,6 +134,11 @@ withDefaults(defineProps<PropsCourse>(), {
   }
 
   &__left-side {
+    .left-side__block {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
     @media (min-width: 820px) {
       width: 60%;
     }
@@ -140,8 +146,6 @@ withDefaults(defineProps<PropsCourse>(), {
 
   &__right-side,
   .right-side {
-    margin-top: 16px;
-
     @media (min-width: 820px) {
       align-items: flex-end;
       width: 40%;
