@@ -18,9 +18,7 @@
         </div>
         <UiBaseButton type="boarded" size="small"> Редактировать </UiBaseButton>
       </div>
-      <div class="col-2">
-        <UiBaseAverageScore />
-      </div>
+      <UiBaseAverageScore />
     </div>
   </div>
 </template>
