@@ -1,34 +1,66 @@
 <template>
-  <VueDatePicker
-    locale="ru"
-    v-model="date"
-    placeholder="Введите дату"
-    cancelText="Отмена"
-    selectText="Выбрать"
-    :clearable="true"
-    menu-class-name="ui-datepicker"
-    position="left"
-    :enable-time-picker="false"
-    :format="format"
+  <div
+    class="ui-datepicker"
+    :class="[`ui-datepicker--${validationResult.status}`]"
   >
-    <template #action-row="{ internalModelValue, selectDate }">
-      <UiBaseButton size="small" type="secondary" @click="selectDate">
-        Применить и продолжить
-      </UiBaseButton>
-    </template>
+    <VueDatePicker
+      locale="ru"
+      v-model="date"
+      placeholder="Введите дату"
+      cancelText="Отмена"
+      selectText="Выбрать"
+      :clearable="true"
+      position="left"
+      :enable-time-picker="false"
+      :format="format"
+    >
+      <template #action-row="{ internalModelValue, selectDate }">
+        <UiBaseButton size="small" type="secondary" @click="selectDate">
+          Применить и продолжить
+        </UiBaseButton>
+      </template>
 
-    <template #input-icon>
-      <client-only>
-        <font-awesome-icon color="#0075eb" :icon="['far', 'calendar']" />
-      </client-only>
-    </template>
-  </VueDatePicker>
+      <template #input-icon>
+        <client-only>
+          <font-awesome-icon color="#0075eb" :icon="['far', 'calendar']" />
+        </client-only>
+      </template>
+    </VueDatePicker>
+    <p v-if="isError" class="message">
+      {{ validationResult.message }}
+    </p>
+  </div>
 </template>
 <script setup lang="ts">
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import type { ValidatorResp } from '~/utils/validators/types'
 
-const date = ref()
+const props = withDefaults(
+  defineProps<{
+    modelValue: string
+    validationResult?: ValidatorResp
+  }>(),
+  {
+    validationResult: () => ({
+      status: 'success',
+      message: '',
+    }),
+  }
+)
+
+const emit = defineEmits(['update:modelValue', 'update'])
+
+const { value, isError, update } = useFormItem(props, emit)
+
+const date = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
+})
 
 const format = (date: Date) => {
   let day = String(date.getDate())
@@ -54,9 +86,40 @@ const format = (date: Date) => {
 .dp__input_icon {
   margin-left: 16px;
 }
-
+.message {
+  font-size: 12px;
+  margin-top: 2px;
+  line-height: 17px;
+}
 .ui-datepicker {
   width: 100%;
+
+  &--error {
+    .message {
+      color: $error;
+    }
+
+    .placeholder {
+      color: $error !important;
+    }
+
+    .native-input {
+      border-color: $error;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $error;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $error;
+        border-color: $red;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $error;
+      }
+    }
+  }
 }
 .dp__input {
   width: 100%;

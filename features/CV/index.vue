@@ -114,7 +114,15 @@
         message: getErrorMessage(v$.files),
       }"
     />
-    <UiDatePicker class="q-mb-lg"></UiDatePicker>
+    <UiDatePicker
+      v-model="form.date"
+      @update:modelValue="updateValue('date')"
+      class="q-mb-lg"
+      :validation-result="{
+        status: v$.date.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.date),
+      }"
+    ></UiDatePicker>
   </UiBaseForm>
 </template>
 
@@ -131,6 +139,7 @@ const form = reactive<Record<string, any>>({
   picked: '2',
   items: [],
   files: [],
+  date: '',
 })
 
 const rules = computed(() => {
@@ -178,6 +187,10 @@ const rules = computed(() => {
         ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
         minLength(2)
       ),
+    },
+
+    date: {
+      required: helpers.withMessage('Поле обязательно', required),
     },
   }
 })

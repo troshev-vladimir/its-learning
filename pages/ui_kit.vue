@@ -1,7 +1,7 @@
 <template>
   <div class="he">
     <FeatureCourseCard />
-    <!-- <FeatureCV></FeatureCV> -->
+    <FeatureCV></FeatureCV>
     <client-only>
       <UiBaseTracker :value="80" class="h" size="big" />
     </client-only>
