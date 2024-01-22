@@ -103,6 +103,14 @@
         message: getErrorMessage(v$.items),
       }"
     ></UiSelect>
+    <UiBaseFileinput
+      v-model="form.files"
+      multiple
+      :validation-result="{
+        status: v$.files.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.files),
+      }"
+    />
   </UiBaseForm>
 </template>
 
@@ -118,6 +126,7 @@ const form = reactive<Record<string, any>>({
   options: ['o2'],
   picked: '2',
   items: [],
+  files: [],
 })
 
 const rules = computed(() => {
@@ -158,6 +167,8 @@ const rules = computed(() => {
         minLength(2)
       ),
     },
+
+    files: {},
   }
 })
 
