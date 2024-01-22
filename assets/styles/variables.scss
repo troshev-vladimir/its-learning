@@ -17,6 +17,7 @@ $lg: 24px;
 $xl: 48px;
 
 // Colours
+
 $blue-950: #053f7b !default;
 $blue-900: #094f96 !default;
 $blue-800: #0b5daf !default;
@@ -72,35 +73,28 @@ $green-300: #86efac !default;
 $green-200: #bbf7d0 !default;
 $green-100: #dcfce7 !default;
 
-$blue: #0075eb !default;
-$light-blue: #b8d4f0 !default;
-$cornflower-blue: #499bed;
-$cobalt: #0253a4;
-$cian: #31ccec !default;
-$yellow: #f2c037 !default;
-$light-yellow: #ffd857 !default;
-$black: #101010 !default;
+$blue: $blue-600;
+$light-blue: $blue-200;
+$yellow: $yellow-400;
+$light-yellow: $yellow-300;
+$black: $gray-950;
 $white: #fff !default;
-$gray: #cccccc !default;
-$light-gray: #e8e8e8 !default;
-$red: #c10015 !default;
-$light-red: #f97b7b !default;
-$dark-page: #121212 !default;
-$dark: $black;
+$gray: $gray-300;
+$light-gray: $gray-200;
+$red: $red-700;
+$light-red: $red-400 !default;
+$dark-page: $gray-900;
+$dark: $gray-950;
 
 $positive: $green-400;
 $negative: $red;
 $error: $light-red;
-$info: $cian;
+$info: $blue-400;
 $warning: $yellow;
 $success: $green-600;
 $danger: $light-yellow;
-$primary: $black;
+$primary: $gray-950;
 $white: $white;
-$secondary: $gray;
+$secondary: $gray-300;
 $accent: $blue-600;
 $primary-text: $gray-900;
-
-// FontSizes
-$text: 20px;
-$text-small: $md;

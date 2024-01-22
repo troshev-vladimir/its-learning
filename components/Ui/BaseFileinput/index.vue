@@ -117,7 +117,7 @@ const deleteFile = (fileIndex: number) => {
     padding: 12px 24px;
     border-radius: 8px;
     border: 1px solid $accent;
-    font-size: $text-small;
+    font-size: 16px;
     font-weight: 600;
     color: $accent;
     cursor: pointer !important;
@@ -146,7 +146,7 @@ const deleteFile = (fileIndex: number) => {
     &__item,
     .item {
       &__delete-icon {
-        font-size: $text-small;
+        font-size: 16px;
         cursor: pointer;
 
         &:hover {
