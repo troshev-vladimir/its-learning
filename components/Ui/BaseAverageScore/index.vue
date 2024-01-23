@@ -27,7 +27,7 @@ defineProps<{
 .base-average-score {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  width: fit-content;
 
   &__value {
     font-size: 30px !important;
