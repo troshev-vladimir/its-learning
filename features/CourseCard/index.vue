@@ -17,6 +17,7 @@ interface PropsCourse {
     planEndDate: string
     realEndDate: string
     docs?: [{ name: string; link: string }]
+    score?: number
   }
 }
 withDefaults(defineProps<PropsCourse>(), {
@@ -34,6 +35,7 @@ withDefaults(defineProps<PropsCourse>(), {
         link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
       },
     ],
+    score: 80,
   },
 })
 </script>
@@ -44,7 +46,7 @@ withDefaults(defineProps<PropsCourse>(), {
       <div class="course-card__left-side">
         <div class="left-side__block">
           <client-only>
-            <UiBaseTracker class="course-card__tracker" />
+            <UiBaseTracker class="course-card__tracker" :value="course.score" />
           </client-only>
           <p class="text-h2">{{ course.title }}</p>
           <p class="text-body2 text-gray-600" v-if="course.trial?.state">
