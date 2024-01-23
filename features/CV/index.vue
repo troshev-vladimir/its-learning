@@ -39,6 +39,7 @@
       :root-class="['q-mb-xl']"
       v-model="form.email"
       @update="updateValue('email')"
+      required
       :validation-result="{
         status: v$.email.$error ? 'error' : 'success',
         message: getErrorMessage(v$.email),
@@ -106,8 +107,10 @@
     <UiBaseFileinput
       v-model="form.files"
       multiple
+      class="q-mb-md"
       :accept="['text/html', 'text/javascript']"
       :max-size="9000"
+      label="Прикрепить файлы"
       @update:modelValue="updateValue('files')"
       :validation-result="{
         status: v$.files.$error ? 'error' : 'success',

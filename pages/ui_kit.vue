@@ -1,7 +1,7 @@
 <template>
   <div class="he">
     <FeatureCourseCard />
-    <!-- <FeatureCV></FeatureCV> -->
+    <FeatureCV></FeatureCV>
     <client-only>
       <UiBaseTracker :value="80" class="h" size="big" />
     </client-only>
@@ -65,8 +65,6 @@
       Базовая ссылка
     </UiBaseButton>
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
-
-    <UiBaseFileinput multiple />
   </div>
 </template>
 

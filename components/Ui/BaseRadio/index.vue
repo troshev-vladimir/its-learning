@@ -1,5 +1,12 @@
 <template>
-  <label :class="$style.uiRadio">
+  <label
+    :class="[
+      $style.uiRadio,
+      {
+        [$style['uiRadio--disabled']]: disabled,
+      },
+    ]"
+  >
     <input
       type="radio"
       :id="name"
@@ -18,12 +25,16 @@
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
 
-const props = defineProps<{
-  label?: string
-  name: string
-  value: string
-  modelValue: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    label?: string
+    name: string
+    value: string
+    modelValue: string
+    disabled?: boolean
+  }>(),
+  {}
+)
 const emit = defineEmits(['update:modelValue'])
 
 const { value: modelValue, isError, update } = useFormItem(props, emit)
@@ -74,6 +85,21 @@ const { value: modelValue, isError, update } = useFormItem(props, emit)
       &::after {
         display: block;
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .nativeInput {
+      &:checked ~ .radioContainer {
+        background-color: var(--q-secondary);
+        border-color: var(--q-secondary);
+      }
+    }
+
+    .label {
+      color: var(--q-secondary);
     }
   }
 }

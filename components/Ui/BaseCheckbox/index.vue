@@ -3,6 +3,9 @@
     :class="[
       $style.baseCheckbox,
       $style[`baseCheckbox--${validationResult.status}`],
+      {
+        [$style[`baseCheckbox--disabled`]]: disabled,
+      },
     ]"
   >
     <input
@@ -14,12 +17,19 @@
     />
     <span :class="[$style.container]">
       <client-only>
-        <font-awesome-icon :class="$style.icon" icon="fa-solid fa-check" />
+        <font-awesome-icon
+          :class="$style.icon"
+          icon="fa-solid fa-check"
+          color="#fff"
+        />
       </client-only>
     </span>
-    <slot>
-      <span>{{ props.label }}</span>
-    </slot>
+
+    <div :class="[$style.label]">
+      <slot>
+        <span>{{ props.label }}</span>
+      </slot>
+    </div>
     <sup v-if="required">*</sup>
 
     <p v-if="isError" :class="$style['message']">
@@ -38,6 +48,7 @@ interface Props {
   name: string
   validationResult?: ValidatorResp
   rootClass?: string | string[]
+  disabled?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -84,8 +95,8 @@ const { value, isError, update } = useFormItem(props, emit)
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
+      width: 16px;
+      height: 16px;
       color: $accent;
       display: none;
     }
@@ -96,8 +107,10 @@ const { value, isError, update } = useFormItem(props, emit)
     &:checked {
       color: red;
       & ~ .container {
+        background-color: $accent;
         .icon {
           display: block;
+          color: #fff;
         }
       }
     }
@@ -132,6 +145,27 @@ const { value, isError, update } = useFormItem(props, emit)
       &:focus {
         box-shadow: 0 0 0 1px $error;
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .nativeInput {
+      &:checked {
+        & ~ .container {
+          background-color: $secondary;
+          .icon {
+            color: $accent;
+          }
+        }
+      }
+    }
+
+    .message,
+    sup,
+    .label {
+      color: $secondary;
     }
   }
 }

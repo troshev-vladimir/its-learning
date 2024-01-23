@@ -3,6 +3,9 @@
     :class="[
       $style['base-input'],
       $style[`base-input--${validationResult.status}`],
+      {
+        [$style[`base-input--disabled`]]: props.disabled,
+      },
       rootClass,
     ]"
   >
@@ -56,6 +59,7 @@ export interface Props {
   validationResult?: ValidatorResp
   textarea?: boolean
   rootClass?: string | string[]
+  disabled?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -76,6 +80,16 @@ const currentComponent = computed(() => {
 <style lang="scss" module>
 .base-input {
   position: relative;
+
+  &--disabled {
+    pointer-events: none;
+
+    .message,
+    .placeholder,
+    .native-input {
+      color: $secondary !important;
+    }
+  }
 
   .native-input:focus ~ .placeholder,
   .native-input:not(:placeholder-shown) ~ .placeholder {

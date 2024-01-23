@@ -103,7 +103,7 @@ const format = (date: Date) => {
       color: $error !important;
     }
 
-    .native-input {
+    .dp__pointer {
       border-color: $error;
 
       &:hover:focus {

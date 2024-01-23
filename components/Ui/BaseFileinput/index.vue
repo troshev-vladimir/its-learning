@@ -1,11 +1,19 @@
 <template>
   <div
     class="base-fileinput"
-    :class="[`base-fileinput--${validationResult.status}`]"
+    :class="[
+      `base-fileinput--${validationResult.status}`,
+      {
+        [`base-fileinput--disabled`]: disabled,
+      },
+    ]"
   >
     <label class="base-fileinput__input-wrapper">
       <client-only>
-        <font-awesome-icon :class="['q-mr-sm']" :icon="['fas', 'file']" />
+        <font-awesome-icon
+          :class="['q-mr-sm', 'icon']"
+          :icon="['fas', 'file']"
+        />
       </client-only>
       <input
         @dragenter="dragFileInput"
@@ -18,9 +26,9 @@
         :class="{ drag: isDraging }"
         :accept="acceptTypesString"
       />
-      <span v-if="multiple"> Добавить файлы </span>
-      <span v-else>{{
-        uploadedFiles.length ? uploadedFiles[0].name : 'Добавить файл'
+      <span v-if="multiple" class="label text-body2"> {{ label }} </span>
+      <span v-else class="label text-body2">{{
+        uploadedFiles.length ? uploadedFiles[0].name : label
       }}</span>
     </label>
 
@@ -56,7 +64,9 @@ export interface Props {
   accept?: string | string[]
   multiple?: boolean
   // modelValue: []
+  label?: string
   validationResult?: ValidatorResp
+  disabled?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   validationResult: () => ({
@@ -154,6 +164,12 @@ const deleteFile = (fileIndex: number) => {
   display: flex;
   flex-direction: column;
 
+  .label {
+    color: var(--accent, #0075eb);
+    font-weight: 700;
+    line-height: 1;
+  }
+
   .message {
     font-size: 12px;
     margin-top: 2px;
@@ -215,7 +231,7 @@ const deleteFile = (fileIndex: number) => {
       color: $error !important;
     }
 
-    .native-input {
+    .base-fileinput__input-wrapper {
       border-color: $error;
 
       &:hover:focus {
@@ -230,6 +246,20 @@ const deleteFile = (fileIndex: number) => {
       &:focus {
         box-shadow: 0 0 0 1px $error;
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+    .message,
+    .label,
+    .icon,
+    .placeholder {
+      color: $secondary;
+    }
+
+    .base-fileinput__input-wrapper {
+      border-color: $secondary;
     }
   }
 }

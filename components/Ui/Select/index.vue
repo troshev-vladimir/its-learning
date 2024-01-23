@@ -2,12 +2,12 @@
   <div
     :class="[
       $style['baseSelect'],
-      $style[`baseSelect--${validationResult.status}`],
       {
         [$style['baseSelect--open']]: isOpen,
         [$style['baseSelect--selected']]: !!selectedLabels.length,
         [$style['baseSelect--disabled']]: disabled,
       },
+      $style[`baseSelect--${validationResult.status}`],
     ]"
     v-click-outside="closeDropdown"
   >
@@ -118,6 +118,7 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   name: '',
   shownItems: 2,
+  disabled: true,
   validationResult: () => ({
     status: 'success',
     message: '',
@@ -357,14 +358,6 @@ onMounted(() => {
     }
   }
 
-  &--disabled {
-    pointer-events: none;
-
-    .selectContainer {
-      color: var(--gray-400, #a3a3a3);
-    }
-  }
-
   .dropdown {
     position: absolute;
     top: calc(100% + 4px);
@@ -418,15 +411,15 @@ onMounted(() => {
       color: $error;
     }
 
-    .placeholder {
-      color: $error !important;
-    }
-
-    .native-input {
+    .selectContainer {
       border-color: $error;
 
       &:hover:focus {
         box-shadow: 0 0 0 2px $error;
+      }
+
+      .placeholder {
+        color: $error;
       }
 
       &:hover {
@@ -437,6 +430,23 @@ onMounted(() => {
       &:focus {
         box-shadow: 0 0 0 1px $error;
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .selectContainer {
+      color: var(--q-secondary);
+      border-color: var(--q-secondary);
+
+      p.placeholder {
+        color: var(--q-secondary);
+      }
+    }
+
+    .message {
+      color: var(--q-secondary);
     }
   }
 }
