@@ -10,9 +10,7 @@
       </client-only>
       <div class="card">
         <div class="header">
-          <div>
-            <slot name="header"></slot>
-          </div>
+          <slot name="header"></slot>
         </div>
         <div class="cardContainer">
           <slot></slot>

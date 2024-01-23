@@ -66,7 +66,7 @@
     </UiBaseButton>
     <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
 
-    <UiBaseFileinput multiple="true" />
+    <UiBaseFileinput multiple />
   </div>
 </template>
 

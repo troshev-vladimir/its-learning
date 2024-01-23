@@ -1,45 +1,3 @@
-<script lang="ts" setup>
-// FIXME тип полей для курса нужно вынести вотдельный расшаренный тип
-interface PropsCourse {
-  course: {
-    title: string
-    academ?: {
-      state: boolean
-      date: string
-    }
-    trial?: {
-      state: true
-      days: number
-    }
-    averageScore?: number
-    started: boolean
-    startDate: string
-    planEndDate: string
-    realEndDate: string
-    docs?: [{ name: string; link: string }]
-    score?: number
-  }
-}
-withDefaults(defineProps<PropsCourse>(), {
-  course: {
-    title: '1С:Профессиональный разработчик',
-    averageScore: 4.96,
-    trial: { state: true, days: 31 },
-    academ: { state: false, date: '20.01.2024' },
-    started: true,
-    startDate: '20.01.2024',
-    planEndDate: '20.12.2024',
-    docs: [
-      {
-        name: 'Договор оферты',
-        link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-      },
-    ],
-    score: 80,
-  },
-})
-</script>
-
 <template>
   <div class="course-card base-block">
     <div class="course-card__container">
@@ -111,6 +69,52 @@ withDefaults(defineProps<PropsCourse>(), {
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+// FIXME тип полей для курса нужно вынести вотдельный расшаренный тип
+export type Course = {
+  title: string
+  academ?: {
+    state: boolean
+    date: string
+  }
+  trial?: {
+    state: true
+    days: number
+  }
+  averageScore?: number
+  started: boolean
+  startDate?: string
+  planEndDate?: string
+  realEndDate?: string
+  docs?: [{ name: string; link: string }]
+  score?: number
+}
+
+interface PropsCourse {
+  course: Course
+}
+withDefaults(defineProps<PropsCourse>(), {
+  course: () => {
+    return {
+      title: '1С:Профессиональный разработчик',
+      averageScore: 4.96,
+      trial: { state: true, days: 31 },
+      academ: { state: false, date: '20.01.2024' },
+      started: true,
+      startDate: '20.01.2024',
+      planEndDate: '20.12.2024',
+      docs: [
+        {
+          name: 'Договор оферты',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
+      ],
+      score: 80,
+    }
+  },
+})
+</script>
 
 <style lang="scss">
 .course-card {
