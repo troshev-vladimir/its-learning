@@ -12,8 +12,4 @@
 .view {
   min-height: 100vh;
 }
-
-.container {
-  padding: 32px 0px;
-}
 </style>

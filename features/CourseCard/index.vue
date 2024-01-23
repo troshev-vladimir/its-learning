@@ -3,6 +3,9 @@
     <div class="course-card__container">
       <div class="course-card__left-side">
         <div class="left-side__block">
+          <client-only>
+            <UiBaseTracker class="course-card__tracker" />
+          </client-only>
           <p class="text-h2">{{ course.title }}</p>
           <p class="text-body2 text-gray-600" v-if="course.trial?.state">
             Бесплатный период на {{ course.trial?.days }} день
@@ -133,6 +136,10 @@ withDefaults(defineProps<PropsCourse>(), {
       flex-direction: column;
       gap: 16px;
     }
+  }
+
+  &__tracker {
+    width: 70%;
   }
 
   &__left-side {
