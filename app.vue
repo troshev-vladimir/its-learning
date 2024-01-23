@@ -42,5 +42,10 @@ useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} | ITS Education` : 'ITS Education'
   },
+  script: [
+    {
+      src: '/metrika/ym.js',
+    },
+  ],
 })
 </script>
