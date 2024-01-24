@@ -109,7 +109,7 @@
             </p>
           </div>
 
-          <div v-if="card.price.withDiscount !== card.price.actual" class="">
+          <!-- <div v-if="card.price.withDiscount !== card.price.actual" class="">
             <div class="criteria text-body2">
               <span class="q-mr-sm">Прибавка к зарплате:</span>
               <p class="text-body2">
@@ -119,7 +119,7 @@
                 <span>₽</span>
               </p>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="program-card__buttons-block">
           <FeaturePaymentTinkoff
