@@ -1,20 +1,18 @@
 <template>
-  <header class="header q-pt-md">
-    <div class="header__container container">
-      <div class="logo column items-start">
-        <img src="~/assets/img/logo.svg" alt="logo" />
-        <span class="text-body1">Академия 1С программирования</span>
-      </div>
+  <header class="header">
+    <div class="header__container">
+      <div class="logo column items-start"></div>
       <div class="header__right-side">
-        <router-link to="/cabinet">
-          <p class="header__user-name">Иван Иванович</p>
-        </router-link>
-        <font-awesome-icon
-          title="Выход"
-          class="header__exit-icon"
-          icon="fa-solid fa-right-from-bracket"
-          @click="exit"
-        />
+        <div class="header__logout-block row items-center" @click="exit">
+          <ClientOnly>
+            <font-awesome-icon
+              title="Выход"
+              class="header__exit-icon q-mr-sm"
+              icon="fa-solid fa-right-from-bracket"
+            />
+          </ClientOnly>
+          <p class="text-body2">Выход</p>
+        </div>
       </div>
     </div>
   </header>
@@ -31,11 +29,22 @@ const exit = () => {
 
 <style scoped lang="scss">
 .header {
+  background: $white;
+
+  &__logout-block:hover {
+    cursor: pointer;
+    * {
+      color: $blue-400;
+      text-decoration: underline;
+    }
+  }
+
   &__container {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     flex-wrap: nowrap;
+    padding: 24px;
 
     @media screen and (min-width: $breakpoint-xs) {
       flex-direction: row;

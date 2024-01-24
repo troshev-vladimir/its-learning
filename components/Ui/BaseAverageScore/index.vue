@@ -12,13 +12,15 @@ defineProps<{
     <p class="base-average-score__value text-body1 text-bold" v-else>-</p>
     <p class="text-body2">
       Средний балл
-      <font-awesome-icon
-        v-tippy="
-          `Балл выпускника определяется из совокупности результатов пройденных тестов.`
-        "
-        class="text-gray-300"
-        :icon="['fas', 'info-circle']"
-      />
+      <ClientOnly>
+        <font-awesome-icon
+          v-tippy="
+            `Балл выпускника определяется из совокупности результатов пройденных тестов.`
+          "
+          class="text-gray-300"
+          :icon="['fas', 'info-circle']"
+        />
+      </ClientOnly>
     </p>
   </div>
 </template>

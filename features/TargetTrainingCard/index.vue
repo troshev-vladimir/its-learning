@@ -50,7 +50,7 @@
 
 <script lang="ts" setup>
 interface Test {
-  status: 'strat' | 'waiting' | 'result'
+  status: 'start' | 'waiting' | 'result'
   result?: {
     iq?: number
     score?: number
