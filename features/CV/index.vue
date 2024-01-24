@@ -11,14 +11,28 @@
       label="Введите имя"
       required
       :root-class="['q-mb-xl']"
+      @update="v$.name.$touch"
       v-model="form.name"
-      @update="updateValue('name')"
       :validation-result="{
         status: v$.name.$error ? 'error' : 'success',
         message: getErrorMessage(v$.name),
       }"
+      mask="p"
+      :suggestions="['asdasd', '213213', 'ADASD']"
     />
-
+    <UiBaseInput
+      name="phone"
+      label="Введите телефон"
+      required
+      :root-class="['q-mb-xl']"
+      v-model="maskedPhone"
+      @update="updateValue('phone')"
+      :validation-result="{
+        status: v$.phone.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.phone),
+      }"
+      mask="+7 (###) ### ##-##"
+    />
     <UiBaseInput
       name="about"
       label="О себе"
@@ -132,9 +146,10 @@
 <script setup lang="ts">
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-
+import { Mask } from 'maska'
 const form = reactive<Record<string, any>>({
-  name: 'asdasdsad',
+  name: '',
+  phone: '',
   about: '111',
   email: 'initial',
   isCurrent: false,
@@ -145,12 +160,19 @@ const form = reactive<Record<string, any>>({
   date: '',
 })
 
+const phoneMask = '+7 (###) ### ##-##'
+const mask = new Mask({ mask: phoneMask })
+const maskedPhone = ref('')
+const unmaskedPhone = computed(() => {
+  form.phone = mask.unmasked(maskedPhone.value)
+  return mask.unmasked(maskedPhone.value)
+})
+
 const rules = computed(() => {
   return {
     email: {
       required: helpers.withMessage('Поле обязательно', required),
       email: helpers.withMessage('Не верный email', email),
-      $autoDirty: true,
     },
     name: {
       required: helpers.withMessage('Поле обязательно', required),
@@ -158,7 +180,13 @@ const rules = computed(() => {
         ({ $params }: Record<string, any>) => `Минимум ${$params.min} символов`,
         minLength(6)
       ),
-      $autoDirty: true,
+    },
+    phone: {
+      required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        () => `Введите корректный телефон`,
+        minLength(10)
+      ),
     },
     about: {
       required: helpers.withMessage('Поле обязательно', required),

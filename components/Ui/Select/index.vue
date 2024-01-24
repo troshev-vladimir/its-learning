@@ -118,7 +118,6 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   name: '',
   shownItems: 2,
-  disabled: true,
   validationResult: () => ({
     status: 'success',
     message: '',
