@@ -15,7 +15,7 @@
       :format="format"
     >
       <template #action-row="{ internalModelValue, selectDate }">
-        <UiBaseButton size="small" type="secondary" @click="selectDate">
+        <UiBaseButton size="small" type="secondary" @click.prevent="selectDate">
           Применить и продолжить
         </UiBaseButton>
       </template>
@@ -38,7 +38,7 @@ import type { ValidatorResp } from '~/utils/validators/types'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string
+    modelValue: string | Date
     validationResult?: ValidatorResp
   }>(),
   {

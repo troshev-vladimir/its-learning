@@ -13,13 +13,14 @@
       :root-class="['q-mb-xl']"
       @update="v$.name.$touch"
       v-model="form.name"
+      @update:modelValue="getSuggestions"
       :validation-result="{
         status: v$.name.$error ? 'error' : 'success',
         message: getErrorMessage(v$.name),
       }"
-      mask="p"
-      :suggestions="['asdasd', '213213', 'ADASD']"
+      :suggestions="citys"
     />
+    <!-- mask="p" -->
     <UiBaseInput
       name="phone"
       label="Введите телефон"
@@ -142,11 +143,11 @@
     ></UiDatePicker>
   </UiBaseForm>
 </template>
-
 <script setup lang="ts">
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { Mask } from 'maska'
+
 const form = reactive<Record<string, any>>({
   name: '',
   phone: '',
@@ -167,6 +168,16 @@ const unmaskedPhone = computed(() => {
   form.phone = mask.unmasked(maskedPhone.value)
   return mask.unmasked(maskedPhone.value)
 })
+
+const citys = ref<string[]>([])
+
+const getSuggestions = async () => {
+  try {
+    citys.value = await getSuggestionCitys(form.name)
+  } catch (error) {
+    return []
+  }
+}
 
 const rules = computed(() => {
   return {

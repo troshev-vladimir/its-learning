@@ -6,7 +6,7 @@ export default function useMask(emit: Function) {
     tokens: {
       A: { pattern: /[A-Z]/, multiple: true },
       a: { pattern: /[a-z]/, multiple: true },
-      p: { pattern: /[а-я]/, multiple: true },
+      p: { pattern: /[а-яА-Я]/, multiple: true },
       N: { pattern: /[0-9]/, multiple: true },
       // N: {
       //   pattern: /[A-Z]/,

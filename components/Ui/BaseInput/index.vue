@@ -74,7 +74,7 @@ export interface Props {
   rootClass?: string | string[]
   disabled?: boolean
   suggestions?: Array<string>
-  mask?: string | Function
+  mask?: string | Function // TODO: переделать на imask
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
