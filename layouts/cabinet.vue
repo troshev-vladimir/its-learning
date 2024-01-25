@@ -2,6 +2,7 @@
   <div class="cabinet-layout">
     <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks">
     </AppTheSidebar>
+    <div class="sidebar-substrate"></div>
     <div class="cabinet-layout__container">
       <AppTheCabinetHeader class="cabinet-layout__header" />
       <div class="container">
@@ -27,12 +28,14 @@ let sidebarLinks = computed(() => [
     active: false,
     to: '/',
   },
-  {
-    icon: 'fas fa-code',
-    title: 'Ui-kit',
-    active: route.name == 'ui_kit',
-    to: '/ui_kit',
-  },
+  process.env.NODE_ENV === 'development'
+    ? {
+        icon: 'fas fa-code',
+        title: 'Ui-kit',
+        active: route.name == 'ui_kit',
+        to: '/ui_kit',
+      }
+    : {},
 ])
 </script>
 
@@ -47,8 +50,20 @@ let sidebarLinks = computed(() => [
     top: 65px;
 
     @media screen and (min-width: $breakpoint-xs) {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+    }
+  }
+  .sidebar-substrate {
+    flex: 0 0 auto;
+    display: none;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      display: block;
+      width: 80px;
+      height: 100vh;
+      position: sticky;
     }
   }
 

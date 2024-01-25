@@ -1,5 +1,10 @@
 <template>
-  <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
+  <NuxtLink
+    v-tippy="sidebarStatus ? null : title"
+    :to="to"
+    class="base-sidebar-link"
+    :class="{ full: sidebarStatus }"
+  >
     <div class="base-sidebar-link__container">
       <ClientOnly>
         <font-awesome-icon v-if="icon" :icon="icon" />

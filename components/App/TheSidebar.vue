@@ -53,19 +53,29 @@
 
 <script lang="ts" setup>
 import type { RouterLinkProps } from 'vue-router'
+import { useBodyFreez } from '~/composables'
 
 interface LinkInterface {
-  icon: string | string[]
-  title: string
-  active: boolean
-  to: string | RouterLinkProps
+  icon?: string | string[]
+  title?: string
+  active?: boolean
+  to?: string | RouterLinkProps
 }
 
 interface Props {
   links: LinkInterface[]
 }
+
 const props = defineProps<Props>()
 let isOpen = ref(false)
+
+onMounted(() => {
+  nextTick().then(() => {
+    if (window.innerWidth < 600) {
+      useBodyFreez(isOpen)
+    }
+  })
+})
 </script>
 
 <style lang="scss" scoped>
@@ -74,12 +84,10 @@ let isOpen = ref(false)
   left: -100%;
   display: flex;
   height: 100%;
-  overflow: hidden;
 
   @media screen and (min-width: $breakpoint-xs) {
     height: 100vh;
     width: 80px;
-    animation: none;
   }
 
   * {
@@ -93,40 +101,12 @@ let isOpen = ref(false)
     gap: 16px;
   }
 
-  .show-enter-from {
-    animation: showSidebarMobile 0.2s ease;
-
-    @media screen and (min-width: $breakpoint-xs) {
-      animation: showSidebarDesctop 0.2s ease;
-    }
-
-    @keyframes showSidebarMobile {
-      from {
-        transform: translateX(-100%);
-      }
-      to {
-        transform: translateX(0%);
-      }
-    }
-
-    @keyframes showSidebarDesctop {
-      from {
-        width: 80px;
-      }
-      to {
-        width: 200px;
-      }
-    }
-  }
-
   &.active {
     left: 0% !important;
     width: 100%;
-    animation: showSidebarMobile 0.2s ease;
 
     @media screen and (min-width: $breakpoint-xs) {
       width: 200px;
-      animation: showSidebarDesctop 0.2s ease;
     }
   }
 
@@ -135,6 +115,7 @@ let isOpen = ref(false)
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 
     &__container {
       width: 80%;
@@ -142,6 +123,7 @@ let isOpen = ref(false)
       border-bottom: 1px solid $gray-300;
       display: flex;
       justify-content: center;
+      gap: 8px;
 
       img {
         width: 50%;
@@ -194,6 +176,7 @@ let isOpen = ref(false)
 <style lang="scss">
 .sidebar-toggle-icon {
   cursor: pointer;
+  font-size: 16px;
   &.active {
     transform: rotate(180deg);
   }

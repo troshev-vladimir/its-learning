@@ -26,29 +26,18 @@
 
 <script lang="ts" setup>
 const emit = defineEmits(['update:modelValue'])
+import { useBodyFreez } from '~/composables'
 
 const props = defineProps<{
   modelValue?: boolean
 }>()
+const { modelValue } = toRefs(props)
 
 const open = () => {
   emit('update:modelValue', true)
 }
 
-watch(
-  () => props.modelValue,
-  () => {
-    if (props.modelValue) {
-      document.body.style.top = `-${window.scrollY}px`
-      document.body.classList.add('freez')
-    } else {
-      const scrollY = document.body.style.top
-      document.body.classList.remove('freez')
-      document.body.style.top = ''
-      window.scrollTo(0, parseInt(scrollY || '0') * -1)
-    }
-  }
-)
+useBodyFreez(modelValue)
 
 const close = () => {
   emit('update:modelValue', false)
@@ -123,12 +112,5 @@ defineExpose({ open, close })
 .cardContainer {
   flex: 1 1 auto;
   overflow: auto;
-}
-</style>
-
-<style>
-body.freez {
-  position: fixed !important;
-  overflow-y: scroll !important;
 }
 </style>

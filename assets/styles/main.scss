@@ -86,3 +86,9 @@ a {
     transition: var(--q-transition-duration);
   }
 }
+
+// чтобы 'замораживать' прокрутку
+body.freez {
+  position: fixed;
+  overflow-y: scroll;
+}
