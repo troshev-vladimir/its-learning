@@ -60,7 +60,7 @@
       :root-class="['q-mb-lg']"
       @update="v$.city.$touch"
       v-model="form.city"
-      @update:modelValue="getSuggestions(form.city)"
+      @update:modelValue="sugestCity(form.city)"
       :validation-result="{
         status: v$.city.$error ? 'error' : 'success',
         message: getErrorMessage(v$.city),
@@ -139,7 +139,167 @@
             message: getErrorMessage(v$.experience[index].endDate),
           }"
         ></UiDatePicker>
+
+        <UiBaseInput
+          :name="`experience.company[${index}]`"
+          label="Компания"
+          :root-class="['q-mb-lg']"
+          @update="v$.experience[index].company.$touch()"
+          v-model="form.experience[index].company"
+          @update:modelValue="sugestCompany(form.experience[index].company)"
+          :validation-result="{
+            status: v$.city.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.city),
+          }"
+          :suggestions="companies"
+        />
+
+        <UiBaseInput
+          :name="`experience.position[${index}]`"
+          label="Должность"
+          required
+          :root-class="['q-mb-lg']"
+          @update="v$.experience[index].position.$touch"
+          v-model="form.experience[index].position"
+          :validation-result="{
+            status: v$.experience[index].position.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.experience[index].position),
+          }"
+        />
+
+        <UiBaseInput
+          :name="`experience.responsibilitys[${index}]`"
+          label="Обязанности на рабочем месте"
+          required
+          textarea
+          :root-class="['q-mb-lg']"
+          @update="v$.experience[index].responsibilitys.$touch"
+          v-model="form.experience[index].responsibilitys"
+          :validation-result="{
+            status: v$.experience[index].responsibilitys.$error
+              ? 'error'
+              : 'success',
+            message: getErrorMessage(v$.experience[index].responsibilitys),
+          }"
+        />
+
+        <UiBaseButton
+          class="q-mb-xl"
+          size="small"
+          v-if="form.experience && form.experience.length > 1"
+          @click.prevent="form.experience.splice(index, 1)"
+          prev-icon="times"
+        >
+          Удалить
+        </UiBaseButton>
       </template>
+      <UiBaseButton
+        class="q-mb-xl"
+        size="small"
+        type="boarded"
+        v-if="form.experience && form.experience.length"
+        @click.prevent="form.experience.push(getExpirienceForm())"
+        post-icon="plus"
+      >
+        Добавить
+      </UiBaseButton>
+    </div>
+
+    <div class="degree">
+      <p class="text-h2 q-mb-md">Образование</p>
+      <template v-for="(item, index) in form.education" :key="index">
+        <UiSelect
+          :options="[
+            { label: 'Бакалавр', value: '1', selected: false },
+            { label: 'Специалитет', value: '2', selected: false },
+            { label: 'Магистратура', value: '3', selected: false },
+          ]"
+          clearable
+          class="q-mb-lg"
+          :name="`education.degree`"
+          label="Уровень образования"
+          v-model="form.education[index].degree"
+          @update="v$.education[index].degree.$touch"
+          :validation-result="{
+            status: v$.education[index].degree.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.education[index].degree),
+          }"
+        ></UiSelect>
+        <UiDatePicker
+          label="Год окончания"
+          :name="`education.${index}.release`"
+          v-model="form.education[index].releaseYear"
+          @update:modelValue="v$.education[index].releaseYear.$touch()"
+          class="q-mb-lg"
+          :validation-result="{
+            status: v$.education[index].releaseYear.$error
+              ? 'error'
+              : 'success',
+            message: getErrorMessage(v$.education[index].releaseYear),
+          }"
+        ></UiDatePicker>
+
+        <UiBaseInput
+          :name="`education.${index}.faculty`"
+          label="Факультет"
+          required
+          :root-class="['q-mb-xl']"
+          v-model="form.education[index].faculty"
+          @update="v$.education[index].faculty.$touch()"
+          :validation-result="{
+            status: v$.education[index].faculty.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.education[index].faculty),
+          }"
+        />
+
+        <UiBaseInput
+          name="specialisation"
+          label="Специализация"
+          required
+          :root-class="['q-mb-xl']"
+          v-model="form.education[index].specialisation"
+          @update="v$.education[index].specialisation.$touch()"
+          :validation-result="{
+            status: v$.education[index].specialisation.$error
+              ? 'error'
+              : 'success',
+            message: getErrorMessage(v$.education[index].specialisation),
+          }"
+        />
+        <UiBaseButton
+          class="q-mb-md"
+          size="small"
+          v-if="form.education && form.education.length > 1"
+          @click.prevent="removeEducation(index)"
+          prev-icon="times"
+        >
+          Удалить
+        </UiBaseButton>
+      </template>
+      <UiBaseButton
+        class="q-mb-xl"
+        size="small"
+        type="boarded"
+        v-if="form.education && form.education.length"
+        @click.prevent="form.education.push(getEducationForm())"
+        post-icon="plus"
+      >
+        Добавить
+      </UiBaseButton>
+
+      <UiBaseInput
+        name="aboutMe"
+        label="О себе"
+        textarea
+        required
+        :root-class="['q-mb-xl']"
+        v-model="form.aboutMe"
+        @update="updateValue('aboutMe')"
+        :validation-result="{
+          status: v$.aboutMe.$error ? 'error' : 'success',
+          message: getErrorMessage(v$.aboutMe),
+        }"
+      />
     </div>
 
     <!-- <UiBaseInput
@@ -169,19 +329,7 @@
       }"
       mask="+7 (###) ### ##-##"
     />
-    <UiBaseInput
-      name="about"
-      label="О себе"
-      textarea
-      required
-      :root-class="['q-mb-xl']"
-      v-model="form.about"
-      @update="updateValue('about')"
-      :validation-result="{
-        status: v$.about.$error ? 'error' : 'success',
-        message: getErrorMessage(v$.about),
-      }"
-    />
+  
     <UiBaseInput
       name="email"
       label="Введите почту"
@@ -281,6 +429,35 @@
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { Mask } from 'maska'
+import useSugestions from './composables/useSugestions'
+const { citys, companies, sugestCity, sugestCompany } = useSugestions()
+
+const removeEducation = (index: number) => {
+  const deleted = form.education.splice(index, 1)
+  console.log('deleted', deleted)
+  console.log(form.education)
+}
+
+const getExpirienceForm = () => {
+  return {
+    startDate: '',
+    endDate: '',
+    tillNow: false,
+    company: '',
+    position: '',
+    responsibilitys: '',
+  }
+}
+
+const getEducationForm = () => {
+  return {
+    degree: [],
+    releaseYear: '',
+    instityte: '',
+    faculty: '',
+    specialisation: '',
+  }
+}
 
 const form = reactive<Record<string, any>>({
   imageFile: [],
@@ -295,7 +472,7 @@ const form = reactive<Record<string, any>>({
         'Thu Jan 11 2024 13:26:00 GMT+0300 (Москва, стандартное время)',
       endDate: '',
       tillNow: false,
-      organisation: '', //dadataa
+      company: '',
       position: '',
       responsibilitys: '',
     },
@@ -303,14 +480,14 @@ const form = reactive<Record<string, any>>({
       startDate: '',
       endDate: '',
       tillNow: false,
-      organisation: '', //dadataa
+      company: '',
       position: '',
       responsibilitys: '',
     },
   ],
   education: [
     {
-      degree: '',
+      degree: [],
       releaseYear: '',
       instityte: '',
       faculty: '',
@@ -337,15 +514,6 @@ const unmaskedPhone = computed(() => {
   return mask.unmasked(maskedPhone.value)
 })
 
-const citys = ref<string[]>([])
-
-const getSuggestions = async (value: string) => {
-  try {
-    citys.value = await getSuggestionCitys(value)
-  } catch (error) {
-    return []
-  }
-}
 const mustBeEndOfExperience = (isTillNow: boolean) => {
   console.log(isTillNow)
   return helpers.withParams(
@@ -373,6 +541,7 @@ const rules = computed(() => {
     },
     gender: {},
     programingLanguages: {},
+    aboutMe: {},
     experience: form.experience.map((el: any, index: number) => {
       return {
         startDate: {
@@ -385,9 +554,63 @@ const rules = computed(() => {
           ),
         },
         tillNow: {},
-        organisation: {}, //dadataa
-        position: {},
-        responsibilitys: {},
+        company: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        }, //dadataa
+        position: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
+        responsibilitys: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+          minLength: helpers.withMessage(
+            ({ $params }: Record<string, any>) =>
+              `Минимум ${$params.min} символов`,
+            minLength(6)
+          ),
+        },
+      }
+    }),
+    education: form.education.map((el: any, index: number) => {
+      return {
+        degree: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
+        releaseYear: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
+        instityte: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
+        faculty: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
+        specialisation: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            helpers.withMessage('Поле обязательно', required)
+          ),
+        },
       }
     }),
     // email: {

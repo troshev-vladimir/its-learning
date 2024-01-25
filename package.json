@@ -23,8 +23,6 @@
     "@types/vuelidate": "^0.7.21",
     "nuxt": "^3.8.2",
     "nuxt-quasar-ui": "^2.0.7",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "storybook": "7.6.7",
     "typescript": "^5.3.3",
     "vue": "^3.3.12",
