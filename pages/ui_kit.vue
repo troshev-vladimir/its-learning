@@ -58,7 +58,11 @@
   <UiBaseButton type="link" size="small"> Базовая ссылка </UiBaseButton>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: 'cabinet',
+})
+</script>
 
 <style>
 .h {

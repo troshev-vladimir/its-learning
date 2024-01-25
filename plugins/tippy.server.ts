@@ -6,7 +6,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     mounted(el: any, build: any) {
       tippy(el, {
         content: build.value(),
-        interactive: true,
       })
     },
     getSSRProps(binding, vnode) {

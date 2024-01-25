@@ -22,6 +22,8 @@
       </div>
       <UiBaseAverageScore class="items-center items-sm-end col-xs-4 col-sm-2" />
     </div>
+    <FeatureTargetTrainingCard />
+    <FeatureCourseCard />
   </div>
 </template>
 
@@ -31,6 +33,11 @@ definePageMeta({
 })
 </script>
 <style lang="scss" scoped>
+.cabinet-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 .user-profile {
   .photo-span {
     display: block;
