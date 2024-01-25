@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 let route = useRoute()
-let sidebarLinks = [
+let sidebarLinks = computed(() => [
   {
     icon: 'fas fa-book-open',
     title: 'Обучение',
@@ -27,7 +27,13 @@ let sidebarLinks = [
     active: false,
     to: '/',
   },
-]
+  {
+    icon: 'fas fa-code',
+    title: 'Ui-kit',
+    active: route.name == 'ui_kit',
+    to: '/ui_kit',
+  },
+])
 </script>
 
 <style lang="scss" scoped>
@@ -36,8 +42,14 @@ let sidebarLinks = [
   display: flex;
 
   &__sidebar {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    z-index: 2;
+    top: 65px;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      position: sticky;
+      top: 0;
+    }
   }
 
   &__header {
@@ -52,7 +64,8 @@ let sidebarLinks = [
 
     .container {
       min-height: calc(100vh - 70px);
-      padding: 32px 0;
+      margin-top: 32px;
+      margin-bottom: 32px;
     }
   }
 }

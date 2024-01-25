@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <div class="logo column items-start"></div>
+      <div class="column items-start">
+        <div id="cabiner-header-left-side"></div>
+      </div>
       <div class="header__right-side">
         <div class="header__logout-block row items-center" @click="exit">
           <ClientOnly>
@@ -42,20 +44,23 @@ const exit = () => {
   &__container {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    align-items: center;
     flex-wrap: nowrap;
     padding: 24px;
 
     @media screen and (min-width: $breakpoint-xs) {
       flex-direction: row;
-      align-items: center;
     }
   }
 
   &__exit-icon {
-    font-size: 30px;
+    font-size: 24px;
     color: $accent;
     cursor: pointer;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      font-size: 30px;
+    }
 
     &:hover {
       color: $blue-400;

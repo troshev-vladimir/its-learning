@@ -8,8 +8,13 @@
         </div>
       </div>
       <div class="the-sidebar__user-info-block">
-        <div class="user-info-block__photo-span"></div>
-        <p class="user-info-block__name"></p>
+        <div class="user-info-block__photo-span">
+          <img
+            src="https://www.nuxtjs.cn/logos/nuxt-icon-white@2x.png"
+            alt=""
+          />
+        </div>
+        <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
       </div>
       <div class="the-sidebar__link-list">
         <UiBaseSidebarLink
@@ -26,11 +31,21 @@
         <ClientOnly>
           <font-awesome-icon
             :icon="['fas', 'arrow-alt-circle-right']"
-            class="toggle-icon text-gray-300"
+            class="sidebar-toggle-icon text-gray-300"
             :class="{ active: isOpen }"
             @click="() => (isOpen = !isOpen)"
           />
         </ClientOnly>
+        <teleport to="#cabiner-header-left-side">
+          <ClientOnly>
+            <font-awesome-icon
+              :icon="['fas', 'arrow-alt-circle-right']"
+              class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
+              :class="{ active: isOpen }"
+              @click="() => (isOpen = !isOpen)"
+            />
+          </ClientOnly>
+        </teleport>
       </div>
     </div>
   </div>
@@ -55,10 +70,18 @@ let isOpen = ref(false)
 
 <style lang="scss" scoped>
 .the-sidebar {
-  display: flex;
-  width: 80px;
-  height: 100vh;
   background: $white;
+  left: -100%;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+
+  @media screen and (min-width: $breakpoint-xs) {
+    height: 100vh;
+    width: 80px;
+    animation: none;
+  }
+
   * {
     transition: 0.2s;
   }
@@ -67,10 +90,44 @@ let isOpen = ref(false)
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    gap: 16px;
+  }
+
+  .show-enter-from {
+    animation: showSidebarMobile 0.2s ease;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      animation: showSidebarDesctop 0.2s ease;
+    }
+
+    @keyframes showSidebarMobile {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0%);
+      }
+    }
+
+    @keyframes showSidebarDesctop {
+      from {
+        width: 80px;
+      }
+      to {
+        width: 200px;
+      }
+    }
   }
 
   &.active {
-    width: 200px;
+    left: 0% !important;
+    width: 100%;
+    animation: showSidebarMobile 0.2s ease;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      width: 200px;
+      animation: showSidebarDesctop 0.2s ease;
+    }
   }
 
   &__logo-block,
@@ -83,14 +140,45 @@ let isOpen = ref(false)
       width: 80%;
       padding: 12px 10px;
       border-bottom: 1px solid $gray-300;
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 50%;
+
+        @media screen and (min-width: $breakpoint-xs) {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__user-info-block,
+  .user-info-block {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &__photo-span {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      overflow: hidden;
+      flex: 0 0 auto;
+      object-fit: contain;
 
       img {
         width: 100%;
+        height: 100%;
       }
     }
   }
 
   &__link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     flex: 1 1 auto;
   }
 
@@ -99,12 +187,22 @@ let isOpen = ref(false)
     justify-content: center;
     align-items: center;
     padding: 12px 0;
+  }
+}
+</style>
 
-    .toggle-icon {
-      cursor: pointer;
-      &.active {
-        transform: rotate(180deg);
-      }
+<style lang="scss">
+.sidebar-toggle-icon {
+  cursor: pointer;
+  &.active {
+    transform: rotate(180deg);
+  }
+
+  &_mobile {
+    display: block;
+
+    @media (min-width: $breakpoint-xs) {
+      display: none;
     }
   }
 }

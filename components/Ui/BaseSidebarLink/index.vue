@@ -1,9 +1,5 @@
 <template>
-  <router-link
-    :to="to"
-    class="base-sidebar-link"
-    :class="{ full: sidebarStatus }"
-  >
+  <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
     <div class="base-sidebar-link__container">
       <ClientOnly>
         <font-awesome-icon v-if="icon" :icon="icon" />
@@ -12,7 +8,7 @@
         {{ title }}
       </p>
     </div>
-  </router-link>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>
@@ -38,7 +34,7 @@ defineProps<{
     content: '';
     display: block;
     width: 4px;
-    height: 70%;
+    height: 90%;
     position: absolute;
     right: 0;
     border-radius: 8px 0 0 8px;
@@ -57,12 +53,13 @@ defineProps<{
     justify-content: center;
     gap: 8px;
     padding: 12px 12px;
-    margin: 8px 10px 8px 8px;
+    margin: 0px 10px 0px 8px;
 
     * {
       color: $gray-400;
     }
   }
+
   &:hover &__container,
   &.active &__container {
     border-radius: 8px;
