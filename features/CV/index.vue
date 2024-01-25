@@ -6,7 +6,7 @@
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
   >
-    <UiBaseInput
+    <!-- <UiBaseInput
       name="name"
       label="Введите имя"
       required
@@ -20,7 +20,6 @@
       }"
       :suggestions="citys"
     />
-    <!-- mask="p" -->
     <UiBaseInput
       name="phone"
       label="Введите телефон"
@@ -110,7 +109,6 @@
       clearable
       class="q-mb-xl"
       name="items"
-      multiple
       label="Выберите элементы"
       v-model="form.items"
       @update="updateValue('items')"
@@ -140,7 +138,7 @@
         status: v$.date.$error ? 'error' : 'success',
         message: getErrorMessage(v$.date),
       }"
-    ></UiDatePicker>
+    ></UiDatePicker> -->
   </UiBaseForm>
 </template>
 <script setup lang="ts">
@@ -151,6 +149,15 @@ import { Mask } from 'maska'
 const form = reactive<Record<string, any>>({
   name: '',
   phone: '',
+  city: '',
+  gender: '',
+  programingLaguages: '',
+  expirience: [
+    {
+      startDate: ''
+      endDate: ''
+    }
+  ]
   about: '111',
   email: 'initial',
   isCurrent: false,
