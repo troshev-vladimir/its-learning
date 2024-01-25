@@ -16,7 +16,7 @@
       <CashCounter
         class="shadow-2"
         :amount="
-          userStore.userBonus?.sum - userStore.userBonus.promodiscount || 0
+          userStore.userBonus?.sum + userStore.userBonus?.promodiscount || 0
         "
       />
 
