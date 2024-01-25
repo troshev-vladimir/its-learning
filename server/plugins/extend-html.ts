@@ -25,6 +25,6 @@ export default defineNitroPlugin((nitroApp) => {
   })
   // You can also intercept the response here.
   nitroApp.hooks.hook('render:response', (response, { event }) => {
-    console.log(response)
+    // console.log(response)
   })
 })

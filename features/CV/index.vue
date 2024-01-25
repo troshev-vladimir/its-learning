@@ -6,6 +6,142 @@
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
   >
+    <div class="image q-mb-lg">
+      <img
+        src="https://avatars.mds.yandex.net/i?id=aefeb02bc321d03e4c317911c53e1cef985e2c6f-9821502-images-thumbs&n=13"
+        width="160"
+        height="160"
+      />
+      <UiBaseFileinput
+        v-model="form.imageFile"
+        multiple
+        class="q-mb-md"
+        :accept="['text/html', 'text/javascript']"
+        :max-size="9000"
+        label="Прикрепить файлы"
+        @update:modelValue="updateValue('imageFile')"
+        :validation-result="{
+          status: v$.imageFile.$error ? 'error' : 'success',
+          message: getErrorMessage(v$.imageFile),
+        }"
+      />
+    </div>
+
+    <UiBaseInput
+      name="name"
+      label="Имя"
+      required
+      :root-class="['q-mb-xl']"
+      @update="v$.name.$touch"
+      v-model="form.name"
+      :validation-result="{
+        status: v$.name.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.name),
+      }"
+    />
+
+    <UiBaseInput
+      name="phone"
+      label="Номер телефона"
+      required
+      :root-class="['q-mb-xl']"
+      v-model="maskedPhone"
+      @update="updateValue('phone')"
+      :validation-result="{
+        status: v$.phone.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.phone),
+      }"
+      mask="+7 (###) ### ##-##"
+    />
+
+    <UiBaseInput
+      name="city"
+      label="Город"
+      :root-class="['q-mb-lg']"
+      @update="v$.city.$touch"
+      v-model="form.city"
+      @update:modelValue="getSuggestions(form.city)"
+      :validation-result="{
+        status: v$.city.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.city),
+      }"
+      :suggestions="citys"
+    />
+
+    <span class="label">Пол</span>
+    <div style="display: flex" class="q-mb-xl">
+      <UiBaseRadio
+        name="gender"
+        value="male"
+        label="Мужской"
+        v-model="form.gender"
+        class="q-mr-md"
+      />
+      <UiBaseRadio
+        name="gender"
+        value="female"
+        label="Женский"
+        v-model="form.gender"
+      />
+    </div>
+
+    <UiSelect
+      :options="[
+        { label: 'PHP', value: '1', selected: false },
+        { label: 'JS', value: '2', selected: false },
+        { label: 'Java', value: '3', selected: false },
+        { label: 'C++', value: '4', selected: false },
+      ]"
+      clearable
+      multiple
+      class="q-mb-xl"
+      name="programingLanguages"
+      label="Дополнительные языки программирования"
+      v-model="form.programingLanguages"
+      @update="updateValue('programingLanguages')"
+      :validation-result="{
+        status: v$.programingLanguages.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.programingLanguages),
+      }"
+    ></UiSelect>
+
+    <div class="experience">
+      <p class="text-h2 q-mb-md">Опыт работы</p>
+      <template v-for="(item, index) in form.experience" :key="index">
+        <UiDatePicker
+          label="Дата начала"
+          :name="`experience.startDate[${index}]`"
+          v-model="form.experience[index].startDate"
+          @update:modelValue="v$.experience[index].startDate.$touch()"
+          class="q-mb-lg"
+          :validation-result="{
+            status: v$.experience[index].startDate.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.experience[index].startDate),
+          }"
+        ></UiDatePicker>
+        <UiBaseCheckbox
+          v-model="form.experience[index].tillNow"
+          @update="v$.experience[index].tillNow.$touch()"
+          name="tillNow"
+          v-if="index + 1 === form.experience.length"
+        >
+          По настоящее время
+        </UiBaseCheckbox>
+        <UiDatePicker
+          :disabled="form.experience[index].tillNow"
+          label="Дата окончания"
+          v-model="form.experience[index].endDate"
+          @update:modelValue="v$.experience[index].endDate.$touch()"
+          :name="`experience.endDate[${index}]`"
+          class="q-mb-lg"
+          :validation-result="{
+            status: v$.experience[index].endDate.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.experience[index].endDate),
+          }"
+        ></UiDatePicker>
+      </template>
+    </div>
+
     <!-- <UiBaseInput
       name="name"
       label="Введите имя"
@@ -147,25 +283,50 @@ import { useVuelidate } from '@vuelidate/core'
 import { Mask } from 'maska'
 
 const form = reactive<Record<string, any>>({
+  imageFile: [],
   name: '',
   phone: '',
   city: '',
-  gender: '',
-  programingLaguages: '',
-  expirience: [
+  gender: 'male',
+  programingLanguages: [],
+  experience: [
     {
-      startDate: ''
-      endDate: ''
-    }
-  ]
-  about: '111',
-  email: 'initial',
-  isCurrent: false,
-  options: ['o2'],
-  picked: '2',
-  items: [],
-  files: [],
-  date: '',
+      startDate:
+        'Thu Jan 11 2024 13:26:00 GMT+0300 (Москва, стандартное время)',
+      endDate: '',
+      tillNow: false,
+      organisation: '', //dadataa
+      position: '',
+      responsibilitys: '',
+    },
+    {
+      startDate: '',
+      endDate: '',
+      tillNow: false,
+      organisation: '', //dadataa
+      position: '',
+      responsibilitys: '',
+    },
+  ],
+  education: [
+    {
+      degree: '',
+      releaseYear: '',
+      instityte: '',
+      faculty: '',
+      specialisation: '',
+    },
+  ],
+  skils: [],
+  aboutMe: '111',
+
+  // email: 'initial',
+  // isCurrent: false,
+  // options: ['o2'],
+  // picked: '2',
+  // items: [],
+  // files: [],
+  // date: '',
 })
 
 const phoneMask = '+7 (###) ### ##-##'
@@ -178,20 +339,23 @@ const unmaskedPhone = computed(() => {
 
 const citys = ref<string[]>([])
 
-const getSuggestions = async () => {
+const getSuggestions = async (value: string) => {
   try {
-    citys.value = await getSuggestionCitys(form.name)
+    citys.value = await getSuggestionCitys(value)
   } catch (error) {
     return []
   }
 }
-
+const mustBeEndOfExperience = (isTillNow: boolean) => {
+  console.log(isTillNow)
+  return helpers.withParams(
+    { type: 'contains', value: isTillNow },
+    (value: string | null) => value || isTillNow
+  )
+}
 const rules = computed(() => {
   return {
-    email: {
-      required: helpers.withMessage('Поле обязательно', required),
-      email: helpers.withMessage('Не верный email', email),
-    },
+    imageFile: {},
     name: {
       required: helpers.withMessage('Поле обязательно', required),
       minLength: helpers.withMessage(
@@ -199,6 +363,7 @@ const rules = computed(() => {
         minLength(6)
       ),
     },
+    city: {},
     phone: {
       required: helpers.withMessage('Поле обязательно', required),
       minLength: helpers.withMessage(
@@ -206,41 +371,75 @@ const rules = computed(() => {
         minLength(10)
       ),
     },
-    about: {
-      required: helpers.withMessage('Поле обязательно', required),
-      minLength: helpers.withMessage(
-        ({ $params }: Record<string, any>) => `Минимум ${$params.min} символов`,
-        minLength(6)
-      ),
-    },
-    isCurrent: {
-      sameAs: helpers.withMessage(
-        'Надо отметить  обязательно',
-        (value: boolean) => {
-          return value
-        }
-      ),
-    },
-
-    items: {
-      required: helpers.withMessage('Поле обязательно', required),
-      minLength: helpers.withMessage(
-        ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
-        minLength(2)
-      ),
-    },
-
-    files: {
-      required: helpers.withMessage('Поле обязательно', required),
-      minLength: helpers.withMessage(
-        ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
-        minLength(2)
-      ),
-    },
-
-    date: {
-      required: helpers.withMessage('Поле обязательно', required),
-    },
+    gender: {},
+    programingLanguages: {},
+    experience: form.experience.map((el: any, index: number) => {
+      return {
+        startDate: {
+          required: helpers.withMessage('Поле обязательно', required),
+        },
+        endDate: {
+          required: helpers.withMessage(
+            'Поле обязательно',
+            mustBeEndOfExperience(form.experience[index].tillNow)
+          ),
+        },
+        tillNow: {},
+        organisation: {}, //dadataa
+        position: {},
+        responsibilitys: {},
+      }
+    }),
+    // email: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   email: helpers.withMessage('Не верный email', email),
+    // },
+    // name: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   minLength: helpers.withMessage(
+    //     ({ $params }: Record<string, any>) => `Минимум ${$params.min} символов`,
+    //     minLength(6)
+    //   ),
+    // },
+    // phone: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   minLength: helpers.withMessage(
+    //     () => `Введите корректный телефон`,
+    //     minLength(10)
+    //   ),
+    // },
+    // about: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   minLength: helpers.withMessage(
+    //     ({ $params }: Record<string, any>) => `Минимум ${$params.min} символов`,
+    //     minLength(6)
+    //   ),
+    // },
+    // isCurrent: {
+    //   sameAs: helpers.withMessage(
+    //     'Надо отметить  обязательно',
+    //     (value: boolean) => {
+    //       return value
+    //     }
+    //   ),
+    // },
+    // items: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   minLength: helpers.withMessage(
+    //     ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
+    //     minLength(2)
+    //   ),
+    // },
+    // files: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    //   minLength: helpers.withMessage(
+    //     ({ $params }: Record<string, any>) => `Минимум ${$params.min}`,
+    //     minLength(2)
+    //   ),
+    // },
+    // date: {
+    //   required: helpers.withMessage('Поле обязательно', required),
+    // },
   }
 })
 
@@ -254,7 +453,7 @@ const getErrorMessage = (field: any) => {
   return ''
 }
 
-const updateValue = (fieldName: string) => {
+const updateValue = (fieldName: string, index?: number) => {
   v$.value[fieldName].$touch()
 }
 
@@ -266,3 +465,13 @@ const sendForm = async () => {
   }
 }
 </script>
+<style lang="scss">
+.image {
+  display: flex;
+  align-items: center;
+  img {
+    border-radius: 8px;
+    margin-right: 40px;
+  }
+}
+</style>

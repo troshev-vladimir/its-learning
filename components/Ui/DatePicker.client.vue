@@ -1,18 +1,24 @@
 <template>
   <div
     class="ui-datepicker"
-    :class="[`ui-datepicker--${validationResult.status}`]"
+    :class="[
+      `ui-datepicker--${validationResult.status}`,
+      {
+        'ui-datepicker--disabled': disabled,
+      },
+    ]"
   >
     <VueDatePicker
       locale="ru"
       v-model="date"
-      placeholder="Введите дату"
+      :placeholder="label"
       cancelText="Отмена"
       selectText="Выбрать"
       :clearable="true"
       position="left"
       :enable-time-picker="false"
       :format="format"
+      :name="name"
     >
       <template #action-row="{ internalModelValue, selectDate }">
         <UiBaseButton size="small" type="secondary" @click.prevent="selectDate">
@@ -38,7 +44,10 @@ import type { ValidatorResp } from '~/utils/validators/types'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string | Date
+    modelValue: string | Date | null
+    label: string
+    name: string
+    disabled?: boolean
     validationResult?: ValidatorResp
   }>(),
   {
@@ -118,6 +127,22 @@ const format = (date: Date) => {
       &:focus {
         box-shadow: 0 0 0 1px $error;
       }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .message {
+      display: none;
+    }
+
+    .dp__input {
+      border-color: $secondary;
+    }
+
+    .dp__input_icon svg {
+      color: $secondary;
     }
   }
 }
