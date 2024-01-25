@@ -13,7 +13,12 @@
       </p>
     </div>
     <div class="flex wrap items-center full-width q-mb-sm" style="gap: 16px">
-      <CashCounter class="shadow-2" :amount="userStore.userBonus?.sum || 0" />
+      <CashCounter
+        class="shadow-2"
+        :amount="
+          userStore.userBonus?.sum - userStore.userBonus.promodiscount || 0
+        "
+      />
 
       <q-chip
         v-if="userStore.userBonus?.promodiscount"
