@@ -131,7 +131,7 @@ const logIn = async () => {
 
 const resend = async () => {
   try {
-    await userStore.createUser(userStore.userId)
+    await userStore.createUser(userStore.userId, true)
 
     $q.notify({
       color: 'green',

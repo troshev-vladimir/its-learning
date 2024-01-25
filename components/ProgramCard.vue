@@ -124,9 +124,8 @@
         <div class="program-card__buttons-block">
           <FeaturePaymentTinkoff
             :order-data="{
-              order: card.name || '',
-              description:
-                'Твой путь в 1С программирование начинается прямо сейчас',
+              order: card.name || 'Name',
+              description: card.name || 'Описание не указано',
             }"
             :amount="card.price.withDiscount"
           >

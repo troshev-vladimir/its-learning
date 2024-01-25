@@ -113,7 +113,7 @@ async function clickHandler() {
     TerminalKey: TerminalKey,
     Amount: props.amount + '00',
     Description: props.orderData?.description || 'Оплата',
-    OrderId: props.orderData?.order || 1234,
+    OrderId: String(Math.random()),
     DATA: {
       Phone: localStorage.getItem('userPhone') || '',
       Email: localStorage.getItem('userEmail') || '',
@@ -125,7 +125,7 @@ async function clickHandler() {
       Phone: '+79127177910',
       Items: [
         {
-          Name: props.orderData?.description || 'Оплата',
+          Name: props.orderData?.order || 'Оплата',
           Price: props.amount + '00',
           Quantity: 1.0,
           Amount: props.amount + '00',
