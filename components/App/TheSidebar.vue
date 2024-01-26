@@ -9,10 +9,7 @@
       </div>
       <div class="the-sidebar__user-info-block">
         <div class="user-info-block__photo-span">
-          <img
-            src="https://www.nuxtjs.cn/logos/nuxt-icon-white@2x.png"
-            alt=""
-          />
+          <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
         <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
       </div>
@@ -24,7 +21,8 @@
           :sidebarStatus="isOpen"
           :title="link.title"
           :class="{ active: link.active }"
-          :to="link.to"
+          :to="link.to || ''"
+          @click="closeSidebarOnMobile"
         />
       </div>
       <div class="the-sidebar__toggle-button-block">
@@ -69,6 +67,12 @@ interface Props {
 const props = defineProps<Props>()
 let isOpen = ref(false)
 
+const closeSidebarOnMobile = () => {
+  if (window.innerWidth < 600 && isOpen.value === true) {
+    isOpen.value = false
+  }
+}
+
 onMounted(() => {
   nextTick().then(() => {
     if (window.innerWidth < 600) {
@@ -86,6 +90,7 @@ onMounted(() => {
   height: 100%;
 
   @media screen and (min-width: $breakpoint-xs) {
+    left: 0%;
     height: 100vh;
     width: 80px;
   }

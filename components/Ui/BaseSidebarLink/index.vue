@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    v-tippy="sidebarStatus ? null : title"
+    v-tippy="sidebarStatus ? null : { content: title, placement: 'right' }"
     :to="to"
     class="base-sidebar-link"
     :class="{ full: sidebarStatus }"
