@@ -8,12 +8,29 @@
             <ClientOnly>
               <UiBaseTracker class="tracker q-mb-sm" />
             </ClientOnly>
-            <UiBaseButton type="link" size="small">
+            <UiBaseButton type="link" size="smtotal">
               Трекер успеваемости
             </UiBaseButton>
           </div>
         </div>
         <UiBaseAverageScore class="average-score" />
+      </div>
+      <div class="course-page__course-statistics-block">
+        <MaterialCoveredCard
+          :icon="['fas', 'check-square']"
+          :statistic="statistics.tests"
+          title="Тесты"
+        />
+        <MaterialCoveredCard
+          :icon="['fas', 'video']"
+          :statistic="statistics.tests"
+          title="Видео"
+        />
+        <MaterialCoveredCard
+          :icon="['fas', 'file-code']"
+          :statistic="statistics.tests"
+          title="Задания"
+        />
       </div>
     </div>
   </div>
@@ -23,6 +40,21 @@
 definePageMeta({
   layout: 'cabinet',
 })
+
+let statistics = {
+  tests: {
+    score: 1,
+    total: 2,
+  },
+  video: {
+    score: 1,
+    total: 2,
+  },
+  tasks: {
+    score: 1,
+    total: 2,
+  },
+}
 </script>
 
 <style lang="scss">
@@ -63,6 +95,19 @@ definePageMeta({
 
     .average-score {
       align-items: end;
+    }
+  }
+
+  &__course-statistics-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      justify-content: flex-start;
     }
   }
 }
