@@ -24,6 +24,7 @@
     </div>
     <FeatureTargetTrainingCard />
     <FeatureCourseCard />
+    <FeatureCompanyPaymentCard />
   </div>
 </template>
 

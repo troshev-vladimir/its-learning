@@ -4,7 +4,7 @@
     </AppTheSidebar>
     <div class="sidebar-substrate"></div>
     <div class="cabinet-layout__container">
-      <AppTheCabinetHeader class="cabinet-layout__header" />
+      <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
       <div class="container">
         <slot></slot>
       </div>
@@ -19,8 +19,8 @@ let sidebarLinks = computed(() => [
   {
     icon: 'fas fa-book-open',
     title: 'Обучение',
-    active: route.name == 'cabinet',
-    to: '/cabinet',
+    active: route.path.includes('course'),
+    to: '/course/1',
   },
   {
     icon: 'fas fa-briefcase',
@@ -35,7 +35,7 @@ let sidebarLinks = computed(() => [
         active: route.name == 'ui_kit',
         to: '/ui_kit',
       }
-    : {},
+    : { to: '123' },
 ])
 </script>
 

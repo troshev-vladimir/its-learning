@@ -71,7 +71,7 @@ const isLoading = computed({
 
 const prevIconName = computed(() => {
   if (['link', 'external-link'].includes(props.type)) {
-    return 'fa-solid fa-up-right-from-square'
+    return props.prevIcon || 'fa-solid fa-up-right-from-square'
   } else {
     return props.prevIcon
   }

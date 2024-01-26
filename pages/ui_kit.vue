@@ -6,6 +6,8 @@
 definePageMeta({
   layout: 'cabinet',
 })
+
+let popup = ref(false)
 </script>
 
 <style></style>

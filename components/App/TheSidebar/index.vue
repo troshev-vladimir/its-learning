@@ -7,24 +7,27 @@
           <img src="@/assets/img/logo.svg" alt="" v-else />
         </div>
       </div>
-      <div class="the-sidebar__user-info-block">
+      <NuxtLink
+        v-tippy="{ content: 'Личный кабинет', placement: 'right' }"
+        to="/cabinet"
+        @click="closeSidebarOnMobile"
+        class="the-sidebar__user-info-block"
+      >
         <div class="user-info-block__photo-span">
-          <img
-            src="https://www.nuxtjs.cn/logos/nuxt-icon-white@2x.png"
-            alt=""
-          />
+          <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
         <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
-      </div>
+      </NuxtLink>
       <div class="the-sidebar__link-list">
-        <UiBaseSidebarLink
+        <AppTheSidebarBaseSidebarLink
           v-for="(link, i) in props.links"
           :key="i"
           :icon="link.icon"
           :sidebarStatus="isOpen"
           :title="link.title"
           :class="{ active: link.active }"
-          :to="link.to"
+          :to="link.to || ''"
+          @click="closeSidebarOnMobile"
         />
       </div>
       <div class="the-sidebar__toggle-button-block">
@@ -69,12 +72,26 @@ interface Props {
 const props = defineProps<Props>()
 let isOpen = ref(false)
 
+let { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
+
+const closeSidebarOnMobile = () => {
+  if (window.outerWidth < 600 && isOpen.value === true) {
+    isOpen.value = false
+  }
+}
+
+const setBodyFreezOnMobile = () => {
+  if (window.outerWidth < 600) {
+    startBodyFreez()
+  } else {
+    stopBodyFreez()
+  }
+}
+
 onMounted(() => {
-  nextTick().then(() => {
-    if (window.innerWidth < 600) {
-      useBodyFreez(isOpen)
-    }
-  })
+  setBodyFreezOnMobile()
+  window.addEventListener('orientationchange', setBodyFreezOnMobile)
+  window.addEventListener('resize', setBodyFreezOnMobile)
 })
 </script>
 
@@ -86,6 +103,7 @@ onMounted(() => {
   height: 100%;
 
   @media screen and (min-width: $breakpoint-xs) {
+    left: 0%;
     height: 100vh;
     width: 80px;
   }
@@ -149,11 +167,21 @@ onMounted(() => {
       overflow: hidden;
       flex: 0 0 auto;
       object-fit: contain;
+      transition: 0.1s;
 
       img {
         width: 100%;
         height: 100%;
       }
+
+      &:hover {
+        outline: 2px solid $blue-500;
+      }
+    }
+
+    &:hover * {
+      text-decoration: underline;
+      color: $blue-500;
     }
   }
 

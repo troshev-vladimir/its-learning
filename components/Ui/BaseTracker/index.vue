@@ -62,6 +62,7 @@ watch(
 .base-tracker {
   display: flex;
   align-items: center;
+  width: 100%;
 
   &.big {
     gap: 20px;
@@ -74,7 +75,7 @@ watch(
   }
 
   &__progress-bar {
-    background: linear-gradient(270deg, $gray-200 49.72%, #cdcdcd 99.84%);
+    background: $gray-200;
     width: 100%;
     height: 100%;
     border-radius: 8px;

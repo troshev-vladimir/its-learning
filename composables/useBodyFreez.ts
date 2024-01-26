@@ -11,13 +11,35 @@ export default function useBodyFreez(value: Ref<boolean>) {
     window.scrollTo(0, parseInt(scrollY || '0') * -1)
   }
 
-  const stop = watch(value, () => {
-    if (value.value) {
-      bodyFreez()
-    } else {
-      bodyFreezRemove()
-    }
-  })
+  let stopWatch = ref()
 
-  return { bodyFreez, bodyFreezRemove, stop }
+  const startBodyFreez = () => {
+    stopBodyFreez()
+    let stop = watch(
+      value,
+      () => {
+        if (value.value === true) {
+          bodyFreez()
+        } else {
+          bodyFreezRemove()
+        }
+      },
+      { immediate: true }
+    )
+    stopWatch.value = stop
+  }
+
+  const stopBodyFreez = () => {
+    if (stopWatch.value) {
+      stopWatch.value()
+    }
+    bodyFreezRemove()
+  }
+
+  return {
+    bodyFreez,
+    bodyFreezRemove,
+    startBodyFreez,
+    stopBodyFreez,
+  }
 }
