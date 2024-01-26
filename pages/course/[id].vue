@@ -8,11 +8,16 @@
             <ClientOnly>
               <UiBaseTracker class="tracker q-mb-sm" />
             </ClientOnly>
-            <UiBaseButton type="link" size="smtotal">
+            <UiBaseButton
+              type="link"
+              size="small"
+              prev-icon="fas fa-chart-line"
+            >
               Трекер успеваемости
             </UiBaseButton>
           </div>
         </div>
+        <p class="text-body1 text-bold text-blue-600">Завершен</p>
         <UiBaseAverageScore class="average-score" />
       </div>
       <div class="course-page__course-statistics-block">
@@ -32,6 +37,9 @@
           title="Задания"
         />
       </div>
+      <p class="course-page__access-mentor text-body2 text-gray-400">
+        Доступ к наставнику до 20.08.2024
+      </p>
     </div>
   </div>
 </template>
@@ -109,6 +117,10 @@ let statistics = {
     @media screen and (min-width: $breakpoint-xs) {
       justify-content: flex-start;
     }
+  }
+
+  &__access-mentor {
+    margin-top: 32px;
   }
 }
 </style>
