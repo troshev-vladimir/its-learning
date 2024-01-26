@@ -1,11 +1,9 @@
 <template>
-  <NuxtLink
-    v-tippy="sidebarStatus ? null : { content: title, placement: 'right' }"
-    :to="to"
-    class="base-sidebar-link"
-    :class="{ full: sidebarStatus }"
-  >
-    <div class="base-sidebar-link__container">
+  <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
+    <div
+      v-tippy="sidebarStatus ? null : { content: title, placement: 'right' }"
+      class="base-sidebar-link__container"
+    >
       <ClientOnly>
         <font-awesome-icon v-if="icon" :icon="icon" />
       </ClientOnly>

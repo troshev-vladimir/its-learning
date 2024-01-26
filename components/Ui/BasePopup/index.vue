@@ -32,16 +32,19 @@ const props = defineProps<{
   modelValue?: boolean
 }>()
 const { modelValue } = toRefs(props)
+let { startBodyFreez } = useBodyFreez(modelValue)
 
 const open = () => {
   emit('update:modelValue', true)
 }
 
-useBodyFreez(modelValue)
-
 const close = () => {
   emit('update:modelValue', false)
 }
+
+onMounted(() => {
+  startBodyFreez()
+})
 
 defineExpose({ open, close })
 </script>

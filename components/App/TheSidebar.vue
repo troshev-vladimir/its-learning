@@ -7,12 +7,16 @@
           <img src="@/assets/img/logo.svg" alt="" v-else />
         </div>
       </div>
-      <div class="the-sidebar__user-info-block">
+      <NuxtLink
+        v-tippy="{ content: 'Личный кабинет', placement: 'right' }"
+        to="/cabinet"
+        class="the-sidebar__user-info-block"
+      >
         <div class="user-info-block__photo-span">
           <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
         <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
-      </div>
+      </NuxtLink>
       <div class="the-sidebar__link-list">
         <UiBaseSidebarLink
           v-for="(link, i) in props.links"
@@ -67,18 +71,26 @@ interface Props {
 const props = defineProps<Props>()
 let isOpen = ref(false)
 
+let { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
+
 const closeSidebarOnMobile = () => {
-  if (window.innerWidth < 600 && isOpen.value === true) {
+  if (window.outerWidth < 600 && isOpen.value === true) {
     isOpen.value = false
   }
 }
 
+const setBodyFreezOnMobile = () => {
+  if (window.outerWidth < 600) {
+    startBodyFreez()
+  } else {
+    stopBodyFreez()
+  }
+}
+
 onMounted(() => {
-  nextTick().then(() => {
-    if (window.innerWidth < 600) {
-      useBodyFreez(isOpen)
-    }
-  })
+  setBodyFreezOnMobile()
+  window.addEventListener('orientationchange', setBodyFreezOnMobile)
+  window.addEventListener('resize', setBodyFreezOnMobile)
 })
 </script>
 
@@ -154,11 +166,21 @@ onMounted(() => {
       overflow: hidden;
       flex: 0 0 auto;
       object-fit: contain;
+      transition: 0.1s;
 
       img {
         width: 100%;
         height: 100%;
       }
+
+      &:hover {
+        outline: 2px solid $blue-500;
+      }
+    }
+
+    &:hover * {
+      text-decoration: underline;
+      color: $blue-500;
     }
   }
 

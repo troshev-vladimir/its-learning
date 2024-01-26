@@ -1,4 +1,14 @@
 <template>
+  <UiBaseButton
+    type="primary"
+    size="small"
+    class="q-mb-md"
+    @click="() => (popup = !popup)"
+  >
+    Тестирование Popup
+  </UiBaseButton>
+  <UiBasePopup v-model="popup"> 123 </UiBasePopup>
+
   <FeatureCourseCard />
   <FeatureCV></FeatureCV>
   <client-only>
@@ -62,6 +72,8 @@
 definePageMeta({
   layout: 'cabinet',
 })
+
+let popup = ref(false)
 </script>
 
 <style>

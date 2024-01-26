@@ -19,8 +19,8 @@ let sidebarLinks = computed(() => [
   {
     icon: 'fas fa-book-open',
     title: 'Обучение',
-    active: route.name == 'cabinet',
-    to: '/cabinet',
+    active: route.path.includes('course'),
+    to: '/course/1',
   },
   {
     icon: 'fas fa-briefcase',
