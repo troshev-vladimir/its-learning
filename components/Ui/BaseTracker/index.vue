@@ -62,6 +62,7 @@ watch(
 .base-tracker {
   display: flex;
   align-items: center;
+  width: 100%;
 
   &.big {
     gap: 20px;

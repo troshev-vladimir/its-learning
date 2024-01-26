@@ -4,7 +4,7 @@
     </AppTheSidebar>
     <div class="sidebar-substrate"></div>
     <div class="cabinet-layout__container">
-      <AppTheCabinetHeader class="cabinet-layout__header" />
+      <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
       <div class="container">
         <slot></slot>
       </div>
@@ -35,7 +35,7 @@ let sidebarLinks = computed(() => [
         active: route.name == 'ui_kit',
         to: '/ui_kit',
       }
-    : {},
+    : { to: '123' },
 ])
 </script>
 
