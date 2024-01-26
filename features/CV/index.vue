@@ -14,10 +14,10 @@
       />
       <UiBaseFileinput
         v-model="form.imageFile"
-        multiple
         class="q-mb-sm"
-        :accept="['text/html', 'text/javascript']"
-        :max-size="9000"
+        multiple
+        :accept="['image/png', 'image/jpeg']"
+        :max-size="9 * 1024 * 1024"
         label="Прикрепить файлы"
         @update:modelValue="updateValue('imageFile')"
         :validation-result="{
@@ -45,7 +45,7 @@
       label="Номер телефона"
       required
       :root-class="['q-mb-sm']"
-      v-model="form.phone"
+      v-model="maskedPhone"
       @update="updateValue('phone')"
       :validation-result="{
         status: v$.phone.$error ? 'error' : 'success',
@@ -94,6 +94,7 @@
       ]"
       clearable
       multiple
+      each-clearable
       class="q-mb-sm"
       name="programingLanguages"
       label="Дополнительные языки программирования"
@@ -105,7 +106,7 @@
       }"
     ></UiSelect>
 
-    <div class="experience">
+    <div class="experience base-block base-shadow q-my-xl">
       <p class="text-h2 q-mb-sm">Опыт работы</p>
       <template v-for="(item, index) in form.experience" :key="index">
         <UiDatePicker
@@ -113,7 +114,7 @@
           :name="`experience.startDate[${index}]`"
           v-model="form.experience[index].startDate"
           @update:modelValue="v$.experience[index].startDate.$touch"
-          class="q-mb-lg"
+          class="q-mb-sm"
           :validation-result="{
             status: v$.experience[index].startDate.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].startDate),
@@ -205,7 +206,7 @@
       </UiBaseButton>
     </div>
 
-    <div class="degree">
+    <div class="degree base-block base-shadow q-my-xl">
       <p class="text-h2 q-mb-sm">Образование</p>
       <template v-for="(item, index) in form.education" :key="index">
         <UiSelect
@@ -301,22 +302,51 @@
       >
         Добавить
       </UiBaseButton>
-
-      <UiBaseInput
-        name="aboutMe"
-        label="О себе"
-        textarea
-        required
-        :root-class="['q-mb-sm']"
-        v-model="form.aboutMe"
-        @update="updateValue('aboutMe')"
-        :validation-result="{
-          status: v$.aboutMe.$error ? 'error' : 'success',
-          message: getErrorMessage(v$.aboutMe),
-        }"
-      />
     </div>
+    <UiBaseInput
+      name="aboutMe"
+      label="О себе"
+      textarea
+      required
+      :root-class="['q-mb-sm']"
+      v-model="form.aboutMe"
+      @update="updateValue('aboutMe')"
+      :validation-result="{
+        status: v$.aboutMe.$error ? 'error' : 'success',
+        message: getErrorMessage(v$.aboutMe),
+      }"
+    />
+    <!-- <UiBaseCheckbox
+        name="current-work"
+        v-model="v$.isCurrent.$model"
+        label="По настоящее время"
+        @update="updateValue('isCurrent')"
+        class="q-mb-sm"
+        required
+        :validation-result="{
+          status: v$.isCurrent.$error ? 'error' : 'success',
+          message: getErrorMessage(v$.isCurrent),
+        }"
+      ></UiBaseCheckbox> -->
+    <!-- <div class="q-mb-sm">
+        <UiBaseCheckbox
+          name="o3"
+          v-model="form.options"
+          label="Option3"
+        ></UiBaseCheckbox>
 
+        <UiBaseCheckbox
+          name="o2"
+          v-model="form.options"
+          label="Option2"
+        ></UiBaseCheckbox>
+
+        <UiBaseCheckbox
+          name="o1"
+          v-model="form.options"
+          label="Option1"
+        ></UiBaseCheckbox>
+      </div> -->
     <!-- <UiBaseInput
       name="name"
       label="Введите имя"
@@ -358,38 +388,7 @@
         message: getErrorMessage(v$.email),
       }"
     />
-    <UiBaseCheckbox
-      name="current-work"
-      v-model="v$.isCurrent.$model"
-      label="По настоящее время"
-      @update="updateValue('isCurrent')"
-      class="q-mb-sm"
-      required
-      :validation-result="{
-        status: v$.isCurrent.$error ? 'error' : 'success',
-        message: getErrorMessage(v$.isCurrent),
-      }"
-    ></UiBaseCheckbox>
-
-    <div class="q-mb-sm">
-      <UiBaseCheckbox
-        name="o3"
-        v-model="form.options"
-        label="Option3"
-      ></UiBaseCheckbox>
-
-      <UiBaseCheckbox
-        name="o2"
-        v-model="form.options"
-        label="Option2"
-      ></UiBaseCheckbox>
-
-      <UiBaseCheckbox
-        name="o1"
-        v-model="form.options"
-        label="Option1"
-      ></UiBaseCheckbox>
-    </div>
+  
     <div style="display: flex; flex-direction: column" class="q-mb-sm">
       <UiBaseRadio name="radio" value="1" label="1" v-model="form.picked" />
       <UiBaseRadio name="radio" value="2" label="2" v-model="form.picked" />
@@ -443,6 +442,7 @@
 <script setup lang="ts">
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
+import { Mask } from 'maska'
 import useSugestions from './composables/useSugestions'
 const { citys, companies, sugestCity, sugestCompany } = useSugestions()
 
@@ -509,6 +509,14 @@ const form = reactive<Record<string, any>>({
   // items: [],
   // files: [],
   // date: '',
+})
+
+const phoneMask = '+7 (###) ### ##-##'
+const mask = new Mask({ mask: phoneMask })
+const maskedPhone = ref('')
+const unmaskedPhone = computed(() => {
+  form.phone = mask.unmasked(maskedPhone.value)
+  return mask.unmasked(maskedPhone.value)
 })
 
 const mustBeEndOfExperience = (isTillNow: boolean) => {

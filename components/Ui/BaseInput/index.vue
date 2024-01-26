@@ -36,8 +36,10 @@
         v-bind="attrs"
         @blur="update"
         :list="suggestions ? 'suggestions' : ''"
-        $ref="input"
       />
+
+      <!-- v-maska:[maskOptions]="mask"
+        :data-maska="mask" -->
 
       <p :class="$style.placeholder" class="small">
         {{ label }}
@@ -63,7 +65,8 @@
 
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
-import IMask, { type InputMaskElement } from 'imask'
+import useMask from './composables/useMask'
+
 const attrs = useAttrs()
 
 export interface Props {
@@ -76,7 +79,7 @@ export interface Props {
   rootClass?: string | string[]
   disabled?: boolean
   suggestions?: Array<string>
-  mask?: string | Function
+  mask?: string | Function // TODO: переделать на imask
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -87,13 +90,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update'])
 
+const { maskOptions } = useMask(emit)
 const { localValue, isError, update } = useFormItem(props, emit)
-
-const input = ref()
-
-const mask = IMask(input.value as InputMaskElement, {
-  mask: '+{7}(000)000-00-00',
-})
 
 const currentComponent = computed(() => {
   return !!props.textarea ? 'textarea' : 'input'
@@ -101,6 +99,9 @@ const currentComponent = computed(() => {
 </script>
 
 <style lang="scss" module>
+input[list='suggestions']::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
 .base-input {
   position: relative;
   padding-top: 16px;

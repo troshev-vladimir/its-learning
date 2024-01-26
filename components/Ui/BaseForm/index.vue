@@ -49,7 +49,6 @@ const submit = () => {
   display: flex;
   gap: 20px;
   align-items: center;
-  border-top: 1px solid $secondary;
   padding-top: $lg;
 }
 
