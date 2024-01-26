@@ -102,7 +102,7 @@ let statistics = {
     }
 
     .average-score {
-      align-items: end;
+      align-items: flex-end;
     }
   }
 
