@@ -6,6 +6,7 @@
       {
         'ui-datepicker--disabled': disabled,
       },
+      rootClass,
     ]"
   >
     <VueDatePicker
@@ -49,6 +50,7 @@ const props = withDefaults(
     name: string
     disabled?: boolean
     validationResult?: ValidatorResp
+    rootClass?: string | Array<string>
   }>(),
   {
     validationResult: () => ({

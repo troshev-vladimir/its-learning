@@ -112,7 +112,7 @@
           label="Дата начала"
           :name="`experience.startDate[${index}]`"
           v-model="form.experience[index].startDate"
-          @update:modelValue="v$.experience[index].startDate.$touch()"
+          @update:modelValue="v$.experience[index].startDate.$touch"
           class="q-mb-lg"
           :validation-result="{
             status: v$.experience[index].startDate.$error ? 'error' : 'success',
@@ -121,7 +121,7 @@
         ></UiDatePicker>
         <UiBaseCheckbox
           v-model="form.experience[index].tillNow"
-          @update="v$.experience[index].tillNow.$touch()"
+          @update="v$.experience[index].tillNow.$touch"
           name="tillNow"
           v-if="index + 1 === form.experience.length"
         >
@@ -131,7 +131,7 @@
           :disabled="form.experience[index].tillNow"
           label="Дата окончания"
           v-model="form.experience[index].endDate"
-          @update:modelValue="v$.experience[index].endDate.$touch()"
+          @update:modelValue="v$.experience[index].endDate.$touch"
           :name="`experience.endDate[${index}]`"
           class="q-mb-lg"
           :validation-result="{
@@ -144,7 +144,7 @@
           :name="`experience.company[${index}]`"
           label="Компания"
           :root-class="['q-mb-lg']"
-          @update="v$.experience[index].company.$touch()"
+          @update="v$.experience[index].company.$touch"
           v-model="form.experience[index].company"
           @update:modelValue="sugestCompany(form.experience[index].company)"
           :validation-result="{
@@ -187,7 +187,7 @@
           class="q-mb-xl"
           size="small"
           v-if="form.experience && form.experience.length > 1"
-          @click.prevent="form.experience.splice(index, 1)"
+          @click.prevent="deleteOneOfBlock('experience', index)"
           prev-icon="times"
         >
           Удалить
@@ -216,21 +216,22 @@
           ]"
           clearable
           class="q-mb-lg"
-          :name="`education.degree`"
+          :name="`education.degree.${index}`"
           label="Уровень образования"
           v-model="form.education[index].degree"
-          @update="v$.education[index].degree.$touch"
+          @update:model-value="v$.education[index].degree.$touch"
           :validation-result="{
             status: v$.education[index].degree.$error ? 'error' : 'success',
             message: getErrorMessage(v$.education[index].degree),
           }"
         ></UiSelect>
+
         <UiDatePicker
           label="Год окончания"
           :name="`education.${index}.release`"
           v-model="form.education[index].releaseYear"
-          @update:modelValue="v$.education[index].releaseYear.$touch()"
-          class="q-mb-lg"
+          @update:modelValue="v$.education[index].releaseYear.$touch"
+          :root-class="'q-mb-lg'"
           :validation-result="{
             status: v$.education[index].releaseYear.$error
               ? 'error'
@@ -238,14 +239,26 @@
             message: getErrorMessage(v$.education[index].releaseYear),
           }"
         ></UiDatePicker>
+        <UiBaseInput
+          name="instityte"
+          label="Институт"
+          required
+          :root-class="['q-mb-lg']"
+          v-model="form.education[index].instityte"
+          @update="v$.education[index].instityte.$touch"
+          :validation-result="{
+            status: v$.education[index].instityte.$error ? 'error' : 'success',
+            message: getErrorMessage(v$.education[index].instityte),
+          }"
+        />
 
         <UiBaseInput
           :name="`education.${index}.faculty`"
           label="Факультет"
           required
-          :root-class="['q-mb-xl']"
+          :root-class="['q-mb-lg']"
           v-model="form.education[index].faculty"
-          @update="v$.education[index].faculty.$touch()"
+          @update="v$.education[index].faculty.$touch"
           :validation-result="{
             status: v$.education[index].faculty.$error ? 'error' : 'success',
             message: getErrorMessage(v$.education[index].faculty),
@@ -256,9 +269,9 @@
           name="specialisation"
           label="Специализация"
           required
-          :root-class="['q-mb-xl']"
+          :root-class="['q-mb-lg']"
           v-model="form.education[index].specialisation"
-          @update="v$.education[index].specialisation.$touch()"
+          @update="v$.education[index].specialisation.$touch"
           :validation-result="{
             status: v$.education[index].specialisation.$error
               ? 'error'
@@ -270,7 +283,7 @@
           class="q-mb-md"
           size="small"
           v-if="form.education && form.education.length > 1"
-          @click.prevent="removeEducation(index)"
+          @click.prevent="deleteOneOfBlock('education', index)"
           prev-icon="times"
         >
           Удалить
@@ -432,10 +445,10 @@ import { Mask } from 'maska'
 import useSugestions from './composables/useSugestions'
 const { citys, companies, sugestCity, sugestCompany } = useSugestions()
 
-const removeEducation = (index: number) => {
-  const deleted = form.education.splice(index, 1)
-  console.log('deleted', deleted)
-  console.log(form.education)
+const deleteOneOfBlock = (blockName: string, index: number) => {
+  form[blockName].splice(index, 1)
+
+  v$.value[blockName].$reset()
 }
 
 const getExpirienceForm = () => {
@@ -467,15 +480,6 @@ const form = reactive<Record<string, any>>({
   gender: 'male',
   programingLanguages: [],
   experience: [
-    {
-      startDate:
-        'Thu Jan 11 2024 13:26:00 GMT+0300 (Москва, стандартное время)',
-      endDate: '',
-      tillNow: false,
-      company: '',
-      position: '',
-      responsibilitys: '',
-    },
     {
       startDate: '',
       endDate: '',
@@ -515,7 +519,6 @@ const unmaskedPhone = computed(() => {
 })
 
 const mustBeEndOfExperience = (isTillNow: boolean) => {
-  console.log(isTillNow)
   return helpers.withParams(
     { type: 'contains', value: isTillNow },
     (value: string | null) => value || isTillNow
@@ -559,7 +562,7 @@ const rules = computed(() => {
             'Поле обязательно',
             helpers.withMessage('Поле обязательно', required)
           ),
-        }, //dadataa
+        },
         position: {
           required: helpers.withMessage(
             'Поле обязательно',
@@ -684,7 +687,7 @@ const sendForm = async () => {
   // v$.value.$reset()
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
-    console.log('sendForm')
+    console.log(form)
   }
 }
 </script>

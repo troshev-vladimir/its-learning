@@ -219,7 +219,9 @@ const filterOptions = () => {
 }
 
 onMounted(() => {
-  emitValues()
+  if (selectedLabels.value.length) {
+    emitValues()
+  }
   filterOptions()
 })
 </script>
