@@ -3,12 +3,22 @@ import { ref } from 'vue'
 export default function useSugestions() {
   const citys = ref<string[]>([])
   const companies = ref<string[]>([])
+  const timer = ref<number>()
+  const resetTimer = (cb: Function) => {
+    timer.value = setTimeout(cb, 1000)
+  }
 
   const sugestCity = async (value: string) => {
-    try {
-      citys.value = await getCitySuggestion(value)
-    } catch (error) {
-      return []
+    const cb = async () => (citys.value = await getCitySuggestion(value))
+
+    if (!timer) {
+      try {
+        cb()
+      } catch (error) {
+        companies.value = []
+      }
+    } else {
+      resetTimer(cb)
     }
   }
 
@@ -16,7 +26,7 @@ export default function useSugestions() {
     try {
       companies.value = await getCompanySuggestion(value)
     } catch (error) {
-      return []
+      companies.value = []
     }
   }
   return {

@@ -1,39 +1,51 @@
 <template>
   <div
-    class="ui-datepicker"
     :class="[
-      `ui-datepicker--${validationResult.status}`,
+      $style['ui-datepicker'],
+      $style[`ui-datepicker--${validationResult.status}`],
       {
-        'ui-datepicker--disabled': disabled,
+        [$style['ui-datepicker--disabled']]: disabled,
+        [$style['ui-datepicker--filled']]: !!date,
       },
       rootClass,
     ]"
   >
-    <VueDatePicker
-      locale="ru"
-      v-model="date"
-      :placeholder="label"
-      cancelText="Отмена"
-      selectText="Выбрать"
-      :clearable="true"
-      position="left"
-      :enable-time-picker="false"
-      :format="format"
-      :name="name"
-    >
-      <template #action-row="{ internalModelValue, selectDate }">
-        <UiBaseButton size="small" type="secondary" @click.prevent="selectDate">
-          Применить и продолжить
-        </UiBaseButton>
-      </template>
+    <div :class="$style.inputWrapper">
+      <VueDatePicker
+        locale="ru"
+        v-model="date"
+        cancelText="Отмена"
+        selectText="Выбрать"
+        :clearable="true"
+        position="left"
+        :enable-time-picker="false"
+        :format="format"
+        :name="name"
+        :year-picker="yearPicker"
+        v-bind="$attrs"
+      >
+        <template #action-row="{ internalModelValue, selectDate }">
+          <UiBaseButton
+            size="small"
+            type="secondary"
+            @click.prevent="selectDate"
+          >
+            Применить и продолжить
+          </UiBaseButton>
+        </template>
 
-      <template #input-icon>
-        <client-only>
-          <font-awesome-icon color="#0075eb" :icon="['far', 'calendar']" />
-        </client-only>
-      </template>
-    </VueDatePicker>
-    <p v-if="isError" class="message">
+        <template #input-icon>
+          <client-only>
+            <font-awesome-icon color="#0075eb" :icon="['far', 'calendar']" />
+          </client-only>
+        </template>
+      </VueDatePicker>
+      <p :class="$style.placeholder" class="small">
+        {{ label }}
+        <span v-if="required">*</span>
+      </p>
+    </div>
+    <p v-if="isError" :class="$style.message">
       {{ validationResult.message }}
     </p>
   </div>
@@ -42,7 +54,6 @@
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { ValidatorResp } from '~/utils/validators/types'
-
 const props = withDefaults(
   defineProps<{
     modelValue: string | Date | null
@@ -51,6 +62,8 @@ const props = withDefaults(
     disabled?: boolean
     validationResult?: ValidatorResp
     rootClass?: string | Array<string>
+    required?: boolean
+    yearPicker?: boolean
   }>(),
   {
     validationResult: () => ({
@@ -62,7 +75,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue', 'update'])
 
-const { value, isError, update } = useFormItem(props, emit)
+const { localValue, isError, update } = useFormItem(props, emit)
 
 const date = computed({
   get() {
@@ -74,38 +87,62 @@ const date = computed({
 })
 
 const format = (date: Date) => {
+  if (props.yearPicker) return date.getFullYear()
+
   let day = String(date.getDate())
-  if (day.length === 1) {
-    day = '0' + day
-  }
+  day = day.length === 1 ? '0' + day : day
   let month = String(date.getMonth() + 1)
-  if (month.length === 1) {
-    month = '0' + month
-  }
+  month = month.length === 1 ? '0' + month : month
+
   const year = date.getFullYear()
 
   return `${day}.${month}.${year}`
 }
 </script>
-<style lang="scss">
+<style lang="scss" module>
 .datepicker {
   display: block;
   width: 200px;
   height: 100px;
 }
 
-.dp__input_icon {
-  margin-left: 16px;
-}
 .message {
   font-size: 12px;
   margin-top: 2px;
   line-height: 17px;
 }
 .ui-datepicker {
+  padding-top: 16px;
   width: 100%;
+  .inputWrapper {
+    position: relative;
+  }
+
+  .placeholder {
+    top: 50%;
+    left: 36px;
+    position: absolute;
+    margin: 0;
+    pointer-events: none;
+    color: $secondary;
+    transition: 0.2s;
+    transform: translate(0, -50%);
+  }
+
+  &--filled {
+    .placeholder {
+      color: $accent;
+      font-size: 12px;
+      line-height: 17px;
+      top: 0;
+      left: 0;
+      transform: translateY(calc(-100% + -2px));
+    }
+  }
 
   &--error {
+    padding-bottom: 16px;
+
     .message {
       color: $error;
     }
@@ -134,7 +171,6 @@ const format = (date: Date) => {
 
   &--disabled {
     pointer-events: none;
-
     .message {
       display: none;
     }
@@ -143,10 +179,18 @@ const format = (date: Date) => {
       border-color: $secondary;
     }
 
-    .dp__input_icon svg {
+    .dp__input_icon svg,
+    .placeholder,
+    input {
       color: $secondary;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.dp__input_icon {
+  margin-left: 16px;
 }
 .dp__input {
   width: 100%;

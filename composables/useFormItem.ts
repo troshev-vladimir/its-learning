@@ -4,7 +4,7 @@ export default function useFromItem(
   props: Record<string, any>,
   emit: Function
 ) {
-  const value = computed({
+  const localValue = computed({
     get() {
       if (Array.isArray(props.modelValue)) {
         return props.modelValue.includes(props.name)
@@ -13,6 +13,8 @@ export default function useFromItem(
       }
     },
     set(value: typeof props.modelValue) {
+      console.log(value)
+
       if (Array.isArray(props.modelValue)) {
         value
           ? emit('update:modelValue', [...props.modelValue, props.name])
@@ -35,7 +37,7 @@ export default function useFromItem(
   }
 
   return {
-    value,
+    localValue,
     isError,
     update,
   }

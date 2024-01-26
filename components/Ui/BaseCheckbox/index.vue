@@ -9,7 +9,7 @@
     ]"
   >
     <input
-      v-model="value"
+      v-model="localValue"
       :class="$style.nativeInput"
       type="checkbox"
       :name="props.name"
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update'])
 
-const { value, isError, update } = useFormItem(props, emit)
+const { localValue, isError, update } = useFormItem(props, emit)
 </script>
 
 <style lang="scss" module>
