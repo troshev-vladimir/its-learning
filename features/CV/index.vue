@@ -114,7 +114,7 @@
           :name="`experience.startDate[${index}]`"
           v-model="form.experience[index].startDate"
           @update:modelValue="v$.experience[index].startDate.$touch"
-          class="q-mb-sm"
+          root-class="q-mb-sm"
           :validation-result="{
             status: v$.experience[index].startDate.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].startDate),
@@ -134,7 +134,7 @@
           v-model="form.experience[index].endDate"
           @update:modelValue="v$.experience[index].endDate.$touch"
           :name="`experience.endDate[${index}]`"
-          class="q-mb-sm"
+          root-class="q-mb-sm"
           :validation-result="{
             status: v$.experience[index].endDate.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].endDate),
@@ -201,7 +201,7 @@
         v-if="form.experience && form.experience.length"
         @click.prevent="addExpirienceBlock"
         post-icon="plus"
-        :disabled="v$.experience.$anyDirty"
+        :disabled="v$.experience.$errors.length"
       >
         Добавить
       </UiBaseButton>
@@ -300,7 +300,7 @@
         v-if="form.education && form.education.length"
         @click.prevent="addEducationBlock"
         post-icon="plus"
-        :disabled="v$.education.$anyDirty"
+        :disabled="v$.education.$errors.length"
       >
         Добавить
       </UiBaseButton>

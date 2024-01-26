@@ -105,13 +105,12 @@ const format = (date: Date) => {
   width: 200px;
   height: 100px;
 }
-
 .message {
   font-size: 12px;
   line-height: 1;
   position: absolute;
-  transform: translate(0, -100%);
-  bottom: -4px;
+  transform: translate(0, 0);
+  bottom: 0;
 }
 .ui-datepicker {
   padding-top: 16px;
@@ -149,7 +148,7 @@ const format = (date: Date) => {
     .message {
       color: $error;
     }
-    .dp__input_icon {
+    svg {
       color: $error !important;
     }
     .placeholder {
