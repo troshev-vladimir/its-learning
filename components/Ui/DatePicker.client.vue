@@ -36,7 +36,7 @@
 
         <template #input-icon>
           <client-only>
-            <font-awesome-icon color="#0075eb" :icon="['far', 'calendar']" />
+            <font-awesome-icon :icon="['far', 'calendar']" />
           </client-only>
         </template>
       </VueDatePicker>
@@ -108,11 +108,14 @@ const format = (date: Date) => {
 
 .message {
   font-size: 12px;
-  margin-top: 2px;
-  line-height: 17px;
+  line-height: 1;
+  position: absolute;
+  transform: translate(0, -100%);
+  bottom: -4px;
 }
 .ui-datepicker {
   padding-top: 16px;
+  position: relative;
   width: 100%;
   .inputWrapper {
     position: relative;
@@ -146,7 +149,9 @@ const format = (date: Date) => {
     .message {
       color: $error;
     }
-
+    .dp__input_icon {
+      color: $error !important;
+    }
     .placeholder {
       color: $error !important;
     }
@@ -179,7 +184,7 @@ const format = (date: Date) => {
       border-color: $secondary;
     }
 
-    .dp__input_icon svg,
+    .dp__input_icon,
     .placeholder,
     input {
       color: $secondary;
@@ -190,6 +195,7 @@ const format = (date: Date) => {
 
 <style lang="scss">
 .dp__input_icon {
+  color: #0075eb;
   margin-left: 16px;
 }
 .dp__input {

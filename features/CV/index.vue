@@ -32,7 +32,7 @@
       label="Имя"
       required
       :root-class="['q-mb-sm']"
-      @update="v$.name.$touch"
+      @update:model-value="v$.name.$touch"
       v-model="form.name"
       :validation-result="{
         status: v$.name.$error ? 'error' : 'success',
@@ -46,7 +46,7 @@
       required
       :root-class="['q-mb-sm']"
       v-model="maskedPhone"
-      @update="updateValue('phone')"
+      @update:modelValue="updateValue('phone')"
       :validation-result="{
         status: v$.phone.$error ? 'error' : 'success',
         message: getErrorMessage(v$.phone),
@@ -199,8 +199,9 @@
         size="small"
         type="boarded"
         v-if="form.experience && form.experience.length"
-        @click.prevent="form.experience.push(getExpirienceForm())"
+        @click.prevent="addExpirienceBlock"
         post-icon="plus"
+        :disabled="v$.experience.$anyDirty"
       >
         Добавить
       </UiBaseButton>
@@ -297,8 +298,9 @@
         size="small"
         type="boarded"
         v-if="form.education && form.education.length"
-        @click.prevent="form.education.push(getEducationForm())"
+        @click.prevent="addEducationBlock"
         post-icon="plus"
+        :disabled="v$.education.$anyDirty"
       >
         Добавить
       </UiBaseButton>
@@ -444,39 +446,20 @@ import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { Mask } from 'maska'
 import useSugestions from './composables/useSugestions'
+import useMultipleBlock from './composables/useMultyBlock'
 const { citys, companies, sugestCity, sugestCompany } = useSugestions()
 
-const deleteOneOfBlock = (blockName: string, index: number) => {
-  form[blockName].splice(index, 1)
-
-  v$.value[blockName].$reset()
-}
-
-const getExpirienceForm = () => {
-  return {
-    startDate: '',
-    endDate: '',
-    tillNow: false,
-    company: '',
-    position: '',
-    responsibilitys: '',
-  }
-}
-
-const getEducationForm = () => {
-  return {
-    degree: [],
-    releaseYear: '',
-    instityte: '',
-    faculty: '',
-    specialisation: '',
-  }
-}
+const phoneMask = '+7 (###) ### ##-##'
+const mask = new Mask({ mask: phoneMask })
+const maskedPhone = ref('')
+const unmaskedPhone = computed(() => {
+  return mask.unmasked(maskedPhone.value)
+})
 
 const form = reactive<Record<string, any>>({
   imageFile: [],
   name: '',
-  phone: '',
+  phone: unmaskedPhone,
   city: '',
   gender: 'male',
   programingLanguages: [],
@@ -501,22 +484,6 @@ const form = reactive<Record<string, any>>({
   ],
   skils: [],
   aboutMe: '111',
-
-  // email: 'initial',
-  // isCurrent: false,
-  // options: ['o2'],
-  // picked: '2',
-  // items: [],
-  // files: [],
-  // date: '',
-})
-
-const phoneMask = '+7 (###) ### ##-##'
-const mask = new Mask({ mask: phoneMask })
-const maskedPhone = ref('')
-const unmaskedPhone = computed(() => {
-  form.phone = mask.unmasked(maskedPhone.value)
-  return mask.unmasked(maskedPhone.value)
 })
 
 const mustBeEndOfExperience = (isTillNow: boolean) => {
@@ -525,6 +492,7 @@ const mustBeEndOfExperience = (isTillNow: boolean) => {
     (value: string | null) => value || isTillNow
   )
 }
+
 const rules = computed(() => {
   return {
     imageFile: {},
@@ -671,6 +639,12 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, form)
+const {
+  deleteOneOfBlock,
+  getEducationForm,
+  addExpirienceBlock,
+  addEducationBlock,
+} = useMultipleBlock(v$, form)
 
 const getErrorMessage = (field: any) => {
   if (field.$errors && field.$errors.length) {

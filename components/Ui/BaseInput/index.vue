@@ -36,10 +36,9 @@
         v-bind="attrs"
         @blur="update"
         :list="suggestions ? 'suggestions' : ''"
+        v-maska:[maskOptions]="mask"
+        :data-maska="mask"
       />
-
-      <!-- v-maska:[maskOptions]="mask"
-        :data-maska="mask" -->
 
       <p :class="$style.placeholder" class="small">
         {{ label }}
