@@ -124,7 +124,7 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 })
 const emit = defineEmits(['update:modelValue', 'update'])
-const { value, isError, update } = useFormItem(props, emit)
+const { localValue, isError, update } = useFormItem(props, emit)
 
 let currentOptions = reactive(props.options)
 
@@ -219,7 +219,9 @@ const filterOptions = () => {
 }
 
 onMounted(() => {
-  emitValues()
+  if (selectedLabels.value.length) {
+    emitValues()
+  }
   filterOptions()
 })
 </script>
@@ -227,6 +229,7 @@ onMounted(() => {
 <style lang="scss" module>
 .baseSelect {
   position: relative;
+  padding-top: 16px;
 
   .placeholder {
     top: 50%;
@@ -406,6 +409,8 @@ onMounted(() => {
   }
 
   &--error {
+    padding-bottom: 16px;
+
     .message {
       color: $error;
     }

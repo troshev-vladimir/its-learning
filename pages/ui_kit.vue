@@ -1,15 +1,4 @@
 <template>
-  <UiBaseButton
-    type="primary"
-    size="small"
-    class="q-mb-md"
-    @click="() => (popup = !popup)"
-  >
-    Тестирование Popup
-  </UiBaseButton>
-  <UiBasePopup v-model="popup"> 123 </UiBasePopup>
-
-  <FeatureCourseCard />
   <FeatureCV></FeatureCV>
   <client-only>
     <UiBaseTracker :value="80" class="h" size="big" />
@@ -81,10 +70,4 @@ definePageMeta({
 let popup = ref(false)
 </script>
 
-<style>
-.h {
-  /* height: 200px; */
-  margin: 64px 0;
-  /* width: 500px; */
-}
-</style>
+<style></style>

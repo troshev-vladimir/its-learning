@@ -37,7 +37,7 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue'])
 
-const { value: modelValue, isError, update } = useFormItem(props, emit)
+const { localValue: modelValue, isError, update } = useFormItem(props, emit)
 </script>
 
 <style lang="scss" module>

@@ -9,35 +9,42 @@
       rootClass,
     ]"
   >
-    <textarea
-      v-if="textarea"
-      type="text"
-      style="resize: vertical"
-      rows="4"
-      v-model="value"
-      :name="name"
-      :id="name"
-      :class="$style['native-input']"
-      placeholder=""
-      v-bind="attrs"
-      @blur="update"
-    />
+    <div :class="$style.inputWrapper">
+      <textarea
+        v-if="textarea"
+        type="text"
+        style="resize: vertical"
+        rows="4"
+        v-model="localValue"
+        :name="name"
+        :id="name"
+        :class="$style['native-input']"
+        placeholder=""
+        v-bind="attrs"
+        @blur="update"
+      />
 
-    <input
-      v-else
-      type="text"
-      style="resize: vertical"
-      v-model="value"
-      :name="name"
-      :id="name"
-      :class="$style['native-input']"
-      placeholder=""
-      v-bind="attrs"
-      v-maska:[maskOptions]
-      :data-maska="mask"
-      @blur="update"
-      :list="suggestions ? 'suggestions' : ''"
-    />
+      <input
+        v-else
+        type="text"
+        style="resize: vertical"
+        v-model="localValue"
+        :name="name"
+        :id="name"
+        :class="$style['native-input']"
+        placeholder=""
+        v-bind="attrs"
+        @blur="update"
+        :list="suggestions ? 'suggestions' : ''"
+        v-maska:[maskOptions]="mask"
+        :data-maska="mask"
+      />
+
+      <p :class="$style.placeholder" class="small">
+        {{ label }}
+        <span v-if="required">*</span>
+      </p>
+    </div>
 
     <datalist id="suggestions" v-if="suggestions && suggestions.length">
       <option
@@ -48,11 +55,8 @@
         {{ suggestion }}
       </option>
     </datalist>
-    <p :class="$style['placeholder']" class="small">
-      {{ label }}
-      <span v-if="required">*</span>
-    </p>
-    <p v-if="isError" :class="$style['message']">
+
+    <p v-if="isError" :class="$style.message">
       {{ validationResult.message }}
     </p>
   </div>
@@ -86,7 +90,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['update:modelValue', 'update'])
 
 const { maskOptions } = useMask(emit)
-const { value, isError, update } = useFormItem(props, emit)
+const { localValue, isError, update } = useFormItem(props, emit)
 
 const currentComponent = computed(() => {
   return !!props.textarea ? 'textarea' : 'input'
@@ -94,8 +98,16 @@ const currentComponent = computed(() => {
 </script>
 
 <style lang="scss" module>
+input[list='suggestions']::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
 .base-input {
   position: relative;
+  padding-top: 16px;
+
+  .inputWrapper {
+    position: relative;
+  }
 
   &--disabled {
     pointer-events: none;
@@ -167,6 +179,8 @@ const currentComponent = computed(() => {
   }
 
   &--error {
+    padding-bottom: 16px;
+
     .message {
       color: $error;
     }
