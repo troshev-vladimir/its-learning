@@ -97,6 +97,12 @@ const tagName = computed(() => {
   cursor: pointer;
   font-weight: 600;
 
+  &.disabled,
+  &._disabled {
+    color: $gray !important;
+    cursor: not-allowed;
+  }
+
   &__spinner {
     position: absolute;
     top: 50%;
@@ -127,7 +133,8 @@ const tagName = computed(() => {
       background: $blue-900;
     }
 
-    &.disabled {
+    &.disabled,
+    &._disabled {
       background: $gray !important;
     }
   }
@@ -147,10 +154,6 @@ const tagName = computed(() => {
 
     &:active {
       color: $blue-900;
-    }
-
-    &.disabled {
-      color: $gray !important;
     }
   }
 
@@ -178,6 +181,13 @@ const tagName = computed(() => {
       color: $blue-900;
       * {
         color: $blue-900;
+      }
+    }
+    &._disabled {
+      outline-color: $gray !important;
+      cursor: not-allowed;
+      * {
+        color: $gray !important;
       }
     }
   }
