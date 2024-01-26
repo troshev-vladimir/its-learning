@@ -1,3 +1,5 @@
+import { vMaska } from 'maska'
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('click-outside', {
     mounted(el, binding, vnode) {
@@ -11,4 +13,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       return {}
     },
   })
+
+  nuxtApp.vueApp.directive('maska', vMaska)
 })

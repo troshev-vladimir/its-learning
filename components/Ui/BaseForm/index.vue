@@ -4,7 +4,11 @@
     <slot></slot>
 
     <div :class="$style.actions">
-      <UiBaseButton :disabled="fuckedUp || dirty" size="small">
+      <UiBaseButton
+        nativeType="submit"
+        :disabled="fuckedUp || dirty"
+        size="small"
+      >
         Submit
       </UiBaseButton>
       <span v-if="fuckedUp" :class="$style.errorMessage">

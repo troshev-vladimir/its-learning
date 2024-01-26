@@ -27,15 +27,27 @@
       v-else
       type="text"
       style="resize: vertical"
-      rows="4"
       v-model="value"
       :name="name"
       :id="name"
       :class="$style['native-input']"
       placeholder=""
       v-bind="attrs"
+      v-maska:[maskOptions]
+      :data-maska="mask"
       @blur="update"
+      :list="suggestions ? 'suggestions' : ''"
     />
+
+    <datalist id="suggestions" v-if="suggestions && suggestions.length">
+      <option
+        v-for="(suggestion, index) in suggestions"
+        :key="index"
+        :value="suggestion"
+      >
+        {{ suggestion }}
+      </option>
+    </datalist>
     <p :class="$style['placeholder']" class="small">
       {{ label }}
       <span v-if="required">*</span>
@@ -48,11 +60,12 @@
 
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
+import useMask from './composables/useMask'
 
 const attrs = useAttrs()
 
 export interface Props {
-  modelValue: string | number
+  modelValue?: string
   label: string
   required?: boolean
   name: string
@@ -60,6 +73,8 @@ export interface Props {
   textarea?: boolean
   rootClass?: string | string[]
   disabled?: boolean
+  suggestions?: Array<string>
+  mask?: string | Function // TODO: переделать на imask
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -70,6 +85,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update'])
 
+const { maskOptions } = useMask(emit)
 const { value, isError, update } = useFormItem(props, emit)
 
 const currentComponent = computed(() => {

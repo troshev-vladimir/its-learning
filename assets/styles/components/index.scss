@@ -3,3 +3,12 @@
 .base-shadow {
   box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 0.25);
 }
+
+.label {
+  color: $accent;
+  font-size: 12px;
+  line-height: 17px;
+  top: 0;
+  left: 0;
+  transform: translateY(calc(-100% + -2px));
+}

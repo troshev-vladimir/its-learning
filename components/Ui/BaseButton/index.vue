@@ -6,6 +6,7 @@
     :target="type == 'external-link' ? '_blank' : 'none'"
     class="base-button"
     :class="[type, size, isLoading ? 'loading' : true]"
+    :type="nativeType"
   >
     <slot name="prev-icon">
       <client-only>
@@ -50,6 +51,7 @@ interface IProps {
   tag?: string
   prevIcon?: string
   postIcon?: string
+  nativeType?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
