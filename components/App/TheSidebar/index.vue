@@ -10,6 +10,7 @@
       <NuxtLink
         v-tippy="{ content: 'Личный кабинет', placement: 'right' }"
         to="/cabinet"
+        @click="closeSidebarOnMobile"
         class="the-sidebar__user-info-block"
       >
         <div class="user-info-block__photo-span">
@@ -18,7 +19,7 @@
         <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
       </NuxtLink>
       <div class="the-sidebar__link-list">
-        <UiBaseSidebarLink
+        <AppTheSidebarBaseSidebarLink
           v-for="(link, i) in props.links"
           :key="i"
           :icon="link.icon"
