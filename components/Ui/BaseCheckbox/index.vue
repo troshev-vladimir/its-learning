@@ -13,6 +13,7 @@
       :class="$style.nativeInput"
       type="checkbox"
       :name="props.name"
+      :id="props.name"
       @change="update"
     />
     <span :class="[$style.container]">
@@ -89,6 +90,7 @@ const { localValue, isError, update } = useFormItem(props, emit)
     border-radius: 4px;
     position: relative;
     margin-right: 4px;
+    margin-left: 0;
 
     .icon {
       position: absolute;
