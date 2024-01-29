@@ -1,7 +1,17 @@
 <template>
   <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
     <div
-      v-tippy="sidebarStatus ? null : { content: title, placement: 'right' }"
+      v-tippy="{
+        content: title,
+        placement: 'right',
+        onBeforeUpdate(instance: any, partialProps: any) {
+          if (props.sidebarStatus) {
+            instance.disable()
+          } else {
+            instance.enable()
+          }
+        },
+      }"
       class="base-sidebar-link__container"
     >
       <ClientOnly>
@@ -17,7 +27,7 @@
 <script lang="ts" setup>
 import type { RouterLinkProps } from 'vue-router'
 
-defineProps<{
+const props = defineProps<{
   icon?: string | string[]
   title?: string
   sidebarStatus: boolean
