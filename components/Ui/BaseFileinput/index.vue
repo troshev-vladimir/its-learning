@@ -8,6 +8,25 @@
       },
     ]"
   >
+    <div class="previews" v-if="withPrevew">
+      <template v-if="multiple">
+        <img
+          style="max-width: 100px"
+          v-for="(item, index) in preview"
+          :key="index"
+          :src="item"
+          alt=""
+        />
+      </template>
+
+      <img
+        v-else
+        style="max-width: 100px"
+        :src="Array.isArray(preview) ? preview[0] : preview"
+        alt=""
+      />
+    </div>
+
     <label class="base-fileinput__input-wrapper">
       <client-only>
         <font-awesome-icon
@@ -26,10 +45,20 @@
         :class="{ drag: isDraging }"
         :accept="acceptTypesString"
       />
+
       <span v-if="multiple" class="label text-body2"> {{ label }} </span>
       <span v-else class="label text-body2">{{
         uploadedFiles.length ? uploadedFiles[0].name : label
       }}</span>
+
+      <client-only>
+        <font-awesome-icon
+          v-if="uploadedFiles && uploadedFiles.length"
+          class="clear q-ml-sm"
+          :icon="['fas', 'times']"
+          @click.prevent.stop="deleteAllFiles()"
+        />
+      </client-only>
     </label>
 
     <p v-if="isError" class="message">
@@ -67,6 +96,7 @@ export interface Props {
   label?: string
   validationResult?: ValidatorResp
   disabled?: boolean
+  withPrevew?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   validationResult: () => ({
@@ -74,7 +104,9 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue', 'update'])
+
+const preview = ref<string[] | string>()
+const emit = defineEmits(['update:modelValue', 'update', 'preview'])
 const $q = useQuasar()
 const { isDraging, dragFileInput, dragEndFileInput } = useDragDrop()
 const { isError, update } = useFormItem(props, emit)
@@ -85,6 +117,13 @@ const acceptTypesString = computed(() => {
   if (!props.accept) return ''
   return Array.isArray(props.accept) ? props.accept.join(', ') : props.accept
 })
+
+const updatePreview = (filesArray: File[]) => {
+  preview.value = filesArray.map((file: File) => {
+    return URL.createObjectURL(file)
+  })
+  emit('preview', preview.value)
+}
 
 const onFileChange = (e: Event) => {
   const input = e.target as HTMLInputElement
@@ -136,7 +175,7 @@ const onFileChange = (e: Event) => {
   } else {
     uploadedFiles.value = Array.from(files)
   }
-
+  updatePreview(uploadedFiles.value)
   emit('update:modelValue', uploadedFiles.value)
 }
 
@@ -144,6 +183,8 @@ const deleteFile = (fileIndex: number) => {
   uploadedFiles.value.splice(fileIndex, 1)
 
   if (!fileInputRef.value) return
+
+  updatePreview(uploadedFiles.value)
 
   const dt = new DataTransfer()
   uploadedFiles.value.forEach((el, idx, arr) => {
@@ -154,9 +195,13 @@ const deleteFile = (fileIndex: number) => {
   emit('update:modelValue', uploadedFiles.value)
 }
 
-// for (var x = 0; x < uploadedFiles.length; x++) {
-//     formData.append("files[]", files[x]);
-// }
+const deleteAllFiles = () => {
+  console.log('adsfasfd')
+  uploadedFiles.value = []
+
+  updatePreview(uploadedFiles.value)
+  emit('update:modelValue', uploadedFiles.value)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -189,6 +234,11 @@ const deleteFile = (fileIndex: number) => {
 
     &:has(> input.drag) {
       border: 1px dashed $accent;
+    }
+
+    .clear {
+      position: absolute;
+      right: -20px;
     }
   }
 

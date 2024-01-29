@@ -6,16 +6,17 @@
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
   >
-    <div class="image q-mb-lg">
+    <div :class="[$style.image, 'q-mb-lg']">
       <img
-        src="https://avatars.mds.yandex.net/i?id=aefeb02bc321d03e4c317911c53e1cef985e2c6f-9821502-images-thumbs&n=13"
+        v-for="(photoURL, index) in userPhoto"
+        :key="index"
+        :src="photoURL"
         width="160"
-        height="160"
       />
       <UiBaseFileinput
         v-model="form.imageFile"
+        @preview="getUserProto"
         class="q-mb-sm"
-        multiple
         :accept="['image/png', 'image/jpeg']"
         :max-size="9 * 1024 * 1024"
         label="Прикрепить файлы"
@@ -455,7 +456,10 @@ const maskedPhone = ref('')
 const unmaskedPhone = computed(() => {
   return mask.unmasked(maskedPhone.value)
 })
-
+const userPhoto = ref()
+const getUserProto = (filesURLs: unknown[]) => {
+  userPhoto.value = filesURLs
+}
 const form = reactive<Record<string, any>>({
   imageFile: [],
   name: '',
@@ -666,7 +670,7 @@ const sendForm = async () => {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" module>
 .image {
   display: flex;
   align-items: center;

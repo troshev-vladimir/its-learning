@@ -39,12 +39,7 @@
     </template>
     Базовая кнопка1
   </UiBaseButton>
-  <UiBaseButton
-    type="boarded"
-    size="small"
-    prev-icon="fa-up-right-from-square"
-    class="_disabled"
-  >
+  <UiBaseButton type="boarded" size="small" prev-icon="fa-up-right-from-square">
     <template #right-icon>
       <client-only>
         <font-awesome-icon icon="fa-solid fa-user-astronaut" />

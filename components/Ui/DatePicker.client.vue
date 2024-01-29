@@ -142,6 +142,42 @@ const format = (date: Date) => {
     }
   }
 
+  :global(.dp__input_icon) {
+    color: #0075eb;
+    margin-left: 16px;
+  }
+  :global(.dp__input) {
+    width: 100%;
+    height: 100%;
+    padding: 10px 12px;
+    border: 1px solid $secondary;
+    outline: none;
+    border-radius: 8px;
+    background: $white;
+    font-size: $md;
+    transition: 0.2s;
+    padding-left: 38px;
+
+    &:hover,
+    &:focus,
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus {
+      border-color: $accent;
+    }
+
+    &:hover:focus,
+    &:-internal-autofill-selected:hover,
+    &:hover {
+      box-shadow: 0 0 0 2px $light-blue;
+    }
+
+    &:focus,
+    &:-internal-autofill-selected:focus {
+      -webkit-box-shadow: 0 0 0 1px $light-blue;
+      box-shadow: 0 0 0 1px $light-blue;
+    }
+  }
+
   &--error {
     padding-bottom: 16px;
 
@@ -189,42 +225,6 @@ const format = (date: Date) => {
     .placeholder,
     input {
       color: $secondary;
-    }
-  }
-
-  :global(.dp__input_icon) {
-    color: #0075eb;
-    margin-left: 16px;
-  }
-  :global(.dp__input) {
-    width: 100%;
-    height: 100%;
-    padding: 10px 12px;
-    border: 1px solid $secondary;
-    outline: none;
-    border-radius: 8px;
-    background: $white;
-    font-size: $md;
-    transition: 0.2s;
-    padding-left: 38px;
-
-    &:hover,
-    &:focus,
-    &:-webkit-autofill,
-    &:-webkit-autofill:focus {
-      border-color: $accent;
-    }
-
-    &:hover:focus,
-    &:-internal-autofill-selected:hover,
-    &:hover {
-      box-shadow: 0 0 0 2px $light-blue;
-    }
-
-    &:focus,
-    &:-internal-autofill-selected:focus {
-      -webkit-box-shadow: 0 0 0 1px $light-blue;
-      box-shadow: 0 0 0 1px $light-blue;
     }
   }
 }

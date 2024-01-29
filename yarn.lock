@@ -10330,6 +10330,13 @@ vue-template-compiler@^2.7.14:
     de-indent "^1.0.2"
     he "^1.2.0"
 
+vue-tippy@^6.4.1:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/vue-tippy/-/vue-tippy-6.4.1.tgz#b14b72b765ddca5e1ae9875510420374d5e08f5d"
+  integrity sha512-PEAKdioZjUvYWz4euxHFSXKJbL6kIKO29/LtQaCBbnd5Vg0U5kL8iLuqRshB2I31pXPSQS0qJsWx56178eS2QA==
+  dependencies:
+    tippy.js "^6.3.7"
+
 vue-tsc@^1.8.27:
   version "1.8.27"
   resolved "https://registry.npmjs.org/vue-tsc/-/vue-tsc-1.8.27.tgz"
