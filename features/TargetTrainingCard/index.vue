@@ -23,11 +23,11 @@
       </p>
       <div class="target-training-card__results-block" v-if="showResult">
         <div class="results-block__item">
-          <p class="text-body1 text-bold q-mb-xs">{{ value.result.iq }}</p>
+          <p class="text-body1 text-bold q-mb-xs">{{ value.result?.iq }}</p>
           <p class="text-body2">Тест IQ</p>
         </div>
         <div class="results-block__item">
-          <p class="text-body1 text-bold q-mb-xs">{{ value.result.score }}</p>
+          <p class="text-body1 text-bold q-mb-xs">{{ value.result?.score }}</p>
           <p class="text-body2">Другие задачи</p>
         </div>
       </div>
@@ -35,13 +35,13 @@
 
     <p
       class="result-block__status text-blue-600 text-bold"
-      v-if="showResult && value.result.allowance === true"
+      v-if="showResult && value.result?.allowance === true"
     >
       Вы приняты на целевое обучение
     </p>
     <p
       class="result-block__status text-blue-600 text-bold"
-      v-if="showResult && value.result.allowance === false"
+      v-if="showResult && value.result?.allowance === false"
     >
       Вы приняты на платное обучение
     </p>
@@ -64,7 +64,7 @@ interface PropsTest {
 
 const props = withDefaults(defineProps<PropsTest>(), {
   value: () => ({
-    status: 'result',
+    status: 'start',
     result: {
       iq: 120,
       score: 120,

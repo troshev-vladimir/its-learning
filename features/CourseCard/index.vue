@@ -7,19 +7,28 @@
             <UiBaseTracker class="course-card__tracker" :value="course.score" />
           </client-only>
           <p class="text-h2">{{ course.title }}</p>
-          <p class="text-body2 text-gray-600" v-if="course.trial?.state">
-            Бесплатный период на {{ course.trial?.days }} день
+          <p class="text-body2 text-gray-400" v-if="course.isEnded">
+            Курс завершён
           </p>
-          <p class="text-body2 text-gray-600" v-if="course.academ?.state">
+          <p
+            class="text-body2 text-gray-400"
+            v-if="course.academ?.state && course.academ?.date"
+          >
             Предоставлен академический отпуск до {{ course.academ?.date }}
+          </p>
+          <p class="text-body2 text-gray-400" v-if="course.trial?.state">
+            Бесплатный период на {{ course.trial?.days }} день
           </p>
         </div>
         <div class="left-side__block">
-          <p class="text-body2" v-if="course.started && course.startDate">
+          <p class="text-body2" v-if="course.isStarted && course.startDate">
             Дата начала: {{ course.startDate }}
           </p>
-          <p class="text-body2" v-if="course.started && course.planEndDate">
+          <p class="text-body2" v-if="course.isStarted && course.planEndDate">
             Планируемая дата окончания: {{ course.startDate }}
+          </p>
+          <p class="text-body2" v-if="course.isEnded && course.realEndDate">
+            Дата окончания: {{ course.realEndDate }}
           </p>
         </div>
       </div>
@@ -51,9 +60,17 @@
           class="course-card__button"
           type="boarded"
           size="small"
-          v-if="!course.academ?.state && course.started"
+          v-if="!course.academ?.state && course.isStarted"
         >
           Запросить академический отпуск
+        </UiBaseButton>
+        <UiBaseButton
+          class="course-card__button"
+          type="primary"
+          size="small"
+          v-if="course.shouldPay"
+        >
+          Оплатить
         </UiBaseButton>
         <div class="course-card__link-list">
           <UiBaseButton
@@ -71,6 +88,11 @@
 </template>
 
 <script lang="ts" setup>
+interface IDoc {
+  name: string
+  link: string
+}
+
 // FIXME тип полей для курса нужно вынести вотдельный расшаренный тип
 export type Course = {
   title: string
@@ -83,12 +105,14 @@ export type Course = {
     days: number
   }
   averageScore?: number
-  started: boolean
+  isStarted: boolean
   startDate?: string
+  isEnded?: boolean
   planEndDate?: string
   realEndDate?: string
-  docs?: [{ name: string; link: string }]
+  docs?: IDoc[]
   score?: number
+  shouldPay?: boolean
 }
 
 interface PropsCourse {
@@ -101,16 +125,39 @@ withDefaults(defineProps<PropsCourse>(), {
       averageScore: 4.96,
       trial: { state: true, days: 31 },
       academ: { state: false, date: '20.01.2024' },
-      started: true,
+      isStarted: true,
       startDate: '20.01.2024',
+      isEnded: true,
       planEndDate: '20.12.2024',
+      realEndDate: '10.10.2024',
       docs: [
         {
           name: 'Договор оферты',
           link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
         },
+        {
+          name: 'Приложение №1',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
+        {
+          name: 'Приложение №2',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
+        {
+          name: 'Диплом',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
+        {
+          name: 'Сертификат №1',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
+        {
+          name: 'Сертификат №2',
+          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
+        },
       ],
       score: 80,
+      shouldPay: true,
     }
   },
 })
@@ -121,7 +168,7 @@ withDefaults(defineProps<PropsCourse>(), {
   &__container {
     position: relative;
 
-    @media (min-width: 820px) {
+    @media (min-width: $breakpoint-sm) {
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -135,7 +182,7 @@ withDefaults(defineProps<PropsCourse>(), {
     gap: 16px;
     justify-content: space-between;
 
-    @media (min-width: 820px) {
+    @media (min-width: $breakpoint-sm) {
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -152,16 +199,19 @@ withDefaults(defineProps<PropsCourse>(), {
       flex-direction: column;
       gap: 16px;
     }
-    @media (min-width: 820px) {
-      width: 60%;
+    @media (min-width: $breakpoint-sm) {
+      width: 50%;
     }
   }
 
   &__right-side,
   .right-side {
-    @media (min-width: 820px) {
+    padding-left: 0px;
+
+    @media (min-width: $breakpoint-sm) {
       align-items: flex-end;
-      width: 40%;
+      width: 50%;
+      padding-left: 40px;
 
       &__date {
         text-align: right;
@@ -175,7 +225,7 @@ withDefaults(defineProps<PropsCourse>(), {
     column-gap: $md;
     row-gap: $sm;
 
-    @media (min-width: 820px) {
+    @media (min-width: $breakpoint-sm) {
       justify-content: flex-end;
       gap: 16px;
     }
