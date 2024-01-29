@@ -155,7 +155,7 @@ const format = (date: Date) => {
       color: $error !important;
     }
 
-    .dp__input {
+    :global(.dp__input) {
       border-color: $error;
 
       &:hover:focus {
@@ -175,57 +175,59 @@ const format = (date: Date) => {
 
   &--disabled {
     pointer-events: none;
-    .message {
+    :global(.message) {
       display: none;
     }
 
-    .dp__input {
+    :global(.dp__input) {
       border-color: $secondary;
     }
-
-    .dp__input_icon,
+    svg {
+      color: $secondary !important;
+    }
+    :global(.dp__input_icon),
     .placeholder,
     input {
       color: $secondary;
     }
   }
-}
-</style>
 
-<style lang="scss">
-.dp__input_icon {
-  color: #0075eb;
-  margin-left: 16px;
-}
-.dp__input {
-  width: 100%;
-  height: 100%;
-  padding: 10px 12px;
-  border: 1px solid $secondary;
-  outline: none;
-  border-radius: 8px;
-  background: $white;
-  font-size: $md;
-  transition: 0.2s;
-  padding-left: 38px;
-
-  &:hover,
-  &:focus,
-  &:-webkit-autofill,
-  &:-webkit-autofill:focus {
-    border-color: $accent;
+  :global(.dp__input_icon) {
+    color: #0075eb;
+    margin-left: 16px;
   }
+  :global(.dp__input) {
+    width: 100%;
+    height: 100%;
+    padding: 10px 12px;
+    border: 1px solid $secondary;
+    outline: none;
+    border-radius: 8px;
+    background: $white;
+    font-size: $md;
+    transition: 0.2s;
+    padding-left: 38px;
 
-  &:hover:focus,
-  &:-internal-autofill-selected:hover,
-  &:hover {
-    box-shadow: 0 0 0 2px $light-blue;
-  }
+    &:hover,
+    &:focus,
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus {
+      border-color: $accent;
+    }
 
-  &:focus,
-  &:-internal-autofill-selected:focus {
-    -webkit-box-shadow: 0 0 0 1px $light-blue;
-    box-shadow: 0 0 0 1px $light-blue;
+    &:hover:focus,
+    &:-internal-autofill-selected:hover,
+    &:hover {
+      box-shadow: 0 0 0 2px $light-blue;
+    }
+
+    &:focus,
+    &:-internal-autofill-selected:focus {
+      -webkit-box-shadow: 0 0 0 1px $light-blue;
+      box-shadow: 0 0 0 1px $light-blue;
+    }
   }
 }
 </style>
+
+<style lang="scss"></style>

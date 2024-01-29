@@ -129,7 +129,7 @@
           По настоящее время
         </UiBaseCheckbox>
         <UiDatePicker
-          :disabled="form.experience[index].tillNow"
+          v-if="!form.experience[index].tillNow"
           label="Дата окончания"
           v-model="form.experience[index].endDate"
           @update:modelValue="v$.experience[index].endDate.$touch"
