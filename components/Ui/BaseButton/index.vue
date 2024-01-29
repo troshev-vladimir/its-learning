@@ -5,7 +5,12 @@
     :href="type === 'external-link' && typeof to == 'string' ? to : ''"
     :target="type == 'external-link' ? '_blank' : 'none'"
     class="base-button"
-    :class="[type, size, isLoading ? 'loading' : true]"
+    :class="[
+      type,
+      size,
+      isLoading ? 'loading' : true,
+      disabled ? '_disabled' : null,
+    ]"
     :type="nativeType"
   >
     <slot name="prev-icon">
@@ -52,12 +57,14 @@ interface IProps {
   prevIcon?: string
   postIcon?: string
   nativeType?: string
+  disabled?: boolean
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   type: 'primary',
   size: 'big',
   tag: 'button',
+  disabled: false,
 })
 
 const isLoading = computed({
@@ -101,6 +108,7 @@ const tagName = computed(() => {
   &._disabled {
     color: $gray !important;
     cursor: not-allowed;
+    pointer-events: none;
   }
 
   &__spinner {

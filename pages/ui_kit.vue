@@ -43,7 +43,7 @@
     type="boarded"
     size="small"
     prev-icon="fa-up-right-from-square"
-    class="_disabled"
+    :disabled="true"
   >
     <template #right-icon>
       <client-only>
