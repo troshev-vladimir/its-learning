@@ -1,68 +1,89 @@
 <template>
   <teleport to="#popups-container">
-    <div class="base-popup" :class="{ active: modelValue }">
-      <client-only>
-        <font-awesome-icon
-          @click="close"
-          class="cancel"
-          icon="fa-solid fa-xmark"
-        />
-      </client-only>
-      <div class="card">
-        <div class="header">
-          <slot name="header"></slot>
-        </div>
-        <div class="cardContainer">
-          <slot></slot>
-        </div>
-        <div class="footer">
-          <slot name="footer"></slot>
-        </div>
+    <dialog ref="dialog" :class="[$style.dialog, 'pretty-scroll']">
+      <div :class="[$style.content]">
+        <client-only>
+          <font-awesome-icon
+            @click="close"
+            :class="$style.cancel"
+            icon="fa-solid fa-xmark"
+            class="text-primary"
+          />
+        </client-only>
+
+        <slot> </slot>
       </div>
-      <span class="background" @click="close"></span>
-    </div>
+    </dialog>
   </teleport>
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits(['update:modelValue'])
-import { useBodyFreez } from '~/composables'
-
 const props = defineProps<{
-  modelValue?: boolean
+  modelValue: boolean
 }>()
-const { modelValue } = toRefs(props)
-let { startBodyFreez } = useBodyFreez(modelValue)
+const emit = defineEmits(['update:modelValue'])
 
-const open = () => {
-  emit('update:modelValue', true)
-}
+const dialog = ref<HTMLDialogElement>()
+watch(
+  () => props.modelValue,
+  (value) => {
+    console.log(dialog.value?.querySelector('backdrop'))
+    if (!dialog.value) return
+
+    if (value) {
+      dialog.value.showModal()
+      document.body.classList.add('scroll-lock')
+    } else {
+      document.body.classList.remove('scroll-lock')
+      close()
+    }
+  }
+)
 
 const close = () => {
+  if (!dialog.value) return
+  dialog.value.close()
   emit('update:modelValue', false)
 }
-
-onMounted(() => {
-  startBodyFreez()
-})
-
-defineExpose({ open, close })
 </script>
 
-<style lang="scss" scoped>
-.base-popup {
-  display: none;
-  transition: 0.2s;
+<style lang="scss" module>
+dialog {
+  padding: 0;
+  border: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  &[open] {
+    opacity: 1;
+    pointer-events: inherit;
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  min-width: 600px;
+}
+
+.dialog {
+  padding-top: 16px;
+  .content {
+    position: relative;
+  }
+
+  .cancel {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: $lg;
+    color: $white;
+    cursor: pointer;
+  }
 }
 
 .base-popup.active {
-  display: block;
-  position: fixed;
-  z-index: 1000;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
   animation: showPopup 0.2s ease;
 }
 
@@ -75,43 +96,6 @@ defineExpose({ open, close })
   }
 }
 
-.background {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: #00000056;
-}
-.card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  transform: translate(-50%, -50%);
-  min-width: 100px;
-  min-height: 100px;
-  width: max-content;
-  height: max-content;
-  max-width: 95vw;
-  max-height: 90vh;
-  background: $white;
-  border-radius: 16px;
-  overflow: auto;
-
-  @media (min-width: $breakpoint-sm) {
-    max-width: 80vw;
-    max-height: 80vh;
-  }
-}
-.cancel {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  font-size: $lg;
-  color: $white;
-  cursor: pointer;
-}
 .cardContainer {
   flex: 1 1 auto;
   overflow: auto;

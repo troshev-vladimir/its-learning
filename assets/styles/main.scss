@@ -96,3 +96,20 @@ body.freez {
   position: fixed;
   overflow-y: scroll;
 }
+
+body.scroll-lock {
+  overflow: hidden;
+}
+
+.pretty-scroll {
+  &::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent; /* цвет дорожки */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <UiBaseForm
     title="Резюме"
-    class="base-block q-mt-lg q-mb-lg"
+    class="base-block"
     @submit="sendForm"
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
