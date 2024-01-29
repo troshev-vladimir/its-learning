@@ -133,6 +133,7 @@ const onFileChange = (e: Event) => {
 
   if (files[0].size > (props.maxSize || 2000)) {
     // TODO: эти условия надо покаозывать польхователю, он не вкрсе что можно пихать сюда чере драгдроп
+    // + Сброс drandrop
     $q.notify({
       type: 'negative',
       message: `Максимум доступны файлы ${props.maxSize}kb. Файл ${files[0].name} слишком тяжёлый`,
@@ -147,7 +148,7 @@ const onFileChange = (e: Event) => {
       ? !props.accept.includes(files[0].type)
       : props.accept === files[0].type
   ) {
-    // TODO: эти условия надо покаозывать польхователю, он не вкрсе что можно пихать сюда чере драгдроп
+    // TODO: эти условия надо покаозывать пользователю, он не вкурсе что можно пихать сюда чере драгдроп
     $q.notify({
       type: 'negative',
       message: `Файл не подходящего формата`,
@@ -196,9 +197,7 @@ const deleteFile = (fileIndex: number) => {
 }
 
 const deleteAllFiles = () => {
-  console.log('adsfasfd')
   uploadedFiles.value = []
-
   updatePreview(uploadedFiles.value)
   emit('update:modelValue', uploadedFiles.value)
 }
