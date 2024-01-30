@@ -172,7 +172,7 @@ const { citys, companies, sugestCity, sugestCompany } = useSugestions()
 
 const form = reactive<Record<string, any>>({
   imageFile: [],
-  name: '',
+  name: 'asdasdasd',
   city: '',
   degree: 0,
   releaseYear: '',

@@ -18,7 +18,13 @@
           <p class="text-body2 q-mr-xl">Город: Киров</p>
           <p class="text-body2">Возраст: 29 лет</p>
         </div>
-        <UiBaseButton type="boarded" size="small"> Редактировать </UiBaseButton>
+        <UiBaseButton
+          type="boarded"
+          size="small"
+          @click="userProfileEdit = true"
+        >
+          Редактировать
+        </UiBaseButton>
       </div>
       <UiBaseAverageScore class="items-center items-sm-end col-xs-4 col-sm-2" />
     </div>
@@ -26,12 +32,19 @@
     <FeatureCourseCard />
     <FeatureCompanyPaymentCard />
   </div>
+  <UiBasePopup v-model="userProfileEdit">
+    <div class="base-block">
+      <FeatureUserProfile></FeatureUserProfile>
+    </div>
+  </UiBasePopup>
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
   layout: 'cabinet',
 })
+
+const userProfileEdit = ref(false)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
