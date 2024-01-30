@@ -97,10 +97,6 @@ body.freez {
   overflow-y: scroll;
 }
 
-body.scroll-lock {
-  overflow: hidden;
-}
-
 .pretty-scroll {
   &::-webkit-scrollbar {
     width: 6px; /* ширина scrollbar */

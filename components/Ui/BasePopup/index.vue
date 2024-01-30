@@ -1,7 +1,11 @@
 <template>
   <teleport to="#popups-container">
-    <dialog ref="dialog" :class="[$style.dialog, 'pretty-scroll']">
-      <div :class="[$style.content]">
+    <dialog
+      ref="dialog"
+      :class="[$style.dialog, 'pretty-scroll']"
+      @click="close"
+    >
+      <div :class="[$style.content]" @click.stop>
         <client-only>
           <font-awesome-icon
             @click="close"
@@ -27,7 +31,6 @@ const dialog = ref<HTMLDialogElement>()
 watch(
   () => props.modelValue,
   (value) => {
-    console.log(dialog.value?.querySelector('backdrop'))
     if (!dialog.value) return
 
     if (value) {
@@ -48,12 +51,14 @@ const close = () => {
 </script>
 
 <style lang="scss" module>
-dialog {
+.dialog {
   padding: 0;
   border: none;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s;
+  display: flex;
+  min-width: 600px;
 
   &[open] {
     opacity: 1;
@@ -64,13 +69,9 @@ dialog {
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  min-width: 600px;
-}
-
-.dialog {
-  padding-top: 16px;
   .content {
     position: relative;
+    width: 100%;
   }
 
   .cancel {
@@ -90,8 +91,10 @@ dialog {
 @keyframes showPopup {
   from {
     opacity: 0;
+    transform: scale(0.8);
   }
   to {
+    transform: scale(1);
     opacity: 1;
   }
 }
