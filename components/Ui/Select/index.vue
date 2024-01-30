@@ -270,6 +270,7 @@ onMounted(() => {
       display: flex;
       align-items: center;
       gap: 4px;
+
       .selectedLabel {
         background-color: var(--q-secondary);
         padding: 0 4px;
@@ -278,6 +279,10 @@ onMounted(() => {
         align-items: center;
         padding: 4px 8px;
         gap: 6px;
+
+        @media screen and (max-width: $breakpoint-sm) {
+          font-size: 14px;
+        }
 
         .clearItem {
           display: inline-flex;

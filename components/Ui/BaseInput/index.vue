@@ -9,7 +9,7 @@
       rootClass,
     ]"
   >
-    <div :class="$style.inputWrapper">
+    <div :class="$style.inputWrapper" v-click-outside="hideSuggestion">
       <textarea
         v-if="textarea"
         type="text"
@@ -35,26 +35,31 @@
         placeholder=""
         v-bind="attrs"
         @blur="update"
-        :list="suggestions ? 'suggestions' : ''"
         v-maska:[maskOptions]="mask"
         :data-maska="mask"
+        @click="isSuggestions = true"
+        @focus="isSuggestions = true"
       />
 
       <p :class="$style.placeholder" class="small">
         {{ label }}
         <span v-if="required">*</span>
       </p>
-    </div>
 
-    <datalist id="suggestions" v-if="suggestions && suggestions.length">
-      <option
-        v-for="(suggestion, index) in suggestions"
-        :key="index"
-        :value="suggestion"
+      <div
+        :class="[$style.suggestions]"
+        v-if="isSuggestions && suggestions && suggestions.length"
       >
-        {{ suggestion }}
-      </option>
-    </datalist>
+        <div
+          v-for="(suggestion, index) in suggestions"
+          :key="index"
+          :class="$style.suggestionItem"
+          @click="selectSugestion(suggestion)"
+        >
+          {{ suggestion }}
+        </div>
+      </div>
+    </div>
 
     <p v-if="isError" :class="$style.message">
       {{ validationResult.message }}
@@ -92,6 +97,16 @@ const emit = defineEmits(['update:modelValue', 'update'])
 const { maskOptions } = useMask(emit)
 const { localValue, isError, update } = useFormItem(props, emit)
 
+const isSuggestions = ref(false)
+const hideSuggestion = () => {
+  isSuggestions.value = false
+}
+
+const selectSugestion = (suggestion: string) => {
+  localValue.value = suggestion
+  hideSuggestion()
+}
+
 const currentComponent = computed(() => {
   return !!props.textarea ? 'textarea' : 'input'
 })
@@ -127,6 +142,32 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
     top: 0;
     left: 0;
     transform: translateY(calc(-100% + -2px));
+  }
+
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    transform: translate(0, 10px);
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px #7d7d7d;
+    border-radius: 8px;
+    z-index: 10;
+
+    .suggestionItem {
+      padding: 10px 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: $secondary;
+      }
+
+      font-size: 15px;
+
+      @media screen and (max-width: $breakpoint-xs) {
+        font-size: 13px;
+      }
+    }
   }
 
   .placeholder {

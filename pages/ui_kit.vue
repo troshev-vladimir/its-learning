@@ -1,9 +1,5 @@
 <template>
-  <button @click="modal = true">poopup</button>
-
-  <UiBasePopup v-model="modal">
-    <FeatureCV></FeatureCV>
-  </UiBasePopup>
+  <FeatureCV></FeatureCV>
 </template>
 
 <script setup lang="ts">

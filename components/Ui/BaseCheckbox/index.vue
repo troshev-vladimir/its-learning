@@ -16,7 +16,7 @@
       :id="props.name"
       @change="update"
     />
-    <span :class="[$style.container]">
+    <span :class="[$style.box]">
       <client-only>
         <font-awesome-icon
           :class="$style.icon"
@@ -73,13 +73,13 @@ const { localValue, isError, update } = useFormItem(props, emit)
   position: relative;
 
   &:hover {
-    .container {
+    .box {
       border-color: $accent;
       box-shadow: 0 0 0 2px $light-blue;
     }
   }
 
-  .container {
+  .box {
     width: 20px;
     height: 20px;
     display: flex;
@@ -108,7 +108,7 @@ const { localValue, isError, update } = useFormItem(props, emit)
     display: none;
     &:checked {
       color: red;
-      & ~ .container {
+      & ~ .box {
         background-color: $accent;
         .icon {
           display: block;
@@ -132,7 +132,7 @@ const { localValue, isError, update } = useFormItem(props, emit)
       color: $error;
     }
 
-    .container {
+    .box {
       border-color: $error;
 
       &:hover:focus {
@@ -155,7 +155,7 @@ const { localValue, isError, update } = useFormItem(props, emit)
 
     .nativeInput {
       &:checked {
-        & ~ .container {
+        & ~ .box {
           background-color: $secondary;
           .icon {
             color: $accent;
