@@ -12,6 +12,7 @@
         type="primary"
         size="big"
         v-if="value.status === 'start' && !showResult"
+        @click="testPopup = true"
       >
         Пройти тестирование
       </UiBaseButton>
@@ -45,6 +46,10 @@
     >
       Вы приняты на платное обучение
     </p>
+    <WidgetTargetTrainingTest
+      v-model="testPopup"
+      @submit="() => (testPopup = false)"
+    ></WidgetTargetTrainingTest>
   </div>
 </template>
 
@@ -72,6 +77,8 @@ const props = withDefaults(defineProps<PropsTest>(), {
     },
   }),
 })
+
+let testPopup = ref(false)
 
 let showResult = computed(
   () =>

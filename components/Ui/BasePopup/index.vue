@@ -1,11 +1,7 @@
 <template>
   <teleport to="#popups-container">
     <TransitionGroup name="popup" :duration="{ enter: 200, leave: 150 }">
-      <div
-        class="base-popup base-block"
-        v-if="modelValue"
-        :class="{ active: modelValue }"
-      >
+      <div class="base-popup base-block active" v-show="modelValue">
         <client-only>
           <font-awesome-icon
             @click="close"
@@ -45,6 +41,10 @@ const close = () => {
   emit('update:modelValue', false)
 }
 
+watch(modelValue, () => {
+  if (!modelValue.value) close()
+})
+
 onMounted(() => {
   startBodyFreez()
 
@@ -61,7 +61,9 @@ defineExpose({ close })
 <style lang="scss" scoped>
 .base-popup {
   display: none;
-  transition: 0.2s;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .popup-enter-active {
@@ -91,9 +93,6 @@ defineExpose({ close })
   display: block;
   position: fixed;
   z-index: 3;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   overflow: hidden;
   max-width: 90vw;
   max-height: 90vh;

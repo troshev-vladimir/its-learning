@@ -18,17 +18,21 @@
           v-for="(answer, i) in question.answers"
           :key="i"
         >
-          {{ answer.text }}
+          <p class="text-body2">
+            {{ answer.text }}
+          </p>
         </UiBaseRadio>
       </div>
       <div class="question-card__answers-block" v-if="question.multiple">
         <UiBaseCheckbox
           v-model="checkedAnswer"
-          :label="answer.text"
           :name="answer.id"
           v-for="(answer, i) in question.answers"
           :key="i"
         >
+          <p class="text-body2">
+            {{ answer.text }}
+          </p>
         </UiBaseCheckbox>
       </div>
     </div>
@@ -63,9 +67,21 @@ let checkedAnswer = computed({
     margin-bottom: 24px;
   }
   &__answers-block {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    * {
+      word-wrap: break-word;
+      width: 100%;
+    }
   }
 }
 </style>
