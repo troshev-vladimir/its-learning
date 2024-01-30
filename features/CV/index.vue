@@ -446,7 +446,6 @@
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { Mask } from 'maska'
-import useSugestions from './composables/useSugestions'
 import useMultipleBlock from './composables/useMultyBlock'
 const { citys, companies, sugestCity, sugestCompany } = useSugestions()
 

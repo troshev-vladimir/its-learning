@@ -1,6 +1,4 @@
-<template>
-  <FeatureCV></FeatureCV>
-</template>
+<template></template>
 
 <script setup lang="ts">
 definePageMeta({
