@@ -8,12 +8,6 @@ export default defineNuxtConfig({
     storesDirs: ['./stores/**'],
   },
 
-  app: {
-    head: {
-      script: [{ src: '/metrics/vk.js' }, { src: '/metrics/ym.js' }],
-    },
-  },
-
   components: [
     {
       path: '~/components',
