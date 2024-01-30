@@ -12,7 +12,7 @@
         type="primary"
         size="big"
         v-if="value.status === 'start' && !showResult"
-        @click="testPopup = true"
+        @click="() => emit('startTest')"
       >
         Пройти тестирование
       </UiBaseButton>
@@ -46,14 +46,11 @@
     >
       Вы приняты на платное обучение
     </p>
-    <WidgetTargetTrainingTest
-      v-model="testPopup"
-      @submit="() => (testPopup = false)"
-    ></WidgetTargetTrainingTest>
   </div>
 </template>
 
 <script lang="ts" setup>
+const emit = defineEmits(['startTest'])
 interface Test {
   status: 'start' | 'waiting' | 'result'
   result?: {
@@ -77,8 +74,6 @@ const props = withDefaults(defineProps<PropsTest>(), {
     },
   }),
 })
-
-let testPopup = ref(false)
 
 let showResult = computed(
   () =>

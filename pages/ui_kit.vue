@@ -1,21 +1,20 @@
 <template>
-  <UiBaseButton type="primary" size="small" @click="() => (popup = !popup)">
-    Нажми
+  <UiBaseButton type="primary" size="small" :disabled="true">
+    Кнопка
   </UiBaseButton>
-  <!-- <UiBasePopup  :has-background="true">
-    <FeatureCV class="resume-form"></FeatureCV>
-  </UiBasePopup> -->
-  <WidgetTargetTrainingTest v-model="popup"></WidgetTargetTrainingTest>
-
-  <div class="content">
-    <p>Text:</p>
-    <ul>
-      <li>123</li>
-      <li>123</li>
-      <li>123</li>
-    </ul>
-  </div>
-
+  <UiBaseButton type="secondary" size="small" :disabled="true">
+    Кнопка
+  </UiBaseButton>
+  <UiBaseButton type="boarded" size="small" :disabled="true">
+    Кнопка
+  </UiBaseButton>
+  <UiBaseButton type="link" size="small" :disabled="true">
+    Кнопка
+  </UiBaseButton>
+  <UiBaseButton type="primary" size="small"> Кнопка </UiBaseButton>
+  <UiBaseButton type="secondary" size="small"> Кнопка </UiBaseButton>
+  <UiBaseButton type="boarded" size="small"> Кнопка </UiBaseButton>
+  <UiBaseButton type="link" size="small"> Кнопка </UiBaseButton>
   <!-- <FeatureCV></FeatureCV>
   <client-only>
     <UiBaseTracker :value="80" class="h" size="big" />
