@@ -156,12 +156,21 @@ const tagName = computed(() => {
       color: $accent;
     }
 
-    &:hover {
+    &:hover * {
       color: $blue-400;
     }
 
     &:active {
-      color: $blue-900;
+      * {
+        color: $blue-900;
+      }
+
+      box-shadow: none !important;
+    }
+
+    &.disabled,
+    &._disabled * {
+      color: $gray;
     }
   }
 
@@ -193,7 +202,6 @@ const tagName = computed(() => {
     }
     &._disabled {
       outline-color: $gray !important;
-      cursor: not-allowed;
       * {
         color: $gray !important;
       }
@@ -226,6 +234,10 @@ const tagName = computed(() => {
       * {
         color: $blue-900;
       }
+    }
+
+    &._disabled * {
+      color: $gray;
     }
   }
 

@@ -22,9 +22,13 @@
       </div>
       <UiBaseAverageScore class="items-center items-sm-end col-xs-4 col-sm-2" />
     </div>
-    <FeatureTargetTrainingCard />
+    <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     <FeatureCourseCard />
     <FeatureCompanyPaymentCard />
+    <WidgetTargetTrainingTest
+      v-model="testPopup"
+      @submit="() => (testPopup = false)"
+    ></WidgetTargetTrainingTest>
   </div>
 </template>
 
@@ -32,6 +36,8 @@
 definePageMeta({
   layout: 'cabinet',
 })
+
+let testPopup = ref(false)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
