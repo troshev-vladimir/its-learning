@@ -83,6 +83,7 @@ const { localValue, isError, update } = useFormItem(props, emit)
     width: 20px;
     height: 20px;
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     color: $white;

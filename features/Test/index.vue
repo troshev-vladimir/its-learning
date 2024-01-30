@@ -1,11 +1,11 @@
 <template>
-  <div class="test-feature">
-    <div class="test-feature__container">
-      <FeatureTestFeatureQuestionCard
+  <div class="test-component">
+    <div class="test-component__container">
+      <FeatureTestQuestionCard
         :question="questions[mainQuestionCount]"
         v-model="answers[mainQuestionCount]"
       />
-      <div class="test-feature__buttons">
+      <div class="test-component__buttons">
         <UiBaseButton
           type="secondary"
           size="small"
@@ -120,11 +120,25 @@ const emitAnswers = () => {
 </script>
 
 <style lang="scss" scoped>
-.test-feature {
+.test-component {
   &__buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 24px;
+    gap: 8px;
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+
+    @media screen and (min-width: $breakpoint-xs) {
+      flex-direction: row;
+
+      button {
+        width: fit-content;
+      }
+    }
   }
 }
 </style>
