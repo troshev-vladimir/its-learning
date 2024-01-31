@@ -5,11 +5,11 @@
         <div class="container">
           <div class="modal" @click.stop>
             <slot :closeModal="closeModal"></slot>
-          </div>
-          <div class="close" @click="closeModal">
-            <ClientOnly>
-              <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
-            </ClientOnly>
+            <div class="close" @click="closeModal">
+              <ClientOnly>
+                <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+              </ClientOnly>
+            </div>
           </div>
         </div>
       </div>
@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -34,11 +33,14 @@ const localValue = computed({
     emit('update:modelValue', value)
   },
 })
+const { startBodyFreez } = useBodyFreez(localValue)
 
 watch(localValue, (value) => {
-  const body = document.querySelector('body')
+  const body = document.querySelector('window')
   if (value) {
-    body?.classList.add('freez')
+    body?.addEventListener('scroll', (e) => {
+      e.preventDefault()
+    })
   } else {
     body?.classList.remove('freez')
   }
@@ -61,6 +63,7 @@ const closeModal = () => {
   left: 0;
   right: 0;
   bottom: 0;
+
   @media screen and (max-width: $breakpoint-xs) {
     align-items: flex-end;
 
@@ -75,31 +78,56 @@ const closeModal = () => {
   background-color: #fff;
   height: 90vh;
   width: 100%;
+  position: relative;
 
   @media screen and (max-width: $breakpoint-xs) {
     border-radius: 16px 16px 0 0;
   }
 }
 
-.modal-fade-enter,
-.modal-fade-leave-to {
+.modal-fade-leave-to,
+.modal-fade-enter-from {
   @media screen and (min-width: $breakpoint-xs) {
     opacity: 0;
   }
 
   @media screen and (max-width: $breakpoint-xs) {
-    transform: translate(0, 100%);
+    opacity: 0;
+
+    .container {
+      transform: translate(0, 100%);
+    }
   }
 }
 
+.modal-fade-leave-from,
+.modal-fade-enter-to {
+  @media screen and (min-width: $breakpoint-xs) {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: $breakpoint-xs) {
+    opacity: 1;
+
+    .container {
+      transform: none;
+    }
+  }
+}
+// .modal-fade-leave-to
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: all 0.5s ease;
+
+  .container {
+    transition: all 0.5s ease;
+  }
 }
 
 .close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
 }
 </style>

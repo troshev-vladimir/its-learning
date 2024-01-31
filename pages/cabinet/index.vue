@@ -1,9 +1,5 @@
 <template>
   <div class="cabinet-page">
-    <div class="cabinet-page__events-block row-md q-gutter-md column">
-      <FeatureEventCard class="event-card col-8" />
-      <FeatureEventCard class="event-card col" />
-    </div>
     <div
       class="user-profile column row-sm q-gutter-md q-gutter-md-xl items-center justify-sm-between items-sm-center"
     >
@@ -35,15 +31,17 @@
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     <FeatureCourseCard />
     <FeatureCompanyPaymentCard />
-    <WidgetTargetTrainingTest
-      v-model="testPopup"
-      @submit="() => (testPopup = false)"
-    ></WidgetTargetTrainingTest>
   </div>
   <UiBasePopup v-model="userProfileEdit">
     <template #default="{ closeModal }">
-      <FeatureUserProfile @submit="closeModal"></FeatureUserProfile
-    ></template>
+      <FeatureUserProfile @submit="closeModal"></FeatureUserProfile>
+    </template>
+  </UiBasePopup>
+
+  <UiBasePopup v-model="testPopup" class="target-training-test">
+    <template #default="{ closeModal }">
+      <FeatureTest class="target-training-test__test" @submit="closeModal" />
+    </template>
   </UiBasePopup>
 </template>
 
@@ -54,22 +52,25 @@ definePageMeta({
 
 const userProfileEdit = ref(false)
 let testPopup = ref(false)
-const route = useRoute()
-route.meta.pageTitle = 'Личный кабинет'
-
-useSeoMeta({
-  title: 'Личный кабинет',
-})
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
 
-  &__events-block {
+.target-training-test {
+  &__test {
+    min-width: 90vw;
+    padding: 24px;
+
+    @media screen and (min-width: $breakpoint-xs) {
+      min-width: 540px;
+    }
   }
 }
+
 .user-profile {
   .photo-span {
     display: block;
@@ -79,7 +80,7 @@ useSeoMeta({
     border-radius: 8px;
     overflow: hidden;
 
-    @media (min-width: $bp-xs) {
+    @media (min-width: $breakpoint-xs) {
       min-width: auto;
     }
 
