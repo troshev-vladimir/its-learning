@@ -9,27 +9,18 @@
         <UiBaseButton
           type="secondary"
           size="small"
-          v-if="hasPrevQuestion"
+          :disabled="!hasPrevQuestion"
           @click="setPrevQuestionCount"
         >
           Предыдущий вопрос
         </UiBaseButton>
-        <div></div>
         <UiBaseButton
           type="primary"
           size="small"
-          v-if="hasNextQuestion"
+          :disabled="!hasNextQuestion"
           @click="setNextQuestionCount"
         >
           Следующий вопрос
-        </UiBaseButton>
-        <UiBaseButton
-          type="primary"
-          size="small"
-          v-if="isEndQuestion"
-          @click="emitAnswers"
-        >
-          Завершить
         </UiBaseButton>
       </div>
     </div>
