@@ -10,7 +10,7 @@ defineProps<{
       {{ value }}
     </p>
     <p class="base-average-score__value text-body1 text-bold" v-else>-</p>
-    <p class="text-body2">
+    <p class="text-body2 text-right">
       Средний балл
       <ClientOnly>
         <font-awesome-icon
