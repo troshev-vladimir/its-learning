@@ -1,13 +1,19 @@
-$breakpoint-xs: 599px;
-$breakpoint-sm: 1023px;
-$breakpoint-md: 1439px;
-$breakpoint-lg: 1920px;
+$bp-xs: 599px;
+$bp-sm: 1023px;
+$bp-md: 1439px;
+$bp-lg: 1920px;
 
 $radius: 8px;
 $radius-lg: 16px;
 
-@media (min-width: $breakpoint-sm) {
+@media (min-width: $bp-sm) {
   $radius: 4px;
+}
+
+@mixin media($bp) {
+  @media screen and (min-width: $bp) {
+    @content;
+  }
 }
 
 $xs: 4px;

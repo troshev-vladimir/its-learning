@@ -247,7 +247,7 @@ const tagName = computed(() => {
     line-height: 20px;
     font-size: 12px;
 
-    @media screen and (min-width: $breakpoint-sm) {
+    @media screen and (min-width: $bp-sm) {
       padding: 12px 24px;
       border-radius: 8px;
       line-height: 20px;
@@ -265,7 +265,7 @@ const tagName = computed(() => {
       font-size: 16px;
     }
 
-    @media screen and (min-width: $breakpoint-sm) {
+    @media screen and (min-width: $bp-sm) {
       padding: 16px 32px;
       border-radius: 8px;
       font-size: 20px;

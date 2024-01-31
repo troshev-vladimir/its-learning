@@ -132,7 +132,7 @@ const emitAnswers = () => {
       width: 100%;
     }
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       flex-direction: row;
 
       button {

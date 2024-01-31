@@ -47,7 +47,7 @@
     margin-top: 8px;
     gap: 16px;
 
-    @media acreen and (mi-width: $breakpoint-xs) {
+    @media acreen and (mi-width: $bp-xs) {
       margin-top: 0px;
       align-items: flex-end;
     }

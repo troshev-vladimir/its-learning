@@ -113,7 +113,7 @@ onMounted(() => {
   height: 100%;
   transition: width 0.2s ease;
 
-  @media screen and (min-width: $breakpoint-xs) {
+  @media screen and (min-width: $bp-xs) {
     left: 0%;
     height: 100vh;
     width: 80px;
@@ -122,7 +122,7 @@ onMounted(() => {
     left: 0% !important;
     width: 100%;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       width: 200px;
     }
   }
@@ -156,7 +156,7 @@ onMounted(() => {
       img {
         width: 50%;
 
-        @media screen and (min-width: $breakpoint-xs) {
+        @media screen and (min-width: $bp-xs) {
           width: 100%;
         }
       }
@@ -224,7 +224,7 @@ onMounted(() => {
   &_mobile {
     display: block;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       display: none;
     }
   }

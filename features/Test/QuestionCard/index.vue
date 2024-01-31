@@ -72,7 +72,7 @@ let checkedAnswer = computed({
     gap: 16px;
     width: 100%;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;

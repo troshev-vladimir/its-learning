@@ -54,7 +54,7 @@ const exit = () => {
     flex-wrap: nowrap;
     padding: 24px;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       flex-direction: row;
     }
   }
@@ -64,7 +64,7 @@ const exit = () => {
     color: $accent;
     cursor: pointer;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       font-size: 30px;
     }
 
@@ -76,7 +76,7 @@ const exit = () => {
       color: $blue-900;
     }
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       font-size: 24px;
     }
   }
@@ -97,7 +97,7 @@ const exit = () => {
     text-decoration: underline;
     display: none;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       display: block;
     }
 
@@ -110,7 +110,7 @@ const exit = () => {
     img {
       height: 42px;
 
-      @media screen and (min-width: $breakpoint-sm) {
+      @media screen and (min-width: $bp-sm) {
         height: 72px;
       }
     }

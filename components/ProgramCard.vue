@@ -212,7 +212,7 @@ const getInstallment = (summ: number) => {
     .header__container {
       display: block;
 
-      @media (min-width: $breakpoint-sm) {
+      @media (min-width: $bp-sm) {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -223,7 +223,7 @@ const getInstallment = (summ: number) => {
     .header__left-side {
       width: 100%;
 
-      @media (min-width: $breakpoint-xs) {
+      @media (min-width: $bp-xs) {
         margin-bottom: $sm;
       }
     }
@@ -236,7 +236,7 @@ const getInstallment = (summ: number) => {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
 
-    @media (min-width: $breakpoint-sm) {
+    @media (min-width: $bp-sm) {
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
@@ -283,7 +283,7 @@ const getInstallment = (summ: number) => {
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: $breakpoint-sm) {
+    @media screen and (max-width: $bp-sm) {
       min-height: 0;
       flex-wrap: wrap;
       flex-direction: row;

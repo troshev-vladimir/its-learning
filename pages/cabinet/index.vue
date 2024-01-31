@@ -79,7 +79,7 @@ useSeoMeta({
     border-radius: 8px;
     overflow: hidden;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       min-width: auto;
     }
 

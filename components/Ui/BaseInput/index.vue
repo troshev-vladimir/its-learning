@@ -164,7 +164,7 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
       font-size: 15px;
 
-      @media screen and (max-width: $breakpoint-xs) {
+      @media screen and (max-width: $bp-xs) {
         font-size: 13px;
       }
     }

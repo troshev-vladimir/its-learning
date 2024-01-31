@@ -57,7 +57,7 @@
 
 $flex-cols: 12;
 
-@media (min-width: $breakpoint-sm) {
+@media (min-width: $bp-sm) {
   // 1024
   .text-h1 {
     font-weight: 700;
@@ -85,11 +85,11 @@ $flex-cols: 12;
   }
 }
 
-@media (min-width: $breakpoint-md) {
+@media (min-width: $bp-md) {
   // 1440
   @include col-gap(40px);
 }
-@media (min-width: $breakpoint-lg) {
+@media (min-width: $bp-lg) {
   // 1920
   @include col-gap(40px);
 }

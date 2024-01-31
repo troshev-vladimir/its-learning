@@ -280,7 +280,7 @@ onMounted(() => {
         padding: 4px 8px;
         gap: 6px;
 
-        @media screen and (max-width: $breakpoint-sm) {
+        @media screen and (max-width: $bp-sm) {
           font-size: 14px;
         }
 

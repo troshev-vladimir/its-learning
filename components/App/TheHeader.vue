@@ -40,7 +40,7 @@ const exit = () => {
     justify-content: space-between;
     flex-direction: column;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       flex-direction: row;
       align-items: center;
     }
@@ -50,7 +50,7 @@ const exit = () => {
     img {
       height: 42px;
 
-      @media screen and (min-width: $breakpoint-sm) {
+      @media screen and (min-width: $bp-sm) {
         height: 72px;
       }
     }
