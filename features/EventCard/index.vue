@@ -25,7 +25,8 @@
 .event-card {
   &__date-time-block {
     display: flex;
-    gap: 60px;
+    column-gap: 60px;
+    row-gap: 8px;
     flex-wrap: wrap;
     margin-bottom: 16px;
   }
