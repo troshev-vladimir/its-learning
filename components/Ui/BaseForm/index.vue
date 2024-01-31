@@ -1,7 +1,10 @@
 <template>
-  <form @submit.prevent="submit" class="base-form">
-    <h2 :class="$style.title">{{ title }}</h2>
-    <slot></slot>
+  <form @submit.prevent="submit" :class="[$style['base-form']]">
+    <h2 :class="[$style.title, 'text-h2']">{{ title }}</h2>
+
+    <div :class="[$style['form-content'], 'pretty-scroll']">
+      <slot></slot>
+    </div>
 
     <div :class="$style.actions">
       <UiBaseButton
@@ -34,15 +37,22 @@ const submit = () => {
 
 <style lang="scss" module>
 .base-form {
+  width: 100%;
+  height: 100%;
   padding: 24px;
-  background: $white;
-  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+
+  .form-content {
+    overflow: auto;
+    padding: 0 3px; // для теней
+  }
 }
 
 .title {
-  font-size: 30px;
-  font-weight: 600;
-  margin-bottom: 30px;
+  padding-bottom: 24px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid $secondary;
 }
 
 .actions {
@@ -50,6 +60,9 @@ const submit = () => {
   gap: 20px;
   align-items: center;
   padding-top: $lg;
+  border-top: 1px solid $secondary;
+  padding-top: 24px;
+  margin-top: 16px;
 }
 
 .errorMessage {

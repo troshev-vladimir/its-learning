@@ -1,7 +1,6 @@
 <template>
   <UiBaseForm
-    title="Резюме"
-    class="q-mb-lg"
+    title="Редактирование профиля"
     @submit="sendForm"
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
@@ -128,7 +127,6 @@
       label="У меня есть опыт в программировании"
       @update="updateValue('havExperience')"
       class="q-mb-sm"
-      required
       :validation-result="{
         status: v$.havExperience.$error ? 'error' : 'success',
         message: getErrorMessage(v$.havExperience),
@@ -168,10 +166,10 @@
 <script setup lang="ts">
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-const { citys, companies, sugestCity, sugestCompany } = useSugestions()
+const { citys, sugestCity } = useSugestions()
+const emit = defineEmits(['submit'])
 
 const form = reactive<Record<string, any>>({
-  imageFile: [],
   name: 'asdasdasd',
   city: '',
   degree: 0,
@@ -188,8 +186,7 @@ const form = reactive<Record<string, any>>({
 
 const rules = computed(() => {
   return {
-    imageFile: {},
-    name: {},
+    name: { required: helpers.withMessage('Поле обязательно', required) },
     city: {},
     degree: {},
     releaseYear: {},
@@ -223,7 +220,8 @@ const sendForm = async () => {
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
     console.log(form)
+    emit('submit')
   }
 }
 </script>
-<style lang="scss" module></style>
+<style lang="scss"></style>

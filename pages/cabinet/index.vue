@@ -37,9 +37,9 @@
     ></WidgetTargetTrainingTest>
   </div>
   <UiBasePopup v-model="userProfileEdit">
-    <div class="base-block">
-      <FeatureUserProfile></FeatureUserProfile>
-    </div>
+    <template #default="{ closeModal }">
+      <FeatureUserProfile @submit="closeModal"></FeatureUserProfile
+    ></template>
   </UiBasePopup>
 </template>
 

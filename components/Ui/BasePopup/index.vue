@@ -1,134 +1,105 @@
 <template>
   <teleport to="#popups-container">
-    <TransitionGroup name="popup" :duration="{ enter: 200, leave: 150 }">
-      <div class="base-popup base-block active" v-show="modelValue">
-        <client-only>
-          <font-awesome-icon
-            @click="close"
-            class="cancel"
-            icon="fa-solid fa-xmark"
-          />
-        </client-only>
-        <div class="card pretty-scroll">
-          <slot></slot>
+    <transition name="modal-fade">
+      <div class="modal-overlay" @click="closeModal" v-if="modelValue">
+        <div class="container">
+          <div class="modal" @click.stop>
+            <slot :closeModal="closeModal"></slot>
+          </div>
+          <div class="close" @click="closeModal">
+            <ClientOnly>
+              <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+            </ClientOnly>
+          </div>
         </div>
       </div>
-      <span
-        class="background"
-        v-if="hasBackground === true && modelValue"
-        @click="close"
-      ></span>
-    </TransitionGroup>
+    </transition>
   </teleport>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+const props = defineProps<{
+  modelValue: boolean
+}>()
+
 const emit = defineEmits(['update:modelValue'])
-import { useBodyFreez } from '~/composables'
 
-interface Props {
-  modelValue?: boolean
-  hasBackground?: boolean
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value: boolean) {
+    emit('update:modelValue', value)
+  },
+})
+
+watch(localValue, (value) => {
+  const body = document.querySelector('body')
+  if (value) {
+    body?.classList.add('freez')
+  } else {
+    body?.classList.remove('freez')
+  }
+})
+
+const closeModal = () => {
+  localValue.value = false
 }
-
-const props = withDefaults(defineProps<Props>(), {
-  hasBackground: true,
-})
-const { modelValue } = toRefs(props)
-let { startBodyFreez } = useBodyFreez(modelValue)
-
-const close = () => {
-  emit('update:modelValue', false)
-}
-
-watch(modelValue, () => {
-  if (!modelValue.value) close()
-})
-
-onMounted(() => {
-  startBodyFreez()
-
-  document.body.addEventListener('keydown', function (e) {
-    if (e.key == 'Escape') {
-      close()
-    }
-  })
-})
-
-defineExpose({ close })
 </script>
 
-<style lang="scss" scoped>
-.base-popup {
-  display: none;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.popup-enter-active {
-  animation: showPopup 0.2s ease;
-  @keyframes showPopup {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-}
-.popup-leave-active {
-  animation: hidePopup 0.2s ease;
-  @keyframes hidePopup {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-}
-
-.base-popup.active {
-  display: block;
+<style scoped lang="scss">
+.modal-overlay {
   position: fixed;
-  z-index: 3;
-  overflow: hidden;
-  max-width: 90vw;
-  max-height: 90vh;
-  padding: 0;
-}
-
-.background {
-  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 100;
   top: 0;
   left: 0;
-  z-index: 2;
-  display: block;
+  right: 0;
+  bottom: 0;
+  @media screen and (max-width: $breakpoint-xs) {
+    align-items: flex-end;
+
+    .container {
+      padding: 0;
+    }
+  }
+}
+
+.modal {
+  border-radius: 16px;
+  background-color: #fff;
+  height: 90vh;
   width: 100%;
-  height: 100%;
-  background: #00000056;
+
+  @media screen and (max-width: $breakpoint-xs) {
+    border-radius: 16px 16px 0 0;
+  }
 }
-.card {
-  flex-direction: column;
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 100%;
-  height: max-content;
-  height: inherit;
-  overflow: auto;
+
+.modal-fade-enter,
+.modal-fade-leave-to {
+  @media screen and (min-width: $breakpoint-xs) {
+    opacity: 0;
+  }
+
+  @media screen and (max-width: $breakpoint-xs) {
+    transform: translate(0, 100%);
+  }
 }
-.cancel {
-  position: fixed;
-  z-index: 2;
-  top: 24px;
-  right: 24px;
-  font-size: $lg;
-  color: $gray-600;
-  cursor: pointer;
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: all 0.5s ease;
 }
-.cardContainer {
-  flex: 1 1 auto;
-  overflow: auto;
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>

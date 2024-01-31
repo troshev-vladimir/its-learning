@@ -13,8 +13,6 @@ export default function useFromItem(
       }
     },
     set(value: typeof props.modelValue) {
-      console.log(value)
-
       if (Array.isArray(props.modelValue)) {
         value
           ? emit('update:modelValue', [...props.modelValue, props.name])
