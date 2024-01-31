@@ -1,5 +1,9 @@
 <template>
   <div class="cabinet-page">
+    <div class="cabinet-page__events-block row-md q-gutter-md column">
+      <FeatureEventCard class="event-card col-8" />
+      <FeatureEventCard class="event-card col" />
+    </div>
     <div
       class="user-profile column row-sm q-gutter-md q-gutter-md-xl items-center justify-sm-between items-sm-center"
     >
@@ -50,12 +54,21 @@ definePageMeta({
 
 const userProfileEdit = ref(false)
 let testPopup = ref(false)
+const route = useRoute()
+route.meta.pageTitle = 'Личный кабинет'
+
+useSeoMeta({
+  title: 'Личный кабинет',
+})
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  &__events-block {
+  }
 }
 .user-profile {
   .photo-span {
@@ -66,7 +79,7 @@ let testPopup = ref(false)
     border-radius: 8px;
     overflow: hidden;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       min-width: auto;
     }
 

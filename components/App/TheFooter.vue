@@ -37,22 +37,22 @@
 </template>
 
 <script>
-  export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>
-  .logo {
-    img {
-      height: 45px;
+.logo {
+  img {
+    height: 45px;
 
-      @media screen and (min-width: $breakpoint-sm) {
-        height: 57px;
-      }
+    @media screen and (min-width: $bp-sm) {
+      height: 57px;
     }
   }
-  .footer-items {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
-  }
+}
+.footer-items {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
 </style>

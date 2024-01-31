@@ -82,6 +82,8 @@
 definePageMeta({
   layout: 'cabinet',
 })
+const route = useRoute()
+route.meta.pageTitle = 'UI -kit'
 
 let popup = ref(false)
 </script>
@@ -90,11 +92,11 @@ let popup = ref(false)
 @import '~/assets/styles/base-styles.scss';
 .resume-form {
   min-width: 90vw;
-  @media (min-width: $breakpoint-xs) {
+  @media (min-width: $bp-xs) {
     min-width: 50vw;
   }
 
-  // @media (min-width: $breakpoint-xs) {
+  // @media (min-width: $bp-xs) {
   // }
 }
 </style>

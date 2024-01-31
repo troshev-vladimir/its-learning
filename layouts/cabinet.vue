@@ -22,12 +22,12 @@ let sidebarLinks = computed(() => [
     active: route.path.includes('course'),
     to: '/course/1',
   },
-  {
-    icon: 'fas fa-briefcase',
-    title: 'Трудоустройство',
-    active: false,
-    to: '/',
-  },
+  // {
+  //   icon: 'fas fa-briefcase',
+  //   title: 'Трудоустройство',
+  //   active: false,
+  //   to: '/',
+  // },
   process.env.NODE_ENV === 'development'
     ? {
         icon: 'fas fa-code',
@@ -49,7 +49,7 @@ let sidebarLinks = computed(() => [
     z-index: 2;
     top: 65px;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       position: fixed;
       top: 0;
       left: 0;
@@ -59,7 +59,7 @@ let sidebarLinks = computed(() => [
     flex: 0 0 auto;
     display: none;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       display: block;
       width: 80px;
       height: 100vh;

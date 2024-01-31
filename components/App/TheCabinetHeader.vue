@@ -2,7 +2,12 @@
   <header class="header">
     <div class="header__container">
       <div class="column items-start">
-        <div id="cabiner-header-left-side"></div>
+        <div class="header__left-side">
+          <div id="cabiner-header-left-side"></div>
+          <p class="text-body1" v-if="route.meta.pageTitle">
+            {{ route.meta.pageTitle }}
+          </p>
+        </div>
       </div>
       <div class="header__right-side">
         <div class="header__logout-block row items-center" @click="exit">
@@ -23,6 +28,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 const exit = () => {
   localStorage.clear()
   router.push({ name: 'auth' })
@@ -48,7 +54,7 @@ const exit = () => {
     flex-wrap: nowrap;
     padding: 24px;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       flex-direction: row;
     }
   }
@@ -58,7 +64,7 @@ const exit = () => {
     color: $accent;
     cursor: pointer;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       font-size: 30px;
     }
 
@@ -70,9 +76,15 @@ const exit = () => {
       color: $blue-900;
     }
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       font-size: 24px;
     }
+  }
+
+  &__left-side {
+    display: flex;
+    gap: 16px;
+    align-items: center;
   }
 
   &__right-side {
@@ -85,7 +97,7 @@ const exit = () => {
     text-decoration: underline;
     display: none;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       display: block;
     }
 
@@ -98,7 +110,7 @@ const exit = () => {
     img {
       height: 42px;
 
-      @media screen and (min-width: $breakpoint-sm) {
+      @media screen and (min-width: $bp-sm) {
         height: 72px;
       }
     }

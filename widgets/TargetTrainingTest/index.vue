@@ -17,7 +17,7 @@ const emit = defineEmits(['submit'])
     min-width: 90vw;
     padding: 24px;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       min-width: 540px;
     }
   }

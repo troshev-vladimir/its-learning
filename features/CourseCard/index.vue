@@ -168,7 +168,7 @@ withDefaults(defineProps<PropsCourse>(), {
   &__container {
     position: relative;
 
-    @media (min-width: $breakpoint-sm) {
+    @include media($bp-sm) {
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -182,7 +182,7 @@ withDefaults(defineProps<PropsCourse>(), {
     gap: 16px;
     justify-content: space-between;
 
-    @media (min-width: $breakpoint-sm) {
+    @include media($bp-sm) {
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -199,7 +199,7 @@ withDefaults(defineProps<PropsCourse>(), {
       flex-direction: column;
       gap: 16px;
     }
-    @media (min-width: $breakpoint-sm) {
+    @include media($bp-sm) {
       width: 50%;
     }
   }
@@ -208,7 +208,7 @@ withDefaults(defineProps<PropsCourse>(), {
   .right-side {
     padding-left: 0px;
 
-    @media (min-width: $breakpoint-sm) {
+    @include media($bp-sm) {
       align-items: flex-end;
       width: 50%;
       padding-left: 40px;
@@ -225,7 +225,7 @@ withDefaults(defineProps<PropsCourse>(), {
     column-gap: $md;
     row-gap: $sm;
 
-    @media (min-width: $breakpoint-sm) {
+    @include media($bp-sm) {
       justify-content: flex-end;
       gap: 16px;
     }
@@ -234,7 +234,7 @@ withDefaults(defineProps<PropsCourse>(), {
   &__button {
     width: 100% !important;
 
-    @media (min-width: $breakpoint-xs) {
+    @include media($bp-xs) {
       width: fit-content !important;
     }
   }

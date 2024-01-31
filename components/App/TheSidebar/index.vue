@@ -26,7 +26,7 @@
         <div class="user-info-block__photo-span">
           <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
-        <p class="user-info-block__name" v-if="isOpen">Елизавета Воробьева</p>
+        <p class="user-info-block__name" v-if="isOpen">Виктор Андреевич</p>
       </NuxtLink>
       <div class="the-sidebar__link-list">
         <AppTheSidebarBaseSidebarLink
@@ -111,11 +111,20 @@ onMounted(() => {
   left: -100%;
   display: flex;
   height: 100%;
+  transition: width 0.2s ease;
 
-  @media screen and (min-width: $breakpoint-xs) {
+  @media screen and (min-width: $bp-xs) {
     left: 0%;
     height: 100vh;
     width: 80px;
+  }
+  &.active {
+    left: 0% !important;
+    width: 100%;
+
+    @media screen and (min-width: $bp-xs) {
+      width: 200px;
+    }
   }
 
   * {
@@ -127,15 +136,6 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-
-  &.active {
-    left: 0% !important;
-    width: 100%;
-
-    @media screen and (min-width: $breakpoint-xs) {
-      width: 200px;
-    }
   }
 
   &__logo-block,
@@ -156,7 +156,7 @@ onMounted(() => {
       img {
         width: 50%;
 
-        @media screen and (min-width: $breakpoint-xs) {
+        @media screen and (min-width: $bp-xs) {
           width: 100%;
         }
       }
@@ -183,15 +183,17 @@ onMounted(() => {
         width: 100%;
         height: 100%;
       }
-
-      &:hover {
-        outline: 2px solid $blue-500;
-      }
     }
 
-    &:hover * {
-      text-decoration: underline;
-      color: $blue-500;
+    &:hover {
+      * {
+        text-decoration: underline;
+        color: $blue-500;
+      }
+
+      .user-info-block__photo-span {
+        outline: 2px solid $blue-500;
+      }
     }
   }
 
@@ -222,7 +224,7 @@ onMounted(() => {
   &_mobile {
     display: block;
 
-    @media (min-width: $breakpoint-xs) {
+    @media (min-width: $bp-xs) {
       display: none;
     }
   }

@@ -49,6 +49,13 @@ definePageMeta({
   layout: 'cabinet',
 })
 
+const route = useRoute()
+route.meta.pageTitle = 'Обучение'
+
+useSeoMeta({
+  title: 'Обучение',
+})
+
 let statistics = {
   tests: {
     score: 1,
@@ -75,7 +82,7 @@ let statistics = {
     flex-direction: column;
     gap: 16px;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       gap: 0;
       flex-direction: row;
     }
@@ -87,7 +94,7 @@ let statistics = {
       align-items: center;
       gap: 16px;
 
-      @media screen and (min-width: $breakpoint-xs) {
+      @media screen and (min-width: $bp-xs) {
         align-items: start;
         width: 65%;
       }
@@ -114,7 +121,7 @@ let statistics = {
     margin-top: 32px;
     flex-wrap: wrap;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       justify-content: flex-start;
     }
   }
