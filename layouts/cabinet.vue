@@ -22,12 +22,12 @@ let sidebarLinks = computed(() => [
     active: route.path.includes('course'),
     to: '/course/1',
   },
-  {
-    icon: 'fas fa-briefcase',
-    title: 'Трудоустройство',
-    active: false,
-    to: '/',
-  },
+  // {
+  //   icon: 'fas fa-briefcase',
+  //   title: 'Трудоустройство',
+  //   active: false,
+  //   to: '/',
+  // },
   process.env.NODE_ENV === 'development'
     ? {
         icon: 'fas fa-code',

@@ -82,6 +82,8 @@
 definePageMeta({
   layout: 'cabinet',
 })
+const route = useRoute()
+route.meta.pageTitle = 'UI -kit'
 
 let popup = ref(false)
 </script>

@@ -49,6 +49,13 @@ definePageMeta({
   layout: 'cabinet',
 })
 
+const route = useRoute()
+route.meta.pageTitle = 'Обучение'
+
+useSeoMeta({
+  title: 'Обучение',
+})
+
 let statistics = {
   tests: {
     score: 1,

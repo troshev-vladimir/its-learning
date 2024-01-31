@@ -2,7 +2,12 @@
   <header class="header">
     <div class="header__container">
       <div class="column items-start">
-        <div id="cabiner-header-left-side"></div>
+        <div class="header__left-side">
+          <div id="cabiner-header-left-side"></div>
+          <p class="text-body1" v-if="route.meta.pageTitle">
+            {{ route.meta.pageTitle }}
+          </p>
+        </div>
       </div>
       <div class="header__right-side">
         <div class="header__logout-block row items-center" @click="exit">
@@ -23,6 +28,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 const exit = () => {
   localStorage.clear()
   router.push({ name: 'auth' })
@@ -73,6 +79,12 @@ const exit = () => {
     @media (min-width: $breakpoint-xs) {
       font-size: 24px;
     }
+  }
+
+  &__left-side {
+    display: flex;
+    gap: 16px;
+    align-items: center;
   }
 
   &__right-side {

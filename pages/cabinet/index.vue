@@ -50,6 +50,12 @@ definePageMeta({
 
 const userProfileEdit = ref(false)
 let testPopup = ref(false)
+const route = useRoute()
+route.meta.pageTitle = 'Личный кабинет'
+
+useSeoMeta({
+  title: 'Личный кабинет',
+})
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
