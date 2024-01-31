@@ -1,5 +1,9 @@
 <template>
   <div class="cabinet-page">
+    <div class="cabinet-page__events-block row-md q-gutter-md column">
+      <FeatureEventCard class="event-card col-8" />
+      <FeatureEventCard class="event-card col" />
+    </div>
     <div
       class="user-profile column row-sm q-gutter-md q-gutter-md-xl items-center justify-sm-between items-sm-center"
     >
