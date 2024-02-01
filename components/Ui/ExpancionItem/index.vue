@@ -47,6 +47,16 @@ const toggleOpenStatus = () => {
 
 <style lang="scss">
 .expansion-item {
+  &[disabled='true'],
+  &[disabled] {
+    &:hover {
+      cursor: not-allowed;
+    }
+
+    &:active {
+      pointer-events: none;
+    }
+  }
   &__header {
     cursor: pointer;
   }

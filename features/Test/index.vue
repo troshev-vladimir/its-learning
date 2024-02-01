@@ -10,17 +10,29 @@
           type="secondary"
           size="small"
           :disabled="!hasPrevQuestion"
+          v-if="hasPrevQuestion"
           @click="setPrevQuestionCount"
         >
           Предыдущий вопрос
         </UiBaseButton>
+        <div></div>
         <UiBaseButton
           type="primary"
           size="small"
-          :disabled="!hasNextQuestion"
+          :disabled="hasNotNextQuestion"
+          v-if="!isEndQuestion"
           @click="setNextQuestionCount"
         >
           Следующий вопрос
+        </UiBaseButton>
+        <UiBaseButton
+          type="primary"
+          size="small"
+          :disabled="!isCompletedQuestion"
+          v-if="isEndQuestion"
+          @click="() => emit('submit', answers)"
+        >
+          Завершить
         </UiBaseButton>
       </div>
     </div>
@@ -57,6 +69,18 @@ let props = withDefaults(defineProps<Props>(), {
         { text: 'Четвертый ответ', id: 4 },
       ],
     },
+    {
+      text: 'Третий вопрос?',
+      id: 3,
+      multiple: true,
+      required: true,
+      answers: [
+        { text: 'Первый ответ', id: 1 },
+        { text: 'Второй ответ', id: 2 },
+        { text: 'Третий ответ', id: 3 },
+        { text: 'Четвертый ответ', id: 4 },
+      ],
+    },
   ],
 })
 const emit = defineEmits(['submit'])
@@ -74,10 +98,11 @@ const isCompletedQuestion = computed(() => {
     } else {
       return mainAnswerValue != null && mainAnswerValue != ''
     }
-  } else {
-    return true
   }
+  return true
 })
+
+const hasNotNextQuestion = computed(() => !hasNextQuestion.value)
 
 const hasNextQuestion = computed(
   () =>
@@ -88,9 +113,7 @@ const hasNextQuestion = computed(
 const hasPrevQuestion = computed(() => mainQuestionCount.value > 0)
 
 const isEndQuestion = computed(
-  () =>
-    mainQuestionCount.value === props.questions.length - 1 &&
-    isCompletedQuestion.value
+  () => mainQuestionCount.value === props.questions.length - 1
 )
 
 const setNextQuestionCount = () => {

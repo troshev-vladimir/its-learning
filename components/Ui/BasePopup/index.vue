@@ -1,7 +1,7 @@
 <template>
   <!-- <teleport to="#popups-container"> -->
   <transition name="modal-fade">
-    <div class="modal-overlay" @click="closeModal" v-if="modelValue">
+    <div class="modal-overlay" @click="closeModal" v-show="modelValue">
       <div class="container">
         <div class="modal" @click.stop>
           <slot :closeModal="closeModal"></slot>
@@ -35,17 +35,6 @@ const localValue = computed({
 })
 const {} = useBodyFreez(localValue)
 
-watch(localValue, (value) => {
-  const body = document.querySelector('window')
-  if (value) {
-    body?.addEventListener('scroll', (e) => {
-      e.preventDefault()
-    })
-  } else {
-    body?.classList.remove('freez')
-  }
-})
-
 const closeModal = () => {
   localValue.value = false
 }
@@ -74,7 +63,6 @@ const closeModal = () => {
 }
 .modal {
   border-radius: 16px;
-  background-color: #fff;
   max-height: 90vh;
   overflow: auto;
   width: 100%;

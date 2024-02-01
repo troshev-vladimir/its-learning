@@ -49,7 +49,7 @@ let sidebarLinks = computed(() => [
     z-index: 2;
     top: 65px;
 
-    @media screen and (min-width: $bp-xs) {
+    @media screen and (min-width: $bp-sm) {
       position: fixed;
       top: 0;
       left: 0;
@@ -59,7 +59,7 @@ let sidebarLinks = computed(() => [
     flex: 0 0 auto;
     display: none;
 
-    @media screen and (min-width: $bp-xs) {
+    @media screen and (min-width: $bp-sm) {
       display: block;
       width: 80px;
       height: 100vh;

@@ -4,11 +4,11 @@
       <div class="column items-start">
         <div class="header__left-side">
           <div id="cabiner-header-left-side"></div>
-          <p class="text-body1" v-if="route.meta.pageTitle">
-            {{ route.meta.pageTitle }}
-          </p>
         </div>
       </div>
+      <p class="text-body1" v-if="route.meta.pageTitle">
+        {{ route.meta.pageTitle }}
+      </p>
       <div class="header__right-side">
         <div class="header__logout-block row items-center" @click="exit">
           <ClientOnly>
