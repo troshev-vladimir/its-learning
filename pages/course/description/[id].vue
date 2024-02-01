@@ -1,5 +1,5 @@
 <template>
-  <section class="description-page base-block">
+  <section class="description-page base-block q-my-lg">
     <h1 class="text-h1 q-my-lg">
       Программа <span class="text-accent"> 1С Программист </span>
     </h1>
@@ -28,19 +28,35 @@
         <li>Изучение документов и журналов программы.</li>
       </ul>
     </div>
-    <UiBaseButton type="boarded" size="small" class="q-ml-auto"
+
+    <UiBaseButton @click="goBack" type="boarded" size="small" class="q-ml-auto"
       >Назад</UiBaseButton
     >
   </section>
 </template>
 <script setup lang="ts">
-// definePageMeta({
-//   layout: 'empty',
-// })
+definePageMeta({
+  layout: 'empty',
+})
 
-// useSeoMeta({
-//   title: '1С Программист',
-// })
+const router = useRouter()
+const route = useRoute()
+const prevPage = ref('')
+
+useSeoMeta({
+  title: '1С Программист',
+})
+
+onMounted(() => {
+  console.log(router, route)
+})
+
+const goBack = () => {
+  router.push(prevPage.value || '/cabinet')
+}
+router.beforeEach((prev: any, current: any) => {
+  prevPage.value = prev.fullPath
+})
 </script>
 <style lang="scss" scoped>
 .description-page {
