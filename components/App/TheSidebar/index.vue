@@ -7,7 +7,6 @@
           <img src="@/assets/img/logo.svg" alt="" v-else />
         </div>
       </div>
-      <NuxtLink to="/description/">course</NuxtLink>
       <NuxtLink
         v-tippy="{
           content: 'Личный кабинет',
