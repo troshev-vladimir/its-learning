@@ -36,6 +36,10 @@ export default function useBodyFreez(value: Ref<boolean>) {
     bodyFreezRemove()
   }
 
+  onMounted(() => {
+    startBodyFreez()
+  })
+
   return {
     bodyFreez,
     bodyFreezRemove,

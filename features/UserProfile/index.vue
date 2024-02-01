@@ -135,7 +135,6 @@
 
     <UiBaseFileinput
       v-model="form.graduates"
-      @preview="getUserProto"
       multiple
       class="q-mb-sm"
       :accept="['image/png', 'image/jpeg']"
@@ -149,7 +148,6 @@
     />
     <UiBaseFileinput
       v-model="form.additionalGraduates"
-      @preview="getUserProto"
       multiple
       class="q-mb-sm"
       :accept="['image/png', 'image/jpeg']"

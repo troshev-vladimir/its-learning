@@ -1,20 +1,20 @@
 <template>
-  <teleport to="#popups-container">
-    <transition name="modal-fade">
-      <div class="modal-overlay" @click="closeModal" v-if="modelValue">
-        <div class="container">
-          <div class="modal" @click.stop>
-            <slot :closeModal="closeModal"></slot>
-            <div class="close" @click="closeModal">
-              <ClientOnly>
-                <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
-              </ClientOnly>
-            </div>
+  <!-- <teleport to="#popups-container"> -->
+  <transition name="modal-fade">
+    <div class="modal-overlay" @click="closeModal" v-if="modelValue">
+      <div class="container">
+        <div class="modal" @click.stop>
+          <slot :closeModal="closeModal"></slot>
+          <div class="close" @click="closeModal">
+            <ClientOnly>
+              <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+            </ClientOnly>
           </div>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </div>
+  </transition>
+  <!-- </teleport> -->
 </template>
 
 <script setup lang="ts">
@@ -33,7 +33,7 @@ const localValue = computed({
     emit('update:modelValue', value)
   },
 })
-const { startBodyFreez } = useBodyFreez(localValue)
+const {} = useBodyFreez(localValue)
 
 watch(localValue, (value) => {
   const body = document.querySelector('window')
@@ -72,11 +72,11 @@ const closeModal = () => {
     }
   }
 }
-
 .modal {
   border-radius: 16px;
   background-color: #fff;
-  height: 90vh;
+  max-height: 90vh;
+  overflow: auto;
   width: 100%;
   position: relative;
 

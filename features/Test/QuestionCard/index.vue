@@ -23,7 +23,7 @@
           </p>
         </UiBaseRadio>
       </div>
-      <div class="question-card__answers-block" v-if="question.multiple">
+      <div class="question-card__answers-block" v-else>
         <UiBaseCheckbox
           v-model="checkedAnswer"
           :name="answer.id"
