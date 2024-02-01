@@ -1,5 +1,5 @@
 <template>
-  <div class="the-sidebar" :class="{ active: isOpen }">
+  <div class="the-sidebar" :class="{ active: isOpen }" ref="sidebar">
     <div class="the-sidebar__container">
       <div class="the-sidebar__logo-block">
         <div class="logo-block__container">
@@ -81,11 +81,23 @@ interface Props {
 
 const props = defineProps<Props>()
 let isOpen = ref(false)
+let sidebar = ref<HTMLElement | null>(null)
 
 let { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
 const closeSidebarOnMobile = () => {
   if (window.outerWidth < 600 && isOpen.value === true) {
+    isOpen.value = false
+  }
+}
+
+const onClickOutSidebar = (event: any) => {
+  if (
+    sidebar.value &&
+    !event.target.closest('.the-sidebar') &&
+    !event.target.closest('.sidebar-toggle-icon') &&
+    isOpen.value == true
+  ) {
     isOpen.value = false
   }
 }
@@ -97,6 +109,14 @@ const setBodyFreezOnMobile = () => {
     stopBodyFreez()
   }
 }
+
+watch(isOpen, () => {
+  if (isOpen.value === true) {
+    document.addEventListener('click', onClickOutSidebar)
+  } else {
+    document.removeEventListener('click', onClickOutSidebar)
+  }
+})
 
 onMounted(() => {
   setBodyFreezOnMobile()
@@ -111,10 +131,10 @@ onMounted(() => {
   left: -100%;
   display: flex;
   height: 100%;
-  transition: width 0.2s ease;
-  overflow: hidden;
+  transition: left 0.2s ease;
 
   @media screen and (min-width: $bp-sm) {
+    transition: width 0.2s ease;
     left: 0%;
     height: 100vh;
     width: 80px;
@@ -229,7 +249,7 @@ onMounted(() => {
   &_mobile {
     display: block;
 
-    @media (min-width: $bp-xs) {
+    @media (min-width: $bp-sm) {
       display: none;
     }
   }
