@@ -10,7 +10,7 @@
     </div>
     <div>
       <div class="row q-col-gutter-lg items-center">
-        <div class="col-12 col-sm-4 col-md-2">
+        <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
           <div class="user-photo">
             <img
               src="https://mindfulness.demo.zigzagpress.com/wp-content/uploads/sites/20/2010/08/team_02.jpg"
@@ -20,23 +20,26 @@
           </div>
         </div>
 
-        <div class="col-12 col-sm-8 col-md-6">
-          <p class="text-h2">Виктор Андреевич Балкин</p>
-          <div class="d-flex">
-            <p class="text-body2 q-mr-xl">Город: Киров</p>
-            <p class="text-body2">Возраст: 29 лет</p>
+        <div class="col-12 col-sm-8 col-md-7 q-gutter-sm">
+          <div class="column items-center q-gutter-sm items-sm-start">
+            <p class="text-h2">Виктор Андреевич Балкин</p>
+            <div class="d-flex justify-between justify-md-start">
+              <p class="text-body2 q-mr-xl">Город: Киров</p>
+              <p class="text-body2">Возраст: 29 лет</p>
+            </div>
+            <UiBaseButton
+              type="boarded"
+              size="small"
+              @click="userProfileEdit = true"
+            >
+              Редактировать
+            </UiBaseButton>
           </div>
-          <UiBaseButton
-            type="boarded"
-            size="small"
-            @click="userProfileEdit = true"
-          >
-            Редактировать
-          </UiBaseButton>
+        </div>
+        <div class="col-12 col-md-3 justify-center justify-md-end d-flex">
+          <UiBaseAverageScore class="items-center items-md-end" />
         </div>
       </div>
-
-      <UiBaseAverageScore class="items-end" />
     </div>
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     <FeatureCourseCard />
