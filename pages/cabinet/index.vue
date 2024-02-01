@@ -47,13 +47,16 @@
   </div>
   <UiBasePopup v-model="userProfileEdit">
     <template #default="{ closeModal }">
-      <FeatureUserProfile @submit="closeModal"></FeatureUserProfile>
+      <FeatureUserProfile
+        @submit="closeModal"
+        class="base-block"
+      ></FeatureUserProfile>
     </template>
   </UiBasePopup>
 
   <UiBasePopup v-model="testPopup" class="target-training-test">
     <template #default="{ closeModal }">
-      <FeatureTest class="target-training-test__test" @submit="closeModal" />
+      <FeatureTest class="base-block" @submit="closeModal" />
     </template>
   </UiBasePopup>
 </template>
@@ -71,17 +74,6 @@ let testPopup = ref(false)
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-.target-training-test {
-  &__test {
-    min-width: 90vw;
-    padding: 24px;
-
-    @media screen and (min-width: $breakpoint-xs) {
-      min-width: 540px;
-    }
-  }
 }
 
 .user-photo {

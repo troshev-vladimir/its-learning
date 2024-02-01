@@ -112,10 +112,15 @@ onMounted(() => {
   display: flex;
   height: 100%;
   transition: width 0.2s ease;
+  overflow: hidden;
 
-  @media screen and (min-width: $bp-xs) {
+  @media screen and (min-width: $bp-sm) {
     left: 0%;
     height: 100vh;
+    width: 80px;
+  }
+
+  @include media($bp-xs) {
     width: 80px;
   }
   &.active {
