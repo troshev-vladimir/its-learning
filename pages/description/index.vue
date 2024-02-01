@@ -1,7 +1,8 @@
 <template>
   <section class="description-page base-block q-my-lg">
     <h1 class="text-h1 q-my-lg">
-      Программа <span class="text-accent"> 1С Программист </span>
+      Программа
+      <span class="text-accent"> 1С Программист {{ route.params.id }}</span>
     </h1>
 
     <div class="base-block--gray content pretty-scroll q-mb-lg">
@@ -29,9 +30,9 @@
       </ul>
     </div>
 
-    <UiBaseButton @click="goBack" type="boarded" size="small" class="q-ml-auto"
-      >Назад</UiBaseButton
-    >
+    <UiBaseButton @click="goBack" type="boarded" size="small" class="q-ml-auto">
+      Назад
+    </UiBaseButton>
   </section>
 </template>
 <script setup lang="ts">
@@ -39,24 +40,16 @@ definePageMeta({
   layout: 'empty',
 })
 
-const router = useRouter()
-const route = useRoute()
-const prevPage = ref('')
-
 useSeoMeta({
   title: '1С Программист',
 })
 
-onMounted(() => {
-  console.log(router, route)
-})
+const router = useRouter()
+const route = useRoute()
 
 const goBack = () => {
-  router.push(prevPage.value || '/cabinet')
+  router.go(-1)
 }
-router.beforeEach((prev: any, current: any) => {
-  prevPage.value = prev.fullPath
-})
 </script>
 <style lang="scss" scoped>
 .description-page {
