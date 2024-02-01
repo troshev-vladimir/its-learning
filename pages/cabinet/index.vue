@@ -64,7 +64,7 @@ definePageMeta({
 })
 
 const userProfileEdit = ref(false)
-let testPopup = ref(false)
+const testPopup = ref(false)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {

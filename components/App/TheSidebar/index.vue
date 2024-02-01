@@ -11,13 +11,13 @@
         v-tippy="{
           content: 'Личный кабинет',
           placement: 'right',
-          onBeforeUpdate(instance: any) {
-            if (isOpen) {
-              instance.disable()
-            } else {
-              instance.enable()
-            }
-          },
+          // onBeforeUpdate(instance: any) {
+          //   if (isOpen) {
+          //     instance.disable()
+          //   } else {
+          //     instance.enable()
+          //   }
+          // },
         }"
         to="/cabinet"
         @click="closeSidebarOnMobile"
