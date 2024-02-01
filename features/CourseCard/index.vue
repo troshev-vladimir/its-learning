@@ -6,7 +6,9 @@
           <client-only>
             <UiBaseTracker class="course-card__tracker" :value="course.score" />
           </client-only>
-          <p class="text-h2">{{ course.title }}</p>
+          <nuxt-link to="/description">
+            <p class="text-h2">{{ course.title }}</p>
+          </nuxt-link>
           <p class="text-body2 text-gray-400" v-if="course.isEnded">
             Курс завершён
           </p>
