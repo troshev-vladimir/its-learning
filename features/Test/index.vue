@@ -2,8 +2,8 @@
   <div class="test-component">
     <div class="test-component__container">
       <FeatureTestQuestionCard
+        :question="activeQuestion"
         v-model="answers[mainQuestionCount]"
-        :question="questions[mainQuestionCount]"
       />
       <div class="test-component__buttons">
         <UiBaseButton
@@ -86,8 +86,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['submit'])
 
-const mainQuestionCount = ref(0)
-const answers = ref<IAnswer[]>([])
+let mainQuestionCount = ref(0)
+let answers = ref<IAnswer[] | []>([])
 
 const isCompletedQuestion = computed(() => {
   const mainAnswer = answers.value[mainQuestionCount.value]
@@ -102,6 +102,8 @@ const isCompletedQuestion = computed(() => {
   }
   return true
 })
+
+const activeQuestion = computed(() => props.questions[mainQuestionCount.value])
 
 const hasNotNextQuestion = computed(() => !hasNextQuestion.value)
 

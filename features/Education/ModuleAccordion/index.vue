@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<Props>(), {
     title: 'Название модуля',
     status: 'active',
   }),
+  modelValue: false,
 })
 
 const router = useRouter()

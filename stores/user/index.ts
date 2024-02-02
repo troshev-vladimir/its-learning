@@ -1,3 +1,4 @@
+import type { User } from '~/api/user/types'
 const useUserStore = defineStore('userStore', {
   state: () => ({
     name: '',
