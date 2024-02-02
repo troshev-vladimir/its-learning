@@ -1,7 +1,13 @@
 <script lang="ts" setup>
-defineProps<{
-  value?: number | string
-}>()
+withDefaults(
+  defineProps<{
+    value?: number | string
+    hasTip?: boolean
+  }>(),
+  {
+    hasTip: true,
+  }
+)
 </script>
 
 <template>
@@ -12,7 +18,7 @@ defineProps<{
     <p class="base-average-score__value text-body1 text-bold" v-else>-</p>
     <p class="text-body2 text-right">
       Средний балл
-      <ClientOnly>
+      <ClientOnly v-if="hasTip === true">
         <font-awesome-icon
           v-tippy="{
             content: `Балл выпускника определяется из совокупности результатов пройденных тестов.`,

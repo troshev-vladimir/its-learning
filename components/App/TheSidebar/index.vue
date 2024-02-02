@@ -26,7 +26,7 @@
       </NuxtLink>
       <div class="the-sidebar__link-list">
         <AppTheSidebarBaseSidebarLink
-          v-for="(link, i) in props.links"
+          v-for="(link, i) in links"
           :key="i"
           :icon="link.icon"
           :sidebarStatus="isOpen"
@@ -45,7 +45,7 @@
             @click="() => (isOpen = !isOpen)"
           />
         </ClientOnly>
-        <!-- <teleport to="#cabiner-header-left-side">
+        <teleport to="#cabiner-header-left-side">
           <ClientOnly>
             <font-awesome-icon
               :icon="['fas', 'arrow-alt-circle-right']"
@@ -54,7 +54,7 @@
               @click="() => (isOpen = !isOpen)"
             />
           </ClientOnly>
-        </teleport> -->
+        </teleport>
       </div>
     </div>
   </div>

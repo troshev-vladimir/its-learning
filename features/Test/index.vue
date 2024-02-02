@@ -7,18 +7,19 @@
       />
       <div class="test-component__buttons">
         <UiBaseButton
-          type="secondary"
+          type="boarded"
           size="small"
           :disabled="!hasPrevQuestion"
           v-if="hasPrevQuestion"
           @click="setPrevQuestionCount"
         >
-          Предыдущий вопрос
+          Назад
         </UiBaseButton>
         <div></div>
         <UiBaseButton
           type="primary"
           size="small"
+          post-icon="fas fa-chevron-right"
           :disabled="hasNotNextQuestion"
           v-if="!isEndQuestion"
           @click="setNextQuestionCount"
