@@ -11,13 +11,7 @@
         v-tippy="{
           content: 'Личный кабинет',
           placement: 'right',
-          // onBeforeUpdate(instance: any) {
-          //   if (isOpen) {
-          //     instance.disable()
-          //   } else {
-          //     instance.enable()
-          //   }
-          // },
+          onBeforeUpdate() {},
         }"
         to="/cabinet"
         @click="closeSidebarOnMobile"
@@ -49,7 +43,7 @@
             @click="() => (isOpen = !isOpen)"
           />
         </ClientOnly>
-        <teleport to="#cabiner-header-left-side">
+        <!-- <teleport to="#cabiner-header-left-side">
           <ClientOnly>
             <font-awesome-icon
               :icon="['fas', 'arrow-alt-circle-right']"
@@ -58,7 +52,7 @@
               @click="() => (isOpen = !isOpen)"
             />
           </ClientOnly>
-        </teleport>
+        </teleport> -->
       </div>
     </div>
   </div>

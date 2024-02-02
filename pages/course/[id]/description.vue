@@ -29,10 +29,11 @@
         <li>Изучение документов и журналов программы.</li>
       </ul>
     </div>
-
-    <UiBaseButton @click="goBack" type="boarded" size="small" class="q-ml-auto">
-      Назад
-    </UiBaseButton>
+    <nuxt-link to="/cabinet">
+      <UiBaseButton tag="span" type="boarded" size="small" class="q-ml-auto">
+        Назад
+      </UiBaseButton>
+    </nuxt-link>
   </section>
 </template>
 <script setup lang="ts">

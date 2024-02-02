@@ -4,13 +4,7 @@
       v-tippy="{
         content: title,
         placement: 'right',
-        onBeforeUpdate(instance: any, partialProps: any) {
-          if (props.sidebarStatus) {
-            instance.disable()
-          } else {
-            instance.enable()
-          }
-        },
+        onBeforeUpdate() {},
       }"
       class="base-sidebar-link__container"
     >
