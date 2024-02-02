@@ -46,12 +46,12 @@
           v-for="(item, index) in 5"
           :key="index"
           :model-value="activeIndex == index"
-          @click="() => onClickItem(index)"
           :value="{
-            id: index,
+            id: `${index}`,
             title: 'Пройденный модуль',
             status: 'ended',
           }"
+          @click="() => onClickItem(index)"
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
@@ -105,7 +105,7 @@ const route = useRoute()
 const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
-let activeIndex = ref(-1)
+const activeIndex = ref(-1)
 
 const onClickItem = (index: number) => {
   if (activeIndex.value == index) {

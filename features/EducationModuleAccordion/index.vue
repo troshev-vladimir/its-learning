@@ -1,15 +1,15 @@
 <template>
   <UiExpancionItem
     class="education-module-accordion base-shadow"
-    :modelValue="modelValue"
+    :model-value="modelValue"
     :class="value.status"
     :disabled="value.status === 'locked'"
   >
     <template #header>
       <div
+        ref="accordion"
         class="education-module-accordion__header"
         @click="onClickHeader"
-        ref="accordion"
       >
         <div class="header__left-side">
           <span class="header__toggle-icon" :class="{ open: modelValue }">
@@ -22,21 +22,21 @@
           <p class="text-h2">{{ value.title }}</p>
 
           <p
-            class="text-body2 education-module-accordion__progress"
             v-if="value.status === 'active'"
+            class="text-body2 education-module-accordion__progress"
           >
             1/10 уроков пройдено
           </p>
           <ClientOnly>
             <font-awesome-icon
-              icon="fas fa-lock"
               v-if="value.status === 'locked'"
+              icon="fas fa-lock"
             />
           </ClientOnly>
           <UiBaseAverageScore
+            v-if="value.status === 'ended'"
             :has-tip="false"
             class="education-module-accordion__average-score"
-            v-if="value.status === 'ended'"
           />
         </div>
       </div>
@@ -75,9 +75,9 @@ const accordion = ref<HTMLElement | null>(null)
 onMounted(async () => {
   setTimeout(() => {
     if (accordion.value && props.modelValue) {
-      let element = accordion.value.getBoundingClientRect()
-      let top = element.y
-      let height = element.height
+      const element = accordion.value.getBoundingClientRect()
+      const top = element.y
+      const height = element.height
       window.scroll({ top: top + height, behavior: 'smooth' })
     }
   }, 0)

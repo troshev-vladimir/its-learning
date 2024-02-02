@@ -7,11 +7,15 @@
 
 <script lang="ts" setup>
 import '~/assets/styles/main.scss'
-import useUserStore from './stores/configurator/user'
+import useConfiguratorUserStore from './stores/configurator/user'
+import useUserStore from './stores/user'
 
 const $q = useQuasar()
 const router = useRouter()
+const configuratorUserStore = useConfiguratorUserStore()
 const userStore = useUserStore()
+
+await callOnce(userStore.fetch)
 
 function errorHandler(e: any) {
   $q.notify({
@@ -29,8 +33,8 @@ onMounted(() => {
   window.addEventListener('server-error', errorHandler)
   window.addEventListener('unauthorized', unauthorisedHandler)
 
-  userStore.userId = localStorage.getItem('userPhone') || ''
-  userStore.userToken = localStorage.getItem('userToken') || ''
+  configuratorUserStore.userId = localStorage.getItem('userPhone') || ''
+  configuratorUserStore.userToken = localStorage.getItem('userToken') || ''
 })
 
 onBeforeUnmount(() => {
