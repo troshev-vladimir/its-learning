@@ -8,10 +8,12 @@
         </div>
       </div>
       <NuxtLink
+        :content="'Личный кабинет'"
         v-tippy="{
-          content: 'Личный кабинет',
           placement: 'right',
-          onBeforeUpdate() {},
+          onShow() {
+            return !isOpen
+          },
         }"
         to="/cabinet"
         @click="closeSidebarOnMobile"
