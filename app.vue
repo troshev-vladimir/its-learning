@@ -1,9 +1,8 @@
 <template>
   <NuxtLayout>
+    <div id="popups-container"></div>
     <NuxtPage />
   </NuxtLayout>
-
-  <div id="popups-container"></div>
 </template>
 
 <script lang="ts" setup>

@@ -5,7 +5,7 @@
         <div class="row items-center q-gutter-md">
           <span class="expansion-item__toggle-icon" :class="{ open: isOpen }">
             <slot name="toggleIcon">
-              <font-awesome-icon :icon="icon" />
+              <ClientOnly> <font-awesome-icon :icon="icon" /> </ClientOnly>
             </slot>
           </span>
           <p class="text-body1 text-bold">{{ title }}</p>
@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
 interface Props {
-  title: string
-  icon: string | string[]
+  title?: string
+  icon?: string | string[]
   modelValue: boolean
 }
 
@@ -49,6 +49,8 @@ const toggleOpenStatus = () => {
 .expansion-item {
   &[disabled='true'],
   &[disabled] {
+    opacity: 1 !important;
+
     &:hover {
       cursor: not-allowed;
     }
@@ -63,7 +65,6 @@ const toggleOpenStatus = () => {
   &__content {
     grid-template-rows: 0fr;
     display: grid;
-    background: $white;
     overflow: hidden;
     transition: grid-template-rows 500ms;
 

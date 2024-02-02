@@ -40,6 +40,58 @@
       <p class="course-page__access-mentor text-body2 text-gray-400">
         Доступ к наставнику до 20.08.2024
       </p>
+
+      <div class="column q-gutter-md">
+        <FeatureEducationModuleAccordion
+          v-for="(item, index) in 5"
+          :key="index"
+          :model-value="activeIndex == index"
+          @click="() => onClickItem(index)"
+          :value="{
+            id: index,
+            title: 'Пройденный модуль',
+            status: 'ended',
+          }"
+        >
+          <div>1234123</div>
+        </FeatureEducationModuleAccordion>
+        <br />
+        <FeatureEducationModuleAccordion
+          :value="{
+            id: '11',
+            title: 'Активный модуль',
+            status: 'active',
+          }"
+          :model-value="activeIndex == 11"
+          @click="() => onClickItem(11)"
+        >
+          <div>1234123</div>
+        </FeatureEducationModuleAccordion>
+        <br />
+        <FeatureEducationModuleAccordion
+          :value="{
+            id: '11',
+            title: 'Активный модуль',
+            status: 'active',
+          }"
+          :model-value="activeIndex == 13"
+          @click="() => onClickItem(13)"
+        >
+          <div>1234123</div>
+        </FeatureEducationModuleAccordion>
+        <br />
+        <FeatureEducationModuleAccordion
+          :value="{
+            id: '12',
+            title: 'Заблокированный модуль',
+            status: 'locked',
+          }"
+          :model-value="activeIndex == 12"
+          @click="() => onClickItem(12)"
+        >
+          <div>1234123</div>
+        </FeatureEducationModuleAccordion>
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +102,24 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 route.meta.pageTitle = 'Обучение'
+
+let activeIndex = ref(-1)
+
+const onClickItem = (index: number) => {
+  if (activeIndex.value == index) {
+    activeIndex.value = -1
+    router.replace({ query: { module: -1 } })
+    return
+  }
+  router.replace({ query: { module: index } })
+  activeIndex.value = index
+}
+
+onMounted(() => {
+  if (route.query?.module) activeIndex.value = +route.query.module
+})
 
 useSeoMeta({
   title: 'Обучение',
@@ -72,7 +141,7 @@ let statistics = {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .course-page {
   &__header,
   .header {
