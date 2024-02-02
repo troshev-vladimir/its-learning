@@ -1,7 +1,7 @@
 <template>
   <!-- <teleport to="#popups-container"> -->
   <transition name="modal-fade">
-    <div class="modal-overlay" @click="closeModal" v-show="modelValue">
+    <div class="modal-overlay" @click="closeModal" v-if="modelValue">
       <div class="container">
         <div class="modal" @click.stop>
           <slot :closeModal="closeModal"></slot>
@@ -38,6 +38,20 @@ const {} = useBodyFreez(localValue)
 const closeModal = () => {
   localValue.value = false
 }
+
+const escapeHandler = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    closeModal()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', escapeHandler)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', escapeHandler)
+})
 </script>
 
 <style scoped lang="scss">
