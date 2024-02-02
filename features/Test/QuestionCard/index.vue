@@ -1,5 +1,5 @@
 <template>
-  <div class="question-card">
+  <div v-if="question" class="question-card">
     <div class="question-card__container">
       <p class="question-card__question text-body1">
         {{ question?.text }}
@@ -19,7 +19,7 @@
           v-for="(answer, i) in question?.answers"
           :key="i"
           v-model="checkedAnswer"
-          :value="answer.id"
+          :value="`${answer.id}`"
         >
           <p class="text-body2">
             {{ answer?.text }}
@@ -34,7 +34,7 @@
           v-for="(answer, i) in question?.answers"
           :key="i"
           v-model="checkedAnswer"
-          :name="answer.id"
+          :name="`${answer.id}`"
         >
           <p class="text-body2">
             {{ answer.text }}
