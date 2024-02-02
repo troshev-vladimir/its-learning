@@ -53,4 +53,12 @@ export default defineNuxtConfig({
   },
 
   css: ['quasar/css', '@fortawesome/fontawesome-svg-core/styles.css'],
+
+  routeRules: {
+    '/course/1/description': { prerender: true },
+    // '/api/*': { cache: { maxAge: 60 * 60 } },
+    // '/old-page': {
+    //   redirect: { to: '/new-page', statusCode: 302 },
+    // },
+  },
 })

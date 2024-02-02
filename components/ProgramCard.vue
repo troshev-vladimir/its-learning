@@ -312,3 +312,4 @@ const getInstallment = (summ: number) => {
   }
 }
 </style>
+~/api/configurator/program/types

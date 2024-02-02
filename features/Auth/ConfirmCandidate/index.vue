@@ -62,7 +62,7 @@
 import { ref, watch, onMounted } from 'vue'
 import useTimer from './composables/useTimer'
 import { useQuasar } from 'quasar'
-import useUserStore from '~/stores/user'
+import useUserStore from '~/stores/configurator/user'
 
 const userStore = useUserStore()
 

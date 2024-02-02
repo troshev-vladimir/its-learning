@@ -1,6 +1,6 @@
 import axios from '../axios'
 import type { AxiosResponse } from 'axios'
-import type { Program } from '~/api/program/types'
+import type { Program } from '~/api/configurator/program/types'
 import type { getProgramsRequest } from './types'
 class Programm {
   getAll(params: getProgramsRequest): Promise<Program[]> | never {

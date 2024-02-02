@@ -56,7 +56,7 @@ useSeoMeta({
   title: 'Обучение',
 })
 
-let statistics = {
+const statistics = {
   tests: {
     score: 1,
     total: 2,

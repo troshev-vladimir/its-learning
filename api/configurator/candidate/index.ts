@@ -1,5 +1,5 @@
 import { type CandidateProgressResp, type CandidateProgressReq } from './types'
-import { type UserId, type Candidate } from '~/api/candidate/types'
+import { type UserId, type Candidate } from '~/api/configurator/candidate/types'
 
 import axios from '../axios'
 

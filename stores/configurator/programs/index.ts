@@ -1,7 +1,7 @@
-import { type Program } from '~/api/program/types'
+import { type Program } from '~/api/configurator/program/types'
 import { defineStore } from 'pinia'
-import Programs from '~/api/program'
-import type { getProgramsRequest } from '~/api/program/types'
+import Programs from '~/api/configurator/program'
+import type { getProgramsRequest } from '~/api/configurator/program/types'
 
 const useProgramsStore = defineStore('programs', () => {
   const programs = ref<Program[]>([])
