@@ -9,7 +9,7 @@
           </h1>
         </div>
         <div class="header__right-side">
-          <p class="text-body1 text-bold" v-html="card.description"></p>
+          <p class="text-body1 text-bold" v-html="card.description" />
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@
       </div>
     </div>
 
-    <slot> </slot>
+    <slot />
 
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
@@ -185,7 +185,7 @@
 
 <script setup lang="ts">
 import { formatNumber } from '~/utils/helpers'
-import { type Program } from '~/api/program/types'
+import { type Program } from '~/api/configurator/program/types'
 export interface Props {
   card: Program
 }

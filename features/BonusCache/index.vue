@@ -13,12 +13,7 @@
       </p>
     </div>
     <div class="flex wrap items-center full-width q-mb-sm" style="gap: 16px">
-      <CashCounter
-        class="shadow-2"
-        :amount="
-          userStore.userBonus?.sum + userStore.userBonus?.promodiscount || 0
-        "
-      />
+      <CashCounter class="shadow-2" :amount="userCashe" />
 
       <q-chip
         v-if="userStore.userBonus?.promodiscount"
@@ -30,13 +25,13 @@
       >
         Промокод принят
       </q-chip>
-      <div class="d-flex items-center" v-else>
+      <div v-else class="d-flex items-center">
         <UiBaseInput
+          v-model="codeValue"
           :rules="[minMaxLength(6, 6)]"
           name="promocode"
           label="Введите промокод"
           class="q-mr-md code-input"
-          v-model="codeValue"
           placeholder=""
           @update:model-value="sendPromocode"
         />
@@ -66,6 +61,11 @@ const { userPromocode } = storeToRefs(userStore)
 
 const codeValue = ref('')
 const codeSended = ref(false)
+
+const userCashe = computed(() => {
+  if (!userStore.userBonus?.sum) return 0
+  return userStore.userBonus?.sum + userStore.userBonus?.promodiscount
+})
 // const { data: user, error } = useAsyncData('user', async () => {
 //   return await userStore.getUserBonus()
 // })

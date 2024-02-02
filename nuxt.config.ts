@@ -61,4 +61,7 @@ export default defineNuxtConfig({
     //   redirect: { to: '/new-page', statusCode: 302 },
     // },
   },
+  typescript: {
+    typeCheck: true,
+  },
 })
