@@ -54,6 +54,7 @@
       name="releaseYear"
       v-model="form.releaseYear"
       @update:modelValue="v$.releaseYear.$touch"
+      year-picker
       root-class="q-mb-sm"
       :validation-result="{
         status: v$.releaseYear.$error ? 'error' : 'success',

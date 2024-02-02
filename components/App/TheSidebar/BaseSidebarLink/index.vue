@@ -1,15 +1,11 @@
 <template>
   <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
     <div
+      :content="title"
       v-tippy="{
-        content: title,
         placement: 'right',
-        onBeforeUpdate(instance: any, partialProps: any) {
-          if (props.sidebarStatus) {
-            instance.disable()
-          } else {
-            instance.enable()
-          }
+        onShow() {
+          return !props.sidebarStatus
         },
       }"
       class="base-sidebar-link__container"

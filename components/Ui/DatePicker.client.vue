@@ -5,7 +5,7 @@
       $style[`ui-datepicker--${validationResult.status}`],
       {
         [$style['ui-datepicker--disabled']]: disabled,
-        [$style['ui-datepicker--filled']]: !!date,
+        [$style['ui-datepicker--filled']]: !!localValue,
       },
       rootClass,
     ]"
@@ -13,7 +13,7 @@
     <div :class="$style.inputWrapper">
       <VueDatePicker
         locale="ru"
-        v-model="date"
+        v-model="localValue"
         cancelText="Отмена"
         selectText="Выбрать"
         :clearable="true"
@@ -23,6 +23,8 @@
         :name="name"
         :year-picker="yearPicker"
         v-bind="$attrs"
+        @date-update="dateClicked"
+        ref="datepicker"
       >
         <template #action-row="{ internalModelValue, selectDate }">
           <UiBaseButton
@@ -54,6 +56,8 @@
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { ValidatorResp } from '~/utils/validators/types'
+import { type DatePickerInstance } from '@vuepic/vue-datepicker'
+
 const props = withDefaults(
   defineProps<{
     modelValue: string | Date | null
@@ -72,29 +76,27 @@ const props = withDefaults(
     }),
   }
 )
+const datepicker = ref<DatePickerInstance | null>(null)
+
+const dateClicked = (date: Date | string) => {
+  localValue.value = date
+  datepicker.value?.closeMenu()
+}
 
 const emit = defineEmits(['update:modelValue', 'update'])
 
 const { localValue, isError, update } = useFormItem(props, emit)
 
-const date = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
-    emit('update:modelValue', value)
-  },
-})
+const format = (date: Date): string => {
+  const dateValue = date instanceof Date ? date : new Date(date)
+  const year = dateValue.getFullYear()
 
-const format = (date: Date) => {
-  if (props.yearPicker) return date.getFullYear()
+  if (props.yearPicker) return `${year}`
 
-  let day = String(date.getDate())
+  let day = String(dateValue.getDate())
   day = day.length === 1 ? '0' + day : day
-  let month = String(date.getMonth() + 1)
+  let month = String(dateValue.getMonth() + 1)
   month = month.length === 1 ? '0' + month : month
-
-  const year = date.getFullYear()
 
   return `${day}.${month}.${year}`
 }

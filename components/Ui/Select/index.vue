@@ -245,7 +245,7 @@ onMounted(() => {
   .selectContainer {
     position: relative;
     width: 100%;
-    height: 40px;
+    height: 44px;
     padding: 10px 12px;
     border: 1px solid $secondary;
     border-radius: 8px;
@@ -259,6 +259,7 @@ onMounted(() => {
     &:focus,
     &:hover:focus,
     &:hover {
+      border-color: var(--q-accent);
       box-shadow: 0 0 0 2px $light-blue;
     }
 

@@ -4,3 +4,8 @@
   border-radius: 8px;
   background: $white;
 }
+
+.base-block--gray {
+  @extend .base-block;
+  background: $gray-100;
+}
