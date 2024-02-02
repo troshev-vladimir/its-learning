@@ -2,9 +2,9 @@
   <UiBaseForm
     title="Резюме"
     class="q-mb-lg"
-    @submit="sendForm"
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
+    @submit="sendForm"
   >
     <div :class="[$style.image, 'q-mb-lg']">
       <img
@@ -15,78 +15,79 @@
       />
       <UiBaseFileinput
         v-model="form.imageFile"
-        @preview="getUserProto"
         class="q-mb-sm"
         :accept="['image/png', 'image/jpeg']"
         :max-size="9 * 1024 * 1024"
         label="Прикрепить файлы"
-        @update:modelValue="updateValue('imageFile')"
         :validation-result="{
           status: v$.imageFile.$error ? 'error' : 'success',
           message: getErrorMessage(v$.imageFile),
         }"
+        @preview="getUserProto"
+        @update:model-value="updateValue('imageFile')"
       />
     </div>
 
     <UiBaseInput
+      v-model="form.name"
       name="name"
       label="Имя"
       required
       :root-class="['q-mb-sm']"
-      @update:model-value="v$.name.$touch"
-      v-model="form.name"
       :validation-result="{
         status: v$.name.$error ? 'error' : 'success',
         message: getErrorMessage(v$.name),
       }"
+      @update:model-value="v$.name.$touch"
     />
 
     <UiBaseInput
+      v-model="maskedPhone"
       name="phone"
       label="Номер телефона"
       required
       :root-class="['q-mb-sm']"
-      v-model="maskedPhone"
-      @update:modelValue="updateValue('phone')"
       :validation-result="{
         status: v$.phone.$error ? 'error' : 'success',
         message: getErrorMessage(v$.phone),
       }"
       mask="+7 (###) ### ##-##"
+      @update:model-value="updateValue('phone')"
     />
 
     <UiBaseInput
+      v-model="form.city"
       name="city"
       label="Город"
       :root-class="['q-mb-sm']"
-      @update="v$.city.$touch"
-      v-model="form.city"
-      @update:modelValue="sugestCity(form.city)"
       :validation-result="{
         status: v$.city.$error ? 'error' : 'success',
         message: getErrorMessage(v$.city),
       }"
       :suggestions="citys"
+      @update="v$.city.$touch"
+      @update:model-value="sugestCity(form.city)"
     />
 
     <span class="label">Пол</span>
     <div style="display: flex" class="q-mb-sm">
       <UiBaseRadio
+        v-model="form.gender"
         name="gender"
         value="male"
         label="Мужской"
-        v-model="form.gender"
         class="q-mr-md"
       />
       <UiBaseRadio
+        v-model="form.gender"
         name="gender"
         value="female"
         label="Женский"
-        v-model="form.gender"
       />
     </div>
 
     <UiSelect
+      v-model="form.programingLanguages"
       :options="[
         { label: 'PHP', value: '1', selected: false },
         { label: 'JS', value: '2', selected: false },
@@ -99,110 +100,109 @@
       class="q-mb-sm"
       name="programingLanguages"
       label="Дополнительные языки программирования"
-      v-model="form.programingLanguages"
-      @update="updateValue('programingLanguages')"
       :validation-result="{
         status: v$.programingLanguages.$error ? 'error' : 'success',
         message: getErrorMessage(v$.programingLanguages),
       }"
+      @update="updateValue('programingLanguages')"
     ></UiSelect>
 
     <div class="experience base-block base-shadow q-my-xl">
       <p class="text-h2 q-mb-sm">Опыт работы</p>
       <template v-for="(item, index) in form.experience" :key="index">
         <UiDatePicker
+          v-model="form.experience[index].startDate"
           label="Дата начала"
           :name="`experience.startDate[${index}]`"
-          v-model="form.experience[index].startDate"
-          @update:modelValue="v$.experience[index].startDate.$touch"
           root-class="q-mb-sm"
           :validation-result="{
             status: v$.experience[index].startDate.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].startDate),
           }"
+          @update:model-value="v$.experience[index].startDate.$touch"
         ></UiDatePicker>
         <UiBaseCheckbox
-          v-model="form.experience[index].tillNow"
-          @update="v$.experience[index].tillNow.$touch"
-          name="tillNow"
           v-if="index + 1 === form.experience.length"
+          v-model="form.experience[index].tillNow"
+          name="tillNow"
+          @update="v$.experience[index].tillNow.$touch"
         >
           По настоящее время
         </UiBaseCheckbox>
         <UiDatePicker
           v-if="!form.experience[index].tillNow"
-          label="Дата окончания"
           v-model="form.experience[index].endDate"
-          @update:modelValue="v$.experience[index].endDate.$touch"
+          label="Дата окончания"
           :name="`experience.endDate[${index}]`"
           root-class="q-mb-sm"
           :validation-result="{
             status: v$.experience[index].endDate.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].endDate),
           }"
+          @update:model-value="v$.experience[index].endDate.$touch"
         ></UiDatePicker>
 
         <UiBaseInput
+          v-model="form.experience[index].company"
           :name="`experience.company[${index}]`"
           label="Компания"
           :root-class="['q-mb-sm']"
-          @update="v$.experience[index].company.$touch"
-          v-model="form.experience[index].company"
-          @update:modelValue="sugestCompany(form.experience[index].company)"
           :validation-result="{
             status: v$.experience[index].company.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].company),
           }"
           :suggestions="companies"
+          @update="v$.experience[index].company.$touch"
+          @update:model-value="sugestCompany(form.experience[index].company)"
         />
 
         <UiBaseInput
+          v-model="form.experience[index].position"
           :name="`experience.position[${index}]`"
           label="Должность"
           required
           :root-class="['q-mb-sm']"
-          @update="v$.experience[index].position.$touch"
-          v-model="form.experience[index].position"
           :validation-result="{
             status: v$.experience[index].position.$error ? 'error' : 'success',
             message: getErrorMessage(v$.experience[index].position),
           }"
+          @update="v$.experience[index].position.$touch"
         />
 
         <UiBaseInput
+          v-model="form.experience[index].responsibilitys"
           :name="`experience.responsibilitys[${index}]`"
           label="Обязанности на рабочем месте"
           required
           textarea
           :root-class="['q-mb-sm']"
-          @update="v$.experience[index].responsibilitys.$touch"
-          v-model="form.experience[index].responsibilitys"
           :validation-result="{
             status: v$.experience[index].responsibilitys.$error
               ? 'error'
               : 'success',
             message: getErrorMessage(v$.experience[index].responsibilitys),
           }"
+          @update="v$.experience[index].responsibilitys.$touch"
         />
 
         <UiBaseButton
+          v-if="form.experience && form.experience.length > 1"
           class="q-mb-sm"
           size="small"
-          v-if="form.experience && form.experience.length > 1"
-          @click.prevent="deleteOneOfBlock('experience', index)"
           prev-icon="times"
+          @click.prevent="deleteOneOfBlock('experience', index)"
         >
           Удалить
         </UiBaseButton>
       </template>
       <UiBaseButton
+        v-if="form.experience && form.experience.length"
         class="q-mb-sm"
         size="small"
         type="boarded"
-        v-if="form.experience && form.experience.length"
-        @click.prevent="addExpirienceBlock"
         post-icon="plus"
         :disabled="v$.experience.$errors.length"
+        @click.prevent="addExpirienceBlock"
       >
         Добавить
       </UiBaseButton>
@@ -212,6 +212,7 @@
       <p class="text-h2 q-mb-sm">Образование</p>
       <template v-for="(item, index) in form.education" :key="index">
         <UiSelect
+          v-model="form.education[index].degree"
           :options="[
             { label: 'Бакалавр', value: '1', selected: false },
             { label: 'Специалитет', value: '2', selected: false },
@@ -221,21 +222,19 @@
           class="q-mb-sm"
           :name="`education.degree.${index}`"
           label="Уровень образования"
-          v-model="form.education[index].degree"
-          @update:model-value="v$.education[index].degree.$touch"
           :validation-result="{
             status: v$.education[index].degree.$error ? 'error' : 'success',
             message: getErrorMessage(v$.education[index].degree),
           }"
+          @update:model-value="v$.education[index].degree.$touch"
         ></UiSelect>
 
         <UiDatePicker
+          v-model="form.education[index].releaseYear"
           label="Год окончания"
           year-picker
           :max-date="new Date()"
           :name="`education.${index}.release`"
-          v-model="form.education[index].releaseYear"
-          @update:modelValue="v$.education[index].releaseYear.$touch"
           :root-class="'q-mb-sm'"
           :validation-result="{
             status: v$.education[index].releaseYear.$error
@@ -243,81 +242,82 @@
               : 'success',
             message: getErrorMessage(v$.education[index].releaseYear),
           }"
+          @update:model-value="v$.education[index].releaseYear.$touch"
         ></UiDatePicker>
         <UiBaseInput
+          v-model="form.education[index].instityte"
           name="instityte"
           label="Институт"
           required
           :root-class="['q-mb-sm']"
-          v-model="form.education[index].instityte"
-          @update="v$.education[index].instityte.$touch"
           :validation-result="{
             status: v$.education[index].instityte.$error ? 'error' : 'success',
             message: getErrorMessage(v$.education[index].instityte),
           }"
+          @update="v$.education[index].instityte.$touch"
         />
 
         <UiBaseInput
+          v-model="form.education[index].faculty"
           :name="`education.${index}.faculty`"
           label="Факультет"
           required
           :root-class="['q-mb-sm']"
-          v-model="form.education[index].faculty"
-          @update="v$.education[index].faculty.$touch"
           :validation-result="{
             status: v$.education[index].faculty.$error ? 'error' : 'success',
             message: getErrorMessage(v$.education[index].faculty),
           }"
+          @update="v$.education[index].faculty.$touch"
         />
 
         <UiBaseInput
+          v-model="form.education[index].specialisation"
           name="specialisation"
           label="Специализация"
           required
           :root-class="['q-mb-sm']"
-          v-model="form.education[index].specialisation"
-          @update="v$.education[index].specialisation.$touch"
           :validation-result="{
             status: v$.education[index].specialisation.$error
               ? 'error'
               : 'success',
             message: getErrorMessage(v$.education[index].specialisation),
           }"
+          @update="v$.education[index].specialisation.$touch"
         />
         <UiBaseButton
+          v-if="form.education && form.education.length > 1"
           class="q-mb-sm"
           size="small"
-          v-if="form.education && form.education.length > 1"
-          @click.prevent="deleteOneOfBlock('education', index)"
           prev-icon="times"
+          @click.prevent="deleteOneOfBlock('education', index)"
         >
           Удалить
         </UiBaseButton>
       </template>
       <UiBaseButton
+        v-if="form.education && form.education.length"
         class="q-mb-sm"
         size="small"
         type="boarded"
-        v-if="form.education && form.education.length"
-        @click.prevent="addEducationBlock"
         post-icon="plus"
         :disabled="v$.education.$errors.length"
+        @click.prevent="addEducationBlock"
       >
         Добавить
       </UiBaseButton>
     </div>
     <UiBaseInput
+      v-model="form.aboutMe"
       name="aboutMe"
       label="О себе"
       textarea
       required
       :root-class="['q-mb-sm']"
-      v-model="form.aboutMe"
-      @update="updateValue('aboutMe')"
       :validation-result="{
         status: v$.aboutMe.$error ? 'error' : 'success',
         message: getErrorMessage(v$.aboutMe),
       }"
+      @update="updateValue('aboutMe')"
     />
     <!-- <UiBaseCheckbox
         name="current-work"

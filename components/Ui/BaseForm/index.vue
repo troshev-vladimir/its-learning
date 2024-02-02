@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit" :class="[$style['base-form']]">
+  <form :class="[$style['base-form']]" @submit.prevent="submit">
     <h2 :class="[$style.title, 'text-h2']">{{ title }}</h2>
 
     <div :class="[$style['form-content'], 'pretty-scroll']">
@@ -8,7 +8,7 @@
 
     <div :class="$style.actions">
       <UiBaseButton
-        nativeType="submit"
+        native-type="submit"
         :disabled="fuckedUp || dirty"
         size="small"
       >

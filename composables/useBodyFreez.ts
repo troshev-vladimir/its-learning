@@ -11,11 +11,11 @@ export default function useBodyFreez(value: Ref<boolean>) {
     window.scrollTo(0, parseInt(scrollY || '0') * -1)
   }
 
-  let stopWatch = ref()
+  const stopWatch = ref()
 
   const startBodyFreez = () => {
     stopBodyFreez()
-    let stop = watch(
+    const stop = watch(
       value,
       () => {
         if (value.value === true) {

@@ -12,21 +12,21 @@
   >
     <div :class="$style.inputWrapper">
       <VueDatePicker
-        locale="ru"
+        v-bind="$attrs"
+        ref="datepicker"
         v-model="localValue"
-        cancelText="Отмена"
-        selectText="Выбрать"
+        locale="ru"
+        cancel-text="Отмена"
+        select-text="Выбрать"
         :clearable="true"
         position="left"
         :enable-time-picker="false"
         :format="format"
         :name="name"
         :year-picker="yearPicker"
-        v-bind="$attrs"
         @date-update="dateClicked"
-        ref="datepicker"
       >
-        <template #action-row="{ internalModelValue, selectDate }">
+        <template #action-row="{ selectDate }">
           <UiBaseButton
             size="small"
             type="secondary"

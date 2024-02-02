@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-let props = withDefaults(
+const props = withDefaults(
   defineProps<{
     value?: number
     size: 'big' | 'small'
@@ -7,10 +7,10 @@ let props = withDefaults(
   { value: 10, size: 'small' }
 )
 
-let progressTrack = ref<HTMLElement | Element>()
-let animationTimer = ref()
-let lastValue = ref('0%')
-let progressTrackValue = computed(() => props.value + '%')
+const progressTrack = ref<HTMLElement | Element>()
+const animationTimer = ref()
+const lastValue = ref('0%')
+const progressTrackValue = computed(() => props.value + '%')
 
 const animateProgressTrack = () => {
   if (animationTimer.value) {
@@ -23,7 +23,7 @@ const animateProgressTrack = () => {
   }, 1000)
 }
 
-let observer = new IntersectionObserver(animateProgressTrack, {
+const observer = new IntersectionObserver(animateProgressTrack, {
   rootMargin: '-1px',
   threshold: 1.0,
 })
@@ -43,9 +43,9 @@ watch(
 </script>
 
 <template>
-  <div class="base-tracker" v-memo="progressTrackValue" :class="[size]">
+  <div v-memo="progressTrackValue" class="base-tracker" :class="[size]">
     <div class="base-tracker__progress-bar">
-      <div class="base-tracker__progress-track" ref="progressTrack"></div>
+      <div ref="progressTrack" class="base-tracker__progress-track"></div>
     </div>
     <p
       :class="{

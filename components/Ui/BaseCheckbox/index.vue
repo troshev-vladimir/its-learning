@@ -9,11 +9,11 @@
     ]"
   >
     <input
+      :id="props.name"
       v-model="localValue"
       :class="$style.nativeInput"
       type="checkbox"
       :name="props.name"
-      :id="props.name"
       @change="update"
     />
     <span :class="[$style.box]">

@@ -2,35 +2,35 @@
   <div class="test-component">
     <div class="test-component__container">
       <FeatureTestQuestionCard
-        :question="questions[mainQuestionCount]"
         v-model="answers[mainQuestionCount]"
+        :question="questions[mainQuestionCount]"
       />
       <div class="test-component__buttons">
         <UiBaseButton
+          v-if="hasPrevQuestion"
           type="boarded"
           size="small"
           :disabled="!hasPrevQuestion"
-          v-if="hasPrevQuestion"
           @click="setPrevQuestionCount"
         >
           Назад
         </UiBaseButton>
         <div></div>
         <UiBaseButton
+          v-if="!isEndQuestion"
           type="primary"
           size="small"
           post-icon="fas fa-chevron-right"
           :disabled="hasNotNextQuestion"
-          v-if="!isEndQuestion"
           @click="setNextQuestionCount"
         >
           Следующий вопрос
         </UiBaseButton>
         <UiBaseButton
+          v-if="isEndQuestion"
           type="primary"
           size="small"
           :disabled="!isCompletedQuestion"
-          v-if="isEndQuestion"
           @click="() => emit('submit', answers)"
         >
           Завершить
@@ -45,7 +45,7 @@ import type { IQuestion, IAnswer } from './model/types'
 interface Props {
   questions?: IQuestion[]
 }
-let props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   questions: () => [
     {
       text: 'Первый вопрос?',
@@ -86,13 +86,13 @@ let props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['submit'])
 
-let mainQuestionCount = ref(0)
-let answers = ref<IAnswer[]>([])
+const mainQuestionCount = ref(0)
+const answers = ref<IAnswer[]>([])
 
 const isCompletedQuestion = computed(() => {
-  let mainAnswer = answers.value[mainQuestionCount.value]
-  let mainAnswerValue = mainAnswer?.answer
-  let mainQuestion = props.questions[mainQuestionCount.value]
+  const mainAnswer = answers.value[mainQuestionCount.value]
+  const mainAnswerValue = mainAnswer?.answer
+  const mainQuestion = props.questions[mainQuestionCount.value]
   if (mainQuestion.required === true) {
     if (Array.isArray(mainAnswerValue)) {
       return mainAnswerValue.length > 0

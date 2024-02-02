@@ -4,31 +4,31 @@
       <p class="question-card__question text-body1">
         {{ question.text }}
         <span
+          v-if="question.required"
           v-tippy="{ content: 'Это обзательный вопрос' }"
           class="text-body1 text-red-400"
-          v-if="question.required"
         >
           *
         </span>
       </p>
-      <div class="question-card__answers-block" v-if="!question.multiple">
+      <div v-if="!question.multiple" class="question-card__answers-block">
         <UiBaseRadio
-          v-model="checkedAnswer"
-          :value="answer.id"
           v-for="(answer, i) in question.answers"
           :key="i"
+          v-model="checkedAnswer"
+          :value="answer.id"
         >
           <p class="text-body2">
             {{ answer.text }}
           </p>
         </UiBaseRadio>
       </div>
-      <div class="question-card__answers-block" v-else>
+      <div v-else class="question-card__answers-block">
         <UiBaseCheckbox
-          v-model="checkedAnswer"
-          :name="answer.id"
           v-for="(answer, i) in question.answers"
           :key="i"
+          v-model="checkedAnswer"
+          :name="answer.id"
         >
           <p class="text-body2">
             {{ answer.text }}
@@ -45,10 +45,10 @@ interface Props {
   question?: IQuestion
   modelValue: IAnswer
 }
-let props = defineProps<Props>()
+const props = defineProps<Props>()
 const emit = defineEmits(['update:modelValue'])
 
-let checkedAnswer = computed({
+const checkedAnswer = computed({
   get() {
     if (props.question?.multiple && !props.modelValue?.answer) {
       return []

@@ -85,7 +85,7 @@ definePageMeta({
 const route = useRoute()
 route.meta.pageTitle = 'UI -kit'
 
-let popup = ref(false)
+const popup = ref(false)
 </script>
 
 <style lang="scss">

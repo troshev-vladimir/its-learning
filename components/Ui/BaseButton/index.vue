@@ -35,9 +35,9 @@
       </client-only>
     </slot>
     <UiSpinnerIcon
+      v-if="isLoading"
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
-      v-if="isLoading"
     />
   </component>
 </template>

@@ -4,9 +4,9 @@
       <slot name="icon">
         <ClientOnly>
           <font-awesome-icon
+            v-if="icon"
             class="base-list-item__icon"
             :class="[iconColor]"
-            v-if="icon"
             :icon="icon"
           />
         </ClientOnly>

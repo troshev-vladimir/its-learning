@@ -8,12 +8,12 @@
     ]"
   >
     <input
-      type="radio"
       :id="name"
+      v-model="modelValue"
+      type="radio"
       :name="name"
       :value="value"
       :class="$style.nativeInput"
-      v-model="modelValue"
     />
     <div :class="$style.radioContainer"></div>
     <slot>

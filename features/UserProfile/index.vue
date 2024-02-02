@@ -1,38 +1,39 @@
 <template>
   <UiBaseForm
     title="Редактирование профиля"
-    @submit="sendForm"
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
+    @submit="sendForm"
   >
     <UiBaseInput
+      v-model="form.name"
       name="name"
       label="Имя"
       required
       :root-class="['q-mb-sm']"
-      @update:model-value="v$.name.$touch"
-      v-model="form.name"
       :validation-result="{
         status: v$.name.$error ? 'error' : 'success',
         message: getErrorMessage(v$.name),
       }"
+      @update:model-value="v$.name.$touch"
     />
 
     <UiBaseInput
+      v-model="form.city"
       name="city"
       label="Город"
       :root-class="['q-mb-sm']"
-      @update="v$.city.$touch"
-      v-model="form.city"
-      @update:modelValue="sugestCity(form.city)"
       :validation-result="{
         status: v$.city.$error ? 'error' : 'success',
         message: getErrorMessage(v$.city),
       }"
       :suggestions="citys"
+      @update="v$.city.$touch"
+      @update:model-value="sugestCity(form.city)"
     />
 
     <UiSelect
+      v-model="form.degree"
       :options="[
         { label: 'Высшее', value: '1', selected: false },
         { label: 'Не Высшее', value: '2', selected: false },
@@ -41,97 +42,96 @@
       class="q-mb-sm"
       name="degree"
       label="Уровень образования"
-      v-model="form.degree"
-      @update="updateValue('degree')"
       :validation-result="{
         status: v$.degree.$error ? 'error' : 'success',
         message: getErrorMessage(v$.degree),
       }"
+      @update="updateValue('degree')"
     ></UiSelect>
 
     <UiDatePicker
+      v-model="form.releaseYear"
       label="Год окончания"
       name="releaseYear"
-      v-model="form.releaseYear"
-      @update:modelValue="v$.releaseYear.$touch"
       year-picker
       root-class="q-mb-sm"
       :validation-result="{
         status: v$.releaseYear.$error ? 'error' : 'success',
         message: getErrorMessage(v$.releaseYear),
       }"
+      @update:model-value="v$.releaseYear.$touch"
     ></UiDatePicker>
 
     <UiBaseInput
+      v-model="form.vuz"
       name="vuz"
       label="Учебное заведение"
       :root-class="['q-mb-sm']"
-      @update="v$.vuz.$touch"
-      v-model="form.vuz"
       :validation-result="{
         status: v$.vuz.$error ? 'error' : 'success',
         message: getErrorMessage(v$.vuz),
       }"
+      @update="v$.vuz.$touch"
     />
 
     <UiBaseInput
+      v-model="form.faculty"
       name="faculty"
       label="Факультет"
       :root-class="['q-mb-sm']"
-      @update="v$.faculty.$touch"
-      v-model="form.faculty"
       :validation-result="{
         status: v$.faculty.$error ? 'error' : 'success',
         message: getErrorMessage(v$.faculty),
       }"
+      @update="v$.faculty.$touch"
     />
     <UiBaseInput
+      v-model="form.learnArea"
       name="learnArea"
       label="Направление обучения"
       :root-class="['q-mb-sm']"
-      @update="v$.learnArea.$touch"
-      v-model="form.learnArea"
       :validation-result="{
         status: v$.learnArea.$error ? 'error' : 'success',
         message: getErrorMessage(v$.learnArea),
       }"
+      @update="v$.learnArea.$touch"
     />
     <UiDatePicker
+      v-model="form.birthdate"
       label="Дата рождения"
       name="birthdate"
-      v-model="form.birthdate"
-      @update:modelValue="v$.birthdate.$touch"
       root-class="q-mb-sm"
       :validation-result="{
         status: v$.birthdate.$error ? 'error' : 'success',
         message: getErrorMessage(v$.birthdate),
       }"
+      @update:model-value="v$.birthdate.$touch"
     ></UiDatePicker>
 
     <UiBaseInput
+      v-model="form.birthPlace"
       name="birthPlace"
       label="Место рождения"
       :root-class="['q-mb-sm']"
-      @update="v$.birthPlace.$touch"
-      v-model="form.birthPlace"
-      @update:modelValue="sugestCity(form.birthPlace)"
       :validation-result="{
         status: v$.birthPlace.$error ? 'error' : 'success',
         message: getErrorMessage(v$.birthPlace),
       }"
       :suggestions="citys"
+      @update="v$.birthPlace.$touch"
+      @update:model-value="sugestCity(form.birthPlace)"
     />
 
     <UiBaseCheckbox
-      name="havExperience"
       v-model="form.havExperience"
+      name="havExperience"
       label="У меня есть опыт в программировании"
-      @update="updateValue('havExperience')"
       class="q-mb-sm"
       :validation-result="{
         status: v$.havExperience.$error ? 'error' : 'success',
         message: getErrorMessage(v$.havExperience),
       }"
+      @update="updateValue('havExperience')"
     ></UiBaseCheckbox>
 
     <UiBaseFileinput
@@ -141,11 +141,11 @@
       :accept="['image/png', 'image/jpeg']"
       :max-size="9 * 1024 * 1024"
       label="Прикрепить файлы"
-      @update:modelValue="updateValue('graduates')"
       :validation-result="{
         status: v$.graduates.$error ? 'error' : 'success',
         message: getErrorMessage(v$.graduates),
       }"
+      @update:model-value="updateValue('graduates')"
     />
     <UiBaseFileinput
       v-model="form.additionalGraduates"
@@ -154,11 +154,11 @@
       :accept="['image/png', 'image/jpeg']"
       :max-size="9 * 1024 * 1024"
       label="Прикрепить файлы"
-      @update:modelValue="updateValue('additionalGraduates')"
       :validation-result="{
         status: v$.additionalGraduates.$error ? 'error' : 'success',
         message: getErrorMessage(v$.additionalGraduates),
       }"
+      @update:model-value="updateValue('additionalGraduates')"
     />
   </UiBaseForm>
 </template>

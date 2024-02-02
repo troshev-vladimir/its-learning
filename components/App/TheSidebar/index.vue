@@ -1,35 +1,35 @@
 <template>
-  <div class="the-sidebar" :class="{ active: isOpen }" ref="sidebar">
+  <div ref="sidebar" class="the-sidebar" :class="{ active: isOpen }">
     <div class="the-sidebar__container">
       <div class="the-sidebar__logo-block">
         <div class="logo-block__container">
-          <img src="@/assets/img/logo-small.svg" alt="" v-if="!isOpen" />
-          <img src="@/assets/img/logo.svg" alt="" v-else />
+          <img v-if="!isOpen" src="@/assets/img/logo-small.svg" alt="" />
+          <img v-else src="@/assets/img/logo.svg" alt="" />
         </div>
       </div>
       <NuxtLink
-        :content="'Личный кабинет'"
         v-tippy="{
           placement: 'right',
           onShow() {
             return !isOpen
           },
         }"
+        :content="'Личный кабинет'"
         to="/cabinet"
-        @click="closeSidebarOnMobile"
         class="the-sidebar__user-info-block"
+        @click="closeSidebarOnMobile"
       >
         <div class="user-info-block__photo-span">
           <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
-        <p class="user-info-block__name" v-if="isOpen">Виктор Андреевич</p>
+        <p v-if="isOpen" class="user-info-block__name">Виктор Андреевич</p>
       </NuxtLink>
       <div class="the-sidebar__link-list">
         <AppTheSidebarBaseSidebarLink
           v-for="(link, i) in links"
           :key="i"
           :icon="link.icon"
-          :sidebarStatus="isOpen"
+          :sidebar-status="isOpen"
           :title="link.title"
           :class="{ active: link.active }"
           :to="link.to || ''"
@@ -76,10 +76,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-let isOpen = ref(false)
-let sidebar = ref<HTMLElement | null>(null)
+const isOpen = ref(false)
+const sidebar = ref<HTMLElement | null>(null)
 
-let { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
+const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
 const closeSidebarOnMobile = () => {
   if (window.outerWidth < 600 && isOpen.value === true) {

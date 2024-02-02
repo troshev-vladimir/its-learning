@@ -1,7 +1,5 @@
-
-
 export function formatNumber(number: number) {
-  return String(number).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
+  return String(number).replace(/(.)(?=(\d{3})+$)/g, '$1 ')
 }
 
 export function emailValidate(email: string) {
@@ -9,5 +7,5 @@ export function emailValidate(email: string) {
     .toLowerCase()
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+    )
 }

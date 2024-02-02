@@ -9,27 +9,27 @@
           <nuxt-link to="/course/1/description/">
             <p class="text-h2">{{ course.title }}</p>
           </nuxt-link>
-          <p class="text-body2 text-gray-400" v-if="course.isEnded">
+          <p v-if="course.isEnded" class="text-body2 text-gray-400">
             Курс завершён
           </p>
           <p
-            class="text-body2 text-gray-400"
             v-if="course.academ?.state && course.academ?.date"
+            class="text-body2 text-gray-400"
           >
             Предоставлен академический отпуск до {{ course.academ?.date }}
           </p>
-          <p class="text-body2 text-gray-400" v-if="course.trial?.state">
+          <p v-if="course.trial?.state" class="text-body2 text-gray-400">
             Бесплатный период на {{ course.trial?.days }} день
           </p>
         </div>
         <div class="left-side__block">
-          <p class="text-body2" v-if="course.isStarted && course.startDate">
+          <p v-if="course.isStarted && course.startDate" class="text-body2">
             Дата начала: {{ course.startDate }}
           </p>
-          <p class="text-body2" v-if="course.isStarted && course.planEndDate">
+          <p v-if="course.isStarted && course.planEndDate" class="text-body2">
             Планируемая дата окончания: {{ course.startDate }}
           </p>
-          <p class="text-body2" v-if="course.isEnded && course.realEndDate">
+          <p v-if="course.isEnded && course.realEndDate" class="text-body2">
             Дата окончания: {{ course.realEndDate }}
           </p>
         </div>
@@ -37,49 +37,49 @@
       <div class="course-card__right-side">
         <p class="text-body2">
           Средний балл
-          <span class="text-body1 text-bold" v-if="course.averageScore">
+          <span v-if="course.averageScore" class="text-body1 text-bold">
             {{ course.averageScore }}
           </span>
-          <span class="text-body1 text-bold" v-else> - </span>
+          <span v-else class="text-body1 text-bold"> - </span>
         </p>
         <UiBaseButton
+          v-if="course.trial?.state && !course.academ?.state"
           class="course-card__button"
           type="primary"
           size="small"
-          v-if="course.trial?.state && !course.academ?.state"
         >
           Приступить к обучению
         </UiBaseButton>
         <UiBaseButton
+          v-if="course.academ?.state"
           class="course-card__button"
           type="primary"
           size="small"
-          v-if="course.academ?.state"
         >
           Продолжить обучение
         </UiBaseButton>
         <UiBaseButton
+          v-if="!course.academ?.state && course.isStarted"
           class="course-card__button"
           type="boarded"
           size="small"
-          v-if="!course.academ?.state && course.isStarted"
         >
           Запросить академический отпуск
         </UiBaseButton>
         <UiBaseButton
+          v-if="course.shouldPay"
           class="course-card__button"
           type="primary"
           size="small"
-          v-if="course.shouldPay"
         >
           Оплатить
         </UiBaseButton>
         <div class="course-card__link-list">
           <UiBaseButton
-            type="external-link"
-            size="small"
             v-for="(doc, i) in course.docs"
             :key="i"
+            type="external-link"
+            size="small"
           >
             {{ doc.name }}
           </UiBaseButton>

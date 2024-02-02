@@ -12,10 +12,10 @@ withDefaults(
 
 <template>
   <div class="base-average-score">
-    <p class="base-average-score__value text-body1 text-bold" v-if="value">
+    <p v-if="value" class="base-average-score__value text-body1 text-bold">
       {{ value }}
     </p>
-    <p class="base-average-score__value text-body1 text-bold" v-else>-</p>
+    <p v-else class="base-average-score__value text-body1 text-bold">-</p>
     <p class="text-body2 text-right">
       Средний балл
       <ClientOnly v-if="hasTip === true">

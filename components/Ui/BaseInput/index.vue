@@ -9,15 +9,15 @@
       rootClass,
     ]"
   >
-    <div :class="$style.inputWrapper" v-click-outside="hideSuggestion">
+    <div v-click-outside="hideSuggestion" :class="$style.inputWrapper">
       <textarea
         v-if="textarea"
+        :id="name"
+        v-model="localValue"
         type="text"
         style="resize: vertical"
         rows="4"
-        v-model="localValue"
         :name="name"
-        :id="name"
         :class="$style['native-input']"
         placeholder=""
         v-bind="attrs"
@@ -26,17 +26,17 @@
 
       <input
         v-else
+        :id="name"
+        v-model="localValue"
+        v-maska:[maskOptions]="mask"
         type="text"
         style="resize: vertical"
-        v-model="localValue"
         :name="name"
-        :id="name"
         :class="$style['native-input']"
         placeholder=""
         v-bind="attrs"
-        @blur="update"
-        v-maska:[maskOptions]="mask"
         :data-maska="mask"
+        @blur="update"
         @click="isSuggestions = true"
         @focus="isSuggestions = true"
       />
@@ -47,8 +47,8 @@
       </p>
 
       <div
-        :class="[$style.suggestions]"
         v-if="isSuggestions && suggestions && suggestions.length"
+        :class="[$style.suggestions]"
       >
         <div
           v-for="(suggestion, index) in suggestions"
@@ -108,7 +108,7 @@ const selectSugestion = (suggestion: string) => {
 }
 
 const currentComponent = computed(() => {
-  return !!props.textarea ? 'textarea' : 'input'
+  return props.textarea ? 'textarea' : 'input'
 })
 </script>
 

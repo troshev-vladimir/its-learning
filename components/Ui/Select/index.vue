@@ -1,5 +1,6 @@
 <template>
   <div
+    v-click-outside="closeDropdown"
     :class="[
       $style['baseSelect'],
       {
@@ -9,7 +10,6 @@
       },
       $style[`baseSelect--${validationResult.status}`],
     ]"
-    v-click-outside="closeDropdown"
   >
     <div :class="$style['selectContainer']" @click="toggle">
       <p :class="$style['placeholder']">
@@ -19,9 +19,9 @@
 
       <div v-if="eachClearable" :class="$style.selectedLabels">
         <span
-          :class="$style.selectedLabel"
           v-for="(label, index) in selectedLabels.slice(0, shownItems)"
           :key="index"
+          :class="$style.selectedLabel"
         >
           {{ typeof label === 'string' ? '' : label.label }}
 
@@ -39,8 +39,8 @@
         </span>
 
         <span
-          :class="$style.selectedLabel"
           v-if="selectedLabels.length > shownItems"
+          :class="$style.selectedLabel"
         >
           И ещё {{ selectedLabels.length - shownItems }}
         </span>
@@ -56,15 +56,15 @@
         </span>
 
         <span
+          v-if="canClearAll"
           :class="$style['clear']"
           @click.stop="clearAll()"
-          v-if="canClearAll"
         >
           <font-awesome-icon :icon="['fas', 'close']" color="#ccc" />
         </span>
       </client-only>
     </div>
-    <ul :class="$style['dropdown']" v-if="isOpen">
+    <ul v-if="isOpen" :class="$style['dropdown']">
       <li
         v-for="option in currentOptions"
         :key="option.value"
@@ -77,10 +77,10 @@
         @click="select(option.value)"
       >
         <UiBaseCheckbox
+          v-if="multiple"
           :name="option.value"
           :model-value="option.selected"
           @click.prevent
-          v-if="multiple"
         />
         <span :class="[$style['label'], 'text-body2']">{{ option.label }}</span>
       </li>

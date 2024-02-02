@@ -6,7 +6,7 @@
           <div id="cabiner-header-left-side"></div>
         </div>
       </div>
-      <p class="text-body1" v-if="route.meta.pageTitle">
+      <p v-if="route.meta.pageTitle" class="text-body1">
         {{ route.meta.pageTitle }}
       </p>
       <div class="header__right-side">

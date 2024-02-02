@@ -1,10 +1,10 @@
 <template>
   <!-- <teleport to="#popups-container"> -->
   <transition name="modal-fade">
-    <div class="modal-overlay" @click="closeModal" v-if="modelValue">
+    <div v-if="modelValue" class="modal-overlay" @click="closeModal">
       <div class="container">
         <div class="modal" @click.stop>
-          <slot :closeModal="closeModal"></slot>
+          <slot :close-modal="closeModal"></slot>
           <div class="close" @click="closeModal">
             <ClientOnly>
               <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
@@ -33,7 +33,7 @@ const localValue = computed({
     emit('update:modelValue', value)
   },
 })
-const {} = useBodyFreez(localValue)
+useBodyFreez(localValue)
 
 const closeModal = () => {
   localValue.value = false

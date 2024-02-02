@@ -2,27 +2,27 @@
   <div class="target-training-card base-block">
     <div class="target-training-card__container">
       <p class="text-h2">Тест на целевое обучение</p>
-      <p class="text-body2" v-if="!showResult">
+      <p v-if="!showResult" class="text-body2">
         Пройдите тестирование и получите возможность бесплатного целевого
         обучения на курсе. Тестирование состоит из двух онлайн тестов и
         персонального интервью, дата которого будет назначена вашим менеджером
         после обработки результатов онлайн теста.
       </p>
       <UiBaseButton
+        v-if="value.status === 'start' && !showResult"
         type="primary"
         size="big"
-        v-if="value.status === 'start' && !showResult"
         @click="() => emit('startTest')"
       >
         Пройти тестирование
       </UiBaseButton>
       <p
-        class="text-body1 text-bold text-blue-600"
         v-if="value.status === 'waiting' && !showResult"
+        class="text-body1 text-bold text-blue-600"
       >
         Идет проверка. Ожидайте ответа менеджера.
       </p>
-      <div class="target-training-card__results-block" v-if="showResult">
+      <div v-if="showResult" class="target-training-card__results-block">
         <div class="results-block__item">
           <p class="text-body1 text-bold q-mb-xs">{{ value.result?.iq }}</p>
           <p class="text-body2">Тест IQ</p>
@@ -35,14 +35,14 @@
     </div>
 
     <p
-      class="result-block__status text-blue-600 text-bold"
       v-if="showResult && value.result?.allowance === true"
+      class="result-block__status text-blue-600 text-bold"
     >
       Вы приняты на целевое обучение
     </p>
     <p
-      class="result-block__status text-blue-600 text-bold"
       v-if="showResult && value.result?.allowance === false"
+      class="result-block__status text-blue-600 text-bold"
     >
       Вы приняты на платное обучение
     </p>
@@ -75,7 +75,7 @@ const props = withDefaults(defineProps<PropsTest>(), {
   }),
 })
 
-let showResult = computed(
+const showResult = computed(
   () =>
     props.value.status === 'result' &&
     props.value.result?.iq !== null &&

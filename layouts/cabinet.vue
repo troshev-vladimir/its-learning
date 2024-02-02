@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-let route = useRoute()
-let sidebarLinks = computed(() => [
+const route = useRoute()
+const sidebarLinks = computed(() => [
   {
     icon: 'fas fa-book-open',
     title: 'Обучение',

@@ -34,41 +34,41 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted } from "vue";
-import usePincode from "./composables/usePincode";
+import { watch, onMounted } from 'vue'
+import usePincode from './composables/usePincode'
 // eslint-disable-next-line no-undef
 const props = defineProps({
   modelValue: {
     type: String,
-    default: "",
+    default: '',
   },
   error: {
     type: String,
-    default: "",
+    default: '',
   },
   disabled: {
     type: Boolean,
     default: false,
   },
-});
+})
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(["update:modelValue", "completed"]);
+const emit = defineEmits(['update:modelValue', 'completed'])
 const { onFocus, nextInput, userPin, inputs, clear, pasteEvent } =
-  usePincode(emit);
+  usePincode(emit)
 
 onMounted(() => {
   inputs.value.forEach((input) => {
     // @ts-expect-error
-    input?.resetValidation();
-  });
-});
+    input?.resetValidation()
+  })
+})
 
-userPin.value = props.modelValue.split("");
+userPin.value = props.modelValue.split('')
 
 defineExpose({
   clear,
-});
+})
 </script>
 <style module>
 .q-field__messages {

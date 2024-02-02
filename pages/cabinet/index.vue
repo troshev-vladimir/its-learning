@@ -48,8 +48,8 @@
   <UiBasePopup v-model="userProfileEdit">
     <template #default="{ closeModal }">
       <FeatureUserProfile
-        @submit="closeModal"
         class="base-block"
+        @submit="closeModal"
       ></FeatureUserProfile>
     </template>
   </UiBasePopup>

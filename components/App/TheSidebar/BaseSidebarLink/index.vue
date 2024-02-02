@@ -1,19 +1,19 @@
 <template>
   <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
     <div
-      :content="title"
       v-tippy="{
         placement: 'right',
         onShow() {
           return !props.sidebarStatus
         },
       }"
+      :content="title"
       class="base-sidebar-link__container"
     >
       <ClientOnly>
         <font-awesome-icon v-if="icon" :icon="icon" />
       </ClientOnly>
-      <p class="text-body2" v-if="sidebarStatus && title">
+      <p v-if="sidebarStatus && title" class="text-body2">
         {{ title }}
       </p>
     </div>

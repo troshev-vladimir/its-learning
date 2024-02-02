@@ -8,12 +8,12 @@
       },
     ]"
   >
-    <div class="previews" v-if="withPrevew">
+    <div v-if="withPrevew" class="previews">
       <template v-if="multiple">
         <img
-          style="max-width: 100px"
           v-for="(item, index) in preview"
           :key="index"
+          style="max-width: 100px"
           :src="item"
           alt=""
         />
@@ -35,15 +35,15 @@
         />
       </client-only>
       <input
-        @dragenter="dragFileInput"
-        @dragleave="dragEndFileInput"
+        ref="fileInputRef"
         :multiple="!!multiple"
         type="file"
-        @change="onFileChange"
-        ref="fileInputRef"
         class="base-fileinput__file-input"
         :class="{ drag: isDraging }"
         :accept="acceptTypesString"
+        @dragenter="dragFileInput"
+        @dragleave="dragEndFileInput"
+        @change="onFileChange"
       />
 
       <span v-if="multiple" class="label text-body2"> {{ label }} </span>
@@ -65,11 +65,11 @@
       {{ validationResult.message }}
     </p>
 
-    <div class="base-fileinput__file-list file-list" v-if="multiple">
+    <div v-if="multiple" class="base-fileinput__file-list file-list">
       <a
-        class="file-list__item"
         v-for="({ name }, i) in uploadedFiles"
         :key="i"
+        class="file-list__item"
       >
         {{ name }}
         <client-only>
