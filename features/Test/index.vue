@@ -21,7 +21,7 @@
           type="primary"
           size="small"
           post-icon="fas fa-chevron-right"
-          :disabled="hasNotNextQuestion"
+          :disabled="!hasNextQuestion"
           @click="setNextQuestionCount"
         >
           Следующий вопрос
@@ -49,37 +49,37 @@ const props = withDefaults(defineProps<Props>(), {
   questions: () => [
     {
       text: 'Первый вопрос?',
-      id: 1,
+      id: '1',
       required: true,
       answers: [
-        { text: 'Первый ответ', id: 1 },
-        { text: 'Второй ответ', id: 2 },
-        { text: 'Третий ответ', id: 3 },
-        { text: 'Четвертый ответ', id: 4 },
+        { text: 'Первый ответ', id: '1' },
+        { text: 'Второй ответ', id: '2' },
+        { text: 'Третий ответ', id: '3' },
+        { text: 'Четвертый ответ', id: '4' },
       ],
     },
     {
       text: 'Второй вопрос?',
-      id: 2,
+      id: '2',
       multiple: true,
       required: true,
       answers: [
-        { text: 'Первый ответ', id: 1 },
-        { text: 'Второй ответ', id: 2 },
-        { text: 'Третий ответ', id: 3 },
-        { text: 'Четвертый ответ', id: 4 },
+        { text: 'Первый ответ', id: '1' },
+        { text: 'Второй ответ', id: '2' },
+        { text: 'Третий ответ', id: '3' },
+        { text: 'Четвертый ответ', id: '4' },
       ],
     },
     {
       text: 'Третий вопрос?',
-      id: 3,
+      id: '3',
       multiple: true,
       required: true,
       answers: [
-        { text: 'Первый ответ', id: 1 },
-        { text: 'Второй ответ', id: 2 },
-        { text: 'Третий ответ', id: 3 },
-        { text: 'Четвертый ответ', id: 4 },
+        { text: 'Первый ответ', id: '1' },
+        { text: 'Второй ответ', id: '2' },
+        { text: 'Третий ответ', id: '3' },
+        { text: 'Четвертый ответ', id: '4' },
       ],
     },
   ],
@@ -97,13 +97,11 @@ const isCompletedQuestion = computed(() => {
     if (Array.isArray(mainAnswerValue)) {
       return mainAnswerValue.length > 0
     } else {
-      return mainAnswerValue != null && mainAnswerValue != ''
+      return mainAnswerValue != null
     }
   }
   return true
 })
-
-const hasNotNextQuestion = computed(() => !hasNextQuestion.value)
 
 const hasNextQuestion = computed(
   () =>

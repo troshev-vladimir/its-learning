@@ -11,12 +11,16 @@
           *
         </span>
       </p>
-      <div v-if="!question.multiple" class="question-card__answers-block">
+      <div
+        v-if="!question.multiple && typeof checkedAnswer === 'string'"
+        class="question-card__answers-block"
+      >
         <UiBaseRadio
           v-for="(answer, i) in question.answers"
           :key="i"
           v-model="checkedAnswer"
           :value="`${answer.id}`"
+          :name="question.id"
         >
           <p class="text-body2">
             {{ answer.text }}
@@ -45,14 +49,17 @@ interface Props {
   question?: IQuestion
   modelValue: IAnswer
 }
+
+// Типы. Не пишем Type в интерфейсай норм
+// id строки, ты же не будешь их складывать или вычитать
+// обязательные параметры надо оставлять обязательными
+// Надо в modelValue передавать только id ответа, а какому вопросу это присваивать решит родитель
+
 const props = defineProps<Props>()
 const emit = defineEmits(['update:modelValue'])
 
 const checkedAnswer = computed({
   get() {
-    if (props.question?.multiple && !props.modelValue?.answer) {
-      return []
-    }
     return props.modelValue?.answer
   },
   set(value) {

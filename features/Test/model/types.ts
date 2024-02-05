@@ -1,17 +1,17 @@
 export interface IQuestion {
-  id?: number
-  text?: string
+  id: string
+  text: string
   multiple?: boolean
   required?: boolean
-  answers?: {
-    text?: string
-    id?: number
+  answers: {
+    text: string
+    id: string
   }[]
 }
 
-export type TypeAnswer = string | string[] | number | number[]
+export type TypeAnswer = string | string[]
 
 export interface IAnswer {
-  id: number // id вопроса
+  id: string // id вопроса
   answer: TypeAnswer
 }

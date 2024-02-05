@@ -48,7 +48,6 @@
     </template>
   </UiExpancionItem>
 </template>
-
 <script lang="ts" setup>
 interface EducationModule {
   id?: string
@@ -58,9 +57,10 @@ interface EducationModule {
 interface Props {
   value?: EducationModule
   index?: number
-  modelValue?: boolean
+  modelValue: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
+  modelValue: false,
   value: () => ({
     id: '123',
     title: 'Название модуля',
