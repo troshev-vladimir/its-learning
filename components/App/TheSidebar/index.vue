@@ -1,12 +1,6 @@
 <template>
   <div ref="sidebar" class="the-sidebar" :class="{ active: isOpen }">
     <div class="the-sidebar__container">
-      <div class="the-sidebar__logo-block">
-        <div class="logo-block__container">
-          <img v-if="!isOpen" src="@/assets/img/logo-small.svg" alt="" />
-          <img v-else src="@/assets/img/logo.svg" alt="" />
-        </div>
-      </div>
       <NuxtLink
         v-tippy="{
           placement: 'right',
@@ -157,31 +151,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-
-  &__logo-block,
-  .logo-block {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &__container {
-      width: 80%;
-      padding: 12px 10px;
-      border-bottom: 1px solid $gray-300;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-
-      img {
-        width: 50%;
-
-        @media screen and (min-width: $bp-xs) {
-          width: 100%;
-        }
-      }
-    }
+    padding-top: 48px;
   }
 
   &__user-info-block,

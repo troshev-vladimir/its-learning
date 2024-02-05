@@ -4,6 +4,7 @@
       <div class="column items-start">
         <div class="header__left-side">
           <div id="cabiner-header-left-side"></div>
+          <img src="@/assets/img/logo.svg" alt="" class="header__logo" />
         </div>
       </div>
       <p v-if="route.meta.pageTitle" class="text-body1">
@@ -38,6 +39,15 @@ const exit = () => {
 <style scoped lang="scss">
 .header {
   background: $white;
+
+  &__logo {
+    height: 50px;
+    display: none;
+
+    @include media($bp-sm) {
+      display: block;
+    }
+  }
 
   &__logout-block:hover {
     cursor: pointer;
