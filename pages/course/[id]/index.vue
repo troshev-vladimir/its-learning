@@ -47,7 +47,7 @@
           :key="index"
           :model-value="activeModuleIndex == index"
           :value="{
-            id: `${index}`,
+            id: index + '',
             title: 'Пройденный модуль',
             status: 'ended',
           }"
