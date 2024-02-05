@@ -46,17 +46,17 @@
     <FeatureCompanyPaymentCard />
   </div>
   <UiBasePopup v-model="userProfileEdit">
-    <template #default="{ closeModal }">
+    <template #default>
       <FeatureUserProfile
         class="base-block"
-        @submit="closeModal"
+        @submit="() => (userProfileEdit = false)"
       ></FeatureUserProfile>
     </template>
   </UiBasePopup>
 
   <UiBasePopup v-model="testPopup" class="target-training-test">
-    <template #default="{ closeModal }">
-      <FeatureTest class="base-block" @submit="closeModal" />
+    <template #default>
+      <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
     </template>
   </UiBasePopup>
 </template>

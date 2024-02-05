@@ -1,10 +1,10 @@
 <template>
   <!-- <teleport to="#popups-container"> -->
   <transition name="modal-fade">
-    <div v-if="modelValue" class="modal-overlay" @click="closeModal">
+    <div v-show="modelValue" class="modal-overlay" @click="closeModal">
       <div class="container">
         <div class="modal" @click.stop>
-          <slot :close-modal="closeModal"></slot>
+          <slot></slot>
           <div class="close" @click="closeModal">
             <ClientOnly>
               <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>

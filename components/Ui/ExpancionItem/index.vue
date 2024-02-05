@@ -1,8 +1,8 @@
 <template>
-  <div class="expansion-item">
-    <div class="expansion-item__header" @click="toggleOpenStatus">
+  <div class="expansion-item" :class="{ _disabled: disabled }">
+    <div class="expansion-item__header">
       <slot name="header">
-        <div class="row items-center q-gutter-md">
+        <div class="row items-center q-gutter-md" @click="toggleOpenStatus">
           <span class="expansion-item__toggle-icon" :class="{ open: isOpen }">
             <slot name="toggleIcon">
               <ClientOnly> <font-awesome-icon :icon="icon" /> </ClientOnly>
@@ -12,7 +12,7 @@
         </div>
       </slot>
     </div>
-    <div class="expansion-item__content" :class="{ open: isOpen }">
+    <div class="expansion-item__content" :class="{ open: isOpen }" @click.stop>
       <div class="inner">
         <slot></slot>
       </div>
@@ -25,6 +25,7 @@ interface Props {
   title?: string
   icon?: string | string[]
   modelValue: boolean
+  disabled?: boolean
 }
 
 const props = defineProps<Props>()
@@ -47,17 +48,10 @@ const toggleOpenStatus = () => {
 
 <style lang="scss">
 .expansion-item {
-  &[disabled='true'],
-  &[disabled] {
+  &._disabled {
     opacity: 1 !important;
-
-    &:hover {
-      cursor: not-allowed;
-    }
-
-    &:active {
-      pointer-events: none;
-    }
+    cursor: not-allowed !important;
+    pointer-events: none;
   }
   &__header {
     cursor: pointer;
