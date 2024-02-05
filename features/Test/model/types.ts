@@ -9,7 +9,7 @@ export interface IQuestion {
 export type TypeAnswer = string | string[]
 export interface QuestionAnswer {
   text: string
-  id: number
+  id: string
 }
 export interface IAnswer {
   id: string // id вопроса
