@@ -45,7 +45,7 @@
         <FeatureEducationModuleAccordion
           v-for="(item, index) in 5"
           :key="index"
-          :model-value="activeIndex == index"
+          :model-value="activeModuleIndex == index"
           :value="{
             id: `${index}`,
             title: 'Пройденный модуль',
@@ -53,7 +53,11 @@
           }"
           @click="() => onClickItem(index)"
         >
-          <div>1234123</div>
+          <FeatureEducationLessonAccordion>
+            <template #default>
+              <FeatureEducationLessonCard />
+            </template>
+          </FeatureEducationLessonAccordion>
         </FeatureEducationModuleAccordion>
         <br />
         <FeatureEducationModuleAccordion
@@ -62,7 +66,7 @@
             title: 'Активный модуль',
             status: 'active',
           }"
-          :model-value="activeIndex == 11"
+          :model-value="activeModuleIndex == 11"
           @click="() => onClickItem(11)"
         >
           <div>1234123</div>
@@ -74,7 +78,7 @@
             title: 'Активный модуль',
             status: 'active',
           }"
-          :model-value="activeIndex == 13"
+          :model-value="activeModuleIndex == 13"
           @click="() => onClickItem(13)"
         >
           <div>1234123</div>
@@ -86,7 +90,7 @@
             title: 'Заблокированный модуль',
             status: 'locked',
           }"
-          :model-value="activeIndex == 12"
+          :model-value="activeModuleIndex == 12"
           @click="() => onClickItem(12)"
         >
           <div>1234123</div>
@@ -105,20 +109,21 @@ const route = useRoute()
 const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
-const activeIndex = ref(-1)
+const activeModuleIndex = ref(-1)
+const activeLessonIndex = ref(-1)
 
 const onClickItem = (index: number) => {
-  if (activeIndex.value == index) {
-    activeIndex.value = -1
+  if (activeModuleIndex.value == index) {
+    activeModuleIndex.value = -1
     router.replace({ query: { module: -1 } })
     return
   }
   router.replace({ query: { module: index } })
-  activeIndex.value = index
+  activeModuleIndex.value = index
 }
 
 onMounted(() => {
-  if (route.query?.module) activeIndex.value = +route.query.module
+  if (route.query?.module) activeModuleIndex.value = +route.query.module
 })
 
 useSeoMeta({

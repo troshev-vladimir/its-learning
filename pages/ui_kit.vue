@@ -1,5 +1,9 @@
 <template>
-  <FeatureEducationLessonAccordion></FeatureEducationLessonAccordion>
+  <FeatureEducationLessonAccordion>
+    <template #default>
+      <FeatureEducationLessonCard />
+    </template>
+  </FeatureEducationLessonAccordion>
 </template>
 
 <script setup lang="ts">
