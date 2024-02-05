@@ -1,8 +1,8 @@
 <template>
-  <div v-if="question" class="question-card">
+  <div class="question-card">
     <div class="question-card__container">
       <p class="question-card__question text-body1">
-        {{ question?.text }}
+        {{ question.text }}
         <span
           v-if="question?.required"
           v-tippy="{ content: 'Это обзательный вопрос' }"
@@ -12,18 +12,18 @@
         </span>
       </p>
       <div
-        v-if="!question.multiple && typeof checkedAnswer === 'string'"
+        v-if="!question?.multiple && !Array.isArray(checkedAnswer)"
         class="question-card__answers-block"
       >
         <UiBaseRadio
-          v-for="(answer, i) in question?.answers"
+          v-for="(answer, i) in question.answers"
           :key="i"
           v-model="checkedAnswer"
-          :value="`${answer.id}`"
-          :name="question.id"
+          :value="answer.id"
+          :name="answer.id"
         >
           <p class="text-body2">
-            {{ answer?.text }}
+            {{ answer.text }}
           </p>
         </UiBaseRadio>
       </div>
@@ -35,7 +35,7 @@
           v-for="(answer, i) in question?.answers"
           :key="i"
           v-model="checkedAnswer"
-          :name="`${answer.id}`"
+          :name="answer.id"
         >
           <p class="text-body2">
             {{ answer.text }}
@@ -47,26 +47,21 @@
 </template>
 
 <script lang="ts" setup>
-import type { IQuestion, IAnswer } from '../model/types'
+import type { IQuestion, TypeAnswer } from '../model/types'
 interface Props {
-  question?: IQuestion
-  modelValue: IAnswer
+  question: IQuestion
+  modelValue: TypeAnswer | TypeAnswer[]
 }
-
-// Типы. Не пишем Type в интерфейсай норм
-// id строки, ты же не будешь их складывать или вычитать
-// обязательные параметры надо оставлять обязательными
-// Надо в modelValue передавать только id ответа, а какому вопросу это присваивать решит родитель
 
 const props = defineProps<Props>()
 const emit = defineEmits(['update:modelValue'])
 
 const checkedAnswer = computed({
   get() {
-    return props.modelValue?.answer
+    return props.modelValue
   },
   set(value) {
-    emit('update:modelValue', { id: props.question?.id, answer: value })
+    emit('update:modelValue', value)
   },
 })
 </script>

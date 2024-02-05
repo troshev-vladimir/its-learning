@@ -1,3 +1,8 @@
+export interface QuestionAnswer {
+  text: string
+  id: string
+}
+
 export interface IQuestion {
   id: string
   text: string
@@ -6,12 +11,9 @@ export interface IQuestion {
   answers: QuestionAnswer[]
 }
 
-export type TypeAnswer = string | string[]
-export interface QuestionAnswer {
-  text: string
-  id: number
-}
+export type TypeAnswer = string
+
 export interface IAnswer {
   id: string // id вопроса
-  answer: TypeAnswer
+  answer: TypeAnswer | TypeAnswer[]
 }

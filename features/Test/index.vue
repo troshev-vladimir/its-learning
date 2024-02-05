@@ -2,8 +2,8 @@
   <div class="test-component">
     <div class="test-component__container">
       <FeatureTestQuestionCard
-        v-model="answers[mainQuestionCount]"
         :question="activeQuestion"
+        v-model="answers[mainQuestionCount].answer"
       />
       <div class="test-component__buttons">
         <UiBaseButton
@@ -31,7 +31,7 @@
           type="primary"
           size="small"
           :disabled="!isCompletedQuestion"
-          @click="() => emit('submit', answers)"
+          @click="emitAnswers"
         >
           Завершить
         </UiBaseButton>
@@ -86,8 +86,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['submit'])
 
-const mainQuestionCount = ref(0)
-const answers = ref<IAnswer[] | []>([])
+let mainQuestionCount = ref(0)
+let answers = ref<IAnswer[] | []>([])
 
 const isCompletedQuestion = computed(() => {
   const mainAnswer = answers.value[mainQuestionCount.value]
@@ -97,7 +97,7 @@ const isCompletedQuestion = computed(() => {
     if (Array.isArray(mainAnswerValue)) {
       return mainAnswerValue.length > 0
     } else {
-      return mainAnswerValue != null
+      return mainAnswerValue != null && mainAnswerValue != ''
     }
   }
   return true
@@ -132,6 +132,19 @@ const setPrevQuestionCount = () => {
 const emitAnswers = () => {
   emit('submit', answers.value)
 }
+
+watch(
+  mainQuestionCount,
+  (value) => {
+    if (answers.value[value]) return
+    if (activeQuestion.value?.multiple === true) {
+      answers.value[value] = { id: activeQuestion.value.id, answer: [] }
+    } else {
+      answers.value[value] = { id: activeQuestion.value.id, answer: '' }
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>

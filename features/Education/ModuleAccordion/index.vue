@@ -56,7 +56,6 @@ interface EducationModule {
 }
 interface Props {
   value?: EducationModule
-  index?: number
   modelValue: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -66,7 +65,6 @@ const props = withDefaults(defineProps<Props>(), {
     title: 'Название модуля',
     status: 'active',
   }),
-  modelValue: false,
 })
 
 const router = useRouter()
