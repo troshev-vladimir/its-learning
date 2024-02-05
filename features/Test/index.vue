@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import type { IQuestion, IAnswer } from './model/types'
 interface Props {
-  questions?: IQuestion[]
+  questions: IQuestion[]
 }
 const props = withDefaults(defineProps<Props>(), {
   questions: () => [
