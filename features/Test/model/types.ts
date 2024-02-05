@@ -3,14 +3,14 @@ export interface IQuestion {
   text: string
   multiple?: boolean
   required?: boolean
-  answers: {
-    text: string
-    id: string
-  }[]
+  answers: QuestionAnswer[]
 }
 
 export type TypeAnswer = string | string[]
-
+export interface QuestionAnswer {
+  text: string
+  id: number
+}
 export interface IAnswer {
   id: string // id вопроса
   answer: TypeAnswer

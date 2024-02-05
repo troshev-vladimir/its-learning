@@ -2,9 +2,9 @@
   <div v-if="question" class="question-card">
     <div class="question-card__container">
       <p class="question-card__question text-body1">
-        {{ question.text }}
+        {{ question?.text }}
         <span
-          v-if="question.required"
+          v-if="question?.required"
           v-tippy="{ content: 'Это обзательный вопрос' }"
           class="text-body1 text-red-400"
         >
@@ -16,20 +16,23 @@
         class="question-card__answers-block"
       >
         <UiBaseRadio
-          v-for="(answer, i) in question.answers"
+          v-for="(answer, i) in question?.answers"
           :key="i"
           v-model="checkedAnswer"
           :value="`${answer.id}`"
           :name="question.id"
         >
           <p class="text-body2">
-            {{ answer.text }}
+            {{ answer?.text }}
           </p>
         </UiBaseRadio>
       </div>
-      <div v-else class="question-card__answers-block">
+      <div
+        v-if="question?.multiple && Array.isArray(question?.answers)"
+        class="question-card__answers-block"
+      >
         <UiBaseCheckbox
-          v-for="(answer, i) in question.answers"
+          v-for="(answer, i) in question?.answers"
           :key="i"
           v-model="checkedAnswer"
           :name="`${answer.id}`"
