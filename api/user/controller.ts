@@ -1,6 +1,6 @@
 import type { AbstractUserService, User } from './types'
 
-export default class UserController {
+export class UserController {
   constructor(private repository: AbstractUserService) {}
 
   getAll(): Promise<User[]> {
