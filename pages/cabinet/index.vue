@@ -43,21 +43,21 @@
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     <FeatureCourseCard />
     <FeatureCompanyPaymentCard />
-  </div>
-  <UiBasePopup v-model="userProfileEdit">
-    <template #default>
-      <FeatureUserProfile
-        class="base-block"
-        @submit="() => (userProfileEdit = false)"
-      ></FeatureUserProfile>
-    </template>
-  </UiBasePopup>
+    <UiBasePopup v-model="userProfileEdit">
+      <template #default>
+        <FeatureUserProfile
+          class="base-block"
+          @submit="() => (userProfileEdit = false)"
+        ></FeatureUserProfile>
+      </template>
+    </UiBasePopup>
 
-  <UiBasePopup v-model="testPopup" class="target-training-test">
-    <template #default>
-      <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
-    </template>
-  </UiBasePopup>
+    <UiBasePopup v-model="testPopup" class="target-training-test">
+      <template #default>
+        <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
+      </template>
+    </UiBasePopup>
+  </div>
 </template>
 
 <script lang="ts" setup>
