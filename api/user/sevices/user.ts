@@ -1,6 +1,6 @@
-import type { api } from '~/api/types'
+import type { api, Error } from '~/api/types'
 import type { AbstractUserService, User } from '../types'
-
+import { CustomError } from '~/api/errors'
 export class UserService implements AbstractUserService {
   api: api
 
@@ -9,8 +9,15 @@ export class UserService implements AbstractUserService {
   }
 
   async getAll() {
-    const { data } = await this.api.get('users')
-    return data
+    try {
+      const { data } = await this.api.get('users')
+      return data
+    } catch (error: any) {
+      throw new CustomError({
+        message: error.message,
+        description: 'Проблема на беке',
+      })
+    }
   }
 
   async get(id: string) {

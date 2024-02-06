@@ -1,5 +1,3 @@
-import type AbstractService from '../types'
-
 export interface User {
   name: string
   id: string
@@ -7,8 +5,8 @@ export interface User {
   age: number
 }
 
-export interface AbstractUserService extends AbstractService<User> {
-  getAll: () => Promise<User[]>
+export interface AbstractUserService {
+  getAll: () => Promise<User[] | never>
   get: (id: string) => Promise<User>
   delete: (id: string) => Promise<User>
   add: (body: User) => Promise<User['id']>

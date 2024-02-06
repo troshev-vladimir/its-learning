@@ -2,14 +2,10 @@ import instance from './axios'
 
 export type api = typeof instance
 
-export default abstract class AbstractService<T> {
-  constructor(api: typeof instance) {}
-}
-
 export interface Error {
   message: string
-  code: number
-  type: string
+  description: string
+  // code: number
 }
 
 export interface Responce {
