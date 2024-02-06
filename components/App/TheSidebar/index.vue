@@ -1,12 +1,6 @@
 <template>
   <div ref="sidebar" class="the-sidebar" :class="{ active: isOpen }">
     <div class="the-sidebar__container">
-      <div class="the-sidebar__logo-block">
-        <div class="logo-block__container">
-          <img v-if="!isOpen" src="@/assets/img/logo-small.svg" alt="" />
-          <img v-else src="@/assets/img/logo.svg" alt="" />
-        </div>
-      </div>
       <NuxtLink
         v-tippy="{
           placement: 'right',
@@ -45,16 +39,6 @@
             @click="() => (isOpen = !isOpen)"
           />
         </ClientOnly>
-        <teleport to="#cabiner-header-left-side">
-          <ClientOnly>
-            <font-awesome-icon
-              :icon="['fas', 'arrow-alt-circle-right']"
-              class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
-              :class="{ active: isOpen }"
-              @click="() => (isOpen = !isOpen)"
-            />
-          </ClientOnly>
-        </teleport>
       </div>
     </div>
   </div>
@@ -75,10 +59,11 @@ interface Props {
   links: LinkInterface[]
 }
 
-const props = defineProps<Props>()
-const isOpen = ref(false)
-const sidebar = ref<HTMLElement | null>(null)
+defineProps<Props>()
 
+const { $sidebar } = useNuxtApp()
+let { isOpen } = toRefs<any>($sidebar)
+const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
 const closeSidebarOnMobile = () => {
@@ -157,31 +142,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-
-  &__logo-block,
-  .logo-block {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &__container {
-      width: 80%;
-      padding: 12px 10px;
-      border-bottom: 1px solid $gray-300;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-
-      img {
-        width: 50%;
-
-        @media screen and (min-width: $bp-xs) {
-          width: 100%;
-        }
-      }
-    }
+    padding-top: 48px;
   }
 
   &__user-info-block,
