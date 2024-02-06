@@ -1,5 +1,5 @@
 export function formatNumber(number: number) {
-  return String(number).replace(/(.)(?=(\d{3})+$)/g, '$1 ')
+  return Intl.NumberFormat('ru-RU').format(number)
 }
 
 export function emailValidate(email: string) {
