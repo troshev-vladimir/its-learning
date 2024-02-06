@@ -39,16 +39,6 @@
             @click="() => (isOpen = !isOpen)"
           />
         </ClientOnly>
-        <teleport to="#cabiner-header-left-side">
-          <ClientOnly>
-            <font-awesome-icon
-              :icon="['fas', 'arrow-alt-circle-right']"
-              class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
-              :class="{ active: isOpen }"
-              @click="() => (isOpen = !isOpen)"
-            />
-          </ClientOnly>
-        </teleport>
       </div>
     </div>
   </div>
@@ -69,10 +59,11 @@ interface Props {
   links: LinkInterface[]
 }
 
-const props = defineProps<Props>()
-const isOpen = ref(false)
-const sidebar = ref<HTMLElement | null>(null)
+defineProps<Props>()
 
+const { $sidebar } = useNuxtApp()
+let { isOpen } = toRefs<any>($sidebar)
+const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
 const closeSidebarOnMobile = () => {
