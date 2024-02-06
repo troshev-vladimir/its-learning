@@ -1,4 +1,5 @@
 <template>
+  <!-- Карточка рассрочки от компании -->
   <div class="company-payment-card base-block">
     <div class="company-payment-card__container">
       <div class="company-payment-card__left-block">
@@ -43,7 +44,7 @@
   &__right-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     margin-top: 8px;
     gap: 16px;
 
