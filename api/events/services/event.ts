@@ -1,6 +1,6 @@
-import AbstractService, { type api } from '../../types'
+import { type api } from '../../types'
 import type Event from './../types'
-export class EventService implements AbstractService<Event> {
+export class EventService {
   api: api
 
   constructor(http: api) {

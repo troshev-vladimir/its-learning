@@ -8,14 +8,10 @@
 <script lang="ts" setup>
 import '~/assets/styles/main.scss'
 import useConfiguratorUserStore from './stores/configurator/user'
-import useUserStore from './stores/user'
 
 const $q = useQuasar()
 const router = useRouter()
 const configuratorUserStore = useConfiguratorUserStore()
-const userStore = useUserStore()
-
-await callOnce(userStore.fetch)
 
 function errorHandler(e: any) {
   $q.notify({

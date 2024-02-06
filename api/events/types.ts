@@ -1,5 +1,3 @@
-import type AbstractService from '../types'
-
 export default interface Event {
   date: Date | string
   title: string
@@ -7,6 +5,6 @@ export default interface Event {
   link: string
 }
 
-export interface AbstractEventService extends AbstractService<Event> {
+export interface AbstractEventService {
   getAll: () => Promise<Event>
 }

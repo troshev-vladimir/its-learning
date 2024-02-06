@@ -1,6 +1,5 @@
-import AbstractEventService from '../../types'
 import type Event from './../types'
-export class EventMockService implements AbstractEventService<Event> {
+export class EventMockService {
   constructor() {}
 
   async getAll() {
