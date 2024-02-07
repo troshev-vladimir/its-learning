@@ -1589,6 +1589,11 @@
   resolved "https://registry.npmjs.org/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz"
   integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
+"@kyvg/vue3-notification@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@kyvg/vue3-notification/-/vue3-notification-3.1.4.tgz#caeef8f62629c78fb8caaad39c61c78b2ce9e5ce"
+  integrity sha512-O6W9YdATNRbC0N6815OJ8SE9WXSWK1K8oO9g4I62uoqPT/js9D+Q9aL/lff1O+9BrnvYP4o8pXEBdrllr3O0Vg==
+
 "@mapbox/node-pre-gyp@^1.0.5":
   version "1.0.11"
   resolved "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.11.tgz"

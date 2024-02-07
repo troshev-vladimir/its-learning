@@ -5,7 +5,6 @@ import { UserController } from './user/controller'
 import { UserService } from './user'
 
 const isDev = process.env.NODE_ENV === 'development'
-console.log(process.env.NODE_ENV)
 
 const eventService = isDev
   ? new EventServices.Mock()
@@ -16,7 +15,6 @@ const userService = isDev
 
 class Api {
   constructor() {}
-
   event = new EventController(eventService)
   user = new UserController(userService)
 }

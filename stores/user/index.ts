@@ -12,10 +12,5 @@ export const useUserStore = defineStore('userStore', () => {
     user.value = {}
   }
 
-  // await useAsyncData('user', () => store.fetchUser().then(() => true))
-  // const { data, pending, error, refresh } = await useAsyncData('user', () => store.fetchUser())
-  // An occured error will be passed to 'error' of useAsyncData's return object
-  // callOnce Что тут запрашивать
-
   return { user, fetchUser, $reset }
 })

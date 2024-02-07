@@ -5,7 +5,7 @@ export class UserMockService implements AbstractUserService {
   constructor() {}
 
   getAll() {
-    return new Promise<Responce<User[]>>((res) => {
+    return new Promise<Responce<User[]>>((res, rej) => {
       setTimeout(() => {
         res({
           data: [
@@ -31,19 +31,24 @@ export class UserMockService implements AbstractUserService {
   }
 
   async get() {
-    return new Promise<Responce<User>>((res) => {
+    return new Promise<Responce<User>>((res, rej) => {
       setTimeout(() => {
-        res({
-          data: {
-            name: 'string',
-            id: 'string',
-            photoUrl: 'string',
-            age: 21,
-          },
-          message: 'string',
-          description: 'string',
-          success: true,
+        rej({
+          message: 'error from server',
+          description: 'Проблема на беке',
+          statusCode: 400,
         })
+        // res({
+        //   data: {
+        //     name: 'string',
+        //     id: 'string',
+        //     photoUrl: 'string',
+        //     age: 21,
+        //   },
+        //   message: 'string',
+        //   description: 'string',
+        //   success: true,
+        // })
       }, 1000)
     })
   }

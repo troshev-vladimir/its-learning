@@ -1,6 +1,7 @@
 <template>
   <section>
     <div v-if="pending" class="sdf">asdasd</div>
+    <div v-else-if="error" class="asdf">{{ error.cause }}</div>
     <div v-else class="asdf">{{ user }}</div>
 
     <UiBaseButton @click="userStore.$reset()">reset </UiBaseButton>
@@ -18,7 +19,7 @@ import { useUserStore } from '~/stores/user'
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const { pending } = await useLazyAsyncData('user', () =>
+const { pending, error } = await useLazyAsyncData('user', () =>
   userStore.fetchUser().then(() => true)
 )
 </script>

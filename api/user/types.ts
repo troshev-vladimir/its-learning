@@ -7,8 +7,8 @@ export interface User {
 }
 
 export interface AbstractUserService {
-  getAll: () => Promise<Responce<User[] | never>>
-  get: (id: string) => Promise<Responce<User>>
+  getAll: () => Promise<Responce<User[]> | never>
+  get: (id: string) => Promise<Responce<User> | never>
   delete: (id: string) => Promise<Responce<User>>
   add: (body: User) => Promise<Responce<User['id']>>
 }

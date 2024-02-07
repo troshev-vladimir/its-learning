@@ -22,7 +22,7 @@ export class UserService implements AbstractUserService {
             ? error.message
             : InternalServerError,
         description: 'Проблема на беке',
-        code: error.status,
+        statusCode: error.status,
       })
     }
   }
@@ -40,7 +40,7 @@ export class UserService implements AbstractUserService {
             ? error.message
             : InternalServerError,
         description: 'Проблема на беке',
-        code: error.status,
+        statusCode: error.status,
       })
     }
   }
