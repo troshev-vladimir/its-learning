@@ -1,6 +1,5 @@
 import { api } from '~/api/bootstrap'
 import type { User } from '~/api/user/types'
-import { notify } from '@kyvg/vue3-notification'
 export const useUserStore = defineStore('userStore', () => {
   const user = ref<User>()
 

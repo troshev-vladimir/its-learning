@@ -1,7 +1,5 @@
-import type { api, Error, Responce } from '~/api/types'
+import type { api } from '~/api/types'
 import type { AbstractUserService, User } from '../types'
-import { CustomError } from '~/api/errors'
-import { InternalServerError } from '~/api/constants'
 export class UserService implements AbstractUserService {
   api: api
 
@@ -15,34 +13,14 @@ export class UserService implements AbstractUserService {
       return data
     } catch (error: any) {
       console.log(error)
-
-      throw new CustomError({
-        message:
-          process.env.NODE_ENV === 'development'
-            ? error.message
-            : InternalServerError,
-        description: 'Проблема на беке',
-        statusCode: error.status,
-      })
     }
   }
 
   async get(id: string) {
-    try {
-      const { data } = await this.api.get('users', {
-        params: { id },
-      })
-      return data
-    } catch (error: any) {
-      throw new CustomError({
-        message:
-          process.env.NODE_ENV === 'development'
-            ? error.message
-            : InternalServerError,
-        description: 'Проблема на беке',
-        statusCode: error.status,
-      })
-    }
+    const { data } = await this.api.get('users', {
+      params: { id },
+    })
+    return data
   }
 
   async delete(id: string) {

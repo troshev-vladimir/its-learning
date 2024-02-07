@@ -3,11 +3,13 @@ import type { Error } from '../types'
 export class CustomError extends Error {
   public message: string
   public description: string
+  public statusCode: number
 
-  constructor(error: Error) {
+  constructor(error: any) {
     super()
     this.message = error.message
     this.description = error.description
+    this.statusCode = error.statusCode
   }
 
   toUser() {

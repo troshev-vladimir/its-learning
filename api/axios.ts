@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { CustomError } from './errors'
 
 const instance = axios.create({
   baseURL: 'https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1',
@@ -14,11 +15,27 @@ instance.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.response && error.response.status === 401) {
-      if (window) {
-        window.location.replace('/auth?unauthorized=true')
-      }
-      return Promise.reject({ data: null, message: 'unauthorized' })
+    if (!error.response) {
+      return Promise.reject(
+        new CustomError({
+          message:
+            'Проблема с сетью, перезагрузите страницу или попробуйте позже',
+          description: 'На транспортном уровне',
+          statusCode: error.response.status,
+        })
+      )
+    }
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      return Promise.reject(
+        new CustomError({
+          message: 'Не авторизован или нет доступа',
+          description: '',
+          statusCode: error.response.status,
+        })
+      )
     }
     return Promise.reject(error.response?.data || error.message)
   }

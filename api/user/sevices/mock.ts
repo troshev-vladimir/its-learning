@@ -1,3 +1,4 @@
+import { CustomError } from '~/api/errors'
 import type { AbstractUserService, User } from '../types'
 import type { api, Error, Responce } from '~/api/types'
 
@@ -33,22 +34,24 @@ export class UserMockService implements AbstractUserService {
   async get() {
     return new Promise<Responce<User>>((res, rej) => {
       setTimeout(() => {
-        rej({
-          message: 'error from server',
-          description: 'Проблема на беке',
-          statusCode: 400,
+        // rej(
+        //   new CustomError({
+        //     message: 'Не авторизован или нет доступа',
+        //     description: '',
+        //     statusCode: 401,
+        //   })
+        // )
+        res({
+          data: {
+            name: 'string',
+            id: 'string',
+            photoUrl: 'string',
+            age: 21,
+          },
+          message: 'string',
+          description: 'string',
+          success: true,
         })
-        // res({
-        //   data: {
-        //     name: 'string',
-        //     id: 'string',
-        //     photoUrl: 'string',
-        //     age: 21,
-        //   },
-        //   message: 'string',
-        //   description: 'string',
-        //   success: true,
-        // })
       }, 1000)
     })
   }

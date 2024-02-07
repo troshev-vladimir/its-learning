@@ -1,5 +1,6 @@
 import { CustomError } from '../errors'
-import type { AbstractUserService, User } from './types'
+import { ErrorHandler } from '../errors/ErrorHandler'
+import type { AbstractUserService } from './types'
 
 export class UserController {
   constructor(private repository: AbstractUserService) {}
@@ -17,16 +18,8 @@ export class UserController {
       }
 
       return users
-    } catch (error) {
-      if (error instanceof CustomError) {
-        throw error
-      } else {
-        throw new CustomError({
-          message: 'Что то пошло не так',
-          description: 'На фронте',
-          statusCode: 404,
-        })
-      }
+    } catch (error: any) {
+      ErrorHandler(error)
     }
   }
 
@@ -44,15 +37,7 @@ export class UserController {
 
       return user
     } catch (error: any) {
-      if (error && error.description) {
-        throw error
-      } else {
-        throw new CustomError({
-          message: 'Что то пошло не так',
-          description: 'На фронте',
-          statusCode: 404,
-        })
-      }
+      ErrorHandler(error)
     }
   }
   // delete(id: string): Promise<User> {
