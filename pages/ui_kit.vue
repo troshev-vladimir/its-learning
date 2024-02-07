@@ -5,6 +5,7 @@
     <div v-else class="asdf">{{ user }}</div>
 
     <UiBaseButton @click="userStore.$reset()">reset </UiBaseButton>
+    <FeaturePaymentCard />
   </section>
 </template>
 
@@ -22,6 +23,7 @@ const { user } = storeToRefs(userStore)
 const { pending, error } = await useLazyAsyncData('user', () =>
   userStore.fetchUser().then(() => true)
 )
+route.meta.pageTitle = 'UI -kit'
 </script>
 
 <style lang="scss"></style>

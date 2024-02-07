@@ -3,7 +3,17 @@
     <div class="header__container">
       <div class="column items-start">
         <div class="header__left-side">
-          <div id="cabiner-header-left-side"></div>
+          <div id="cabiner-header-left-side">
+            <ClientOnly>
+              <font-awesome-icon
+                :icon="['fas', 'arrow-alt-circle-right']"
+                class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
+                :class="{ active: isOpen }"
+                @click="() => (isOpen = !isOpen)"
+              />
+            </ClientOnly>
+          </div>
+          <img src="@/assets/img/logo.svg" alt="" class="header__logo" />
         </div>
       </div>
       <p v-if="route.meta.pageTitle" class="text-body1">
@@ -33,11 +43,23 @@ const exit = () => {
   localStorage.clear()
   router.push({ name: 'auth' })
 }
+
+const { $sidebar } = useNuxtApp()
+let { isOpen } = toRefs($sidebar)
 </script>
 
 <style scoped lang="scss">
 .header {
   background: $white;
+
+  &__logo {
+    height: 50px;
+    display: none;
+
+    @include media($bp-sm) {
+      display: block;
+    }
+  }
 
   &__logout-block:hover {
     cursor: pointer;

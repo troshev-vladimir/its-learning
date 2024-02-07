@@ -42,7 +42,7 @@
       </div>
     </template>
     <template #default>
-      <div class="education-module-accordion__container">
+      <div class="education-module-accordion__container" @click.prevent>
         <slot></slot>
       </div>
     </template>
@@ -68,7 +68,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const router = useRouter()
-const route = useRoute()
 const accordion = ref<HTMLElement | null>(null)
 
 onMounted(async () => {

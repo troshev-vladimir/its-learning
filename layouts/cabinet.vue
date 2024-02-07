@@ -1,14 +1,15 @@
 <template>
   <div class="cabinet-layout">
-    <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks">
-    </AppTheSidebar>
-    <div class="sidebar-substrate"></div>
+    <AppTheCabinetHeader class="cabinet-layout__header" />
     <div class="cabinet-layout__container">
-      <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
-      <div class="container">
-        <slot></slot>
+      <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks" />
+      <div class="sidebar-substrate"></div>
+      <div class="cabinet-layout__content">
+        <div class="container">
+          <slot></slot>
+        </div>
+        <AppTheFooter />
       </div>
-      <AppTheFooter />
     </div>
   </div>
 </template>
@@ -42,17 +43,18 @@ const sidebarLinks = computed(() => [
 <style lang="scss" scoped>
 .cabinet-layout {
   min-height: 100vh;
-  display: flex;
 
   &__sidebar {
     position: fixed;
-    z-index: 2;
-    top: 65px;
+    z-index: 1;
+    top: 72px;
 
     @media screen and (min-width: $bp-sm) {
       position: fixed;
-      top: 0;
+      bottom: 0 !important;
+      height: calc(100vh - 98px);
       left: 0;
+      top: auto;
     }
   }
   .sidebar-substrate {
@@ -62,8 +64,9 @@ const sidebarLinks = computed(() => [
     @media screen and (min-width: $bp-sm) {
       display: block;
       width: 80px;
-      height: 100vh;
+      height: calc(100vh - 100px);
       position: sticky;
+      bottom: 0;
     }
   }
 
@@ -76,12 +79,18 @@ const sidebarLinks = computed(() => [
 
   &__container {
     flex: 1 1 auto;
+    display: flex;
+    overflow: hidden;
 
     .container {
       min-height: calc(100vh - 70px);
       margin-top: 32px;
       margin-bottom: 32px;
     }
+  }
+
+  &__content {
+    width: 100%;
   }
 }
 </style>
