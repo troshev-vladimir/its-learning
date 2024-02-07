@@ -6,10 +6,29 @@
 
     <UiBaseButton @click="userStore.$reset()">reset </UiBaseButton>
     <FeaturePaymentCard />
+
+    <!-- <UiBaseButton
+      @click="
+        notify({
+          title: 'Authorization',
+          text: 'You have been logged in!',
+          duration: 10000,
+          speed: 1000,
+          data: {
+            auth: true,
+          },
+        })
+      "
+    >
+      notify
+    </UiBaseButton> -->
   </section>
 </template>
 
 <script setup lang="ts">
+// import { useNotification } from '@kyvg/vue3-notification'
+// const { notify } = useNotification()
+
 definePageMeta({
   layout: 'cabinet',
 })
@@ -20,10 +39,13 @@ import { useUserStore } from '~/stores/user'
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const { pending, error } = await useLazyAsyncData('user', () =>
-  userStore.fetchUser().then(() => true)
+const { pending, error } = await useLazyAsyncData(
+  'user',
+  () => userStore.fetchUser().then(() => true),
+  { server: false }
 )
-route.meta.pageTitle = 'UI -kit'
+
+onMounted(() => {})
 </script>
 
 <style lang="scss"></style>

@@ -3,11 +3,29 @@
     <div id="popups-container"></div>
     <NuxtPage />
   </NuxtLayout>
+  <notifications position="top right">
+    <template #body="props">
+      <div class="my-notification">
+        <p class="title">
+          {{ props.item.title }}
+          <nuxt-link v-if="props.item.data.auth" to="/auth">
+            Авторизоваться
+          </nuxt-link>
+        </p>
+
+        <!-- <button class="close" @click="props.close">
+          <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+        </button> -->
+        <div v-html="props.item.text" />
+      </div>
+    </template>
+  </notifications>
 </template>
 
 <script lang="ts" setup>
 import '~/assets/styles/main.scss'
 import useConfiguratorUserStore from './stores/configurator/user'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const $q = useQuasar()
 const router = useRouter()
