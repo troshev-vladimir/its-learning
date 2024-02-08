@@ -15,5 +15,10 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   nuxtApp.vueApp.directive('maska', vMaska)
-  nuxtApp.provide('sidebar', { isOpen: ref<boolean>(false) }) // глобальная переменная для обозначения статуса сайдбара
+
+  return {
+    provide: {
+      sidebar: { isOpen: ref<boolean>(false) },
+    },
+  }
 })

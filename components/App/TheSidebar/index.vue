@@ -62,7 +62,7 @@ interface Props {
 defineProps<Props>()
 
 const { $sidebar } = useNuxtApp()
-let { isOpen } = toRefs<any>($sidebar)
+const { isOpen } = $sidebar
 const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
@@ -111,13 +111,11 @@ onMounted(() => {
   background: $white;
   left: -100%;
   display: flex;
-  height: 100%;
   transition: left 0.2s ease;
 
   @media screen and (min-width: $bp-sm) {
     transition: width 0.2s ease;
     left: 0%;
-    height: 100vh;
     width: 80px;
   }
 

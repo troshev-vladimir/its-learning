@@ -45,7 +45,7 @@ const exit = () => {
 }
 
 const { $sidebar } = useNuxtApp()
-let { isOpen } = toRefs($sidebar)
+const { isOpen } = $sidebar
 </script>
 
 <style scoped lang="scss">
