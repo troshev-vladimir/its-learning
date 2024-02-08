@@ -113,6 +113,7 @@
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
+import { notify } from '@kyvg/vue3-notification'
 
 interface IDoc {
   name: string
@@ -169,11 +170,23 @@ const { pending, error } = await useLazyAsyncData(
     // server: false,
   }
 )
-if (error) {
-  console.log(error.value)
+const state = useState('my-shallow-state', () => ref())
+if (process.server && error.value) state.value = error.value
+onMounted(async () => {
+  // throw createError(error.value.cause)
+  await nextTick()
 
-  // throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-}
+  console.log('state.value', state.value.cause)
+  const errorafd = state.value.cause
+
+  notify({
+    title: errorafd.message,
+    text: errorafd.description,
+    data: {
+      auth: errorafd.statusCode === 401 || errorafd.statusCode === 403,
+    },
+  })
+})
 
 const paymentChoice = ref<'full' | 'deferred'>('full')
 const selectedPeriod = ref()

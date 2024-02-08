@@ -41,6 +41,10 @@ function errorHandler(e: any) {
   })
 }
 
+onErrorCaptured((err) => {
+  console.log(err)
+})
+
 function unauthorisedHandler() {
   router.push({ name: 'auth' })
   localStorage.removeItem('userToken')

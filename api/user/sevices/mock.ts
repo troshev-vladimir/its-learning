@@ -38,7 +38,7 @@ export class UserMockService implements AbstractUserService {
           new CustomError({
             message: 'Не авторизован или нет доступа',
             description: 'asdasd',
-            statusCode: 404,
+            statusCode: 401,
           })
         )
         // res({
