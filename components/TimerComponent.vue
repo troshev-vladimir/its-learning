@@ -32,7 +32,7 @@ const props = defineProps<{
 }>()
 
 const expirationDate = computed(() => {
-  return props.finalsteptime || '2024-02-10T13:42:06'
+  return props.finalsteptime
 })
 
 const string = ref('')
