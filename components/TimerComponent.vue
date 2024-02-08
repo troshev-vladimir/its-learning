@@ -5,8 +5,8 @@
     </div>
 
     <div class="count">
-      <span v-if="string" style="display: block">{{ string }}</span>
-      <span v-else style="display: block">00:00:00</span>
+      <span style="display: block" v-if="string">{{ string }}</span>
+      <span style="display: block" v-else>00:00:00</span>
     </div>
   </div>
   <q-chip
@@ -28,11 +28,11 @@ let interval: number | undefined
 const emit = defineEmits(['timeIsGone'])
 
 const props = defineProps<{
-  expirationDate?: string
+  finalsteptime?: string
 }>()
 
 const expirationDate = computed(() => {
-  return props.expirationDate || '2023-12-27 11:04:30'
+  return props.finalsteptime || '2024-02-10T13:42:06'
 })
 
 const string = ref('')
@@ -56,17 +56,28 @@ const updateTime = () => {
   // display
   let diffSeconds = diffDuration.seconds().toString()
   let diffMinutes = diffDuration.minutes().toString()
+<<<<<<< HEAD
   let diffHour = diffDuration.hours().toString()
+=======
+  let diffHour = diffDuration.hours()
+  const diffDays = diffDuration.days()
+>>>>>>> 20369f6d70091fdc1dcb8893730113f4e419ac98
 
   if (
     diffDuration.seconds() <= 0 &&
     diffDuration.minutes() <= 0 &&
+<<<<<<< HEAD
     diffDuration.hours() <= 0
+=======
+    diffDuration.hours() <= 0 &&
+    diffDuration.days() <= 0
+>>>>>>> 20369f6d70091fdc1dcb8893730113f4e419ac98
   ) {
     emit('timeIsGone')
     isExpired = true
   }
 
+<<<<<<< HEAD
   diffSeconds = diffSeconds.length < 2 ? '0' + diffSeconds : diffSeconds
   diffMinutes = diffMinutes.length < 2 ? '0' + diffMinutes : diffMinutes
   diffHour = diffHour.length < 2 ? '0' + diffHour : diffHour
@@ -82,6 +93,28 @@ onMounted(() => {
   }, 1000)
 })
 
+=======
+  if (diffDays > 0) {
+    diffHour = diffDays * 24 + diffHour
+  }
+
+  diffSeconds = diffSeconds.length < 2 ? '0' + diffSeconds : diffSeconds
+  diffMinutes = diffMinutes.length < 2 ? '0' + diffMinutes : diffMinutes
+  const resultHours =
+    String(diffHour).length < 2 ? '0' + String(diffHour) : String(diffHour)
+
+  string.value = `${resultHours || '00'}:${diffMinutes || '00'}:${
+    diffSeconds || '00'
+  }`
+}
+
+onMounted(() => {
+  interval = window.setInterval(() => {
+    updateTime()
+  }, 1000)
+})
+
+>>>>>>> 20369f6d70091fdc1dcb8893730113f4e419ac98
 onBeforeUnmount(() => {
   window.clearInterval(interval)
 })
@@ -94,7 +127,10 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   background-color: #fff;
+<<<<<<< HEAD
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
+=======
+>>>>>>> 20369f6d70091fdc1dcb8893730113f4e419ac98
 
   // @media screen and (max-width: 1200px) {
   //     border-radius: 5px;
