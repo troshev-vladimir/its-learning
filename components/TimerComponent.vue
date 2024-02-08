@@ -32,7 +32,7 @@ const props = defineProps<{
 }>()
 
 const expirationDate = computed(() => {
-  return props.finalsteptime || '2023-12-27 11:04:30'
+  return props.finalsteptime || '2024-02-10T13:42:06'
 })
 
 const string = ref('')
@@ -62,7 +62,8 @@ const updateTime = () => {
   if (
     diffDuration.seconds() <= 0 &&
     diffDuration.minutes() <= 0 &&
-    diffDuration.hours() <= 0
+    diffDuration.hours() <= 0 &&
+    diffDuration.days() <= 0
   ) {
     emit('timeIsGone')
     isExpired = true
