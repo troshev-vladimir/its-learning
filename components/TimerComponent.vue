@@ -101,7 +101,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
 
   // @media screen and (max-width: 1200px) {
   //     border-radius: 5px;
