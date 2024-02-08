@@ -62,7 +62,7 @@ interface Props {
 defineProps<Props>()
 
 const { $sidebar } = useNuxtApp()
-let { isOpen } = toRefs<any>($sidebar)
+const { isOpen } = $sidebar
 const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 
