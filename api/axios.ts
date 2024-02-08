@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { CustomError } from './errors'
+import { CustomError } from '~/api/Error'
 
 const instance = axios.create({
   baseURL: 'https://max43.ru:12233/ka_uprbase2/ru_RU/hs/education/v1',
@@ -25,6 +25,7 @@ instance.interceptors.response.use(
         })
       )
     }
+
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403)
@@ -37,7 +38,10 @@ instance.interceptors.response.use(
         })
       )
     }
-    return Promise.reject(error.response?.data || error.message)
+
+    return Promise.reject(
+      new CustomError(error.response?.data) || error.message
+    )
   }
 )
 

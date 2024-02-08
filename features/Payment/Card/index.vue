@@ -1,5 +1,9 @@
 <template>
   <div class="payment-card base-block">
+    <div v-if="pending" class="sdf">Loadding...</div>
+    <!-- <div v-else-if="error" class="asdf">{{ error }}</div> -->
+    <!-- <div v-else class="asdf">{{ user }}</div> -->
+
     <div class="payment-card__container">
       <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
       <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
@@ -108,6 +112,8 @@
 
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
+import { useUserStore } from '~/stores/user'
+
 interface IDoc {
   name: string
   link: string
@@ -153,6 +159,21 @@ withDefaults(defineProps<Props>(), {
     ],
   }),
 })
+
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+const { pending, error } = await useLazyAsyncData(
+  'user',
+  () => userStore.fetchUser().then(() => true),
+  {
+    // server: false,
+  }
+)
+if (error) {
+  console.log(error.value)
+
+  // throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
 
 const paymentChoice = ref<'full' | 'deferred'>('full')
 const selectedPeriod = ref()

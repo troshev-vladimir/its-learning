@@ -8,12 +8,8 @@ export class UserService implements AbstractUserService {
   }
 
   async getAll() {
-    try {
-      const { data } = await this.api.get('users')
-      return data
-    } catch (error: any) {
-      console.log(error)
-    }
+    const { data } = await this.api.get('users')
+    return data
   }
 
   async get(id: string) {

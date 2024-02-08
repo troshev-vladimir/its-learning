@@ -1,6 +1,6 @@
-import { CustomError } from '~/api/errors'
+import { CustomError } from '~/api/Error'
 import type { AbstractUserService, User } from '../types'
-import type { api, Error, Responce } from '~/api/types'
+import type { api, Responce } from '~/api/types'
 
 export class UserMockService implements AbstractUserService {
   constructor() {}
@@ -34,24 +34,19 @@ export class UserMockService implements AbstractUserService {
   async get() {
     return new Promise<Responce<User>>((res, rej) => {
       setTimeout(() => {
-        // rej(
-        //   new CustomError({
-        //     message: 'Не авторизован или нет доступа',
-        //     description: '',
-        //     statusCode: 401,
-        //   })
-        // )
-        res({
-          data: {
-            name: 'string',
-            id: 'string',
-            photoUrl: 'string',
-            age: 21,
-          },
-          message: 'string',
-          description: 'string',
-          success: true,
-        })
+        rej(
+          new CustomError({
+            message: 'Не авторизован или нет доступа',
+            description: 'asdasd',
+            statusCode: 404,
+          })
+        )
+        // res({
+        //   data: undefined,
+        //   message: 'string',
+        //   description: 'string',
+        //   success: true,
+        // })
       }, 1000)
     })
   }
@@ -85,8 +80,8 @@ export class UserMockService implements AbstractUserService {
             age: 21,
           },
           message: 'string',
-          description: 'string',
           success: true,
+          description: 'string',
         })
       }, 1000)
     })

@@ -1,5 +1,5 @@
-import { CustomError } from '../errors'
-import { ErrorHandler } from '../errors/ErrorHandler'
+import { CustomError } from '~/api/Error'
+import { ErrorHandler } from '../ErrorHandler'
 import type { AbstractUserService } from './types'
 
 export class UserController {
