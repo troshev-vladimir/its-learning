@@ -41,7 +41,7 @@
       </div>
     </div>
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <FeatureCourseCard />
+    <FeatureCourseCard @pay="() => (payCoursePopup = true)" />
     <FeatureCompanyPaymentCard />
     <UiBasePopup v-model="userProfileEdit">
       <template #default>
@@ -49,6 +49,11 @@
           class="base-block"
           @submit="() => (userProfileEdit = false)"
         ></FeatureUserProfile>
+      </template>
+    </UiBasePopup>
+    <UiBasePopup v-model="payCoursePopup">
+      <template #default>
+        <FeaturePaymentCard @submit="() => (payCoursePopup = false)" />
       </template>
     </UiBasePopup>
 
@@ -74,6 +79,7 @@ useSeoMeta({
 
 const userProfileEdit = ref(false)
 const testPopup = ref(false)
+const payCoursePopup = ref(false)
 
 const mainEvents = computed(() => {
   if (events.value.length >= 2) {
