@@ -48,6 +48,7 @@ const sidebarLinks = computed(() => [
     position: fixed;
     z-index: 1;
     top: 72px;
+    height: 100%;
 
     @media screen and (min-width: $bp-sm) {
       position: fixed;
