@@ -1,10 +1,9 @@
 <template>
   <div class="payment-card base-block">
     <div v-if="pending" class="sdf">Loadding...</div>
-    <!-- <div v-else-if="error" class="asdf">{{ error }}</div> -->
-    <!-- <div v-else class="asdf">{{ user }}</div> -->
+    <div v-else-if="error" class="asdf">{{ error }}</div>
 
-    <div class="payment-card__container">
+    <div v-else class="payment-card__container">
       <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
       <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
       <div class="payment-card__content">
@@ -114,6 +113,7 @@
 import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
 import { notify } from '@kyvg/vue3-notification'
+import type { CustomError } from '~/api/Error'
 
 interface IDoc {
   name: string
@@ -163,29 +163,22 @@ withDefaults(defineProps<Props>(), {
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
-const { pending, error } = await useLazyAsyncData(
-  'user',
-  () => userStore.fetchUser().then(() => true),
-  {
-    // server: false,
-  }
+const { pending, error } = await useLazyAsyncData('user', () =>
+  userStore.fetchUser().then(() => true)
 )
-const state = useState('my-shallow-state', () => ref())
-if (process.server && error.value) state.value = error.value
 onMounted(async () => {
-  // throw createError(error.value.cause)
-  await nextTick()
+  if (error.value) {
+    const myError = error.value.cause as CustomError
+    console.log(myError)
 
-  console.log('state.value', state.value.cause)
-  const errorafd = state.value.cause
-
-  notify({
-    title: errorafd.message,
-    text: errorafd.description,
-    data: {
-      auth: errorafd.statusCode === 401 || errorafd.statusCode === 403,
-    },
-  })
+    notify({
+      title: myError.message,
+      text: myError.description,
+      data: {
+        auth: myError.statusCode === 401 || myError.statusCode === 403,
+      },
+    })
+  }
 })
 
 const paymentChoice = ref<'full' | 'deferred'>('full')
