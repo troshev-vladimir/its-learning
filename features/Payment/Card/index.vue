@@ -86,7 +86,23 @@
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <UiBaseButton type="primary" size="small"> Купить </UiBaseButton>
+          <FeaturePaymentTinkoff
+            :user-data="user"
+            :amount="value.fullPrice?.real"
+          >
+            <template #default="{ handler }">
+              <UiBaseButton type="primary" size="small" @click="handler">
+                Купить
+              </UiBaseButton>
+            </template>
+          </FeaturePaymentTinkoff>
+
+          <FeaturePaymentTinkoffInstallment
+            :summ="value.fullPrice?.real"
+            title="1С:Программист"
+          >
+            Купить в рассрочку
+          </FeaturePaymentTinkoffInstallment>
           <UiBaseButton type="boarded" size="small">
             Смотреть программу
           </UiBaseButton>
@@ -121,7 +137,7 @@ interface IDoc {
   link: string
 }
 interface ICost {
-  fullPrice?: {
+  fullPrice: {
     real: number
     withDiscount?: number
   }
@@ -170,7 +186,6 @@ const { pending, error } = await useLazyAsyncData('user', () =>
 onMounted(async () => {
   if (error.value) {
     const myError = error.value.cause as CustomError
-    console.log(myError)
 
     notify({
       title: myError.message,
