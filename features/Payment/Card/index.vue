@@ -112,8 +112,9 @@
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
-import { notify } from '@kyvg/vue3-notification'
 import type { CustomError } from '~/api/Error'
+import { useNotification } from '@kyvg/vue3-notification'
+const { notify } = useNotification()
 
 interface IDoc {
   name: string
