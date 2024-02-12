@@ -82,6 +82,8 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
+import type { User } from '~/api/user'
+import { api } from '~/api'
 const $q = useQuasar()
 
 export interface UserData {
@@ -95,19 +97,22 @@ export interface GoodData {
   order: string
 }
 
-export interface Props {
+const props = defineProps<{
   amount: number
   text?: string
-  userData?: UserData
+  userData: UserData & Pick<User, keyof UserData | 'id'>
   orderData?: GoodData
-}
+}>()
 
-const props = defineProps<Props>()
 const form = ref<HTMLElement>()
 const TerminalKey = '1662547243585'
 
 async function clickHandler() {
   if (!props.amount) return
+
+  const paramsFromServer = api.payment.getPaymentParams(
+    props.userData.id || props.userData.phone
+  )
 
   let orderData = {
     TerminalKey: TerminalKey,

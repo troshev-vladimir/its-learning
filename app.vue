@@ -28,6 +28,7 @@
 import '~/assets/styles/main.scss'
 import useConfiguratorUserStore from './stores/configurator/user'
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { notify } from '@kyvg/vue3-notification'
 
 const $q = useQuasar()
 const router = useRouter()
