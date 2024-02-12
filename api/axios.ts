@@ -21,7 +21,7 @@ instance.interceptors.response.use(
           message:
             'Проблема с сетью, перезагрузите страницу или попробуйте позже',
           description: 'На транспортном уровне',
-          statusCode: error.response.status,
+          statusCode: 400,
         })
       )
     }

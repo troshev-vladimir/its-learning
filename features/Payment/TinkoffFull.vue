@@ -111,7 +111,6 @@ async function clickHandler() {
   if (!props.amount || !props.userData.id) return
 
   try {
-    const windowReference = window.open()
     const paramsFromServer: TinkoffParams = await api.payment.getPaymentParams({
       userId: props.userData.id,
       orderId: props.orderData.id,
@@ -127,6 +126,7 @@ async function clickHandler() {
       }),
     })
 
+    const windowReference = window.open()
     const responce = await resp.json()
 
     if (!responce.Success) {
@@ -139,6 +139,8 @@ async function clickHandler() {
       windowReference.location = responce?.PaymentURL
     }
   } catch (error: any) {
+    console.log(error)
+
     notify({
       title: error.message,
       text: error.description,
