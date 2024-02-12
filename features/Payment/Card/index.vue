@@ -185,6 +185,7 @@ onMounted(async () => {
       data: {
         auth: myError.statusCode === 401 || myError.statusCode === 403,
       },
+      type: 'error',
     })
   }
 })
