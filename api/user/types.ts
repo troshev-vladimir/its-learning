@@ -4,6 +4,8 @@ export interface User {
   id?: string
   photoUrl?: string
   age?: number
+  email: string
+  phone: string
 }
 
 export interface AbstractUserService {

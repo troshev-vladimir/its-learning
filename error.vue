@@ -1,17 +1,25 @@
 <template>
   <div class="page-404">
     <div class="page-404__container">
-      <p class="page-404__title text-bold">404</p>
-      <p class="page-404__message text-body1">
-        Такой страницы не существует 😞
-      </p>
+      <p class="page-404__title text-bold">{{ error?.statusCode }}</p>
+      <p class="page-404__message text-body1">{{ error?.message }} 😞</p>
       <NuxtLink to="/cabinet">
-        <UiBaseButton class="page-404__button"> На главную </UiBaseButton>
+        <UiBaseButton class="page-404__button" @click="handleError">
+          На главную
+        </UiBaseButton>
       </NuxtLink>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { NuxtError } from '#app'
+
+defineProps({
+  error: Object as () => NuxtError,
+})
+
+const handleError = () => clearError({ redirect: '/cabinet' })
+</script>
 
 <style lang="scss" scoped>
 .page-404 {

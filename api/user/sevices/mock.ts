@@ -11,16 +11,20 @@ export class UserMockService implements AbstractUserService {
         res({
           data: [
             {
-              name: 'string',
-              id: 'string',
-              photoUrl: 'string',
+              name: 'user-name',
+              id: 'id',
+              photoUrl: 'userPhotoUrl',
               age: 21,
+              phone: 'phone',
+              email: 'email',
             },
             {
-              name: 'string',
-              id: 'string',
-              photoUrl: 'string',
+              name: 'user-name',
+              id: 'id',
+              photoUrl: 'userPhotoUrl',
               age: 21,
+              phone: 'phone',
+              email: 'email',
             },
           ],
           message: 'string',
@@ -34,19 +38,26 @@ export class UserMockService implements AbstractUserService {
   async get() {
     return new Promise<Responce<User>>((res, rej) => {
       setTimeout(() => {
-        rej(
-          new CustomError({
-            message: 'Не авторизован или нет доступа',
-            description: 'asdasd',
-            statusCode: 401,
-          })
-        )
-        // res({
-        //   data: undefined,
-        //   message: 'string',
-        //   description: 'string',
-        //   success: true,
-        // })
+        // rej(
+        //   new CustomError({
+        //     message: 'Не авторизован или нет доступа',
+        //     description: 'asdasd',
+        //     statusCode: 401,
+        //   })
+        // )
+        res({
+          data: {
+            name: 'user-name',
+            id: 'id',
+            photoUrl: 'userPhotoUrl',
+            age: 21,
+            phone: 'phone',
+            email: 'email',
+          },
+          message: 'string',
+          description: 'string',
+          success: true,
+        })
       }, 1000)
     })
   }
@@ -56,10 +67,12 @@ export class UserMockService implements AbstractUserService {
       setTimeout(() => {
         res({
           data: {
-            name: 'string',
-            id: 'string',
-            photoUrl: 'string',
+            name: 'user-name',
+            id: 'id',
+            photoUrl: 'userPhotoUrl',
             age: 21,
+            phone: 'phone',
+            email: 'email',
           },
           message: 'string',
           description: 'string',
@@ -74,10 +87,12 @@ export class UserMockService implements AbstractUserService {
       setTimeout(() => {
         res({
           data: {
-            name: 'string',
-            id: 'string',
-            photoUrl: 'string',
+            name: 'user-name',
+            id: 'id',
+            photoUrl: 'userPhotoUrl',
             age: 21,
+            phone: 'phone',
+            email: 'email',
           },
           message: 'string',
           success: true,

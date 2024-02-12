@@ -86,7 +86,19 @@
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <UiBaseButton type="primary" size="small"> Купить </UiBaseButton>
+          <FeaturePaymentTinkoffFull
+            :order-data="{
+              id: value.id,
+            }"
+            :user-data="user"
+            :amount="value.fullPrice.withDiscount || value.fullPrice.real"
+          >
+            <template #default="{ handler }">
+              <UiBaseButton type="primary" size="small" @click="handler">
+                Купить
+              </UiBaseButton>
+            </template>
+          </FeaturePaymentTinkoffFull>
           <UiBaseButton type="boarded" size="small">
             Смотреть программу
           </UiBaseButton>
@@ -112,15 +124,17 @@
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
-import { notify } from '@kyvg/vue3-notification'
 import type { CustomError } from '~/api/Error'
+import { useNotification } from '@kyvg/vue3-notification'
+const { notify } = useNotification()
 
 interface IDoc {
   name: string
   link: string
 }
 interface ICost {
-  fullPrice?: {
+  id: string
+  fullPrice: {
     real: number
     withDiscount?: number
   }
@@ -136,6 +150,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   value: () => ({
+    id: '1',
     fullPrice: {
       real: 150_000,
       withDiscount: 120_000,
@@ -169,7 +184,6 @@ const { pending, error } = await useLazyAsyncData('user', () =>
 onMounted(async () => {
   if (error.value) {
     const myError = error.value.cause as CustomError
-    console.log(myError)
 
     notify({
       title: myError.message,
