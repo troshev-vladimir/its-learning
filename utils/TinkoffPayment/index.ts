@@ -10,7 +10,7 @@ export async function TinkoffPayment(
     TerminalKey,
     Amount: params.amount * 100,
     Description: params.orderData?.description || 'Оплата',
-    OrderId: String(Math.random()),
+    OrderId: 0,
     DATA: {
       Phone: params.userData?.phone || '',
       Email: params.userData?.email || '',
@@ -32,6 +32,16 @@ export async function TinkoffPayment(
       ],
     },
   }
+
+  const OrderId: number = await $fetch(
+    'http://max43.ru:5858/ka_uprbase2/hs/payment/v1/orderdata',
+    {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    }
+  )
+
+  orderData.OrderId = OrderId
 
   const responce = await useFetch('api/payment/', {
     method: 'POST',
