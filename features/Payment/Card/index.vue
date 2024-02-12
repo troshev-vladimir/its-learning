@@ -78,27 +78,18 @@
           v-model="selectedPeriod"
           clearable
           :options="[
-            { label: 'В рассрочку на 3 мес.', value: '1', selected: false },
-            { label: 'В рассрочку на 6 мес.', value: '2', selected: false },
-            { label: 'В кредит на 24 мес.', value: '3', selected: false },
+            { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
+            { label: 'В рассрочку на 6 мес.', value: '6', selected: false },
+            { label: 'В рассрочку на 6 мес.', value: '12', selected: false },
+            { label: 'В кредит на 24 мес.', value: '24', selected: false },
           ]"
           label="Выберите срок рассрочки"
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <FeaturePaymentTinkoffFull
-            :order-data="{
-              id: value.id,
-            }"
-            :user-data="user"
-            :amount="value.fullPrice.withDiscount || value.fullPrice.real"
-          >
-            <template #default="{ handler }">
-              <UiBaseButton type="primary" size="small" @click="handler">
-                Купить
-              </UiBaseButton>
-            </template>
-          </FeaturePaymentTinkoffFull>
+          <UiBaseButton type="primary" size="small" @click="paymentHandler">
+            Купить
+          </UiBaseButton>
           <UiBaseButton type="boarded" size="small">
             Смотреть программу
           </UiBaseButton>
@@ -126,6 +117,9 @@ import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
 import type { CustomError } from '~/api/Error'
 import { useNotification } from '@kyvg/vue3-notification'
+import { TinkoffPayment } from '~/utils/TinkoffPayment'
+import { buyViaInstallment } from '~/utils/TinkoffInstallment'
+
 const { notify } = useNotification()
 
 interface IDoc {
@@ -148,7 +142,7 @@ interface Props {
   value: ICost
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   value: () => ({
     id: '1',
     fullPrice: {
@@ -197,6 +191,28 @@ onMounted(async () => {
 
 const paymentChoice = ref<'full' | 'deferred'>('full')
 const selectedPeriod = ref()
+
+const paymentHandler = () => {
+  if (paymentChoice.value === 'full') {
+    TinkoffPayment({
+      amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+      orderData: {
+        description: '1С:Программист',
+        name: '1С:Программист',
+      },
+      userData: {
+        phone: user.value?.phone,
+        email: user.value?.email,
+      },
+    })
+  } else if (paymentChoice.value === 'deferred') {
+    buyViaInstallment({
+      sum: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+      period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+      title: '1С:Программист',
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
