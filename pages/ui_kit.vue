@@ -1,7 +1,9 @@
 <template>
   <section>
     <!-- <UiBaseButton @click="userStore.$reset()">reset </UiBaseButton> -->
-    <FeaturePaymentCard />
+    <ClientOnly>
+      <FeaturePaymentCard />
+    </ClientOnly>
 
     <!-- <UiBaseButton
       @click="
