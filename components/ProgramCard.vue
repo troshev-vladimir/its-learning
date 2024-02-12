@@ -127,6 +127,9 @@
               order: card.name || 'Name',
               description: card.name || 'Описание не указано',
             }"
+            :user-data="{
+              name: user.Name || '',
+            }"
             :amount="card.price.withDiscount"
           >
             <template #default="{ handler }">
@@ -186,10 +189,11 @@
 <script setup lang="ts">
 import { formatNumber } from '~/utils/helpers'
 import { type Program } from '~/api/configurator/program/types'
+import useUserStore from '~/stores/configurator/user'
 export interface Props {
   card: Program
 }
-
+const { user } = useUserStore()
 const props = defineProps<Props>()
 const currentInstalmentPreiod = ref(6)
 

@@ -9,7 +9,7 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   function $reset() {
-    user.value = {}
+    user.value = undefined
   }
 
   return { user, fetchUser, $reset }

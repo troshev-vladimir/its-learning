@@ -68,25 +68,28 @@
   </form>
 
   <slot :handler="clickHandler">
-    <ui-button
-      size="sm"
+    <UiBaseButton
+      size="small"
       outline
       :text-class="['text-accent']"
       @click="clickHandler"
     >
-      {{ props.text }}
-    </ui-button>
+      купить
+    </UiBaseButton>
   </slot>
 </template>
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
 import { useQuasar } from 'quasar'
+import type { User } from '~/api/user'
+import { api } from '~/api'
+import type { TinkoffParams } from '~/api/paymentParams/types'
 const $q = useQuasar()
 
 export interface UserData {
-  phone?: string
-  email?: string
+  id: string
+  email: string
   name: string
 }
 
@@ -97,65 +100,27 @@ export interface GoodData {
 
 const props = defineProps<{
   amount: number
-  text?: string
-  userData: UserData
+  userData: User
   orderData?: GoodData
 }>()
 
 const form = ref<HTMLElement>()
-const TerminalKey = '1662547243585'
 
 async function clickHandler() {
-  if (!props.amount) return
-
-  let orderData = {
-    TerminalKey: TerminalKey,
-    Amount: props.amount + '00',
-    Description: props.orderData?.description || 'Оплата',
-    OrderId: String(Math.random()),
-    DATA: {
-      Phone: localStorage.getItem('userPhone') || '',
-      Email: localStorage.getItem('userEmail') || '',
-    },
-    Receipt: {
-      EmailCompany: 'buh@itsportal.ru',
-      Taxation: 'osn',
-      Email: localStorage.getItem('userEmail') || '',
-      Phone: '+79127177910',
-      Items: [
-        {
-          Name: props.orderData?.order || 'Оплата',
-          Price: props.amount + '00',
-          Quantity: 1.0,
-          Amount: props.amount + '00',
-          PaymentMethod: 'full_prepayment',
-          PaymentObject: 'service',
-          Tax: 'none',
-        },
-      ],
-    },
-  }
-
-  const responce = await useFetch('api/payment/', {
-    method: 'POST',
-    body: JSON.stringify(orderData),
-  })
-
-  if (responce.data.value) {
-    const resp = responce.data.value as { token: string }
-    orderData = { ...orderData, ...{ Token: resp.token } }
-  }
+  if (!props.amount || !props.userData.id) return
 
   try {
     const windowReference = window.open()
-
+    const paramsFromServer: TinkoffParams = await api.payment.getPaymentParams(
+      props.userData.id
+    )
     const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
       method: 'post',
       headers: {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        ...orderData,
+        ...paramsFromServer,
       }),
     })
 
