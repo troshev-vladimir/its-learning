@@ -35,6 +35,15 @@ export interface TinkoffParams {
   useReturnLinks?: boolean
 }
 
+export interface ParamsRequest {
+  userId: string
+  orderId: string
+}
+
+export interface ParamsResponse {
+  paymentParams: TinkoffParams
+}
+
 export interface AbstractPaymentService {
-  get: (userId: string) => Promise<Responce<TinkoffParams> | never>
+  get: (params: ParamsRequest) => Promise<Responce<ParamsResponse> | never>
 }

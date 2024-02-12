@@ -86,23 +86,19 @@
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <FeaturePaymentTinkoff
+          <FeaturePaymentTinkoffFull
+            :order-data="{
+              id: value.id,
+            }"
             :user-data="user"
-            :amount="value.fullPrice?.real"
+            :amount="value.fullPrice.withDiscount || value.fullPrice.real"
           >
             <template #default="{ handler }">
               <UiBaseButton type="primary" size="small" @click="handler">
                 Купить
               </UiBaseButton>
             </template>
-          </FeaturePaymentTinkoff>
-
-          <FeaturePaymentTinkoffInstallment
-            :summ="value.fullPrice?.real"
-            title="1С:Программист"
-          >
-            Купить в рассрочку
-          </FeaturePaymentTinkoffInstallment>
+          </FeaturePaymentTinkoffFull>
           <UiBaseButton type="boarded" size="small">
             Смотреть программу
           </UiBaseButton>
@@ -137,6 +133,7 @@ interface IDoc {
   link: string
 }
 interface ICost {
+  id: string
   fullPrice: {
     real: number
     withDiscount?: number
@@ -153,6 +150,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   value: () => ({
+    id: '1',
     fullPrice: {
       real: 150_000,
       withDiscount: 120_000,

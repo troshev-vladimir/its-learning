@@ -1,11 +1,11 @@
 import { CustomError } from '../Error'
-import type { AbstractPaymentService } from './types'
+import type { AbstractPaymentService, ParamsRequest } from './types'
 
 export class PaymentController {
   constructor(private repository: AbstractPaymentService) {}
 
-  async getPaymentParams(userId: string) {
-    const { data } = await this.repository.get(userId)
+  async getPaymentParams(params: ParamsRequest) {
+    const { data } = await this.repository.get(params)
     if (!data) {
       throw new CustomError({
         message: 'Данные вернулись пустые',
@@ -14,6 +14,6 @@ export class PaymentController {
       })
     }
 
-    return data
+    return data.paymentParams
   }
 }

@@ -35,7 +35,7 @@
       type="text"
       placeholder="Номер заказа"
       name="order"
-      :value="orderData?.order"
+      :value="orderData.id"
     />
     <input
       class="payform-tinkoff-row"
@@ -81,27 +81,28 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
-import { useQuasar } from 'quasar'
 import type { User } from '~/api/user'
 import { api } from '~/api'
 import type { TinkoffParams } from '~/api/paymentParams/types'
-const $q = useQuasar()
+import { useNotification } from '@kyvg/vue3-notification'
+const { notify } = useNotification()
 
 export interface UserData {
   id: string
-  email: string
-  name: string
+  email?: string
+  name?: string
+  phone?: string
 }
 
-export interface GoodData {
-  description: string
-  order: string
+export interface OrderData {
+  id: string
+  description?: string
 }
 
 const props = defineProps<{
   amount: number
   userData: User
-  orderData?: GoodData
+  orderData: OrderData
 }>()
 
 const form = ref<HTMLElement>()
@@ -111,9 +112,11 @@ async function clickHandler() {
 
   try {
     const windowReference = window.open()
-    const paramsFromServer: TinkoffParams = await api.payment.getPaymentParams(
-      props.userData.id
-    )
+    const paramsFromServer: TinkoffParams = await api.payment.getPaymentParams({
+      userId: props.userData.id,
+      orderId: props.orderData.id,
+    })
+
     const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
       method: 'post',
       headers: {
@@ -125,8 +128,9 @@ async function clickHandler() {
     })
 
     const responce = await resp.json()
+
     if (!responce.Success) {
-      $q.notify({
+      notify({
         color: 'negative',
         message: responce.Message,
       })
@@ -134,10 +138,13 @@ async function clickHandler() {
       // @ts-ignore
       windowReference.location = responce?.PaymentURL
     }
-  } catch (error) {
-    $q.notify({
-      color: 'negative',
-      message: 'Что то пошло не так',
+  } catch (error: any) {
+    notify({
+      title: error.message,
+      text: error.description,
+      data: {
+        auth: error.statusCode === 401 || error.statusCode === 403,
+      },
     })
   }
 }
