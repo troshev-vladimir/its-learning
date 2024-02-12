@@ -4,20 +4,43 @@
     <NuxtPage />
   </NuxtLayout>
   <ClientOnly>
-    <notifications position="top right">
+    <notifications position="top right" class="base-notification-wrapper">
       <template #body="props">
-        <div class="my-notification">
-          <p class="title">
+        <div class="base-notification base-shadow" :class="[props.item.type]">
+          <p
+            v-if="props.item.title"
+            class="text-bold"
+            :class="{
+              'text-red-600': props.item.type === 'error',
+              'text-yellow-400': props.item.type === 'warn',
+            }"
+          >
             {{ props.item.title }}
-            <nuxt-link v-if="props.item.data.auth" to="/auth">
-              Авторизоваться
-            </nuxt-link>
           </p>
+          <p
+            v-else-if="props.item.type === 'error'"
+            class="text-bold text-red-600"
+          >
+            Ошибка
+          </p>
+          <p
+            v-else-if="props.item.type === 'warn'"
+            class="text-bold text-red-600"
+          >
+            Предупреждение
+          </p>
+
+          <div v-html="props.item.text" />
+
+          <nuxt-link v-if="props.item.data.auth" to="/auth">
+            <UiBaseButton size="small" type="boarded">
+              Авторизоваться
+            </UiBaseButton>
+          </nuxt-link>
 
           <!-- <button class="close" @click="props.close">
           <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
         </button> -->
-          <div v-html="props.item.text" />
         </div>
       </template>
     </notifications>
@@ -50,7 +73,8 @@ function unauthorisedHandler() {
   router.push({ name: 'auth' })
   localStorage.removeItem('userToken')
 }
-onMounted(() => {
+
+onMounted(async () => {
   window.addEventListener('server-error', errorHandler)
   window.addEventListener('unauthorized', unauthorisedHandler)
 
@@ -104,3 +128,25 @@ useHead({
   ],
 })
 </script>
+
+<style lang="scss">
+.base-notification {
+  margin-top: 8px;
+  border-left: 3px solid $blue-600;
+  background: $white;
+  padding: 24px;
+  overflow: visible;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  &.warn {
+    border-color: $yellow-400;
+  }
+  &.error {
+    border-color: $red-600;
+  }
+}
+</style>
