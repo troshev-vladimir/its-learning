@@ -6,10 +6,11 @@
         <p class="time">{{ event.time }}</p>
       </div>
       <p class="text-h2 q-mb-md">{{ event.title }}</p>
-      <p class="text-body1 q-mb-md event-card__description">
+      <p class="text-body2 q-mb-md event-card__description">
         {{ event.description }}
       </p>
       <UiBaseButton
+        v-if="event.link"
         type="primary"
         size="small"
         post-icon="fas fa-link"
@@ -17,7 +18,6 @@
         tag="a"
         :href="event.link"
         target="_blank"
-        v-if="event.link"
       >
         Присоединиться
       </UiBaseButton>
