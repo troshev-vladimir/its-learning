@@ -42,14 +42,16 @@
           </span>
           <span v-else class="text-body1 text-bold"> - </span>
         </p>
-        <UiBaseButton
-          v-if="course.trial?.state && !course.academ?.state"
-          class="course-card__button"
-          type="primary"
-          size="small"
-        >
-          Приступить к обучению
-        </UiBaseButton>
+        <NuxtLink to="/course/1">
+          <UiBaseButton
+            v-if="course.trial?.state && !course.academ?.state"
+            class="course-card__button"
+            type="primary"
+            size="small"
+          >
+            Приступить к обучению
+          </UiBaseButton>
+        </NuxtLink>
         <UiBaseButton
           v-if="course.academ?.state"
           class="course-card__button"
