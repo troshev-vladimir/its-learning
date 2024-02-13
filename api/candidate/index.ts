@@ -2,6 +2,7 @@ import { type CandidateProgressResp, type CandidateProgressReq } from './types'
 import { type UserId, type Candidate } from '~/api/candidate/types'
 
 import axios from '../axios'
+import type { UTMs } from '~/stores/user'
 
 export interface candidateCreateResp {
   id: string
@@ -32,9 +33,17 @@ class CandidateMethods {
       })
   }
 
-  сandidateConfirmation(id: UserId, pin: string): Promise<Candidate> {
+  сandidateConfirmation(
+    id: UserId,
+    pin: string,
+    utm?: UTMs
+  ): Promise<Candidate> {
     return axios
-      .put('candidateconfirmation', { id, pin })
+      .put('candidateconfirmation', {
+        id,
+        pin,
+        utm,
+      })
       .then((response) => {
         return response.data[0]
       })

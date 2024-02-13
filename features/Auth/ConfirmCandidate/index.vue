@@ -63,6 +63,10 @@ import { ref, watch, onMounted } from 'vue'
 import useTimer from './composables/useTimer'
 import { useQuasar } from 'quasar'
 import useUserStore from '~/stores/user'
+import { useRoute } from 'vue-router'
+import type { UTMs } from '~/stores/user'
+
+const route = useRoute()
 
 const userStore = useUserStore()
 
@@ -75,6 +79,21 @@ const pinRef = ref(null)
 const form = ref(null)
 const loadding = ref(false)
 const $q = useQuasar()
+
+const getUtmQuery = () => {
+  const query = route.query
+  const utmResult: UTMs = {}
+
+  const utms: Array<keyof UTMs> = ['utm_medium', 'utm_campaign', 'utm_source']
+
+  utms.forEach((el) => {
+    if (query[el]) {
+      utmResult[el] = String(query[el])
+    }
+  })
+
+  return utmResult
+}
 
 const goBack = () => {
   emit('goBack')
@@ -106,7 +125,7 @@ const logIn = async () => {
   loadding.value = true
 
   try {
-    await userStore.confirmUser(pin.value)
+    await userStore.confirmUser(pin.value, getUtmQuery())
     $q.notify({
       color: 'green',
       message: 'Упешно выполнен вход',

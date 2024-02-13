@@ -2,6 +2,13 @@ import type { Candidate } from '~/api/candidate/types'
 import { defineStore } from 'pinia'
 import candidate from '~/api/candidate'
 import type { CandidateProgressResp } from '~/api/candidate/types'
+
+export interface UTMs {
+  utm_medium?: string
+  utm_campaign?: string
+  utm_source?: string
+}
+
 const useUserStore = defineStore('user', () => {
   const userId = ref('')
   const userToken = ref('')
@@ -37,9 +44,13 @@ const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function confirmUser(pin: string) {
+  async function confirmUser(pin: string, utm: UTMs) {
     try {
-      const newUser = await candidate.сandidateConfirmation(userId.value, pin)
+      const newUser = await candidate.сandidateConfirmation(
+        userId.value,
+        pin,
+        utm
+      )
       user.value = { ...user.value, ...newUser }
       userToken.value = newUser.token || ''
       localStorage.setItem('userToken', userToken.value) // TODO: replace to controller
