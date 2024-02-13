@@ -135,21 +135,17 @@ async function clickHandler() {
         },
       ],
     },
+    Token: '',
   }
 
-  const responce = await useFetch('api/payment/', {
+  const { data } = await useFetch<string>('api/payment/', {
     method: 'POST',
     body: JSON.stringify(orderData),
   })
 
-  if (responce.data.value) {
-    const resp = responce.data.value as { token: string }
-    orderData = { ...orderData, ...{ Token: resp.token } }
-  }
+  orderData.Token = data.value || ''
 
   try {
-    const windowReference = window.open()
-
     const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
       method: 'post',
       headers: {
@@ -161,16 +157,19 @@ async function clickHandler() {
     })
 
     const responce = await resp.json()
+
     if (!responce.Success) {
       $q.notify({
         color: 'negative',
         message: responce.Message,
       })
-    } else {
-      // @ts-ignore
-      windowReference.location = responce?.PaymentURL
+      return
     }
+
+    window.open(responce?.PaymentURL, '_blank')?.focus()
   } catch (error) {
+    console.log(error)
+
     $q.notify({
       color: 'negative',
       message: 'Что то пошло не так',
