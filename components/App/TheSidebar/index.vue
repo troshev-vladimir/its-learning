@@ -112,6 +112,7 @@ onMounted(() => {
   left: -100%;
   display: flex;
   transition: left 0.2s ease;
+  box-shadow: 0px 7px 8px 0px rgba(115, 115, 115, 0.25);
 
   @media screen and (min-width: $bp-sm) {
     transition: width 0.2s ease;
