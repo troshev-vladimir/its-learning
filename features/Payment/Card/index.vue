@@ -1,6 +1,9 @@
 <template>
   <div class="payment-card base-block">
-    <div class="payment-card__container">
+    <div v-if="pending" class="sdf">Loadding...</div>
+    <div v-else-if="error" class="asdf">{{ error }}</div>
+
+    <div v-else class="payment-card__container">
       <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
       <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
       <div class="payment-card__content">
@@ -75,15 +78,18 @@
           v-model="selectedPeriod"
           clearable
           :options="[
-            { label: 'В рассрочку на 3 мес.', value: '1', selected: false },
-            { label: 'В рассрочку на 6 мес.', value: '2', selected: false },
-            { label: 'В кредит на 24 мес.', value: '3', selected: false },
+            { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
+            { label: 'В рассрочку на 6 мес.', value: '6', selected: false },
+            { label: 'В рассрочку на 6 мес.', value: '12', selected: false },
+            { label: 'В кредит на 24 мес.', value: '24', selected: false },
           ]"
           label="Выберите срок рассрочки"
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <UiBaseButton type="primary" size="small"> Купить </UiBaseButton>
+          <UiBaseButton type="primary" size="small" @click="paymentHandler">
+            Купить
+          </UiBaseButton>
           <nuxt-link to="/course/1/description/">
             <UiBaseButton type="boarded" size="small">
               Смотреть программу
@@ -110,12 +116,21 @@
 
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
+import { useUserStore } from '~/stores/user'
+import type { CustomError } from '~/api/Error'
+import { useNotification } from '@kyvg/vue3-notification'
+import { TinkoffPayment } from '~/utils/TinkoffPayment'
+import { buyViaInstallment } from '~/utils/TinkoffInstallment'
+
+const { notify } = useNotification()
+
 interface IDoc {
   name: string
   link: string
 }
 interface ICost {
-  fullPrice?: {
+  id: string
+  fullPrice: {
     real: number
     withDiscount?: number
   }
@@ -129,8 +144,9 @@ interface Props {
   value: ICost
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   value: () => ({
+    id: '1',
     fullPrice: {
       real: 150_000,
       withDiscount: 120_000,
@@ -156,8 +172,50 @@ withDefaults(defineProps<Props>(), {
   }),
 })
 
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+const { pending, error } = await useLazyAsyncData('user', () =>
+  userStore.fetchUser().then(() => true)
+)
+onMounted(async () => {
+  if (error.value) {
+    const myError = error.value.cause as CustomError
+
+    notify({
+      title: myError.message,
+      text: myError.description,
+      data: {
+        auth: myError.statusCode === 401 || myError.statusCode === 403,
+      },
+      type: 'error',
+    })
+  }
+})
+
 const paymentChoice = ref<'full' | 'deferred'>('full')
 const selectedPeriod = ref()
+
+const paymentHandler = () => {
+  if (paymentChoice.value === 'full') {
+    TinkoffPayment({
+      amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+      orderData: {
+        description: '1С:Программист',
+        name: '1С:Программист',
+      },
+      userData: {
+        phone: user.value?.phone,
+        email: user.value?.email,
+      },
+    })
+  } else if (paymentChoice.value === 'deferred') {
+    buyViaInstallment({
+      sum: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+      period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+      title: '1С:Программист',
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

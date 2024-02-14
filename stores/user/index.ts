@@ -1,13 +1,16 @@
+import { api } from '~/api/bootstrap'
 import type { User } from '~/api/user/types'
-const useUserStore = defineStore('userStore', {
-  state: () => ({
-    name: '',
-  }),
-  actions: {
-    async fetch() {
-      const user: User = await $fetch('https://api.nuxt.com/modules/pinia')
-      this.name = user.name
-    },
-  },
+export const useUserStore = defineStore('userStore', () => {
+  const user = ref<User>()
+
+  const fetchUser = async () => {
+    const resp = await api.user.get('1')
+    user.value = resp
+  }
+
+  function $reset() {
+    user.value = undefined
+  }
+
+  return { user, fetchUser, $reset }
 })
-export default useUserStore

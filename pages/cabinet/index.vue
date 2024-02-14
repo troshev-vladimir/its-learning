@@ -41,19 +41,15 @@
       </div>
     </div>
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <FeatureCourseCard @pay="() => (payCoursePopup = true)" />
-    <FeatureCompanyPaymentCard />
+    <CourseCard @pay="() => (payCoursePopup = true)" />
+
+    <UserDebt />
     <UiBasePopup v-model="userProfileEdit">
       <template #default>
         <FeatureUserProfile
           class="base-block"
           @submit="() => (userProfileEdit = false)"
         ></FeatureUserProfile>
-      </template>
-    </UiBasePopup>
-    <UiBasePopup v-model="payCoursePopup">
-      <template #default>
-        <FeaturePaymentCard @submit="() => (payCoursePopup = false)" />
       </template>
     </UiBasePopup>
 

@@ -67,7 +67,7 @@
     />
   </form>
 
-  <slot :fullPaymentLink="fullPaymentLink">
+  <slot :full-payment-link="fullPaymentLink">
     <ui-button size="sm" outline :text-class="['text-accent']">
       {{ props.text }}
     </ui-button>

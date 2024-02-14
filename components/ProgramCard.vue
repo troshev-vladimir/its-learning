@@ -122,6 +122,14 @@
           </div>
         </div>
         <div class="program-card__buttons-block">
+          <UiBaseButton
+            type="secondary"
+            size="small"
+            class="program-card__buy-button"
+            @click="paymentHandler"
+          >
+            Купить
+          </UiBaseButton>
           <FeaturePaymentTinkoff
             :order-data="{
               order: card.name || 'Name',
@@ -188,12 +196,28 @@
 <script setup lang="ts">
 import { formatNumber } from '~/utils/helpers'
 import { type Program } from '~/api/configurator/program/types'
+import useUserStore from '~/stores/configurator/user'
+import { TinkoffPayment } from '~/utils/TinkoffPayment'
 export interface Props {
   card: Program
 }
-
+const { user } = useUserStore()
 const props = defineProps<Props>()
 const currentInstalmentPreiod = ref(6)
+
+const paymentHandler = () => {
+  TinkoffPayment({
+    orderData: {
+      description: props.card.name,
+      name: props.card.name,
+    },
+    userData: {
+      phone: user.id,
+      email: 'email@gmail.com', //user.email
+    },
+    amount: props.card.price.withDiscount,
+  })
+}
 
 const getInstallment = (summ: number) => {
   return Math.round((summ * 1.2108499096) / 24)
