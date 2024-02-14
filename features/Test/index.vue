@@ -4,7 +4,18 @@
       <FeatureTestQuestionCard
         v-model="answers[mainQuestionCount].answer"
         :question="activeQuestion"
-      />
+        :question-count="mainQuestionCount + 1"
+      >
+        <template #timer>
+          <TimerComponent
+            v-if="timer === true"
+            v-once
+            class="test-component__timer base-shadow"
+            :expiration-date="getTestTime"
+            @time-is-gone="emitAnswers"
+          />
+        </template>
+      </FeatureTestQuestionCard>
       <div class="test-component__buttons">
         <UiBaseButton
           v-if="hasPrevQuestion"
@@ -44,6 +55,8 @@
 import type { IQuestion, IAnswer } from './model/types'
 interface Props {
   questions?: IQuestion[]
+  timer?: boolean
+  time?: number | string
 }
 const props = withDefaults(defineProps<Props>(), {
   questions: () => [
@@ -85,8 +98,19 @@ const props = withDefaults(defineProps<Props>(), {
       ],
     },
   ],
+  time: 10 * 60 * 1000,
+  timer: true,
 })
 const emit = defineEmits(['submit'])
+
+const getTestTime = computed(() => {
+  if (typeof props.time === 'string') {
+    return props.time
+  }
+  if (typeof props.time === 'number') {
+    return Date.now() + props.time
+  }
+})
 
 const mainQuestionCount = ref(0)
 const answers = ref<IAnswer[] | []>([])
@@ -131,7 +155,7 @@ const setPrevQuestionCount = () => {
   }
 }
 
-const emitAnswers = () => {
+const emitAnswers = async () => {
   emit('submit', answers.value)
 }
 
@@ -169,6 +193,11 @@ watch(
         width: fit-content;
       }
     }
+  }
+
+  &__timer {
+    width: fit-content;
+    margin-left: auto;
   }
 }
 </style>

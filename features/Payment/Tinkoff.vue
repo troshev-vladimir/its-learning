@@ -106,10 +106,35 @@ const props = defineProps<Props>()
 const form = ref<HTMLElement>()
 const TerminalKey = '1662547243585'
 
-async function clickHandler() {
-  if (!props.amount) return
+interface OrderData {
+  TerminalKey: string
+  Amount: string
+  Description: string
+  OrderId: string | number
+  DATA: {
+    Phone: string
+    Email: string
+  }
+  Receipt: {
+    EmailCompany: string
+    Taxation: string
+    Email: string
+    Phone: string
+    Items: {
+      Name: string
+      Price: string
+      Quantity: string | number
+      Amount: string
+      PaymentMethod: string
+      PaymentObject: string
+      Tax: string
+    }[]
+  }
+  Token: string
+}
 
-  let orderData = {
+const getOrderData = (): OrderData | void => {
+  return {
     TerminalKey: TerminalKey,
     Amount: props.amount + '00',
     Description: props.orderData?.description || 'Оплата',
@@ -135,45 +160,56 @@ async function clickHandler() {
         },
       ],
     },
+    Token: '',
   }
+}
 
-  const responce = await useFetch('api/payment/', {
+const getOrderDataWithToken = async () => {
+  let orderData = getOrderData()
+
+  if (!orderData) return
+
+  const { data } = await useFetch<string>('api/payment/', {
     method: 'POST',
     body: JSON.stringify(orderData),
   })
 
-  if (responce.data.value) {
-    const resp = responce.data.value as { token: string }
-    orderData = { ...orderData, ...{ Token: resp.token } }
+  if (!data.value) {
+    throw new Error()
+  }
+  orderData.Token = data.value
+  return orderData
+}
+
+const getFullPaymentUrl = async (orderData: OrderData) => {
+  const responce = await fetch('https://securepay.tinkoff.ru/v2/Init', {
+    method: 'post',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      ...orderData,
+    }),
+  }).then((data) => data.json())
+
+  if (!responce.Success) {
+    throw new Error(responce.Message)
   }
 
+  return responce?.PaymentURL
+}
+
+async function clickHandler() {
   try {
+    let orderData = await getOrderDataWithToken()
+    if (!orderData) throw new Error()
+    const paymentUrl = await getFullPaymentUrl(orderData)
     const windowReference = window.open()
-
-    const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...orderData,
-      }),
-    })
-
-    const responce = await resp.json()
-    if (!responce.Success) {
-      $q.notify({
-        color: 'negative',
-        message: responce.Message,
-      })
-    } else {
-      // @ts-ignore
-      windowReference.location = responce?.PaymentURL
-    }
-  } catch (error) {
+    if (windowReference) windowReference.location = paymentUrl
+  } catch (error: any) {
     $q.notify({
       color: 'negative',
-      message: 'Что то пошло не так',
+      message: error?.message || 'Что то пошло не так',
     })
   }
 }

@@ -18,7 +18,5 @@ export default defineEventHandler(async (event) => {
 
   const token = crypto.createHash('sha256').update(tokenString).digest('hex')
 
-  return {
-    token,
-  }
+  return token
 })

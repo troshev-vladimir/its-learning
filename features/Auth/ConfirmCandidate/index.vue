@@ -18,7 +18,7 @@
           для входа в игру. Используйте его для авторизации.
         </template>
         <template v-else #hint>
-          На указанный вами номер мы отправили пароль для входа с игру, введите
+          На указанный вами номер мы отправили пароль для входа в игру, введите
           его в поле выше
         </template>
       </UiPincodeInput>
@@ -76,6 +76,21 @@ const form = ref(null)
 const loadding = ref(false)
 const $q = useQuasar()
 
+const getUtmQuery = () => {
+  const query = route.query
+  const utmResult: UTMs = {}
+
+  const utms: Array<keyof UTMs> = ['utm_medium', 'utm_campaign', 'utm_source']
+
+  utms.forEach((el) => {
+    if (query[el]) {
+      utmResult[el] = String(query[el])
+    }
+  })
+
+  return utmResult
+}
+
 const goBack = () => {
   emit('goBack')
 }
@@ -106,7 +121,7 @@ const logIn = async () => {
   loadding.value = true
 
   try {
-    await userStore.confirmUser(pin.value)
+    await userStore.confirmUser(pin.value, getUtmQuery())
     $q.notify({
       color: 'green',
       message: 'Упешно выполнен вход',
