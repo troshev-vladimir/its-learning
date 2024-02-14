@@ -49,6 +49,8 @@ const props = withDefaults(defineProps<Props>(), {
   questions: () => [
     {
       text: 'Первый вопрос?',
+      image:
+        'https://on-desktop.com/ru/images/wp.php?path=/wps/Animals___Cats_White_kitten_in_a_basket_071062_.jpg',
       id: '1',
       required: true,
       answers: [
