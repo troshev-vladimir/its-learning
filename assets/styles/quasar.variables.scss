@@ -101,6 +101,10 @@ $flex-cols: 12;
 }
 
 .text {
+  &-center {
+    text-align: center;
+  }
+
   &-gray {
     &-900 {
       color: $gray-900;

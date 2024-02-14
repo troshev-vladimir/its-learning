@@ -28,11 +28,11 @@ let interval: number | undefined
 const emit = defineEmits(['timeIsGone'])
 
 const props = defineProps<{
-  finalsteptime?: string
+  expirationDate?: string | number
 }>()
 
 const expirationDate = computed(() => {
-  return props.finalsteptime || '2024-02-10T13:42:06'
+  return props.expirationDate
 })
 
 const string = ref('')
