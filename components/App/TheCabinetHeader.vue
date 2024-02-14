@@ -41,7 +41,7 @@ const router = useRouter()
 const route = useRoute()
 const exit = () => {
   localStorage.clear()
-  router.push({ name: 'auth' })
+  router.push({ path: 'cabinet/cabinet-auth' })
 }
 
 const { $sidebar } = useNuxtApp()
