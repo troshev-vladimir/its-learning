@@ -130,6 +130,20 @@
           >
             Купить
           </UiBaseButton>
+          <FeaturePaymentTinkoff>
+            <template #default="{ fullPaymentLink }">
+              <a v-if="fullPaymentLink" :href="fullPaymentLink" target="_blank">
+                <UiButton
+                  class="program-card__buy-button"
+                  color="white"
+                  text-color="primary"
+                  size="sm"
+                >
+                  Купить
+                </UiButton>
+              </a>
+            </template>
+          </FeaturePaymentTinkoff>
           <ClientOnly>
             <FeaturePaymentTinkoffInstallment
               :summ="card.price.withDiscount"
