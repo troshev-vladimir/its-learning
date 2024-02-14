@@ -4,8 +4,8 @@
       <p class="text-h2">
         Вход в Личный кабинет <span class="text-blue-600">студента</span>
       </p>
-      <UiBaseInput v-model="form.login" placeholder="Введите логин" />
-      <UiBaseInput v-model="form.password" placeholder="Введите пароль" />
+      <!-- <UiBaseInput v-model="form.login" placeholder="Введите логин" />
+      <UiBaseInput v-model="form.password" placeholder="Введите пароль" /> -->
       <UiBaseButton size="small" class="feature-auth-cabinet__submit-button">
         Отправить
       </UiBaseButton>

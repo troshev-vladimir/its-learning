@@ -165,11 +165,11 @@ const getOrderData = (): OrderData | void => {
 }
 
 const getOrderDataWithToken = async () => {
-  let orderData = getOrderData()
+  const orderData = getOrderData()
 
   if (!orderData) return
 
-  const { data } = await useFetch<string>('api/payment/', {
+  const { data } = await useFetch<string>('/api/payment/', {
     method: 'POST',
     body: JSON.stringify(orderData),
   })
@@ -201,7 +201,7 @@ const getFullPaymentUrl = async (orderData: OrderData) => {
 
 async function clickHandler() {
   try {
-    let orderData = await getOrderDataWithToken()
+    const orderData = await getOrderDataWithToken()
     if (!orderData) throw new Error()
     const paymentUrl = await getFullPaymentUrl(orderData)
     const windowReference = window.open()

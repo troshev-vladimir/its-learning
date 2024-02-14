@@ -63,6 +63,10 @@ import { ref, watch, onMounted } from 'vue'
 import useTimer from './composables/useTimer'
 import { useQuasar } from 'quasar'
 import useUserStore from '~/stores/configurator/user'
+import { useRoute } from 'vue-router'
+import type { UTMs } from '~/stores/configurator/user'
+
+const route = useRoute()
 
 const userStore = useUserStore()
 
