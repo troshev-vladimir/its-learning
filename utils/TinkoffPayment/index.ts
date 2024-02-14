@@ -41,15 +41,17 @@ export async function TinkoffPayment(
 
     if (!orderData) return
 
-    const { data } = await useFetch<string>('/api/payment/', {
+    const data = await $fetch<string>('/api/payment/', {
       method: 'POST',
       body: JSON.stringify(orderData),
     })
 
-    if (!data.value) {
-      throw new Error()
+    console.log(data)
+
+    if (!data) {
+      throw new Error('Токен оплаты не сгенерирован')
     }
-    orderData.Token = data.value
+    orderData.Token = data
     return orderData
   }
 
@@ -76,10 +78,12 @@ export async function TinkoffPayment(
     if (!orderData) throw new Error()
     const paymentUrl = await getFullPaymentUrl(orderData)
     if (!paymentUrl) throw new Error()
+
     return paymentUrl
   } catch (error: any) {
     notify({
       title: error?.message || 'Что то пошло не так',
+      type: 'error',
     })
   }
 }

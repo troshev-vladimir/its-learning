@@ -80,16 +80,24 @@
           :options="[
             { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
             { label: 'В рассрочку на 6 мес.', value: '6', selected: false },
-            { label: 'В рассрочку на 6 мес.', value: '12', selected: false },
+            { label: 'В рассрочку на 12 мес.', value: '12', selected: false },
             { label: 'В кредит на 24 мес.', value: '24', selected: false },
           ]"
           label="Выберите срок рассрочки"
           class="payment-selection-block__payment-period"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
-          <UiBaseButton type="primary" size="small" @click="paymentHandler">
+          <UiBaseButton
+            v-if="paymentChoice === 'deferred'"
+            type="primary"
+            size="small"
+            @click="openDeferredMadal"
+          >
             Купить
           </UiBaseButton>
+          <a v-else-if="paymentUrl" :href="paymentUrl" target="_blank">
+            <UiBaseButton type="primary" size="small"> Купить </UiBaseButton>
+          </a>
           <nuxt-link to="/course/1/description/">
             <UiBaseButton type="boarded" size="small">
               Смотреть программу
@@ -177,6 +185,27 @@ const { user } = storeToRefs(userStore)
 const { pending, error } = await useLazyAsyncData('user', () =>
   userStore.fetchUser().then(() => true)
 )
+
+const paymentChoice = ref<'full' | 'deferred'>('full')
+const selectedPeriod = ref()
+const paymentUrl = ref('')
+
+const openDeferredMadal = () => {
+  if (!selectedPeriod.value) {
+    notify({
+      title: 'Надо выбрать период',
+      type: 'error',
+    })
+
+    return
+  }
+  buyViaInstallment({
+    sum: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+    period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+    title: '1С:Программист',
+  })
+}
+
 onMounted(async () => {
   if (error.value) {
     const myError = error.value.cause as CustomError
@@ -190,32 +219,21 @@ onMounted(async () => {
       type: 'error',
     })
   }
+
+  const tinkoffPaymentUrl = await TinkoffPayment({
+    amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+    orderData: {
+      description: '1С:Программист',
+      name: '1С:Программист',
+    },
+    userData: {
+      phone: user.value?.phone,
+      email: user.value?.email,
+    },
+  })
+
+  paymentUrl.value = tinkoffPaymentUrl || ''
 })
-
-const paymentChoice = ref<'full' | 'deferred'>('full')
-const selectedPeriod = ref()
-
-const paymentHandler = () => {
-  if (paymentChoice.value === 'full') {
-    TinkoffPayment({
-      amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
-      orderData: {
-        description: '1С:Программист',
-        name: '1С:Программист',
-      },
-      userData: {
-        phone: user.value?.phone,
-        email: user.value?.email,
-      },
-    })
-  } else if (paymentChoice.value === 'deferred') {
-    buyViaInstallment({
-      sum: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
-      period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
-      title: '1С:Программист',
-    })
-  }
-}
 </script>
 
 <style lang="scss" scoped>
