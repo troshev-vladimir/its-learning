@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import useProgramsStore from '~/stores/programs'
-import useUserStore from '~/stores/user'
+import useProgramsStore from '~/stores/configurator/programs'
+import useUserStore from '~/stores/configurator/user'
 const prpgramsStore = useProgramsStore()
 const userStore = useUserStore()
 const { userPromocode } = storeToRefs(userStore)

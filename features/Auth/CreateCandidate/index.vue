@@ -48,7 +48,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
-import useUserStore from '~/stores/user'
+import useUserStore from '~/stores/configurator/user'
 const emit = defineEmits(['goFurther'])
 
 const authStage = ref<'phone' | 'pin'>('phone')

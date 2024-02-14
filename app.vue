@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import '~/assets/styles/main.scss'
-import useUserStore from './stores/user'
+import useUserStore from './stores/configurator/user'
 
 const $q = useQuasar()
 const router = useRouter()

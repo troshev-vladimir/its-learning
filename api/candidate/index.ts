@@ -2,7 +2,7 @@ import { type CandidateProgressResp, type CandidateProgressReq } from './types'
 import { type UserId, type Candidate } from '~/api/candidate/types'
 
 import axios from '../axios'
-import type { UTMs } from '~/stores/user'
+import type { UTMs } from '~/stores/configurator/user'
 
 export interface candidateCreateResp {
   id: string
