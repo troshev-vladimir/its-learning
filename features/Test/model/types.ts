@@ -6,6 +6,7 @@ export interface QuestionAnswer {
 export interface IQuestion {
   id: string
   text: string
+  image?: string
   multiple?: boolean
   required?: boolean
   answers: QuestionAnswer[]

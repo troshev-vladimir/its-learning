@@ -1,16 +1,27 @@
 <template>
   <div class="question-card">
     <div class="question-card__container">
-      <p class="question-card__question text-body1">
-        {{ question.text }}
-        <span
-          v-if="question?.required"
-          v-tippy="{ content: 'Это обзательный вопрос' }"
-          class="text-body1 text-red-400"
-        >
-          *
-        </span>
-      </p>
+      <div
+        class="question-card__question-block"
+        :class="{ 'with-image': question.image }"
+      >
+        <img
+          v-if="question.image"
+          :src="question.image"
+          alt=""
+          class="question-card__question-image"
+        />
+        <p class="question-card__question text-body1">
+          {{ question.text }}
+          <span
+            v-if="question?.required"
+            v-tippy="{ content: 'Это обзательный вопрос' }"
+            class="text-body1 text-red-400"
+          >
+            *
+          </span>
+        </p>
+      </div>
       <div
         v-if="!question?.multiple && !Array.isArray(checkedAnswer)"
         class="question-card__answers-block"
@@ -68,9 +79,29 @@ const checkedAnswer = computed({
 
 <style lang="scss" scoped>
 .question-card {
-  &__question {
+  &__question-block {
     margin-bottom: 24px;
+
+    &.with-image {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      row-gap: 24px;
+
+      @include media($bp-sm) {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 40px;
+      }
+    }
   }
+  &__question {
+    width: 100%;
+  }
+
+  &__question-image {
+    width: 100%;
+    height: auto;
+  }
+
   &__answers-block {
     display: flex;
     flex-direction: column;
