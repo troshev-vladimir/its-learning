@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
 .modal {
   border-radius: 16px;
   max-height: 90vh;
-  overflow: auto;
+  overflow: visible;
   width: 100%;
   position: relative;
 

@@ -73,6 +73,7 @@
           class="course-card__button"
           type="primary"
           size="small"
+          @click="() => emit('pay')"
         >
           Оплатить
         </UiBaseButton>
@@ -92,6 +93,8 @@
 </template>
 
 <script lang="ts" setup>
+const emit = defineEmits(['pay'])
+
 interface IDoc {
   name: string
   link: string

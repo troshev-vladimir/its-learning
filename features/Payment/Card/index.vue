@@ -90,9 +90,11 @@
           <UiBaseButton type="primary" size="small" @click="paymentHandler">
             Купить
           </UiBaseButton>
-          <UiBaseButton type="boarded" size="small">
-            Смотреть программу
-          </UiBaseButton>
+          <nuxt-link to="/course/1/description/">
+            <UiBaseButton type="boarded" size="small">
+              Смотреть программу
+            </UiBaseButton>
+          </nuxt-link>
         </div>
       </div>
       <div class="payment-card__docs">

@@ -1,5 +1,7 @@
 <template>
-  <div class="page-cabinet-auth">cabinet auth</div>
+  <div class="page-cabinet-auth">
+    <FeatureAuthCabinet />
+  </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
@@ -13,4 +15,12 @@ useSeoMeta({
   title: 'Вход ',
 })
 </script>
-<style lang="scss" module></style>
+<style lang="scss" scoped>
+.page-cabinet-auth {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

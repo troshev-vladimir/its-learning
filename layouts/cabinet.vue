@@ -1,6 +1,6 @@
 <template>
   <div class="cabinet-layout">
-    <AppTheCabinetHeader class="cabinet-layout__header" />
+    <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
     <div class="cabinet-layout__container">
       <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks" />
       <div class="sidebar-substrate"></div>
