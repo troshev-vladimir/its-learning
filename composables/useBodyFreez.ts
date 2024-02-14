@@ -40,6 +40,10 @@ export default function useBodyFreez(value: Ref<boolean>) {
     startBodyFreez()
   })
 
+  onBeforeRouteLeave(() => {
+    bodyFreezRemove()
+  })
+
   return {
     bodyFreez,
     bodyFreezRemove,
