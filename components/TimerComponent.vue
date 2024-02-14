@@ -28,11 +28,11 @@ let interval: number | undefined
 const emit = defineEmits(['timeIsGone'])
 
 const props = defineProps<{
-  expirationDate?: string
+  expirationDate?: string | number
 }>()
 
 const expirationDate = computed(() => {
-  return props.expirationDate || '2023-12-27 11:04:30'
+  return props.expirationDate
 })
 
 const string = ref('')
@@ -56,22 +56,29 @@ const updateTime = () => {
   // display
   let diffSeconds = diffDuration.seconds().toString()
   let diffMinutes = diffDuration.minutes().toString()
-  let diffHour = diffDuration.hours().toString()
+  let diffHour = diffDuration.hours()
+  const diffDays = diffDuration.days()
 
   if (
     diffDuration.seconds() <= 0 &&
     diffDuration.minutes() <= 0 &&
-    diffDuration.hours() <= 0
+    diffDuration.hours() <= 0 &&
+    diffDuration.days() <= 0
   ) {
     emit('timeIsGone')
     isExpired = true
   }
 
+  if (diffDays > 0) {
+    diffHour = diffDays * 24 + diffHour
+  }
+
   diffSeconds = diffSeconds.length < 2 ? '0' + diffSeconds : diffSeconds
   diffMinutes = diffMinutes.length < 2 ? '0' + diffMinutes : diffMinutes
-  diffHour = diffHour.length < 2 ? '0' + diffHour : diffHour
+  const resultHours =
+    String(diffHour).length < 2 ? '0' + String(diffHour) : String(diffHour)
 
-  string.value = `${diffHour || '00'}:${diffMinutes || '00'}:${
+  string.value = `${resultHours || '00'}:${diffMinutes || '00'}:${
     diffSeconds || '00'
   }`
 }
@@ -94,7 +101,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
 
   // @media screen and (max-width: 1200px) {
   //     border-radius: 5px;

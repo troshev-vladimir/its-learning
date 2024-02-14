@@ -2,87 +2,22 @@
   <div class="target-training-card base-block">
     <div class="target-training-card__container">
       <p class="text-h2">Тест на целевое обучение</p>
-      <p v-if="!showResult" class="text-body2">
+      <p class="text-body2">
         Пройдите тестирование и получите возможность бесплатного целевого
         обучения на курсе. Тестирование состоит из двух онлайн тестов и
         персонального интервью, дата которого будет назначена вашим менеджером
         после обработки результатов онлайн теста.
       </p>
-      <UiBaseButton
-        v-if="value.status === 'start' && !showResult"
-        type="primary"
-        size="big"
-        @click="() => emit('startTest')"
-      >
-        Пройти тестирование
-      </UiBaseButton>
-      <p
-        v-if="value.status === 'waiting' && !showResult"
-        class="text-body1 text-bold text-blue-600"
-      >
-        Идет проверка. Ожидайте ответа менеджера.
-      </p>
-      <div v-if="showResult" class="target-training-card__results-block">
-        <div class="results-block__item">
-          <p class="text-body1 text-bold q-mb-xs">{{ value.result?.iq }}</p>
-          <p class="text-body2">Тест IQ</p>
-        </div>
-        <div class="results-block__item">
-          <p class="text-body1 text-bold q-mb-xs">{{ value.result?.score }}</p>
-          <p class="text-body2">Другие задачи</p>
-        </div>
-      </div>
+      <NuxtLink to="/target-test">
+        <UiBaseButton type="primary" size="big">
+          Пройти тестирование
+        </UiBaseButton>
+      </NuxtLink>
     </div>
-
-    <p
-      v-if="showResult && value.result?.allowance === true"
-      class="result-block__status text-blue-600 text-bold"
-    >
-      Вы приняты на целевое обучение
-    </p>
-    <p
-      v-if="showResult && value.result?.allowance === false"
-      class="result-block__status text-blue-600 text-bold"
-    >
-      Вы приняты на платное обучение
-    </p>
   </div>
 </template>
 
-<script lang="ts" setup>
-const emit = defineEmits(['startTest'])
-interface Test {
-  status: 'start' | 'waiting' | 'result'
-  result?: {
-    iq?: number
-    score?: number
-    allowance?: boolean
-  }
-}
-
-interface PropsTest {
-  value: Test
-}
-
-const props = withDefaults(defineProps<PropsTest>(), {
-  value: () => ({
-    status: 'start',
-    result: {
-      iq: 120,
-      score: 120,
-      allowance: false,
-    },
-  }),
-})
-
-const showResult = computed(
-  () =>
-    props.value.status === 'result' &&
-    props.value.result?.iq !== null &&
-    props.value.result?.allowance !== null &&
-    props.value.result?.score !== null
-)
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss">
 .target-training-card {

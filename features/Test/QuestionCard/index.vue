@@ -1,6 +1,10 @@
 <template>
   <div class="question-card">
     <div class="question-card__container">
+      <div class="question-card__header">
+        <p class="text-body2">Вопрос №{{ questionCount }}</p>
+        <slot name="timer"></slot>
+      </div>
       <div
         class="question-card__question-block"
         :class="{ 'with-image': question.image }"
@@ -61,6 +65,7 @@
 import type { IQuestion, TypeAnswer } from '../model/types'
 interface Props {
   question: IQuestion
+  questionCount: number
   modelValue: TypeAnswer | TypeAnswer[]
 }
 
@@ -79,6 +84,13 @@ const checkedAnswer = computed({
 
 <style lang="scss" scoped>
 .question-card {
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
   &__question-block {
     margin-bottom: 24px;
 
@@ -89,7 +101,7 @@ const checkedAnswer = computed({
 
       @include media($bp-sm) {
         grid-template-columns: repeat(2, 1fr);
-        column-gap: 40px;
+        column-gap: 24px;
       }
     }
   }

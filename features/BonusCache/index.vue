@@ -3,12 +3,12 @@
     <h2 class="text-h2 q-mb-md">Потратить заработанное</h2>
     <div class="flex wrap items-center full-width q-mb-lg" style="gap: 16px">
       <TimerComponent
-        :expiration-date="userStore.userBonus?.finalsteptime"
+        :finalsteptime="userStore.userBonus?.finalsteptime"
         style="flex: 0 0 auto"
         class="shadow-2"
       />
       <p>
-        Твой заработок хранится 24 часa.
+        Твой заработок хранится 48 часов.
         <br />Не упусти свой шанс.
       </p>
     </div>
