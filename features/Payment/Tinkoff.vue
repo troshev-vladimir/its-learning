@@ -67,13 +67,8 @@
     />
   </form>
 
-  <slot :handler="clickHandler">
-    <ui-button
-      size="sm"
-      outline
-      :text-class="['text-accent']"
-      @click="clickHandler"
-    >
+  <slot :fullPaymentLink="fullPaymentLink">
+    <ui-button size="sm" outline :text-class="['text-accent']">
       {{ props.text }}
     </ui-button>
   </slot>
@@ -104,6 +99,7 @@ export interface Props {
 
 const props = defineProps<Props>()
 const form = ref<HTMLElement>()
+const fullPaymentLink = ref<string>('')
 const TerminalKey = '1662547243585'
 
 interface OrderData {
@@ -199,20 +195,20 @@ const getFullPaymentUrl = async (orderData: OrderData) => {
   return responce?.PaymentURL
 }
 
-async function clickHandler() {
+onMounted(async () => {
   try {
     const orderData = await getOrderDataWithToken()
     if (!orderData) throw new Error()
     const paymentUrl = await getFullPaymentUrl(orderData)
-    const windowReference = window.open()
-    if (windowReference) windowReference.location = paymentUrl
+    if (!paymentUrl) throw new Error()
+    fullPaymentLink.value = paymentUrl
   } catch (error: any) {
     $q.notify({
       color: 'negative',
       message: error?.message || 'Что то пошло не так',
     })
   }
-}
+})
 </script>
 <style lang="scss">
 .payform-tinkoff-row {

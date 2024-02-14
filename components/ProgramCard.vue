@@ -129,15 +129,17 @@
             }"
             :amount="card.price.withDiscount"
           >
-            <template #default="{ handler }">
-              <UiBaseButton
-                type="secondary"
-                size="small"
-                class="program-card__buy-button"
-                @click="handler"
-              >
-                Купить
-              </UiBaseButton>
+            <template #default="{ fullPaymentLink }">
+              <a v-if="fullPaymentLink" :href="fullPaymentLink" target="_blank">
+                <UiButton
+                  class="program-card__buy-button"
+                  color="white"
+                  text-color="primary"
+                  size="sm"
+                >
+                  Купить
+                </UiButton>
+              </a>
             </template>
           </FeaturePaymentTinkoff>
           <ClientOnly>
