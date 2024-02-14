@@ -169,7 +169,7 @@ const getOrderDataWithToken = async () => {
 
   if (!orderData) return
 
-  const { data } = await useFetch<string>('api/payment/', {
+  const { data } = await useFetch<string>('/api/payment/', {
     method: 'POST',
     body: JSON.stringify(orderData),
   })
