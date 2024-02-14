@@ -21,3 +21,29 @@ export interface Response {
   Amount: number
   PaymentURL: string
 }
+
+export interface OrderData {
+  TerminalKey: string
+  Amount: number
+  Description: string
+  OrderId: string | number
+  DATA: {
+    Phone: string
+    Email: string
+  }
+  Receipt: {
+    Taxation: string
+    Email: string
+    Phone: string
+    Items: {
+      Name: string
+      Price: number
+      Quantity: string | number
+      Amount: number
+      PaymentMethod: string
+      PaymentObject: string
+      Tax: string
+    }[]
+  }
+  Token: string
+}

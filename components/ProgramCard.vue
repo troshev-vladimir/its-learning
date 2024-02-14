@@ -122,34 +122,16 @@
           </div>
         </div>
         <div class="program-card__buttons-block">
-          <UiBaseButton
-            type="secondary"
-            size="small"
-            class="program-card__buy-button"
-            @click="paymentHandler"
-          >
-            Купить
-          </UiBaseButton>
-          <FeaturePaymentTinkoff
-            :order-data="{
-              order: card.name || 'Name',
-              description: card.name || 'Описание не указано',
-            }"
-            :amount="card.price.withDiscount"
-          >
-            <template #default="{ fullPaymentLink }">
-              <a v-if="fullPaymentLink" :href="fullPaymentLink" target="_blank">
-                <UiButton
-                  class="program-card__buy-button"
-                  color="white"
-                  text-color="primary"
-                  size="sm"
-                >
-                  Купить
-                </UiButton>
-              </a>
-            </template>
-          </FeaturePaymentTinkoff>
+          <a :href="paumentUrl" target="_blank">
+            <UiButton
+              class="program-card__buy-button"
+              color="white"
+              text-color="primary"
+              size="sm"
+            >
+              Купить
+            </UiButton>
+          </a>
           <ClientOnly>
             <FeaturePaymentTinkoffInstallment
               :summ="card.price.withDiscount"
@@ -203,10 +185,15 @@ export interface Props {
 }
 const { user } = useUserStore()
 const props = defineProps<Props>()
-const currentInstalmentPreiod = ref(6)
 
-const paymentHandler = () => {
-  TinkoffPayment({
+const paumentUrl = ref('')
+
+const getInstallment = (summ: number) => {
+  return Math.round((summ * 1.2108499096) / 24)
+}
+
+onMounted(async () => {
+  const tinkoffPaymentUrl = await TinkoffPayment({
     orderData: {
       description: props.card.name,
       name: props.card.name,
@@ -217,11 +204,11 @@ const paymentHandler = () => {
     },
     amount: props.card.price.withDiscount,
   })
-}
 
-const getInstallment = (summ: number) => {
-  return Math.round((summ * 1.2108499096) / 24)
-}
+  console.log(tinkoffPaymentUrl)
+
+  if (tinkoffPaymentUrl) paumentUrl.value = tinkoffPaymentUrl
+})
 </script>
 
 <style lang="scss" scoped>

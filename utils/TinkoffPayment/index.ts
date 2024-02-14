@@ -1,60 +1,60 @@
 import { notify } from '@kyvg/vue3-notification'
-import type { InitialParams, Response } from './types'
+import type { InitialParams, OrderData, Response } from './types'
 
 const TerminalKey = '1662547243585'
 
 export async function TinkoffPayment(
   params: InitialParams
-): Promise<Response | undefined> {
-  let orderData = {
-    TerminalKey,
-    Amount: params.amount * 100,
-    Description: params.orderData?.description || 'Оплата',
-    OrderId: 0,
-    DATA: {
-      Phone: params.userData?.phone || '',
-      Email: params.userData?.email || '',
-    },
-    Receipt: {
-      Taxation: 'osn',
-      Email: params.userData?.email || '',
-      Phone: params.userData?.phone || '',
-      Items: [
-        {
-          Name: params.orderData?.name || 'Оплата',
-          Price: params.amount * 100,
-          Quantity: 1.0,
-          Amount: params.amount * 100,
-          PaymentMethod: 'full_prepayment',
-          PaymentObject: 'service',
-          Tax: 'none',
-        },
-      ],
-    },
+): Promise<string | undefined> {
+  const getOrderData = (): OrderData | void => {
+    return {
+      TerminalKey: TerminalKey,
+      Amount: params.amount * 100,
+      Description: params.orderData?.description || 'Оплата',
+      OrderId: String(Math.random()),
+      DATA: {
+        Phone: localStorage.getItem('userPhone') || '',
+        Email: localStorage.getItem('userEmail') || '',
+      },
+      Receipt: {
+        Taxation: 'osn',
+        Email: localStorage.getItem('userEmail') || '',
+        Phone: '+79127177910',
+        Items: [
+          {
+            Name: params.orderData.name || 'Оплата',
+            Price: params.amount * 100,
+            Quantity: 1.0,
+            Amount: params.amount * 100,
+            PaymentMethod: 'full_prepayment',
+            PaymentObject: 'service',
+            Tax: 'none',
+          },
+        ],
+      },
+      Token: '',
+    }
   }
 
-  const OrderId: number = await $fetch(
-    'http://max43.ru:5858/ka_uprbase2/hs/payment/v1/orderdata',
-    {
+  const getOrderDataWithToken = async () => {
+    const orderData = getOrderData()
+
+    if (!orderData) return
+
+    const { data } = await useFetch<string>('/api/payment/', {
       method: 'POST',
       body: JSON.stringify(orderData),
+    })
+
+    if (!data.value) {
+      throw new Error()
     }
-  )
-
-  orderData.OrderId = OrderId
-
-  const responce = await useFetch('api/payment/', {
-    method: 'POST',
-    body: JSON.stringify(orderData),
-  })
-
-  if (responce.data.value) {
-    const resp = responce.data.value as { token: string }
-    orderData = { ...orderData, ...{ Token: resp.token } }
+    orderData.Token = data.value
+    return orderData
   }
 
-  try {
-    const resp = await fetch('https://securepay.tinkoff.ru/v2/Init', {
+  const getFullPaymentUrl = async (orderData: OrderData) => {
+    const responce = await fetch('https://securepay.tinkoff.ru/v2/Init', {
       method: 'post',
       headers: {
         'content-type': 'application/json',
@@ -62,22 +62,24 @@ export async function TinkoffPayment(
       body: JSON.stringify({
         ...orderData,
       }),
-    })
-
-    const responce = await resp.json()
+    }).then((data) => data.json())
 
     if (!responce.Success) {
-      notify({
-        title: responce.Message,
-      })
-      return
+      throw new Error(responce.Message)
     }
-    const windowReference = window.open()
-    windowReference!.location = responce?.PaymentURL
-    return responce
-  } catch (error) {
+
+    return responce?.PaymentURL
+  }
+
+  try {
+    const orderData = await getOrderDataWithToken()
+    if (!orderData) throw new Error()
+    const paymentUrl = await getFullPaymentUrl(orderData)
+    if (!paymentUrl) throw new Error()
+    return paymentUrl
+  } catch (error: any) {
     notify({
-      title: 'Что то пошло не так',
+      title: error?.message || 'Что то пошло не так',
     })
   }
 }
