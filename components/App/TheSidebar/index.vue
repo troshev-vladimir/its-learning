@@ -46,7 +46,6 @@
 
 <script lang="ts" setup>
 import type { RouterLinkProps } from 'vue-router'
-import { useBodyFreez } from '~/composables'
 
 interface LinkInterface {
   icon?: string | string[]
