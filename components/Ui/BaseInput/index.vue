@@ -106,10 +106,6 @@ const selectSugestion = (suggestion: string) => {
   localValue.value = suggestion
   hideSuggestion()
 }
-
-const currentComponent = computed(() => {
-  return props.textarea ? 'textarea' : 'input'
-})
 </script>
 
 <style lang="scss" module>
