@@ -251,6 +251,80 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
       }
     }
   }
+
+  &--warn {
+    padding-bottom: 16px;
+
+    .message {
+      color: $yellow;
+    }
+
+    .placeholder {
+      color: $yellow !important;
+    }
+
+    .native-input {
+      border-color: $yellow;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $yellow;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $yellow-100;
+        border-color: $yellow;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $yellow;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $yellow;
+        -webkit-text-fill-color: #000;
+      }
+    }
+  }
+
+  &--success {
+    padding-bottom: 16px;
+
+    .message {
+      color: $green;
+    }
+
+    .placeholder {
+      color: $green !important;
+    }
+
+    .native-input {
+      border-color: $green;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $green;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $green-300;
+        border-color: $green;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $green;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $green;
+        -webkit-text-fill-color: #000;
+      }
+    }
+  }
 }
 
 .base-input {
