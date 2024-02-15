@@ -57,7 +57,8 @@ export class UserMockService implements AbstractUserService {
             surname: 'user-surname',
             thirdname: 'user-thirdname',
             id: 'id',
-            photoUrl: 'userPhotoUrl',
+            photoUrl:
+              'https://mindfulness.demo.zigzagpress.com/wp-content/uploads/sites/20/2010/08/team_02.jpg',
             age: 21,
             phone: '+79042314535',
             city: 'UserCity',
@@ -118,13 +119,23 @@ export class UserMockService implements AbstractUserService {
   }
 
   async add() {
-    return new Promise<Responce<User['id']>>((res) => {
+    return new Promise<Responce<User>>((res) => {
       setTimeout(() => {
         res({
-          data: '1',
+          data: {
+            name: 'user-name',
+            surname: 'user-surname',
+            thirdname: 'user-thirdname',
+            id: 'id',
+            photoUrl: 'userPhotoUrl',
+            age: 21,
+            city: 'UserCity',
+            phone: '+79042314535',
+            email: 'testtest@gmail.com',
+          },
           message: 'string',
-          description: 'string',
           success: true,
+          description: 'string',
         })
       }, 1000)
     })

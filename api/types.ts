@@ -14,3 +14,10 @@ export interface Responce<P> {
   description: string
   success: boolean
 }
+
+export interface CRUD<T> {
+  getAll: () => Promise<Responce<T[]> | never>
+  get: (id: string) => Promise<Responce<T> | never>
+  delete: (id: string) => Promise<Responce<T> | never>
+  add: (body: T) => Promise<Responce<T> | never>
+}

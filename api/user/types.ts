@@ -1,4 +1,4 @@
-import type { Responce } from './../types'
+import type { CRUD, Responce } from './../types'
 export interface User {
   name?: string
   surname?: string
@@ -11,9 +11,6 @@ export interface User {
   phone: string
 }
 
-export interface AbstractUserService {
-  getAll: () => Promise<Responce<User[]> | never>
-  get: (id: string) => Promise<Responce<User> | never>
-  delete: (id: string) => Promise<Responce<User>>
-  add: (body: User) => Promise<Responce<User['id']>>
+export interface AbstractUserService extends CRUD<User> {
+  // testExtraMethod: () => null
 }

@@ -12,8 +12,8 @@
         <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
           <div class="user-photo">
             <img
-              src="https://mindfulness.demo.zigzagpress.com/wp-content/uploads/sites/20/2010/08/team_02.jpg"
-              alt="user"
+              :src="user.photoUrl"
+              :alt="user.name + ' ' + user.thirdname"
               width="100"
             />
           </div>
@@ -21,10 +21,14 @@
 
         <div class="col-12 col-sm-8 col-md-7 q-gutter-sm">
           <div class="column items-center q-gutter-sm items-sm-start">
-            <p class="text-h2">Виктор Андреевич Балкин</p>
+            <h2 class="text-h2">
+              <span style="text-transform: capitalize">
+                {{ user.name + ' ' + user.surname + ' ' + user.thirdname }}
+              </span>
+            </h2>
             <div class="d-flex justify-between justify-md-start">
-              <p class="text-body2 q-mr-xl">Город: Киров</p>
-              <p class="text-body2">Возраст: 29 лет</p>
+              <p class="text-body2 q-mr-xl">Город: {{ user.city }}</p>
+              <p class="text-body2">Возраст: {{ user.age }}</p>
             </div>
             <UiBaseButton
               type="boarded"
@@ -65,7 +69,6 @@
 import type { CustomError } from '~/api/Error'
 import { useUserStore } from '~/stores/user'
 import { useNotification } from '@kyvg/vue3-notification'
-
 definePageMeta({
   layout: 'cabinet',
 })
@@ -81,6 +84,7 @@ const userProfileEdit = ref(false)
 const testPopup = ref(false)
 const payCoursePopup = ref(false)
 const { notify } = useNotification()
+const { user } = storeToRefs(userStore)
 
 const mainEvents = computed(() => {
   if (events.value.length >= 2) {
@@ -107,7 +111,7 @@ const events = ref([
   },
 ])
 
-const { pending, error } = await useAsyncData('user', () =>
+const { pending, error } = await useLazyAsyncData('user', () =>
   userStore.fetchUser().then(() => true)
 )
 await nextTick()
