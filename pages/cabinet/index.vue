@@ -41,7 +41,7 @@
       </div>
     </div>
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <CourseCard @pay="() => (payCoursePopup = true)" />
+    <WidgetCourseCard @pay="() => (payCoursePopup = true)" />
 
     <UserDebt />
     <UiBasePopup v-model="userProfileEdit">
