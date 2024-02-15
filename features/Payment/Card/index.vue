@@ -1,9 +1,6 @@
 <template>
   <div class="payment-card base-block">
-    <div v-if="pending" class="sdf">Loadding...</div>
-    <div v-else-if="error" class="asdf">{{ error }}</div>
-
-    <div v-else class="payment-card__container">
+    <div class="payment-card__container">
       <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
       <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
       <div class="payment-card__content">
@@ -191,12 +188,11 @@ const selectedPeriod = ref()
 const paymentUrl = ref('')
 
 const openDeferredMadal = () => {
-  if (!selectedPeriod.value) {
+  if (!selectedPeriod.value || selectedPeriod.value.length <= 0) {
     notify({
-      title: 'Надо выбрать период',
-      type: 'error',
+      title: 'Выберите период оплаты',
+      type: 'warn',
     })
-
     return
   }
   buyViaInstallment({
@@ -207,6 +203,7 @@ const openDeferredMadal = () => {
 }
 
 onMounted(async () => {
+  await nextTick()
   if (error.value) {
     const myError = error.value.cause as CustomError
 

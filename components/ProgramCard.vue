@@ -123,21 +123,45 @@
         </div>
         <div class="program-card__buttons-block">
           <a :href="paumentUrl" target="_blank">
-            <UiButton
+            <UiBaseButton
               class="program-card__buy-button"
               color="white"
               text-color="primary"
-              size="sm"
+              size="small"
+              type="secondary"
             >
               Купить
-            </UiButton>
+            </UiBaseButton>
           </a>
-          <ClientOnly>
-            <FeaturePaymentTinkoffInstallment
-              :summ="card.price.withDiscount"
-              :title="card.name"
+          {{ selectedPeriod }}
+          <div class="row q-gutter-md q-mt-xs">
+            <UiSelect
+              v-model="selectedPeriod"
+              clearable
+              :options="[
+                { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
+                { label: 'В рассрочку на 6 мес.', value: '6', selected: false },
+                {
+                  label: 'В рассрочку на 12 мес.',
+                  value: '12',
+                  selected: false,
+                },
+                { label: 'В кредит на 24 мес.', value: '24', selected: false },
+              ]"
+              label="Выберите срок рассрочки"
+              class="col"
             />
-          </ClientOnly>
+            <UiBaseButton
+              class="q-mt-md"
+              color="white"
+              text-color="primary"
+              size="small"
+              type="secondary"
+              @click="openDeferredModal"
+            >
+              Взять в рассрочку
+            </UiBaseButton>
+          </div>
         </div>
       </div>
     </div>
@@ -180,6 +204,11 @@ import { formatNumber } from '~/utils/helpers'
 import { type Program } from '~/api/configurator/program/types'
 import useUserStore from '~/stores/configurator/user'
 import { TinkoffPayment } from '~/utils/TinkoffPayment'
+import { useNotification } from '@kyvg/vue3-notification'
+import { buyViaInstallment } from '~/utils/TinkoffInstallment'
+
+const { notify } = useNotification()
+
 export interface Props {
   card: Program
 }
@@ -187,9 +216,27 @@ const { user } = useUserStore()
 const props = defineProps<Props>()
 
 const paumentUrl = ref('')
+const selectedPeriod = ref()
 
 const getInstallment = (summ: number) => {
   return Math.round((summ * 1.2108499096) / 24)
+}
+
+const openDeferredModal = () => {
+  if (!selectedPeriod.value || selectedPeriod.value.length <= 0) {
+    notify({
+      title: 'Выберите период рассрочки',
+      type: 'warn',
+    })
+
+    return
+  }
+
+  buyViaInstallment({
+    sum: props.card.price.withDiscount || props.card.price.actual,
+    period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+    title: '1С:Программист',
+  })
 }
 
 onMounted(async () => {

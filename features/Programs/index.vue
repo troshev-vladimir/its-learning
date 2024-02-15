@@ -7,7 +7,9 @@
           :key="card.id"
           class="col-12"
         >
-          <ProgramCard :card="card" />
+          <ClientOnly>
+            <ProgramCard :card="card" />
+          </ClientOnly>
         </div>
       </div>
     </div>

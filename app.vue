@@ -30,7 +30,7 @@
             Предупреждение
           </p>
 
-          <div v-html="props.item.text" />
+          <div v-if="props.item.text" v-html="props.item.text" />
 
           <nuxt-link v-if="props.item.data.auth" to="/auth">
             <UiBaseButton size="small" type="boarded">
@@ -130,6 +130,9 @@ useHead({
 </script>
 
 <style lang="scss">
+.vue-notification-wrapper {
+  overflow: visible !important;
+}
 .base-notification {
   margin-top: 8px;
   border-left: 3px solid $blue-600;

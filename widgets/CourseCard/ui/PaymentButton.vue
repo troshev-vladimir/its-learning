@@ -8,11 +8,13 @@
     >
       Оплатить
     </UiBaseButton>
-    <UiBasePopup v-model="paymentPopup">
-      <template #default>
-        <FeaturePaymentCard v-if="paymentPopup" />
-      </template>
-    </UiBasePopup>
+    <ClientOnly>
+      <UiBasePopup v-model="paymentPopup">
+        <template #default>
+          <FeaturePaymentCard v-if="paymentPopup" />
+        </template>
+      </UiBasePopup>
+    </ClientOnly>
   </div>
 </template>
 

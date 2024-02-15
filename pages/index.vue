@@ -9,6 +9,7 @@
       <span class="text-accent">так как удобно тебе</span>
     </h1>
     <FeatureBonusCache class="q-mb-lg q-mt-md" />
+
     <FeaturePrograms />
   </div>
 </template>

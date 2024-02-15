@@ -165,6 +165,8 @@ const emitValues = () => {
     .filter((el) => el.selected)
     .map((el) => el.value)
   emit('update:modelValue', selectedValues)
+  console.log(selectedValues)
+
   update()
 }
 
