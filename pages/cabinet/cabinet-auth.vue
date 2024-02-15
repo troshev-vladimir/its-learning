@@ -1,6 +1,6 @@
 <template>
-  <div class="row auth">
-    <div class="col-6">
+  <div class="cabinet-authorization-page row auth">
+    <div class="cabinet-authorization-page__content col-6">
       <div class="base-block">
         <FeatureAuthCabinet />
       </div>
@@ -17,8 +17,12 @@ useSeoMeta({
 })
 </script>
 <style lang="scss" scoped>
-.auth {
+.cabinet-authorization-page {
   height: 100vh;
   margin: auto;
+
+  &__content {
+    margin: auto;
+  }
 }
 </style>
