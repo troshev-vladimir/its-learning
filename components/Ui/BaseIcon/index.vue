@@ -6,6 +6,7 @@
       :height="height || fontSize"
       :radius="radius"
       :background="background"
+      class="base-icon__skeleton"
     />
     <slot v-if="!isLoading">
       <ClientOnly>
@@ -30,3 +31,12 @@ onMounted(() => {
   isLoading.value = false
 })
 </script>
+
+<style lang="scss" scoped>
+.base-icon {
+  min-width: v-bind(width);
+  &__skeleton {
+    flex: 1 1 auto;
+  }
+}
+</style>

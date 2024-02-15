@@ -5,6 +5,8 @@
       <FeaturePaymentCard />
     </ClientOnly>
 
+    <UiBaseSkeleton width="120px" height="120px" />
+
     <!-- <UiBaseButton
       @click="
         notify({
