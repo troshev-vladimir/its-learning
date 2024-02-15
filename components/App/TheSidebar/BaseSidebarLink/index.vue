@@ -49,7 +49,7 @@ const props = defineProps<{
     border-radius: 8px 0 0 8px;
   }
 
-  &.active {
+  &.router-link-exact-active {
     &::after {
       background: $blue-600;
     }
@@ -70,7 +70,7 @@ const props = defineProps<{
   }
 
   &:hover &__container,
-  &.active &__container {
+  &.router-link-exact-active &__container {
     border-radius: 8px;
     background: $blue-100;
     * {
