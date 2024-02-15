@@ -7,13 +7,16 @@
     </div>
 
     <div :class="$style.actions">
-      <UiBaseButton
-        native-type="submit"
-        :disabled="fuckedUp || dirty"
-        size="small"
-      >
-        Submit
-      </UiBaseButton>
+      <slot name="actions">
+        <UiBaseButton
+          native-type="submit"
+          :disabled="fuckedUp || dirty"
+          size="small"
+        >
+          {{ submiText || 'Отправить' }}
+        </UiBaseButton>
+      </slot>
+
       <span v-if="fuckedUp" :class="$style.errorMessage">
         Форма заполнена не верно
       </span>
@@ -26,6 +29,7 @@ const props = defineProps<{
   title: string
   fuckedUp?: boolean
   dirty?: boolean
+  submiText?: string
 }>()
 const emit = defineEmits(['submit'])
 
@@ -40,7 +44,7 @@ const submit = () => {
   width: 100%;
   height: 100%;
   max-height: inherit;
-  padding: 24px;
+  // padding: 24px;
   display: flex;
   flex-direction: column;
 
@@ -51,19 +55,16 @@ const submit = () => {
 }
 
 .title {
-  padding-bottom: 24px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid $secondary;
+  padding-bottom: 16px;
+  // border-bottom: 1px solid $secondary;
 }
 
 .actions {
   display: flex;
   gap: 20px;
   align-items: center;
-  padding-top: $lg;
-  border-top: 1px solid $secondary;
+  // border-top: 1px solid $secondary;
   padding-top: 24px;
-  margin-top: 16px;
 }
 
 .errorMessage {

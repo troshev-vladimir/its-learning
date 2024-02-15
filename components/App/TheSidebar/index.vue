@@ -23,6 +23,7 @@
           v-for="(link, i) in links"
           :key="i"
           :icon="link.icon"
+          :active="link.active"
           :sidebar-status="isOpen"
           :title="link.title"
           :class="{ active: link.active }"
@@ -46,7 +47,6 @@
 
 <script lang="ts" setup>
 import type { RouterLinkProps } from 'vue-router'
-import { useBodyFreez } from '~/composables'
 
 interface LinkInterface {
   icon?: string | string[]

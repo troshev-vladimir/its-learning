@@ -73,6 +73,7 @@
         <UiSelect
           v-show="paymentChoice === 'deferred'"
           v-model="selectedPeriod"
+          name="period"
           clearable
           :options="[
             { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
@@ -82,6 +83,11 @@
           ]"
           label="Выберите срок рассрочки"
           class="payment-selection-block__payment-period"
+          :validation-result="{
+            status: isPeriodError ? 'error' : 'success',
+            message: 'Для рассрочки надо выбрать период обязательно',
+          }"
+          @update:model-value="isPeriodError = false"
         />
         <div class="row q-gutter-sm q-md-gutter-md">
           <UiBaseButton
@@ -176,7 +182,7 @@ const props = withDefaults(defineProps<Props>(), {
     ],
   }),
 })
-
+const isPeriodError = ref(false)
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 const { pending, error } = await useLazyAsyncData('user', () =>
@@ -188,11 +194,14 @@ const selectedPeriod = ref()
 const paymentUrl = ref('')
 
 const openDeferredMadal = () => {
-  if (!selectedPeriod.value || selectedPeriod.value.length <= 0) {
+  isPeriodError.value = false
+
+  if (!selectedPeriod.value || !selectedPeriod.value.length) {
     notify({
       title: 'Выберите период оплаты',
       type: 'warn',
     })
+    isPeriodError.value = true
     return
   }
   buyViaInstallment({

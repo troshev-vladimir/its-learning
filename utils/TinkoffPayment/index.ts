@@ -46,8 +46,6 @@ export async function TinkoffPayment(
       body: JSON.stringify(orderData),
     })
 
-    console.log(data)
-
     if (!data) {
       throw new Error('Токен оплаты не сгенерирован')
     }
