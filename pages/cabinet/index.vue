@@ -62,6 +62,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { CustomError } from '~/api/Error'
+import { useUserStore } from '~/stores/user'
+import { useNotification } from '@kyvg/vue3-notification'
+
 definePageMeta({
   layout: 'cabinet',
 })
@@ -72,10 +76,11 @@ route.meta.pageTitle = 'Личный кабинет'
 useSeoMeta({
   title: 'Личный кабинет',
 })
-
+const userStore = useUserStore()
 const userProfileEdit = ref(false)
 const testPopup = ref(false)
 const payCoursePopup = ref(false)
+const { notify } = useNotification()
 
 const mainEvents = computed(() => {
   if (events.value.length >= 2) {
@@ -101,6 +106,23 @@ const events = ref([
       'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации укрепления моральных ценностей.',
   },
 ])
+
+const { pending, error } = await useAsyncData('user', () =>
+  userStore.fetchUser().then(() => true)
+)
+await nextTick()
+if (error.value) {
+  const myError = error.value.cause as CustomError
+
+  notify({
+    title: myError.message,
+    text: myError.description,
+    data: {
+      auth: myError.statusCode === 401 || myError.statusCode === 403,
+    },
+    type: 'error',
+  })
+}
 </script>
 <style lang="scss" scoped>
 .cabinet-page {

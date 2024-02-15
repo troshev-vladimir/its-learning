@@ -61,7 +61,11 @@
           Продолжить обучение
         </UiBaseButton>
         <AcademyButton v-show="!course.academ?.state && course.isStarted" />
-        <PaymentButton v-show="course.shouldPay" />
+
+        <ClientOnly>
+          <PaymentButton v-show="course.shouldPay" />
+        </ClientOnly>
+
         <div class="course-card__link-list">
           <UiBaseButton
             v-for="(doc, i) in course.docs"

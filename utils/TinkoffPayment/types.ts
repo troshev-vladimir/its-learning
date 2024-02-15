@@ -47,3 +47,14 @@ export interface OrderData {
   }
   Token: string
 }
+
+export interface DataForOriderId {
+  fio?: string
+  email: string
+  phone: string
+  purchase: string
+  price: number
+  date: string | Date | number
+  method: string
+  utm?: string
+}

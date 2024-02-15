@@ -185,9 +185,6 @@ const props = withDefaults(defineProps<Props>(), {
 const isPeriodError = ref(false)
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
-const { pending, error } = await useLazyAsyncData('user', () =>
-  userStore.fetchUser().then(() => true)
-)
 
 const paymentChoice = ref<'full' | 'deferred'>('full')
 const selectedPeriod = ref()
@@ -212,20 +209,6 @@ const openDeferredMadal = () => {
 }
 
 onMounted(async () => {
-  await nextTick()
-  if (error.value) {
-    const myError = error.value.cause as CustomError
-
-    notify({
-      title: myError.message,
-      text: myError.description,
-      data: {
-        auth: myError.statusCode === 401 || myError.statusCode === 403,
-      },
-      type: 'error',
-    })
-  }
-
   const tinkoffPaymentUrl = await TinkoffPayment({
     amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
     orderData: {

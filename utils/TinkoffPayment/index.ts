@@ -1,5 +1,5 @@
 import { notify } from '@kyvg/vue3-notification'
-import type { InitialParams, OrderData, Response } from './types'
+import type { InitialParams, OrderData, DataForOriderId } from './types'
 
 const TerminalKey = '1662547243585'
 
@@ -11,14 +11,14 @@ export async function TinkoffPayment(
       TerminalKey: TerminalKey,
       Amount: params.amount * 100,
       Description: params.orderData?.description || 'Оплата',
-      OrderId: String(Math.random()),
+      OrderId: '',
       DATA: {
-        Phone: localStorage.getItem('userPhone') || '',
-        Email: localStorage.getItem('userEmail') || '',
+        Phone: params.userData?.phone || '',
+        Email: params.userData?.email || '',
       },
       Receipt: {
         Taxation: 'osn',
-        Email: localStorage.getItem('userEmail') || '',
+        Email: params.userData?.email || '',
         Phone: '+79127177910',
         Items: [
           {
@@ -40,16 +40,26 @@ export async function TinkoffPayment(
     const orderData = getOrderData()
 
     if (!orderData) return
+    const orderId = await getOrderId({
+      email: params.userData?.email || '',
+      phone: params.userData?.phone || '',
+      purchase: params.orderData?.description,
+      price: params.amount,
+      date: Date.now(),
+      method: 'full',
+    })
 
-    const data = await $fetch<string>('/api/payment/', {
+    orderData.OrderId = orderId
+
+    const token = await $fetch<string>('/api/payment/', {
       method: 'POST',
       body: JSON.stringify(orderData),
     })
 
-    if (!data) {
+    if (!token) {
       throw new Error('Токен оплаты не сгенерирован')
     }
-    orderData.Token = data
+    orderData.Token = token
     return orderData
   }
 
@@ -84,4 +94,26 @@ export async function TinkoffPayment(
       type: 'error',
     })
   }
+}
+
+const getOrderId = async (data: DataForOriderId) => {
+  console.log(data)
+
+  const resp = await fetch(
+    'http://max43.ru:5858/ka_uprbase2/hs/payment/v1/orderdata',
+    {
+      headers: {
+        Authorization: 'Basic ' + btoa('Http_Service_Test:XI5su3ce'),
+      },
+      mode: 'no-cors',
+      method: 'POST',
+      body: JSON.stringify(data),
+    }
+  )
+
+  const { orderId } = await resp.json()
+
+  if (!orderId) throw new Error('orderId не передан')
+
+  return orderId
 }
