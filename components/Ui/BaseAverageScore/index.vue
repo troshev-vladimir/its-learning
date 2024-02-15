@@ -16,18 +16,21 @@ withDefaults(
       {{ value }}
     </p>
     <p v-else class="base-average-score__value text-body1 text-bold">-</p>
-    <p class="text-body2 text-right">
-      Средний балл
-      <ClientOnly v-if="hasTip === true">
-        <font-awesome-icon
-          v-tippy="{
-            content: `Балл выпускника определяется из совокупности результатов пройденных тестов.`,
-          }"
-          class="text-gray-300"
-          :icon="['fas', 'info-circle']"
-        />
-      </ClientOnly>
-    </p>
+    <div class="base-average-score__description">
+      <p class="text-body2 text-right">Средний балл</p>
+      <UiBaseIcon
+        v-if="hasTip === true"
+        v-tippy="{
+          content: `Балл выпускника определяется из совокупности результатов пройденных тестов.`,
+        }"
+        width="16px"
+        height="16px"
+        font-size="16px"
+        radius="999px"
+        class="text-gray-300 q-ml-xs"
+        :icon="['fas', 'info-circle']"
+      />
+    </div>
   </div>
 </template>
 
@@ -39,6 +42,12 @@ withDefaults(
 
   &__value {
     font-size: 30px !important;
+  }
+
+  &__description {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
   }
 }
 </style>

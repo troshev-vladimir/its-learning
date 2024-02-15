@@ -1,5 +1,10 @@
 <template>
-  <NuxtLink :to="to" class="base-sidebar-link" :class="{ full: sidebarStatus }">
+  <NuxtLink
+    v-if="to && title"
+    :to="to"
+    class="base-sidebar-link"
+    :class="{ full: sidebarStatus }"
+  >
     <div
       v-tippy="{
         placement: 'right',
@@ -10,9 +15,13 @@
       :content="title"
       class="base-sidebar-link__container"
     >
-      <ClientOnly>
-        <font-awesome-icon v-if="icon" :icon="icon" />
-      </ClientOnly>
+      <UiBaseIcon
+        font-size="16px"
+        width="20px"
+        hight="16px"
+        radius="4px"
+        :icon="icon"
+      />
       <p v-if="sidebarStatus && title" class="text-body2">
         {{ title }}
       </p>

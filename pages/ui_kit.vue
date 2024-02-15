@@ -34,4 +34,17 @@ const route = useRoute()
 route.meta.pageTitle = 'UI-kit'
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.skeleton {
+  width: 100px;
+  height: 100px;
+}
+
+.background {
+  width: 100%;
+  height: 1000px;
+  background: $white;
+  position: relative;
+  overflow-x: hidden;
+}
+</style>
