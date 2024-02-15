@@ -4,14 +4,15 @@
       <div class="column items-start">
         <div class="header__left-side">
           <div id="cabiner-header-left-side">
-            <ClientOnly>
-              <font-awesome-icon
-                :icon="['fas', 'arrow-alt-circle-right']"
-                class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
-                :class="{ active: isOpen }"
-                @click="() => (isOpen = !isOpen)"
-              />
-            </ClientOnly>
+            <UiBaseIcon
+              font-size="20px"
+              width="20px"
+              hight="20px"
+              radius="999px"
+              class="sidebar-toggle-icon sidebar-toggle-icon_mobile text-gray-300"
+              :icon="['fas', 'arrow-alt-circle-right']"
+              @click="() => (isOpen = !isOpen)"
+            />
           </div>
           <img src="@/assets/img/logo.svg" alt="" class="header__logo" />
         </div>
@@ -21,13 +22,14 @@
       </p>
       <div class="header__right-side">
         <div class="header__logout-block row items-center" @click="exit">
-          <ClientOnly>
-            <font-awesome-icon
-              title="Выход"
-              class="header__exit-icon q-mr-sm"
-              icon="fa-solid fa-right-from-bracket"
-            />
-          </ClientOnly>
+          <UiBaseIcon
+            font-size="20px"
+            width="20px"
+            hight="20px"
+            radius="4px"
+            class="header__exit-icon q-mr-sm"
+            icon="fa-solid fa-right-from-bracket"
+          />
           <p class="text-body2">Выход</p>
         </div>
       </div>

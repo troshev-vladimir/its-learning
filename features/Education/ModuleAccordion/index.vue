@@ -13,9 +13,13 @@
       >
         <div class="header__left-side">
           <span class="header__toggle-icon" :class="{ open: modelValue }">
-            <ClientOnly>
-              <font-awesome-icon icon="fas fa-chevron-down" />
-            </ClientOnly>
+            <UiBaseIcon
+              width="24px"
+              height="24px"
+              font-size="24px"
+              radius="4px"
+              icon="fas fa-chevron-down"
+            />
           </span>
         </div>
         <div class="header__right-side">

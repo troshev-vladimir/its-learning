@@ -1,5 +1,5 @@
 <template>
-  <div class="target-training-card base-block">
+  <div v-if="isLoading === false" class="target-training-card base-block">
     <div class="target-training-card__container">
       <p class="text-h2">Тест на целевое обучение</p>
       <p class="text-body2">
@@ -15,9 +15,48 @@
       </NuxtLink>
     </div>
   </div>
+  <div v-else>
+    <Skeleton class="target-training-card__skeleton" />
+  </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Skeleton from './skeleton.vue'
+const emit = defineEmits(['startTest'])
+interface Test {
+  status: 'start' | 'waiting' | 'result'
+  result?: {
+    iq?: number
+    score?: number
+    allowance?: boolean
+  }
+}
+
+interface PropsTest {
+  value: Test
+}
+
+const props = withDefaults(defineProps<PropsTest>(), {
+  value: () => ({
+    status: 'start',
+    result: {
+      iq: 120,
+      score: 120,
+      allowance: false,
+    },
+  }),
+})
+
+const isLoading = ref(false)
+
+const showResult = computed(
+  () =>
+    props.value.status === 'result' &&
+    props.value.result?.iq !== null &&
+    props.value.result?.allowance !== null &&
+    props.value.result?.score !== null
+)
+</script>
 
 <style lang="scss">
 .target-training-card {
@@ -38,6 +77,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    width: 100%;
   }
 
   &__results-block {

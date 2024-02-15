@@ -32,14 +32,14 @@
         />
       </div>
       <div class="the-sidebar__toggle-button-block">
-        <ClientOnly>
-          <font-awesome-icon
-            :icon="['fas', 'arrow-alt-circle-right']"
-            class="sidebar-toggle-icon text-gray-300"
-            :class="{ active: isOpen }"
-            @click="() => (isOpen = !isOpen)"
-          />
-        </ClientOnly>
+        <UiBaseIcon
+          font-size="16px"
+          radius="1000px"
+          :icon="['fas', 'arrow-alt-circle-right']"
+          class="sidebar-toggle-icon text-gray-300"
+          :class="{ active: isOpen }"
+          @click="() => (isOpen = !isOpen)"
+        />
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@ interface LinkInterface {
 }
 
 interface Props {
-  links: LinkInterface[]
+  links?: LinkInterface[]
 }
 
 defineProps<Props>()
@@ -65,6 +65,7 @@ const { $sidebar } = useNuxtApp()
 const { isOpen } = $sidebar
 const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
+const isLoading = ref(true)
 
 const closeSidebarOnMobile = () => {
   if (window.outerWidth < 600 && isOpen.value === true) {
@@ -103,6 +104,7 @@ onMounted(() => {
   setBodyFreezOnMobile()
   window.addEventListener('orientationchange', setBodyFreezOnMobile)
   window.addEventListener('resize', setBodyFreezOnMobile)
+  isLoading.value = false
 })
 </script>
 

@@ -1,7 +1,14 @@
 <template>
   <div class="material-covered-card">
     <span class="material-covered-card__icon-circle">
-      <font-awesome-icon class="icon" :icon="icon" />
+      <UiBaseIcon
+        font-size="26px"
+        width="26px"
+        hight="26px"
+        radius="4px"
+        class="icon"
+        :icon="icon"
+      />
     </span>
     <div class="material-covered-card__content">
       <p class="text-body1">{{ title }}</p>

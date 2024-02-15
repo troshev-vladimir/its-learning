@@ -14,25 +14,31 @@
     :type="nativeType"
   >
     <slot name="prev-icon">
-      <client-only>
-        <font-awesome-icon
-          v-if="prevIconName"
-          class="base-button__icon"
-          :icon="prevIconName"
-        />
-      </client-only>
+      <UiBaseIcon
+        v-if="prevIconName"
+        width="16px"
+        height="16px"
+        font-size="16px"
+        radius="4px"
+        class="base-button__icon"
+        :icon="prevIconName"
+        :background="type === 'primary' ? '#a1c4e7' : undefined"
+      />
     </slot>
     <p class="base-button__text" :class="{ small: size == 'small' }">
       <slot />
     </p>
     <slot name="post-icon">
-      <client-only>
-        <font-awesome-icon
-          v-if="postIcon"
-          class="base-button__icon"
-          :icon="postIcon"
-        />
-      </client-only>
+      <UiBaseIcon
+        v-if="postIcon"
+        width="16px"
+        height="16px"
+        font-size="16px"
+        radius="4px"
+        class="base-button__icon"
+        :icon="postIcon"
+        :background="type === 'primary' ? '#a1c4e7' : undefined"
+      />
     </slot>
     <UiSpinnerIcon
       v-if="isLoading"
@@ -49,13 +55,13 @@ import type { RouterLinkProps } from 'vue-router'
 const emit = defineEmits(['update:modelValue'])
 
 interface IProps {
+  postIcon?: string
+  prevIcon?: string
+  size?: 'big' | 'small'
+  tag?: string
   type?: 'primary' | 'secondary' | 'boarded' | 'link' | 'external-link'
   to?: string | RouterLinkProps
-  size?: 'big' | 'small'
   modelValue?: boolean
-  tag?: string
-  prevIcon?: string
-  postIcon?: string
   nativeType?: string
   disabled?: boolean
 }

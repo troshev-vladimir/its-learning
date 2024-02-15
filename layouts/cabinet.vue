@@ -36,7 +36,7 @@ const sidebarLinks = computed(() => [
         active: route.name == 'ui_kit',
         to: '/ui_kit',
       }
-    : { to: '123' },
+    : {},
 ])
 </script>
 
@@ -50,7 +50,7 @@ const sidebarLinks = computed(() => [
     top: 72px;
     height: 100%;
 
-    @media screen and (min-width: $bp-sm) {
+    @include media($bp-sm) {
       position: fixed;
       bottom: 0 !important;
       height: calc(100vh - 98px);
@@ -62,7 +62,7 @@ const sidebarLinks = computed(() => [
     flex: 0 0 auto;
     display: none;
 
-    @media screen and (min-width: $bp-sm) {
+    @include media($bp-sm) {
       display: block;
       width: 80px;
       height: calc(100vh - 100px);
