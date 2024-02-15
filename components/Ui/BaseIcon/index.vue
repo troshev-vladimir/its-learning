@@ -34,8 +34,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .base-icon {
-  min-width: v-bind(width);
   &__skeleton {
+    min-width: v-bind(width);
     flex: 1 1 auto;
   }
 }
