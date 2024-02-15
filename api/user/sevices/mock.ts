@@ -1,6 +1,5 @@
-import { CustomError } from '~/api/Error'
 import type { AbstractUserService, User } from '../types'
-import type { api, Responce } from '~/api/types'
+import type { Responce } from '~/api/types'
 
 export class UserMockService implements AbstractUserService {
   constructor() {}

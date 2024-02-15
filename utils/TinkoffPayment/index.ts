@@ -97,23 +97,25 @@ export async function TinkoffPayment(
 }
 
 const getOrderId = async (data: DataForOriderId) => {
-  console.log(data)
+  console.log(btoa('Http_Service_Test:XI5su3ce'))
 
-  const resp = await fetch(
-    'http://max43.ru:5858/ka_uprbase2/hs/payment/v1/orderdata',
-    {
-      headers: {
-        Authorization: 'Basic ' + btoa('Http_Service_Test:XI5su3ce'),
-      },
-      mode: 'no-cors',
-      method: 'POST',
-      body: JSON.stringify(data),
-    }
-  )
+  try {
+    const resp = await fetch(
+      'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdata',
+      {
+        headers: {
+          Authorization: 'Basic ' + btoa('Http_Service_Test:XI5su3ce'),
+        },
+        mode: 'no-cors',
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    )
+    const { orderId } = await resp.json()
 
-  const { orderId } = await resp.json()
-
-  if (!orderId) throw new Error('orderId не передан')
-
-  return orderId
+    if (!orderId) throw new Error('orderId не передан')
+    return orderId
+  } catch (error) {
+    console.log(error)
+  }
 }

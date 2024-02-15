@@ -13,8 +13,6 @@ const installmentValues = {
 }
 
 export function buyViaInstallment({ sum, period, title }: Installment) {
-  console.log(period as keyof typeof installmentValues)
-
   tinkoff.create(
     {
       sum: sum,
