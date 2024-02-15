@@ -133,7 +133,6 @@
               Купить
             </UiBaseButton>
           </a>
-          {{ selectedPeriod }}
           <div class="row q-gutter-md q-mt-xs">
             <UiSelect
               v-model="selectedPeriod"
