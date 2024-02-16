@@ -12,7 +12,7 @@
       required
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.name.$error ? 'error' : 'success',
+        status: v$.name.$error ? 'error' : 'none',
         message: getErrorMessage(v$.name),
       }"
       @update:model-value="v$.name.$touch"
@@ -24,7 +24,7 @@
       label="Город"
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.city.$error ? 'error' : 'success',
+        status: v$.city.$error ? 'error' : 'none',
         message: getErrorMessage(v$.city),
       }"
       :suggestions="citys"
@@ -43,7 +43,7 @@
       name="degree"
       label="Уровень образования"
       :validation-result="{
-        status: v$.degree.$error ? 'error' : 'success',
+        status: v$.degree.$error ? 'error' : 'none',
         message: getErrorMessage(v$.degree),
       }"
       @update="updateValue('degree')"
@@ -56,7 +56,7 @@
       year-picker
       root-class="q-mb-sm"
       :validation-result="{
-        status: v$.releaseYear.$error ? 'error' : 'success',
+        status: v$.releaseYear.$error ? 'error' : 'none',
         message: getErrorMessage(v$.releaseYear),
       }"
       @update:model-value="v$.releaseYear.$touch"
@@ -68,7 +68,7 @@
       label="Учебное заведение"
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.vuz.$error ? 'error' : 'success',
+        status: v$.vuz.$error ? 'error' : 'none',
         message: getErrorMessage(v$.vuz),
       }"
       @update="v$.vuz.$touch"
@@ -80,7 +80,7 @@
       label="Факультет"
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.faculty.$error ? 'error' : 'success',
+        status: v$.faculty.$error ? 'error' : 'none',
         message: getErrorMessage(v$.faculty),
       }"
       @update="v$.faculty.$touch"
@@ -91,7 +91,7 @@
       label="Направление обучения"
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.learnArea.$error ? 'error' : 'success',
+        status: v$.learnArea.$error ? 'error' : 'none',
         message: getErrorMessage(v$.learnArea),
       }"
       @update="v$.learnArea.$touch"
@@ -102,7 +102,7 @@
       name="birthdate"
       root-class="q-mb-sm"
       :validation-result="{
-        status: v$.birthdate.$error ? 'error' : 'success',
+        status: v$.birthdate.$error ? 'error' : 'none',
         message: getErrorMessage(v$.birthdate),
       }"
       @update:model-value="v$.birthdate.$touch"
@@ -114,7 +114,7 @@
       label="Место рождения"
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.birthPlace.$error ? 'error' : 'success',
+        status: v$.birthPlace.$error ? 'error' : 'none',
         message: getErrorMessage(v$.birthPlace),
       }"
       :suggestions="citys"
@@ -128,7 +128,7 @@
       label="У меня есть опыт в программировании"
       class="q-mb-sm"
       :validation-result="{
-        status: v$.havExperience.$error ? 'error' : 'success',
+        status: v$.havExperience.$error ? 'error' : 'none',
         message: getErrorMessage(v$.havExperience),
       }"
       @update="updateValue('havExperience')"
@@ -142,7 +142,7 @@
       :max-size="9 * 1024 * 1024"
       label="Прикрепить файлы"
       :validation-result="{
-        status: v$.graduates.$error ? 'error' : 'success',
+        status: v$.graduates.$error ? 'error' : 'none',
         message: getErrorMessage(v$.graduates),
       }"
       @update:model-value="updateValue('graduates')"
@@ -155,7 +155,7 @@
       :max-size="9 * 1024 * 1024"
       label="Прикрепить файлы"
       :validation-result="{
-        status: v$.additionalGraduates.$error ? 'error' : 'success',
+        status: v$.additionalGraduates.$error ? 'error' : 'none',
         message: getErrorMessage(v$.additionalGraduates),
       }"
       @update:model-value="updateValue('additionalGraduates')"

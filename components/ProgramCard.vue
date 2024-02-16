@@ -148,7 +148,7 @@
                 { label: 'В кредит на 24 мес.', value: '24', selected: false },
               ]"
               label="Выберите срок рассрочки"
-              class="col"
+              class="col program-card__diferrent-payment-selector"
             />
             <UiBaseButton
               class="q-mt-md"
@@ -369,6 +369,9 @@ onMounted(async () => {
   * {
     color: currentColor;
   }
+
+  &__diferrent-payment-selector {
+    padding-top: 0;
+  }
 }
 </style>
-~/api/configurator/program/types

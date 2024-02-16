@@ -1,5 +1,5 @@
 export interface ValidatorResp {
-  status: 'error' | 'success'
+  status: 'error' | 'success' | 'warn' | 'none'
   message: string
 }
 

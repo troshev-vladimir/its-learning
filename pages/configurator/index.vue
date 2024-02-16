@@ -15,10 +15,10 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Покупка програмы',
-  ogTitle: 'Покупка програмы',
-  description: 'Покупка програмы',
-  ogDescription: 'Покупка програмы',
+  title: 'Покупка программы',
+  ogTitle: 'Покупка программы',
+  description: 'Покупка программы',
+  ogDescription: 'Покупка программы',
   ogImage: 'https://example.com/image.png',
   twitterCard: 'summary_large_image',
 })
