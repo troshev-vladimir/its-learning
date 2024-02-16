@@ -18,10 +18,10 @@ import { onMounted } from 'vue'
 import b24LeadCreate from '~/utils/createLeadInB24'
 
 useSeoMeta({
-  title: 'Покупка програмы',
-  ogTitle: 'Покупка програмы',
-  description: 'Покупка програмы',
-  ogDescription: 'Покупка програмы',
+  title: 'Покупка программы',
+  ogTitle: 'Покупка программы',
+  description: 'Покупка программы',
+  ogDescription: 'Покупка программы',
   ogImage: '',
   twitterCard: 'summary_large_image',
 })
