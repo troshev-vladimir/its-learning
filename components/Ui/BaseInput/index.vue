@@ -240,6 +240,7 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
       &:focus {
         box-shadow: 0 0 0 1px $error;
+        border-color: $red;
       }
 
       &:-webkit-autofill,
@@ -277,6 +278,7 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
       &:focus {
         box-shadow: 0 0 0 1px $yellow;
+        border-color: $yellow;
       }
 
       &:-webkit-autofill,
@@ -314,6 +316,7 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
       &:focus {
         box-shadow: 0 0 0 1px $green;
+        border-color: $green;
       }
 
       &:-webkit-autofill,

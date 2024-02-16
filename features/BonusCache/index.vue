@@ -33,16 +33,19 @@
           label="Введите промокод"
           class="q-mr-md code-input"
           placeholder=""
+          :validation-result="{
+            status: codeSended ? 'error' : 'none',
+            message: 'Код неверный',
+          }"
           @update:model-value="sendPromocode"
         />
-        <span v-if="codeSended"> Код неверный </span>
       </div>
     </div>
     <p class="q-mt-lg text-body2 text-secondary">
       Подробней о правилах подсчёта бонусов читай
       <a
         class="text-accent"
-        href="https://drive.google.com/file/d/1plR7AYYlzmD26AJ-P_nxkmjeiHzirqol/view?usp=share_link"
+        href="https://drive.google.com/file/d/11UcBE_irvkK4MJVMeeKq6IH9THtLZaD9/view?usp=sharing"
         target="_blank"
       >
         тут
@@ -71,7 +74,7 @@ const userCashe = computed(() => {
 // })
 
 const sendPromocode = async () => {
-  if (!codeValue.value.length) return
+  if (codeValue.value.length < 6) return
   codeSended.value = true
   userPromocode.value = codeValue.value
 }
