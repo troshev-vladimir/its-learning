@@ -28,15 +28,11 @@
       <div v-else class="d-flex items-center">
         <UiBaseInput
           v-model="codeValue"
-          :rules="[minMaxLength(6, 6)]"
           name="promocode"
           label="Введите промокод"
           class="q-mr-md code-input"
           placeholder=""
-          :validation-result="{
-            status: codeSended ? 'error' : 'none',
-            message: 'Код неверный',
-          }"
+          :validation-result="validationResultPromoCode"
           @update:model-value="sendPromocode"
         />
       </div>
@@ -58,6 +54,7 @@
 import { watch, onMounted } from 'vue'
 import useUserStore from '~/stores/configurator/user'
 import { minMaxLength } from '~/utils/validators'
+import type { ValidatorResp } from '~/utils/validators/types'
 
 const userStore = useUserStore()
 const { userPromocode } = storeToRefs(userStore)
@@ -68,6 +65,17 @@ const codeSended = ref(false)
 const userCashe = computed(() => {
   if (!userStore.userBonus?.sum) return 0
   return userStore.userBonus?.sum + userStore.userBonus?.promodiscount
+})
+
+const validationResultPromoCode = computed(() => {
+  if (codeValue.value.length <= 0)
+    return { status: 'none', message: '' } as ValidatorResp
+  const validLength = minMaxLength(6, 6)(codeValue.value)
+  if (validLength.status == 'error') return validLength as ValidatorResp
+  return {
+    status: codeSended.value ? 'error' : 'none',
+    message: 'Код неверный',
+  } as ValidatorResp
 })
 // const { data: user, error } = useAsyncData('user', async () => {
 //   return await userStore.getUserBonus()
