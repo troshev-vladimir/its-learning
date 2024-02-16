@@ -8,7 +8,8 @@
       />
     </div>
     <div>
-      <div class="row q-col-gutter-lg items-center">
+      {{ error }} {{ error?.cause }}
+      <div v-if="!pending && !error" class="row q-col-gutter-lg items-center">
         <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
           <div class="user-photo">
             <img
@@ -66,9 +67,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { CustomError } from '~/api/Error'
 import { useUserStore } from '~/stores/user'
-import { useNotification } from '@kyvg/vue3-notification'
+
 definePageMeta({
   layout: 'cabinet',
 })
@@ -83,7 +83,6 @@ const userStore = useUserStore()
 const userProfileEdit = ref(false)
 const testPopup = ref(false)
 const payCoursePopup = ref(false)
-const { notify } = useNotification()
 const { user } = storeToRefs(userStore)
 
 const mainEvents = computed(() => {
@@ -114,19 +113,8 @@ const events = ref([
 const { pending, error } = await useLazyAsyncData('user', () =>
   userStore.fetchUser().then(() => true)
 )
-await nextTick()
-if (error.value) {
-  const myError = error.value.cause as CustomError
 
-  notify({
-    title: myError.message,
-    text: myError.description,
-    data: {
-      auth: myError.statusCode === 401 || myError.statusCode === 403,
-    },
-    type: 'error',
-  })
-}
+useShowNotification(error.value)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {
@@ -164,3 +152,4 @@ if (error.value) {
   }
 }
 </style>
+~/api/CustomError

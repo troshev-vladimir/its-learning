@@ -128,7 +128,6 @@
 <script lang="ts" setup>
 import { formatNumber } from '~/utils/helpers'
 import { useUserStore } from '~/stores/user'
-import type { CustomError } from '~/api/Error'
 import { useNotification } from '@kyvg/vue3-notification'
 import { TinkoffPayment } from '~/utils/TinkoffPayment'
 import { buyViaInstallment } from '~/utils/TinkoffInstallment'
@@ -317,3 +316,4 @@ onMounted(async () => {
   }
 }
 </style>
+~/api/CustomError
