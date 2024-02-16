@@ -7,6 +7,14 @@
         <UiBaseButton class="page-404__button" @click="handleError">
           На главную
         </UiBaseButton>
+
+        <UiBaseButton
+          v-if="error?.statusCode === 403 || error?.statusCode === 401"
+          class="page-404__button"
+          @click="handleUnauthorized"
+        >
+          Авторизоваться
+        </UiBaseButton>
       </NuxtLink>
     </div>
   </div>
@@ -19,6 +27,7 @@ defineProps({
 })
 
 const handleError = () => clearError({ redirect: '/cabinet' })
+const handleUnauthorized = () => clearError({ redirect: '/cabinet-auth' })
 </script>
 
 <style lang="scss" scoped>
