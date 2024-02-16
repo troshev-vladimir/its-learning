@@ -48,6 +48,9 @@ export async function TinkoffPayment(
       date: Date.now(),
       method: 'full',
     })
+    if (!orderId) {
+      throw new Error('orderId не пришёл')
+    }
 
     orderData.OrderId = orderId
 
@@ -97,8 +100,6 @@ export async function TinkoffPayment(
 }
 
 const getOrderId = async (data: DataForOriderId) => {
-  console.log(btoa('Http_Service_Test:XI5su3ce'))
-
   try {
     const resp = await fetch(
       'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdata',
