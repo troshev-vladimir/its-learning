@@ -47,7 +47,7 @@
       Подробней о правилах подсчёта бонусов читай
       <a
         class="text-accent"
-        href="https://drive.google.com/file/d/11UcBE_irvkK4MJVMeeKq6IH9THtLZaD9/view?usp=sharing"
+        href="https://drive.google.com/file/d/1I51sbMMr48lhJpgzDUVm0dzluxixPB-S/view?usp=sharing"
         target="_blank"
       >
         тут
