@@ -15,7 +15,6 @@
     <!-- Рассрочка от компании -->
     <FeatureUserDebt />
     <!------>
-    
 
     <UiBasePopup v-model="testPopup" class="target-training-test">
       <template #default>
