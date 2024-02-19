@@ -206,8 +206,10 @@ withDefaults(defineProps<PropsCourse>(), {
   &__right-side,
   .right-side {
     padding-left: 0px;
+    margin-top: 16px;
 
     @include media($bp-sm) {
+      margin-top: 0px;
       align-items: flex-end;
       width: 50%;
       padding-left: 40px;
