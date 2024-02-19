@@ -11,6 +11,15 @@ export interface User {
   phone: string
 }
 
+export interface AuthorizeRequest {
+  login?: string
+  password?: string
+}
+
+export interface AuthorizeResponce {
+  id: string
+}
+
 export interface AbstractUserService extends CRUD<User> {
-  // testExtraMethod: () => null
+  auth: (params: AuthorizeRequest) => Promise<Responce<AuthorizeResponce>>
 }

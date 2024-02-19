@@ -1,5 +1,5 @@
 import { CustomError } from '~/api/CustomError'
-import type { AbstractUserService } from './types'
+import type { AbstractUserService, AuthorizeRequest } from './types'
 
 export class UserController {
   constructor(private repository: AbstractUserService) {}
@@ -22,6 +22,12 @@ export class UserController {
     }
 
     return user
+  }
+
+  async auth(params: AuthorizeRequest) {
+    const { data } = await this.repository.auth(params)
+    if (!data) throw new CustomError('AUTH_ERR', 401)
+    return data
   }
   // delete(id: string): Promise<User> {
   //   return this.repository.delete(id)

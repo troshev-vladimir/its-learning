@@ -1,5 +1,5 @@
 import type { api } from '~/api/types'
-import type { AbstractUserService, User } from '../types'
+import type { AbstractUserService, AuthorizeRequest, User } from '../types'
 import { CustomError } from '~/api/CustomError'
 const userAbortController = new AbortController()
 export class UserService implements AbstractUserService {
@@ -51,6 +51,11 @@ export class UserService implements AbstractUserService {
     const { data } = await this.api.put('users', {
       body: body,
     })
+    return data
+  }
+
+  async auth(params: AuthorizeRequest) {
+    const { data } = await this.api.post('auth', params)
     return data
   }
 }

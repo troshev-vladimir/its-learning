@@ -1,5 +1,10 @@
 import { CustomError } from '~/api/CustomError'
-import type { AbstractUserService, User } from '../types'
+import type {
+  AbstractUserService,
+  AuthorizeRequest,
+  AuthorizeResponce,
+  User,
+} from '../types'
 import type { Responce } from '~/api/types'
 
 export class UserMockService implements AbstractUserService {
@@ -127,6 +132,20 @@ export class UserMockService implements AbstractUserService {
             city: 'UserCity',
             phone: '+79042314535',
             email: 'testtest@gmail.com',
+          },
+          message: 'string',
+          description: 'string',
+        })
+      }, 1000)
+    })
+  }
+
+  async auth(params: AuthorizeRequest) {
+    return new Promise<Responce<AuthorizeResponce>>((res) => {
+      setTimeout(() => {
+        res({
+          data: {
+            token: 'asdsadwq312313',
           },
           message: 'string',
           description: 'string',
