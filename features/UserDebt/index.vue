@@ -44,13 +44,14 @@
   &__right-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     margin-top: 8px;
-    gap: 16px;
+    gap: 8px;
 
-    @media acreen and (mi-width: $bp-xs) {
-      margin-top: 0px;
+    @include media($bp-xs) {
+      gap: 16px;
       align-items: flex-end;
+      margin-top: 0px;
     }
   }
 }
