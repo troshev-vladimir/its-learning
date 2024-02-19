@@ -26,14 +26,14 @@ instance.interceptors.response.use(
       )
     }
 
-    // if (
-    //   error.response &&
-    //   (error.response.status === 401 || error.response.status === 403)
-    // ) {
-    //   return Promise.reject(
-    //     new CustomError('AUTH_ERROR', error.response.status, {})
-    //   )
-    // }
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      return Promise.reject(
+        new CustomError('AUTH_ERROR', error.response.status, {})
+      )
+    }
 
     return Promise.reject(
       new CustomError(error.response.err, error.response.status, {})

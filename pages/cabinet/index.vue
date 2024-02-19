@@ -35,6 +35,7 @@ useSeoMeta({
   title: 'Личный кабинет',
 })
 const userStore = useUserStore()
+const { isUserLoadding, hasChanges } = storeToRefs(userStore)
 const testPopup = ref(false)
 const payCoursePopup = ref(false)
 
@@ -59,13 +60,21 @@ const events = ref([
     date: '26.01.2024',
     time: '18:00',
     description:
-      'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации укрепления моральных ценностей.',
+      'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации.',
   },
 ])
+const { pending, error } = await useLazyAsyncData('user', () => {
+  if (!hasChanges.value) {
+    return new Promise((res) => res(true))
+  }
 
-const { pending, error } = await useLazyAsyncData('user', () =>
-  userStore.fetchUser().then(() => true)
-)
+  return userStore.fetchUser().then(() => {
+    return true
+  })
+})
+watchEffect(() => {
+  isUserLoadding.value = pending.value
+})
 
 useShowNotification(error.value)
 </script>

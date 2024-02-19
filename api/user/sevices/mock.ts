@@ -45,7 +45,7 @@ export class UserMockService implements AbstractUserService {
       console.log('start')
 
       setTimeout(() => {
-        // rej(new CustomError('AUTH_ERR', 401, 'Не авторизован или нет доступа'))
+        // rej(new CustomError('AUTH_ERR', 402, 'Не авторизован или нет доступа'))
         res({
           // data: undefined,
           data: {

@@ -1,5 +1,9 @@
 <template>
-  <div class="user-profile row q-col-gutter-lg items-center">
+  <div v-if="isUserLoadding">
+    loadding... <button @click="abortRequest">abort</button>
+  </div>
+
+  <div v-else class="user-profile row q-col-gutter-lg items-center">
     <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
       <div class="user-photo">
         <img
@@ -32,9 +36,14 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
+import { abort } from '~/api/user'
+
+const abortRequest = () => {
+  abort()
+}
 
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
+const { user, isUserLoadding } = storeToRefs(userStore)
 </script>
 
 <style lang="scss" scoped>
