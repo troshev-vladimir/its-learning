@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
+import useShowNotification from '~/composables/useShowNotification'
 
 definePageMeta({
   layout: 'cabinet',
