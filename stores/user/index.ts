@@ -5,6 +5,8 @@ export const useUserStore = defineStore('userStore', () => {
 
   const fetchUser = async () => {
     const resp = await api.user.get('1')
+    console.log(resp)
+
     user.value = resp
   }
 

@@ -100,14 +100,17 @@ export async function TinkoffPayment(
 }
 
 const getOrderId = async (data: DataForOriderId) => {
+  const encoder = new TextEncoder()
+  const charCodes = encoder.encode('Http_Service_Test:XI5su3ce')
+  const authStr = String.fromCharCode(...charCodes)
+
   try {
     const resp = await fetch(
       'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdata',
       {
         headers: {
-          Authorization: 'Basic ' + btoa('Http_Service_Test:XI5su3ce'),
+          Authorization: 'Basic ' + btoa(authStr),
         },
-        mode: 'no-cors',
         method: 'POST',
         body: JSON.stringify(data),
       }

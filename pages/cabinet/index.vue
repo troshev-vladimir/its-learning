@@ -7,7 +7,7 @@
         :event="event"
       />
     </div>
-    <WidgetUserProfile v-if="error" :loadding="pending" />
+    <WidgetUserProfile v-if="!error" :loadding="pending" />
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     <WidgetCourseCard @pay="() => (payCoursePopup = true)" />
     <FeatureUserDebt />
