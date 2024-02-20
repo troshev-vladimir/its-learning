@@ -16,7 +16,14 @@ export default defineEventHandler(async (event) => {
   console.log('body', body)
 
   const { id: userId } = await api.user.auth(body)
-
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'User Not Found',
+    data: {
+      login: 'Беда, на сервере не нашли',
+      password: 'Беда, пароль не верный',
+    },
+  })
   if (!userId) {
     throw createError({ statusCode: 404, statusMessage: 'User Not Found' })
   }

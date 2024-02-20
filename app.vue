@@ -37,10 +37,6 @@
               Авторизоваться
             </UiBaseButton>
           </nuxt-link>
-
-          <!-- <button class="close" @click="props.close">
-          <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
-        </button> -->
         </div>
       </template>
     </notifications>
@@ -50,12 +46,20 @@
 <script lang="ts" setup>
 import '~/assets/styles/main.scss'
 import useConfiguratorUserStore from './stores/configurator/user'
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { notify } from '@kyvg/vue3-notification'
+import axiosInstance from '~/api/axios'
 
 const $q = useQuasar()
 const router = useRouter()
 const configuratorUserStore = useConfiguratorUserStore()
+
+// --- Мутируем конфиг Axios что бы авторизация улетала во всех запросах, тут для того что бы на сервере тоже работало
+const userSotre = useUserStore()
+axiosInstance.interceptors.request.use(function (config) {
+  config.headers.Authorization = 'Bearer ' + userSotre.accessToken
+  return config
+})
+// -----------------------
 
 function errorHandler(e: any) {
   $q.notify({
@@ -64,10 +68,6 @@ function errorHandler(e: any) {
     message: e.detail?.message || 'Что то пошло не так',
   })
 }
-
-onErrorCaptured((err) => {
-  console.log(err)
-})
 
 function unauthorisedHandler() {
   router.push({ name: 'auth' })

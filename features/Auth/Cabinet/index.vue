@@ -8,7 +8,7 @@
     @submit="sendForm"
   >
     <UiBaseInput
-      v-model="form.login"
+      v-model="v$.login.$model"
       name="login"
       label="Логин"
       required
@@ -17,10 +17,9 @@
         status: v$.login.$error ? 'error' : 'none',
         message: getErrorMessage(v$.login),
       }"
-      @update="v$.login.$touch()"
     />
     <UiBaseInput
-      v-model="form.password"
+      v-model="v$.password.$model"
       name="password"
       label="Пароль"
       type="password"
@@ -30,7 +29,6 @@
         status: v$.password.$error ? 'error' : 'none',
         message: getErrorMessage(v$.password),
       }"
-      @update="v$.password.$touch()"
     />
   </UiBaseForm>
 </template>
@@ -41,6 +39,7 @@ import { required, helpers } from '@vuelidate/validators'
 const router = useRouter()
 const form = reactive({ login: '', password: '' })
 const formLoadding = ref(false)
+const $externalResults = ref({})
 const userSotre = useUserStore()
 const { accessToken } = storeToRefs(userSotre)
 const rules = computed(() => {
@@ -54,18 +53,19 @@ const rules = computed(() => {
     },
   }
 })
-const v$ = useVuelidate(rules, form)
+const v$ = useVuelidate(rules, form, { $externalResults })
 const sendForm = async () => {
   const isFormCorrect = await v$.value.$validate()
 
   if (isFormCorrect) {
     formLoadding.value = true
-    const { data: token } = await useFetch('/api/auth/login', {
+    const { data: token, error } = await useFetch('/api/auth/login', {
       body: JSON.stringify(form),
       method: 'POST',
     })
     formLoadding.value = false
 
+    $externalResults.value = error.value?.data.data
     if (token.value) {
       accessToken.value = token.value
       router.push({ path: '/cabinet/' })
