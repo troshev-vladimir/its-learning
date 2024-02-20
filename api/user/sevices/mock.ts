@@ -145,7 +145,7 @@ export class UserMockService implements AbstractUserService {
       setTimeout(() => {
         res({
           data: {
-            token: 'asdsadwq312313',
+            id: '1',
           },
           message: 'string',
           description: 'string',

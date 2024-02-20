@@ -13,10 +13,10 @@
       required
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.login.$error ? 'error' : 'success',
+        status: v$.login.$error ? 'error' : 'none',
         message: getErrorMessage(v$.login),
       }"
-      @update="v$.value.login.$touch()"
+      @update="v$.login.$touch()"
     />
     <UiBaseInput
       v-model="form.password"
@@ -26,10 +26,10 @@
       required
       :root-class="['q-mb-sm']"
       :validation-result="{
-        status: v$.password.$error ? 'error' : 'success',
+        status: v$.password.$error ? 'error' : 'none',
         message: getErrorMessage(v$.password),
       }"
-      @update="v$.value.password.$touch()"
+      @update="v$.password.$touch()"
     />
   </UiBaseForm>
 </template>
@@ -54,8 +54,15 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, form)
 const sendForm = async () => {
   const isFormCorrect = await v$.value.$validate()
+
   if (isFormCorrect) {
-    router.push({ path: '/cabinet/' })
+    const { data: token } = await useFetch('/api/auth/login', {
+      body: JSON.stringify(form),
+      method: 'POST',
+    })
+    console.log(token.value)
+
+    // router.push({ path: '/cabinet/' })
   }
 }
 const getErrorMessage = (field: any) => {
