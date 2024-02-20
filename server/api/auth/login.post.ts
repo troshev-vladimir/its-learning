@@ -13,23 +13,25 @@ export interface LoginRequest {
 export default defineEventHandler(async (event) => {
   const body: LoginRequest = await readBody(event)
 
-  console.log('body', body)
+  try {
+    const { id: userId } = await api.user.auth(body)
 
-  const { id: userId } = await api.user.auth(body)
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'User Not Found',
-    data: {
-      login: 'Беда, на сервере не нашли',
-      password: 'Беда, пароль не верный',
-    },
-  })
-  if (!userId) {
-    throw createError({ statusCode: 404, statusMessage: 'User Not Found' })
+    if (!userId) {
+      throw createError({ statusCode: 404, statusMessage: 'User Not Found' })
+    }
+
+    const refreshToken = await createRefreshToken({ id: userId })
+    setUserRefreshTokenInCookies(event, refreshToken)
+
+    return await createAccessToken({ id: userId })
+  } catch (error) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'User Not Found',
+      data: {
+        login: 'Беда, на сервере не нашли',
+        password: 'Беда, пароль не верный',
+      },
+    })
   }
-
-  const refreshToken = await createRefreshToken({ id: userId })
-  setUserRefreshTokenInCookies(event, refreshToken)
-
-  return await createAccessToken({ id: userId })
 })

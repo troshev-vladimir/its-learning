@@ -22,7 +22,6 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
-import useShowNotification from '~/composables/useShowNotification'
 
 definePageMeta({
   layout: 'cabinet',
@@ -73,7 +72,7 @@ const { pending, error } = await useLazyAsyncData('user', () => {
   })
 })
 
-useShowNotification(error.value)
+// useShowNotification(error.value)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {

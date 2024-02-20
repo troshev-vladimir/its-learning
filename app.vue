@@ -48,17 +48,31 @@ import '~/assets/styles/main.scss'
 import useConfiguratorUserStore from './stores/configurator/user'
 import { notify } from '@kyvg/vue3-notification'
 import axiosInstance from '~/api/axios'
+import { checkTokenExpValid } from '~/utils/checkTokenExpValid'
 
 const $q = useQuasar()
 const router = useRouter()
 const configuratorUserStore = useConfiguratorUserStore()
 
-// --- Мутируем конфиг Axios что бы авторизация улетала во всех запросах, тут для того что бы на сервере тоже работало
+// --- Мутируем конфиг Axios что бы авторизация улетала во всех запросах. тут для того что бы на сервере тоже работало
 const userSotre = useUserStore()
-axiosInstance.interceptors.request.use(function (config) {
-  config.headers.Authorization = 'Bearer ' + userSotre.accessToken
-  return config
-})
+const { accessToken } = storeToRefs(userSotre)
+axiosInstance.interceptors.request.use(
+  async function (config) {
+    const isTokenFresh = checkTokenExpValid(userSotre.accessToken)
+
+    if (!isTokenFresh) {
+      const { data } = await useFetch('/api/auth/refresh')
+      accessToken.value = data.value as string
+    }
+
+    config.headers.Authorization = 'Bearer ' + userSotre.accessToken
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 // -----------------------
 
 function errorHandler(e: any) {
@@ -153,3 +167,4 @@ useHead({
   }
 }
 </style>
+~/utils/checkTokenExpValid
