@@ -1,5 +1,11 @@
 <template>
-  <form :class="[$style['base-form']]" @submit.prevent="submit">
+  <form
+    :class="[
+      $style['base-form'],
+      { [$style['base-form--loadding']]: loadding },
+    ]"
+    @submit.prevent="submit"
+  >
     <h2 :class="[$style.title, 'text-h2']">{{ title }}</h2>
 
     <div :class="[$style['form-content'], 'pretty-scroll']">
@@ -29,6 +35,7 @@ const props = defineProps<{
   title: string
   fuckedUp?: boolean
   dirty?: boolean
+  loadding?: boolean
   submiText?: string
 }>()
 const emit = defineEmits(['submit'])
@@ -47,10 +54,27 @@ const submit = () => {
   // padding: 24px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .form-content {
     overflow: auto;
     padding: 0 3px; // для теней
+  }
+
+  &--loadding {
+    &:after {
+      content: 'Отправка...';
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      opacity: 0.6;
+    }
   }
 }
 

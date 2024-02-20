@@ -4,6 +4,7 @@
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
     submi-text="Войти"
+    :loadding="formLoadding"
     @submit="sendForm"
   >
     <UiBaseInput
@@ -39,7 +40,9 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 const router = useRouter()
 const form = reactive({ login: '', password: '' })
-
+const formLoadding = ref(false)
+const userSotre = useUserStore()
+const { accessToken } = storeToRefs(userSotre)
 const rules = computed(() => {
   return {
     login: {
@@ -56,13 +59,17 @@ const sendForm = async () => {
   const isFormCorrect = await v$.value.$validate()
 
   if (isFormCorrect) {
+    formLoadding.value = true
     const { data: token } = await useFetch('/api/auth/login', {
       body: JSON.stringify(form),
       method: 'POST',
     })
-    console.log(token.value)
+    formLoadding.value = false
 
-    // router.push({ path: '/cabinet/' })
+    if (token.value) {
+      accessToken.value = token.value
+      router.push({ path: '/cabinet/' })
+    }
   }
 }
 const getErrorMessage = (field: any) => {

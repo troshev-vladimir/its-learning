@@ -41,9 +41,14 @@
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-const exit = () => {
+const userSotre = useUserStore()
+
+const exit = async () => {
   localStorage.clear()
-  router.push({ path: 'cabinet/cabinet-auth' })
+  router.push({ path: '/cabinet/cabinet-auth' })
+  await useFetch('/api/auth/logout', {})
+
+  userSotre.$reset()
 }
 
 const { $sidebar } = useNuxtApp()

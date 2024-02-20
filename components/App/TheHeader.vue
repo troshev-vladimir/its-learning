@@ -29,7 +29,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const exit = () => {
   localStorage.clear()
-  router.push('/cabinet/cabinet-auth')
+  router.push('/auth')
 }
 </script>
 

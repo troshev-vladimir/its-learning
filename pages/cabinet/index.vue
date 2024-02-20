@@ -35,7 +35,7 @@ useSeoMeta({
   title: 'Личный кабинет',
 })
 const userStore = useUserStore()
-const { isUserLoadding, hasChanges } = storeToRefs(userStore)
+const { hasChanges } = storeToRefs(userStore)
 const testPopup = ref(false)
 const payCoursePopup = ref(false)
 
@@ -71,9 +71,6 @@ const { pending, error } = await useLazyAsyncData('user', () => {
   return userStore.fetchUser().then(() => {
     return true
   })
-})
-watchEffect(() => {
-  isUserLoadding.value = pending.value
 })
 
 useShowNotification(error.value)
