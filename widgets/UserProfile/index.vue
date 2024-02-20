@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
+import EditProfileButton from './EditProfileButton/index.vue'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
