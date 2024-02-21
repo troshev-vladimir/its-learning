@@ -1,5 +1,5 @@
 <template>
-  <div class="test-component">
+  <div class="test-component base-block">
     <div class="test-component__container">
       <FeatureTestQuestionCard
         v-model="answers[mainQuestionCount].answer"
@@ -10,6 +10,7 @@
           <TimerComponent
             v-if="timer === true"
             v-once
+            :has-hours="false"
             class="test-component__timer base-shadow"
             :expiration-date="getTestTime"
             @time-is-gone="emitAnswers"
@@ -61,16 +62,28 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   questions: () => [
     {
-      text: 'Первый вопрос?',
+      text: 'Лишь стремящиеся вытеснить традиционное производство, нанотехнологии являются только методом политического участия и ассоциативно распределены по отраслям. В частности, начало повседневной работы по формированию позиции является качественно новой ступенью первоочередных требований. Не следует, однако, забывать, что новая модель организационной деятельности создаёт предпосылки для благоприятных перспектив. Господа, постоянное информационно-пропагандистское обеспечение нашей деятельности создаёт предпосылки для экономической целесообразности принимаемых решений.',
       image:
-        'https://on-desktop.com/ru/images/wp.php?path=/wps/Animals___Cats_White_kitten_in_a_basket_071062_.jpg',
+        'https://on-desktop.com/wps/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_.jpg',
       id: '1',
       required: true,
       answers: [
-        { text: 'Первый ответ', id: '1' },
-        { text: 'Второй ответ', id: '2' },
-        { text: 'Третий ответ', id: '3' },
-        { text: 'Четвертый ответ', id: '4' },
+        {
+          text: 'Противоположная точка зрения подразумевает, что ключевые особенности структуры проекта лишь добавляют фракционных разногласий и разоблачены.',
+          id: '1',
+        },
+        {
+          text: 'А также представители современных социальных резервов лишь добавляют фракционных разногласий и объективно рассмотрены соответствующими инстанциями.',
+          id: '2',
+        },
+        {
+          text: 'Как уже неоднократно упомянуто, элементы политического процесса освещают чрезвычайно интересные особенности картины в целом, однако конкретные выводы, разумеется, указаны как претенденты на роль ключевых факторов.',
+          id: '3',
+        },
+        {
+          text: 'Есть над чем задуматься: базовые сценарии поведения пользователей набирают популярность среди определенных слоев населения, а значит, должны быть представлены в исключительно положительном свете.',
+          id: '4',
+        },
       ],
     },
     {
@@ -175,6 +188,7 @@ watch(
 
 <style lang="scss" scoped>
 .test-component {
+  padding-top: 0;
   &__buttons {
     display: flex;
     justify-content: space-between;
@@ -186,7 +200,7 @@ watch(
       width: 100%;
     }
 
-    @media screen and (min-width: $bp-xs) {
+    @include media($bp-xs) {
       flex-direction: row;
 
       button {
@@ -197,7 +211,6 @@ watch(
 
   &__timer {
     width: fit-content;
-    margin-left: auto;
   }
 }
 </style>
