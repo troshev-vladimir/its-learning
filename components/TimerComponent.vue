@@ -47,16 +47,17 @@ const expirationDate = computed(() => {
 })
 
 const string = ref('')
-let isExpired = false
+const isExpired = ref(false)
 
 const updateTime = () => {
-  if (isExpired) {
+  if (isExpired.value) {
     window.clearInterval(interval)
     emit('timeIsGone')
     return
   }
   const now = moment()
   const expiration = moment(expirationDate.value)
+
   if (!expirationDate.value) {
     return
   }
@@ -77,7 +78,7 @@ const updateTime = () => {
     diffDuration.days() <= 0
   ) {
     emit('timeIsGone')
-    isExpired = true
+    isExpired.value = true
   }
 
   if (diffDays > 0) {
