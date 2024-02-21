@@ -22,6 +22,7 @@
         placeholder=""
         v-bind="attrs"
         @blur="update"
+        @keyup.enter="emit('enter')"
       />
 
       <input
@@ -38,6 +39,7 @@
         :data-maska="mask"
         @blur="update"
         @click="isSuggestions = true"
+        @keyup.enter="emit('enter')"
         @focus="isSuggestions = true"
       />
 
@@ -61,7 +63,7 @@
       </div>
     </div>
 
-    <p v-if="isError" :class="$style.message">
+    <p :class="$style.message">
       {{ validationResult.message }}
     </p>
   </div>
@@ -92,7 +94,7 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue', 'update'])
+const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
 const { maskOptions } = useMask(emit)
 const { localValue, isError, update } = useFormItem(props, emit)
