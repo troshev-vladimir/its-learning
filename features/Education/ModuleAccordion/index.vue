@@ -53,13 +53,9 @@
   </UiExpancionItem>
 </template>
 <script lang="ts" setup>
-interface EducationModule {
-  id?: string
-  title?: string
-  status?: 'active' | 'locked' | 'ended'
-}
+import type { CourceModule } from '~/api/cource/types'
 interface Props {
-  value?: EducationModule
+  value?: CourceModule
   modelValue: boolean
 }
 const props = withDefaults(defineProps<Props>(), {

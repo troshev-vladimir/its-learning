@@ -18,4 +18,5 @@ export interface CRUD<T> {
 export interface ResponceError {
   error: string
   message: string
+  data: any
 }

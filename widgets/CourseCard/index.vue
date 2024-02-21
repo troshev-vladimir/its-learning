@@ -87,33 +87,6 @@ import AcademyButton from './ui/AcademyButton.vue'
 
 const emit = defineEmits(['pay'])
 
-interface IDoc {
-  name: string
-  link: string
-}
-
-// FIXME тип полей для курса нужно вынести вотдельный расшаренный тип
-export type Course = {
-  title: string
-  academ?: {
-    state: boolean
-    date: string
-  }
-  trial?: {
-    state: true
-    days: number
-  }
-  averageScore?: number
-  isStarted: boolean
-  startDate?: string
-  isEnded?: boolean
-  planEndDate?: string
-  realEndDate?: string
-  docs?: IDoc[]
-  score?: number
-  shouldPay?: boolean
-}
-
 interface PropsCourse {
   course: Course
 }
