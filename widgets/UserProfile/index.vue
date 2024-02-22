@@ -41,6 +41,7 @@ import { abort } from '~/api/user'
 const abortRequest = () => {
   abort()
 }
+import EditProfileButton from './EditProfileButton/index.vue'
 
 const userStore = useUserStore()
 const { user, isUserLoadding } = storeToRefs(userStore)

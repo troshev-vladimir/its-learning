@@ -9,22 +9,26 @@
         class="question-card__question-block"
         :class="{ 'with-image': question.image }"
       >
-        <img
-          v-if="question.image"
-          :src="question.image"
-          alt=""
-          class="question-card__question-image"
-        />
-        <p class="question-card__question text-body1">
-          {{ question.text }}
-          <span
-            v-if="question?.required"
-            v-tippy="{ content: 'Это обзательный вопрос' }"
-            class="text-body1 text-red-400"
-          >
-            *
-          </span>
-        </p>
+        <div class="question-card__question-image-container">
+          <img
+            v-if="question.image"
+            :src="question.image"
+            alt=""
+            class="question-card__question-image"
+          />
+        </div>
+        <div class="question-card__question-container">
+          <p class="question-card__question text-body2">
+            {{ question.text }}
+            <span
+              v-if="question?.required"
+              v-tippy="{ content: 'Это обзательный вопрос' }"
+              class="text-body1 text-red-400"
+            >
+              *
+            </span>
+          </p>
+        </div>
       </div>
       <div
         v-if="!question?.multiple && !Array.isArray(checkedAnswer)"
@@ -86,9 +90,23 @@ const checkedAnswer = computed({
 .question-card {
   &__header {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 24px;
+    flex-direction: column;
+    row-gap: 16px;
+    position: sticky;
+    top: 0px;
+    background: $white;
+    padding-top: 24px;
+
+    @include media($bp-sm) {
+      align-items: flex-end;
+      flex-direction: row;
+    }
+  }
+
+  &__question-container {
   }
 
   &__question-block {
@@ -112,6 +130,8 @@ const checkedAnswer = computed({
   &__question-image {
     width: 100%;
     height: auto;
+    background: $secondary;
+    border-radius: 8px;
   }
 
   &__answers-block {
@@ -120,7 +140,7 @@ const checkedAnswer = computed({
     gap: 16px;
     width: 100%;
 
-    @media screen and (min-width: $bp-xs) {
+    @include media($bp-sm) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;

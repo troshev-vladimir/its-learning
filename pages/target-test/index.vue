@@ -3,13 +3,13 @@
     <FeatureTest
       v-if="testStatus === 'in_process'"
       :timer="true"
-      class="target-test-page__target-test base-block col-md-6 col"
+      class="target-test-page__target-test"
       @submit="sendResults"
     />
     <FeatureTargetTestResults
       v-if="['waiting', 'result'].includes(testStatus)"
       :status="testStatus"
-      class="target-test-page__target-test base-block col-md-6 col"
+      class="target-test-page__target-test base-block"
     />
   </div>
 </template>
@@ -34,9 +34,12 @@ const sendResults = () => {
   margin-left: 0;
   min-height: 100vh;
   margin-left: 0 !important;
+  padding: 24px;
+  max-height: 100vh;
 
   &__target-test {
     margin: auto;
+    width: 100%;
   }
 }
 </style>
