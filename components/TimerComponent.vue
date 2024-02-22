@@ -8,10 +8,7 @@
 
     <div class="count">
       <span v-if="string" class="text-body1">{{ string }}</span>
-      <span v-else class="text-body1">
-        {{ hasHours === true ? '00:' : '' }}
-        00:00
-      </span>
+      <span v-else class="text-body1"> {{ hasHours ? '00:' : '' }}00:00 </span>
     </div>
   </div>
   <q-chip
