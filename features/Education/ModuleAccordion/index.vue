@@ -50,12 +50,13 @@
     <template #default>
       <div class="education-module-accordion__container" @click.prevent>
         <FeatureEducationLessonAccordion
-          v-for="(lesson, index) in value.lessonsPreviews.value"
+          v-for="(lessonPrewiew, index) in value.lessonsPreviews.value"
           :key="index"
           class="accordion-lesson"
+          :lesson-prewiew="lessonPrewiew"
         >
           <template #default>
-            <FeatureEducationLessonCard :value="lesson" />
+            <FeatureEducationLessonCard :id="lessonPrewiew.id" />
           </template>
         </FeatureEducationLessonAccordion>
       </div>

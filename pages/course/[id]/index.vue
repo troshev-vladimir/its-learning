@@ -7,7 +7,7 @@
           <div class="column items-center header__tracker-block">
             <ClientOnly>
               <UiBaseTracker
-                :value="cource?.comletedPersentage"
+                :value="cource?.progress"
                 class="tracker q-mb-sm"
               />
             </ClientOnly>

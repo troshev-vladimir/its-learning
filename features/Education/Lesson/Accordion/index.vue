@@ -16,16 +16,18 @@
         </div>
         <div class="header__right-side">
           <div>
-            <p class="text-body1 text-bold">Пример урока</p>
-            <p class="text-body2">Пройти урок до: 20.01.2024</p>
+            <p class="text-body1 text-bold">{{ lessonPrewiew.title }}</p>
+            <p class="text-body2">
+              Пройти урок до: {{ lessonPrewiew.edgeDate }}
+            </p>
           </div>
-          <UiBaseAverageScore
-            v-if="false"
+          <!-- <UiBaseAverageScore
+            v-if="lessonPrewiew.passed"
             :has-tip="false"
+            :value="lessonPrewiew."
             class="education-lesson-accardion__average-score"
-          />
-          <p v-if="true">Зачет</p>
-          <p v-if="false">Незачёт</p>
+          /> -->
+          <p v-if="lessonPrewiew.passed">Зачет</p>
         </div>
       </div>
     </template>
@@ -38,12 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-// interface Props {
-//   // modelValue?: boolean
-// }
-// withDefaults(defineProps<Props>(), {
-//   // modelValue: false,
-// })
+import type { LessonPreview } from '~/api/cource'
+
+interface Props {
+  lessonPrewiew: LessonPreview
+}
+const props = withDefaults(defineProps<Props>(), {})
 
 const isOpen = ref(false)
 

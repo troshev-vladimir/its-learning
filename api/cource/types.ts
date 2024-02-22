@@ -2,7 +2,7 @@ import type { Responce } from '../types'
 
 export interface CourcePreview {
   title: string
-  comletedPersentage: number
+  progress: number
   isStarted: boolean
   startDate?: string
   diplomas?: ILink[]
@@ -20,20 +20,16 @@ export interface CourcePreview {
     state: boolean
     days: number
   }
+  couchAwilableTill: string
 }
 
 export interface CourceFull extends CourcePreview {
-  title: string
-  averageScore?: number
-  score?: number
-  isEnded?: boolean
   statistics: {
     tests: CourceStaisticItem
     video: CourceStaisticItem
     tasks: CourceStaisticItem
   }
   modules: CourceModule[]
-  couchAwilableTill: string
 }
 
 type ModuleStatuses = 'active' | 'locked' | 'ended'

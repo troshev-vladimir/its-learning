@@ -21,13 +21,14 @@ export class CourceMockService implements AbstractCourceService {
               state: true,
               days: 20,
             },
+            couchAwilableTill: '01.02.1999',
             averageScore: 23,
             isStarted: true,
             startDate: '01.02.1999',
             isEnded: true,
             planEndDate: '01.02.1999',
             realEndDate: '01.02.1999',
-            comletedPersentage: 20,
+            progress: 20,
             docs: [
               {
                 name: 'link',
@@ -71,12 +72,13 @@ export class CourceMockService implements AbstractCourceService {
               state: true,
               days: 20,
             },
-            comletedPersentage: 20,
+            progress: 20,
             averageScore: 23,
             isStarted: true,
             startDate: '01.02.1999',
             isEnded: false,
             planEndDate: '01.02.1999',
+            couchAwilableTill: '01.02.1999',
             realEndDate: '01.02.1999',
             docs: [
               {
@@ -98,7 +100,6 @@ export class CourceMockService implements AbstractCourceService {
                 link: 'asdasd',
               },
             ],
-            score: 12,
             shouldPay: true,
             statistics: {
               tests: {
@@ -115,32 +116,6 @@ export class CourceMockService implements AbstractCourceService {
               },
             },
             modules: [
-              {
-                id: '1',
-                title: 'string',
-                status: 'active',
-                averageScore: 123,
-                lessonsPreviews: {
-                  count: 2,
-                  passed: 1,
-                  value: [
-                    {
-                      id: '1',
-                      title: 'title2',
-                      passed: true,
-                      edgeDate: '01.02.1999',
-                    },
-
-                    {
-                      id: '2',
-                      title: 'title3',
-                      passed: false,
-                      edgeDate: '01.02.1999',
-                    },
-                  ],
-                },
-              },
-
               {
                 id: '2',
                 title: 'string2',
@@ -166,6 +141,63 @@ export class CourceMockService implements AbstractCourceService {
 
                     {
                       id: '5',
+                      title: 'title3',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+                  ],
+                },
+              },
+              {
+                id: '5',
+                title: 'string2',
+                status: 'ended',
+                averageScore: 123,
+                lessonsPreviews: {
+                  count: 2,
+                  passed: 1,
+                  value: [
+                    {
+                      id: '3',
+                      title: 'title',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '4',
+                      title: 'title2',
+                      passed: true,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '5',
+                      title: 'title3',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+                  ],
+                },
+              },
+              {
+                id: '1',
+                title: 'string',
+                status: 'active',
+                averageScore: 123,
+                lessonsPreviews: {
+                  count: 2,
+                  passed: 1,
+                  value: [
+                    {
+                      id: '1',
+                      title: 'title2',
+                      passed: true,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '2',
                       title: 'title3',
                       passed: false,
                       edgeDate: '01.02.1999',
@@ -207,7 +239,6 @@ export class CourceMockService implements AbstractCourceService {
                 },
               },
             ],
-            couchAwilableTill: '01.02.1999',
           },
           message: '',
           description: '',

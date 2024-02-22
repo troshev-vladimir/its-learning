@@ -6,7 +6,7 @@
           <client-only>
             <UiBaseTracker
               class="course-card__tracker"
-              :value="course.comletedPersentage"
+              :value="course.progress"
             />
           </client-only>
           <nuxt-link to="/course/1/description/">

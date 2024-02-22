@@ -10,23 +10,21 @@ export class CourceService implements AbstractCourceService {
   }
 
   async courcePreview(userId: string) {
-    const { data } = await this.api.get('users', {
-      signal: userAbortController.signal,
+    const { data } = await this.api.get('/cource/preview', {
       params: { userId },
     })
     return data
   }
 
   async cource(userId: string) {
-    const { data } = await this.api.get('users', {
-      signal: userAbortController.signal,
+    const { data } = await this.api.get('/cource/program', {
       params: { userId },
     })
     return data
   }
 
   async lesson(lessonId: string) {
-    const { data } = await this.api.get('cource', {
+    const { data } = await this.api.get('/cource/lesson', {
       params: { lessonId },
     })
     return data
