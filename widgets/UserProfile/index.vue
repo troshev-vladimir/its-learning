@@ -14,7 +14,7 @@
       <div class="column items-center q-gutter-sm items-sm-start">
         <h2 class="text-h2">
           <span style="text-transform: capitalize">
-            {{ user.name + ' ' + user.surname + ' ' + user.thirdname }}
+            {{ user.name + ' ' + user.thirdname + ' ' + user.surname }}
           </span>
         </h2>
         <div class="d-flex justify-between justify-md-start">

@@ -14,9 +14,12 @@
         @click="closeSidebarOnMobile"
       >
         <div class="user-info-block__photo-span">
+          <img v-if="user?.photoUrl" :src="user?.photoUrl" alt="" />
           <img src="~/assets/img/base-user-image.svg" alt="" />
         </div>
-        <p v-if="isOpen" class="user-info-block__name">Виктор Андреевич</p>
+        <p v-if="isOpen" class="user-info-block__name">
+          {{ user?.name + ' ' + user?.thirdname }}
+        </p>
       </NuxtLink>
       <div class="the-sidebar__link-list">
         <AppTheSidebarBaseSidebarLink
@@ -47,6 +50,7 @@
 
 <script lang="ts" setup>
 import type { RouterLinkProps } from 'vue-router'
+import { useUserStore } from '~/stores/user/index'
 
 interface LinkInterface {
   icon?: string | string[]
@@ -66,6 +70,7 @@ const { isOpen } = $sidebar
 const sidebar = ref<HTMLElement | null>(null)
 const { startBodyFreez, stopBodyFreez } = useBodyFreez(isOpen)
 const isLoading = ref(true)
+const { user } = storeToRefs(useUserStore())
 
 const closeSidebarOnMobile = () => {
   if (window.outerWidth < 600 && isOpen.value === true) {
