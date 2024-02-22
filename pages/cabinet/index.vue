@@ -7,16 +7,28 @@
         :event="event"
       />
     </div>
-    <WidgetUserProfile v-if="!error" :loadding="CourcePending" />
-    <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <WidgetCourseCard v-if="courcePreview" :course="courcePreview" />
-    <FeatureUserDebt />
+    <NuxtLazyHydrate when-visible>
+      <LazyWidgetUserProfile v-if="!error" :loadding="CourcePending" />
+    </NuxtLazyHydrate>
+    <NuxtLazyHydrate when-visible>
+      <LazyFeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
+    </NuxtLazyHydrate>
 
-    <UiBasePopup v-model="testPopup" class="target-training-test">
-      <template #default>
-        <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
-      </template>
-    </UiBasePopup>
+    <NuxtLazyHydrate when-visible>
+      <LazyWidgetCourseCard v-if="courcePreview" :course="courcePreview" />
+    </NuxtLazyHydrate>
+
+    <NuxtLazyHydrate when-visible>
+      <LazyFeatureUserDebt />
+    </NuxtLazyHydrate>
+
+    <NuxtLazyHydrate when-visible>
+      <LazyUiBasePopup v-model="testPopup" class="target-training-test">
+        <template #default>
+          <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
+        </template>
+      </LazyUiBasePopup>
+    </NuxtLazyHydrate>
   </div>
 </template>
 

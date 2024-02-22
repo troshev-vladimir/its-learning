@@ -4,6 +4,7 @@
     :to="to"
     class="base-sidebar-link"
     :class="{ full: sidebarStatus }"
+    no-prefetch
   >
     <div
       v-tippy="{

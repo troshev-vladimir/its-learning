@@ -9,7 +9,7 @@ import type { UiDatePicker } from '#build/components';
     @submit="sendForm"
   >
     <div class="row q-col-gutter-y-sm q-col-gutter-x-lg">
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.name.$model"
           name="name"
@@ -21,7 +21,7 @@ import type { UiDatePicker } from '#build/components';
           }"
         />
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.surname.$model"
           name="surname"
@@ -34,7 +34,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.lastname.$model"
           name="lastname"
@@ -47,7 +47,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiDatePicker
           v-model="v$.birthdate.$model"
           name="birthdate"
@@ -60,7 +60,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.birthplace.$model"
           name="birthplace"
@@ -75,7 +75,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.snils.$model"
           name="snils"
@@ -89,7 +89,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.pasport.$model"
           name="pasport"
@@ -103,7 +103,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.departmentCode.$model"
           name="departmentCode"
@@ -117,7 +117,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <UiDatePicker
           v-model="v$.extradition.$model"
           name="extradition"

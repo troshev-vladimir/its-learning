@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: ['nuxt-quasar-ui', '@pinia/nuxt'],
+  modules: ['nuxt-quasar-ui', '@pinia/nuxt', 'nuxt-lazy-hydrate'],
 
   pinia: {
     storesDirs: ['./stores/**'],
