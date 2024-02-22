@@ -29,7 +29,8 @@
             v-if="value.status === 'active'"
             class="text-body2 education-module-accordion__progress"
           >
-            1/10 уроков пройдено
+            {{ value.lessonsPreviews.passed }}/{{ value.lessonsPreviews.count }}
+            уроков пройдено
           </p>
           <ClientOnly>
             <font-awesome-icon
@@ -40,6 +41,7 @@
           <UiBaseAverageScore
             v-if="value.status === 'ended'"
             :has-tip="false"
+            :value="value.averageScore"
             class="education-module-accordion__average-score"
           />
         </div>
@@ -47,7 +49,15 @@
     </template>
     <template #default>
       <div class="education-module-accordion__container" @click.prevent>
-        <slot></slot>
+        <FeatureEducationLessonAccordion
+          v-for="(lesson, index) in value.lessonsPreviews.value"
+          :key="index"
+          class="accordion-lesson"
+        >
+          <template #default>
+            <FeatureEducationLessonCard :value="lesson" />
+          </template>
+        </FeatureEducationLessonAccordion>
       </div>
     </template>
   </UiExpancionItem>
@@ -55,16 +65,11 @@
 <script lang="ts" setup>
 import type { CourceModule } from '~/api/cource/types'
 interface Props {
-  value?: CourceModule
+  value: CourceModule
   modelValue: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
-  value: () => ({
-    id: '123',
-    title: 'Название модуля',
-    status: 'active',
-  }),
 })
 
 const router = useRouter()
@@ -165,6 +170,12 @@ const onClickHeader = () => {
 
   &__container {
     padding: 16px;
+
+    .accordion-lesson {
+      &:not(:last-child) {
+        margin-bottom: 16px;
+      }
+    }
   }
 }
 </style>

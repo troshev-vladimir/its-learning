@@ -14,8 +14,18 @@ export class CourceController {
     return cource
   }
 
+  async getCourcePreview(id: string) {
+    const { data: courcePreview } = await this.repository.courcePreview(id)
+
+    if (!courcePreview) {
+      throw new CustomError('NOT_FOUND', 404, 'Превью Курса не найдено')
+    }
+
+    return courcePreview
+  }
+
   async getLesson(id: string) {
-    const { data: lesson } = await this.repository.cource(id)
+    const { data: lesson } = await this.repository.lesson(id)
 
     if (!lesson) {
       throw new CustomError('NOT_FOUND', 404, 'Урок не найден')

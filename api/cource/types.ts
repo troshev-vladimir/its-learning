@@ -2,6 +2,7 @@ import type { Responce } from '../types'
 
 export interface CourcePreview {
   title: string
+  comletedPersentage: number
   isStarted: boolean
   startDate?: string
   diplomas?: ILink[]
@@ -10,6 +11,7 @@ export interface CourcePreview {
   isEnded?: boolean
   docs?: ILink[]
   averageScore?: number
+  shouldPay: boolean
   academ?: {
     state: boolean
     date: string
@@ -25,7 +27,6 @@ export interface CourceFull extends CourcePreview {
   averageScore?: number
   score?: number
   isEnded?: boolean
-  shouldPay?: boolean
   statistics: {
     tests: CourceStaisticItem
     video: CourceStaisticItem

@@ -54,7 +54,7 @@ export async function TinkoffPayment(
 
     orderData.OrderId = orderId
 
-    const token = await $fetch<string>('/api/payment/', {
+    const token = await $fetch<string>('/api/payment/token', {
       method: 'POST',
       body: JSON.stringify(orderData),
     })
@@ -100,12 +100,11 @@ export async function TinkoffPayment(
 }
 
 const getOrderId = async (payload: DataForOriderId) => {
-  const { data } = await useFetch('/api/payment/orderid', {
+  const { data, error } = await useFetch('/api/payment/orderid', {
     body: JSON.stringify(payload),
     method: 'POST',
   })
-  console.log(data)
-
+  if (error.value) throw error.value
   if (!data.value) throw new Error('orderId не передан')
   return 1
 }

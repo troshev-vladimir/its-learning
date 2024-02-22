@@ -18,11 +18,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { CourceStaisticItem } from '~/api/cource'
+
 defineProps<{
-  statistic: {
-    score: number
-    total: number
-  }
+  statistic: CourceStaisticItem
   icon: string | string[]
   title: string
 }>()

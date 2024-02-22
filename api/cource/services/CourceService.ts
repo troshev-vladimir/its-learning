@@ -1,5 +1,5 @@
 import type { api } from '~/api/types'
-import type { AbstractCourceService, Cource } from '../types'
+import type { AbstractCourceService } from '../types'
 import { CustomError } from '~/api/CustomError'
 const userAbortController = new AbortController()
 export class CourceService implements AbstractCourceService {

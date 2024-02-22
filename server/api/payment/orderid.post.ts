@@ -6,6 +6,7 @@ const authToken = Buffer.from(`Http_Service_Test:XI5su3ce`).toString('base64')
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  console.log(authToken)
 
   try {
     const resp = await $fetch(
@@ -20,11 +21,13 @@ export default defineEventHandler(async (event) => {
     )
 
     return resp
-  } catch (err) {
-    console.log(err)
+  } catch (err: any) {
     throw createError({
-      message: 'Authorization Failed',
-      statusCode: 401,
+      statusMessage: err.message,
+      statusCode: err.status,
+      data: {
+        description: 'Вероятно с бека не ришли данные orderdata',
+      },
     })
   }
 })

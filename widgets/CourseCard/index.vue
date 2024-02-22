@@ -4,7 +4,10 @@
       <div class="course-card__left-side">
         <div class="left-side__block">
           <client-only>
-            <UiBaseTracker class="course-card__tracker" :value="course.score" />
+            <UiBaseTracker
+              class="course-card__tracker"
+              :value="course.comletedPersentage"
+            />
           </client-only>
           <nuxt-link to="/course/1/description/">
             <p class="text-h2">{{ course.title }}</p>
@@ -65,16 +68,28 @@
         <ClientOnly>
           <PaymentButton v-show="course.shouldPay" />
         </ClientOnly>
-
-        <div class="course-card__link-list">
-          <UiBaseButton
-            v-for="(doc, i) in course.docs"
-            :key="i"
-            type="external-link"
-            size="small"
-          >
-            {{ doc.name }}
-          </UiBaseButton>
+        <div class="course-card__links">
+          <div class="course-card__link-list">
+            <UiBaseButton
+              v-for="(doc, i) in course.docs"
+              :key="i"
+              type="external-link"
+              size="small"
+            >
+              {{ doc.name }}
+            </UiBaseButton>
+          </div>
+          <div class="course-card__link-list">
+            <UiBaseButton
+              v-for="(diploma, i) in course.diplomas"
+              :key="i"
+              type="external-link"
+              size="small"
+              :to="diploma.link"
+            >
+              {{ diploma.name }}
+            </UiBaseButton>
+          </div>
         </div>
       </div>
     </div>
@@ -84,55 +99,14 @@
 <script lang="ts" setup>
 import PaymentButton from './ui/PaymentButton.vue'
 import AcademyButton from './ui/AcademyButton.vue'
+import type { CourcePreview } from '~/api/cource/types'
 
 const emit = defineEmits(['pay'])
 
-interface PropsCourse {
-  course: Course
+interface Props {
+  course: CourcePreview
 }
-withDefaults(defineProps<PropsCourse>(), {
-  course: () => {
-    return {
-      title: '1С:Профессиональный разработчик',
-      averageScore: 4.96,
-      trial: { state: true, days: 31 },
-      academ: { state: false, date: '20.01.2024' },
-      isStarted: true,
-      startDate: '20.01.2024',
-      isEnded: true,
-      planEndDate: '20.12.2024',
-      realEndDate: '10.10.2024',
-      docs: [
-        {
-          name: 'Договор оферты',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-        {
-          name: 'Приложение №1',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-        {
-          name: 'Приложение №2',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-        {
-          name: 'Диплом',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-        {
-          name: 'Сертификат №1',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-        {
-          name: 'Сертификат №2',
-          link: 'https://taiga.itsportal.ru/project/its-education/taskboard/sprint-1',
-        },
-      ],
-      score: 80,
-      shouldPay: true,
-    }
-  },
-})
+const props = defineProps<Props>()
 </script>
 
 <style lang="scss">
@@ -193,11 +167,16 @@ withDefaults(defineProps<PropsCourse>(), {
     }
   }
 
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: $md;
+  }
+
   &__link-list {
     display: flex;
     flex-wrap: wrap;
-    column-gap: $md;
-    row-gap: $sm;
+    gap: $sm;
 
     @include media($bp-sm) {
       justify-content: flex-end;

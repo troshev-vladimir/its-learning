@@ -1,99 +1,247 @@
-import type { api } from '~/api/types'
-import type { AbstractCourceService, Cource } from '../types'
-import { CustomError } from '~/api/CustomError'
-
-const userAbortController = new AbortController()
+import type { Responce } from '~/api/types'
+import type {
+  AbstractCourceService,
+  CourceFull,
+  CourceLesson,
+  CourcePreview,
+} from '../types'
 
 export class CourceMockService implements AbstractCourceService {
-  api: api
-
-  constructor(http: api) {
-    this.api = http
-  }
-
-  async courcePreview(userId: string) {
-    return {}
+  async courcePreview() {
+    return new Promise<Responce<CourcePreview>>((res, rej) => {
+      setTimeout(() => {
+        res({
+          data: {
+            title: 'title',
+            academ: {
+              state: true,
+              date: '01.02.1999',
+            },
+            trial: {
+              state: true,
+              days: 20,
+            },
+            averageScore: 23,
+            isStarted: true,
+            startDate: '01.02.1999',
+            isEnded: true,
+            planEndDate: '01.02.1999',
+            realEndDate: '01.02.1999',
+            comletedPersentage: 20,
+            docs: [
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+              {
+                name: 'link2',
+                link: 'asdasd',
+              },
+            ],
+            diplomas: [
+              {
+                name: 'link2',
+                link: 'http://asdasd/asd',
+              },
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+            ],
+            shouldPay: true,
+          },
+          message: '',
+          description: '',
+        })
+      }, 2000)
+    })
   }
 
   async cource() {
-    return {
-      data: {
-        title: 'title',
-        academ: {
-          state: true,
-          date: '01.02.1999',
-        },
-        trial: {
-          state: true,
-          days: 20,
-        },
-        averageScore: 23,
-        isStarted: true,
-        startDate: '01.02.1999',
-        isEnded: false,
-        planEndDate: '01.02.1999',
-        realEndDate: '01.02.1999',
-        docs: [
-          {
-            name: 'link',
-            link: 'asdasd',
-          },
-        ],
-        diplomas: [
-          {
-            name: 'link',
-            link: 'asdasd',
-          },
-        ],
-        score: 12,
-        shouldPay: true,
-        statistics: {
-          tests: {
-            score: 1,
-            total: 3,
-          },
-          video: {
-            score: 1,
-            total: 3,
-          },
-          tasks: {
-            score: 1,
-            total: 3,
-          },
-        },
-        modules: [
-          {
-            id: 'id',
-            title: 'string',
-            status: 'active',
-            averageScore: 123,
-            lessonsPreviews: {
-              count: 2,
-              passed: 1,
-              value: [
-                {
-                  id: 'string',
-                  title: 'title',
-                  passed: false,
-                  edgeDate: '01.02.1999',
-                },
-              ],
+    return new Promise<Responce<CourceFull>>((res, rej) => {
+      setTimeout(() => {
+        res({
+          data: {
+            title: 'title',
+            academ: {
+              state: true,
+              date: '01.02.1999',
             },
+            trial: {
+              state: true,
+              days: 20,
+            },
+            comletedPersentage: 20,
+            averageScore: 23,
+            isStarted: true,
+            startDate: '01.02.1999',
+            isEnded: false,
+            planEndDate: '01.02.1999',
+            realEndDate: '01.02.1999',
+            docs: [
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+              {
+                name: 'link2',
+                link: 'asdasd',
+              },
+            ],
+            diplomas: [
+              {
+                name: 'link2',
+                link: 'asdasd',
+              },
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+            ],
+            score: 12,
+            shouldPay: true,
+            statistics: {
+              tests: {
+                score: 2,
+                total: 3,
+              },
+              video: {
+                score: 2,
+                total: 3,
+              },
+              tasks: {
+                score: 3,
+                total: 3,
+              },
+            },
+            modules: [
+              {
+                id: '1',
+                title: 'string',
+                status: 'active',
+                averageScore: 123,
+                lessonsPreviews: {
+                  count: 2,
+                  passed: 1,
+                  value: [
+                    {
+                      id: '1',
+                      title: 'title2',
+                      passed: true,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '2',
+                      title: 'title3',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+                  ],
+                },
+              },
+
+              {
+                id: '2',
+                title: 'string2',
+                status: 'ended',
+                averageScore: 123,
+                lessonsPreviews: {
+                  count: 2,
+                  passed: 1,
+                  value: [
+                    {
+                      id: '3',
+                      title: 'title',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '4',
+                      title: 'title2',
+                      passed: true,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '5',
+                      title: 'title3',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+                  ],
+                },
+              },
+
+              {
+                id: '3',
+                title: 'string3',
+                status: 'locked',
+                averageScore: 123,
+                lessonsPreviews: {
+                  count: 2,
+                  passed: 1,
+                  value: [
+                    {
+                      id: '1',
+                      title: 'title',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '2',
+                      title: 'title2',
+                      passed: true,
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '3',
+                      title: 'title3',
+                      passed: false,
+                      edgeDate: '01.02.1999',
+                    },
+                  ],
+                },
+              },
+            ],
+            couchAwilableTill: '01.02.1999',
           },
-        ],
-        couchAwilableTill: '01.02.1999',
-      },
-      message: 'string',
-      description: 'string',
-    }
+          message: '',
+          description: '',
+        })
+      }, 2000)
+    })
   }
 
-  async lesson(lessonId: string) {
-    const { data } = await this.api.get('cource', {
-      params: { lessonId },
+  async lesson() {
+    return new Promise<Responce<CourceLesson>>((res, rej) => {
+      setTimeout(() => {
+        res({
+          data: {
+            videoLink: 'string',
+            text: 'string',
+            presentations: [
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+              {
+                name: 'link',
+                link: 'asdasd',
+              },
+            ],
+            testID: 'string',
+            taskID: 'string',
+            result: 'string',
+            legend: [{ date: 'string', title: 'string' }],
+          },
+          message: '',
+          description: '',
+        })
+      }, 2000)
     })
-    return data
   }
 }
-
-export const abort = userAbortController.abort

@@ -7,9 +7,9 @@
         :event="event"
       />
     </div>
-    <WidgetUserProfile v-if="!error" :loadding="pending" />
+    <WidgetUserProfile v-if="!error" :loadding="CourcePending" />
     <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <WidgetCourseCard @pay="() => (payCoursePopup = true)" />
+    <WidgetCourseCard v-if="courcePreview" :course="courcePreview" />
     <FeatureUserDebt />
 
     <UiBasePopup v-model="testPopup" class="target-training-test">
@@ -21,7 +21,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useCourceStore } from '~/stores/cource'
 import { useUserStore } from '~/stores/user'
+
+const courceSotore = useCourceStore()
+const { courcePreview } = storeToRefs(courceSotore)
 
 definePageMeta({
   layout: 'cabinet',
@@ -36,7 +40,6 @@ useSeoMeta({
 const userStore = useUserStore()
 const { hasChanges } = storeToRefs(userStore)
 const testPopup = ref(false)
-const payCoursePopup = ref(false)
 
 const mainEvents = computed(() => {
   if (events.value.length >= 2) {
@@ -62,6 +65,12 @@ const events = ref([
       'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации.',
   },
 ])
+
+const { pending: CourcePending, error: CourseError } = useAsyncData(
+  'cource',
+  () => courceSotore.fetchCourcePreview().then(() => true)
+)
+
 const { pending, error } = await useLazyAsyncData('user', () => {
   if (!hasChanges.value) {
     return new Promise((res) => res(true))
