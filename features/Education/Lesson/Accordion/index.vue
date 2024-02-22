@@ -1,36 +1,38 @@
 <template>
   <UiExpancionItem
-    class="education-lesson-accardion base-block base-shadow"
+    class="education-lesson-accordion base-block base-shadow"
     :model-value="isOpen"
   >
     <template #header>
-      <div class="education-lesson-accardion__header" @click="toggleAccordion">
+      <div class="education-lesson-accordion__header" @click="toggleAccordion">
         <div class="header__left-side">
           <ClientOnly>
             <font-awesome-icon
               icon="fas fa-chevron-down"
-              class="education-lesson-accardion__toggle-icon"
+              class="education-lesson-accordion__toggle-icon"
               :class="{ open: isOpen }"
             />
           </ClientOnly>
         </div>
         <div class="header__right-side">
           <div>
-            <p class="text-body1 text-bold">Пример урока</p>
-            <p class="text-body2">Пройти урок до: 20.01.2024</p>
+            <p class="text-body1 text-bold">{{ lesson?.title }}</p>
+            <p v-if="lesson?.estimatedDate" class="text-body2">
+              Пройти урок до: {{ lesson?.estimatedDate }}
+            </p>
           </div>
           <UiBaseAverageScore
             v-if="false"
             :has-tip="false"
-            class="education-lesson-accardion__average-score"
+            class="education-lesson-accordion__average-score"
           />
-          <p v-if="true">Зачет</p>
-          <p v-if="false">Незачёт</p>
+          <p v-if="lesson?.estimation === true">Зачет</p>
+          <p v-if="lesson?.estimation === false">Незачёт</p>
         </div>
       </div>
     </template>
     <template #default>
-      <div class="education-lesson-accardion__content">
+      <div class="education-lesson-accordion__content">
         <slot></slot>
       </div>
     </template>
@@ -38,12 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-// interface Props {
-//   // modelValue?: boolean
-// }
-// withDefaults(defineProps<Props>(), {
-//   // modelValue: false,
-// })
+import type { LessonWithTask, LessonWithTest } from '~/types'
+
+interface Props {
+  lesson?: LessonWithTest | LessonWithTask
+}
+defineProps<Props>()
 
 const isOpen = ref(false)
 
@@ -53,7 +55,7 @@ const toggleAccordion = () => {
 </script>
 
 <style lang="scss" scoped>
-.education-lesson-accardion {
+.education-lesson-accordion {
   padding: 0;
 
   &__header,
