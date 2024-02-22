@@ -1,6 +1,6 @@
 <template>
   <div class="course-page">
-    <div class="course-page__container">
+    <div v-if="cource" class="course-page__container">
       <div class="course-page__header">
         <div class="header__left-side">
           <p class="text-h2">{{ cource?.title }}</p>
@@ -59,8 +59,8 @@
         <FeatureEducationModuleAccordion
           v-for="(module, index) in cource?.modules"
           :key="index"
-          :model-value="activeModuleIndex == index"
-          :value="module"
+          v-model="cource.modules[index]"
+          :is-open="activeModuleIndex == index"
           @click="() => onClickItem(index)"
         />
       </div>
