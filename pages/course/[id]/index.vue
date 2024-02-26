@@ -1,6 +1,7 @@
 <template>
   <div class="course-page">
-    <div v-if="cource" class="course-page__container">
+    <p v-if="isCourceLoadding">loadding...</p>
+    <div v-else-if="cource" class="course-page__container">
       <div class="course-page__header">
         <div class="header__left-side">
           <p class="text-h2">{{ cource?.title }}</p>
@@ -81,28 +82,10 @@ const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
 const courceSotre = useCourceStore()
-const { cource } = storeToRefs(courceSotre)
+const { cource, isCourceLoadding } = storeToRefs(courceSotre)
 
 const activeModuleIndex = ref(-1)
-const activeLessonIndex = ref(-1)
 
-const lessonMock = {
-  id: '1',
-  title: 'Название урока',
-  description:
-    'Но многие известные личности являются только методом политического участия и преданы социально-демократической анафеме. Кстати, действия представителей оппозиции обнародованы. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом не даёт нам иного выбора, кроме определения как самодостаточных, так и внешне зависимых концептуальных решений.',
-  presentations: [{ name: 'Презентация №1', link: 's' }],
-  test: {
-    id: '123',
-    questions: [
-      { id: '1', text: 'Вопрос?', answers: [{ text: '123', id: '1' }] },
-    ],
-  },
-  comletionDate: '20.01.23',
-  estimation: true,
-  testResult: '5',
-}
-const lessonMock2 = {}
 const onClickItem = (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1

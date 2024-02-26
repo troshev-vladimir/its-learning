@@ -126,23 +126,29 @@ export class CourceMockService implements AbstractCourceService {
                   passed: 1,
                   value: [
                     {
-                      id: '0',
-                      title: 'title',
-                      passed: false,
-                      edgeDate: '01.02.1999',
-                    },
-
-                    {
                       id: '1',
-                      title: 'title2',
-                      passed: true,
+                      title: 'title',
+                      result: '4,2',
+                      status: 'result',
+                      type: 'task',
                       edgeDate: '01.02.1999',
                     },
 
                     {
                       id: '2',
+                      title: 'title2',
+                      result: 'Зачёт',
+                      status: 'result',
+                      type: 'test',
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '5',
                       title: 'title3',
-                      passed: false,
+                      result: '',
+                      status: 'studying',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
                   ],
@@ -158,30 +164,36 @@ export class CourceMockService implements AbstractCourceService {
                   passed: 1,
                   value: [
                     {
-                      id: '3',
+                      id: '1',
                       title: 'title',
-                      passed: false,
+                      result: '4,2',
+                      status: 'result',
+                      type: 'task',
                       edgeDate: '01.02.1999',
                     },
 
                     {
-                      id: '4',
+                      id: '2',
                       title: 'title2',
-                      passed: true,
+                      result: 'Зачёт',
+                      status: 'result',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
 
                     {
                       id: '5',
                       title: 'title3',
-                      passed: false,
+                      result: '',
+                      status: 'studying',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
                   ],
                 },
               },
               {
-                id: '1',
+                id: '2',
                 title: 'string',
                 status: 'active',
                 averageScore: 123,
@@ -191,15 +203,28 @@ export class CourceMockService implements AbstractCourceService {
                   value: [
                     {
                       id: '1',
-                      title: 'title2',
-                      passed: true,
+                      title: 'title',
+                      result: '4,2',
+                      status: 'result',
+                      type: 'task',
                       edgeDate: '01.02.1999',
                     },
 
                     {
                       id: '2',
+                      title: 'title2',
+                      result: 'Зачёт',
+                      status: 'result',
+                      type: 'test',
+                      edgeDate: '01.02.1999',
+                    },
+
+                    {
+                      id: '5',
                       title: 'title3',
-                      passed: false,
+                      result: '',
+                      status: 'studying',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
                   ],
@@ -207,7 +232,7 @@ export class CourceMockService implements AbstractCourceService {
               },
 
               {
-                id: '3',
+                id: '1',
                 title: 'string3',
                 status: 'locked',
                 averageScore: 123,
@@ -218,21 +243,27 @@ export class CourceMockService implements AbstractCourceService {
                     {
                       id: '1',
                       title: 'title',
-                      passed: false,
+                      result: '4,2',
+                      status: 'result',
+                      type: 'task',
                       edgeDate: '01.02.1999',
                     },
 
                     {
                       id: '2',
                       title: 'title2',
-                      passed: true,
+                      result: 'Зачёт',
+                      status: 'result',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
 
                     {
-                      id: '3',
+                      id: '5',
                       title: 'title3',
-                      passed: false,
+                      result: '',
+                      status: 'studying',
+                      type: 'test',
                       edgeDate: '01.02.1999',
                     },
                   ],
@@ -256,6 +287,7 @@ export class CourceMockService implements AbstractCourceService {
               id: '1',
               videoLink: 'string',
               text: 'string',
+              type: 'task',
               status: 'studying',
               presentations: [
                 {
@@ -283,6 +315,7 @@ export class CourceMockService implements AbstractCourceService {
           res({
             data: {
               id: '2',
+              type: 'task',
               text: 'string',
               status: 'studying',
               presentations: [

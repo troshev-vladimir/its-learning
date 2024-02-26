@@ -40,6 +40,7 @@
               icon="fas fa-lock"
             />
           </ClientOnly>
+
           <UiBaseAverageScore
             v-if="localValue.status === 'ended'"
             :has-tip="false"
@@ -55,7 +56,7 @@
           v-for="(lessonPrewiew, index) in localValue.lessonsPreviews.value"
           :key="index"
           class="accordion-lesson"
-          :lesson-prewiew="lessonPrewiew"
+          :lesson-preview="lessonPrewiew"
         >
         </FeatureEducationLessonAccordion>
       </div>
@@ -180,15 +181,9 @@ const onClickHeader = () => {
 
   &__container {
     padding: 16px;
-
-    .accordion-lesson {
-      &:not(:last-child) {
-        margin-bottom: 16px;
-      }
-    }
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    gap: 16px;
     background: $white;
     border-radius: 8px;
   }

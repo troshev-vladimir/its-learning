@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoading" class="education-lesson-card">
+  <div v-if="!isLoading && lesson" class="education-lesson-card">
     <div class="education-lesson-card__container">
       <div v-if="lesson.videoLink" class="education-lesson-card__video">
         <div class="video__player" />
@@ -24,7 +24,7 @@
           Пройти тест
         </UiBaseButton>
         <UiBaseButton
-          v-if="lesson.status === 'studying' && lesson.testID"
+          v-if="lesson.status === 'studying' && lesson.taskID"
           type="primary"
           size="small"
         >
@@ -52,20 +52,17 @@
       </div>
     </div>
   </div>
-  <Skeleton v-else />
+  <Skeleton v-else with-video />
 </template>
 
 <script lang="ts" setup>
 import type { CourceLesson } from '~/api/cource/types'
 import Skeleton from './skeleton.vue'
 
-interface Props {
-  lesson: CourceLesson
-}
-
-defineProps<Props>()
-
-const isLoading = ref<boolean>(false)
+defineProps<{
+  lesson: CourceLesson | undefined
+  isLoading: boolean
+}>()
 </script>
 
 <style lang="scss" scoped>
