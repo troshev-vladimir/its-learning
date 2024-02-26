@@ -1,5 +1,5 @@
 <template>
-  <div class="payment-card base-block">
+  <div v-if="isLoading === false" class="payment-card base-block">
     <div class="payment-card__container">
       <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
       <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
@@ -123,6 +123,7 @@
       </div>
     </div>
   </div>
+  <Skeleton v-else />
 </template>
 
 <script lang="ts" setup>
@@ -131,6 +132,7 @@ import { useUserStore } from '~/stores/user'
 import { useNotification } from '@kyvg/vue3-notification'
 import { TinkoffPayment } from '~/utils/TinkoffPayment'
 import { buyViaInstallment } from '~/utils/TinkoffInstallment'
+import Skeleton from './skeleton.vue'
 
 const { notify } = useNotification()
 
@@ -153,6 +155,8 @@ interface ICost {
 interface Props {
   value: ICost
 }
+
+const isLoading = ref(false)
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => ({

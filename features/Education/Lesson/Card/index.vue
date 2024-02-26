@@ -1,5 +1,5 @@
 <template>
-  <div class="education-lesson-card">
+  <div v-if="!isLoading" class="education-lesson-card">
     <div class="education-lesson-card__container">
       <div class="education-lesson-card__video">
         <div class="video__player"></div>
@@ -48,25 +48,27 @@
           class="education-lesson-card__result-block"
         >
           <p class="text-body2">
-            Задание получено: {{ (lesson as LessonWithTask)?.task.receptDate }}
+            Задание получено: {{ (lesson as LessonWithTask).task.receptDate }}
           </p>
           <p class="text-body2">
             Задание принято:
-            {{ (lesson as LessonWithTask)?.task.acceptanceDate }}
+            {{ (lesson as LessonWithTask).task.acceptanceDate }}
           </p>
           <p class="text-body2">
             Результат выполнеия:
             <span class="text-blue-600">
-              {{ (lesson as LessonWithTask)?.task.result }}
+              {{ (lesson as LessonWithTask).task.result }}
             </span>
           </p>
         </div>
       </div>
     </div>
   </div>
+  <Skeleton v-else />
 </template>
 
 <script lang="ts" setup>
+import Skeleton from './skeleton.vue'
 import type { LessonWithTask, LessonWithTest } from '~/types'
 
 interface Props {
@@ -74,6 +76,8 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const isLoading = ref<boolean>(false)
 </script>
 
 <style lang="scss" scoped>
@@ -104,6 +108,7 @@ defineProps<Props>()
 
   &__video {
     width: 100%;
+    max-height: 100%;
 
     @include media($bp-md) {
       width: 50%;
