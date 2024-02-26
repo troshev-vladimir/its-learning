@@ -1,5 +1,5 @@
 <template>
-  <div class="course-card base-block">
+  <div v-if="!isLoading" class="course-card base-block">
     <div class="course-card__container">
       <div class="course-card__left-side">
         <div class="left-side__block">
@@ -94,12 +94,14 @@
       </div>
     </div>
   </div>
+  <skeleton v-if="isLoading" />
 </template>
 
 <script lang="ts" setup>
 import PaymentButton from './ui/PaymentButton.vue'
 import AcademyButton from './ui/AcademyButton.vue'
 import type { CourcePreview } from '~/api/cource/types'
+import Skeleton from './skeleton.vue'
 
 const emit = defineEmits(['pay'])
 
@@ -107,6 +109,7 @@ interface Props {
   course: CourcePreview
 }
 const props = defineProps<Props>()
+const isLoading = ref(false)
 </script>
 
 <style lang="scss">

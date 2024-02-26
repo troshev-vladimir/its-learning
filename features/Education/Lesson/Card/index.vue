@@ -1,5 +1,5 @@
 <template>
-  <div class="education-lesson-card">
+  <div v-if="!isLoading" class="education-lesson-card">
     <div class="education-lesson-card__container">
       <div v-if="lesson.videoLink" class="education-lesson-card__video">
         <div class="video__player" />
@@ -52,15 +52,20 @@
       </div>
     </div>
   </div>
+  <Skeleton v-else />
 </template>
 
 <script lang="ts" setup>
 import type { CourceLesson } from '~/api/cource/types'
+import Skeleton from './skeleton.vue'
+
 interface Props {
   lesson: CourceLesson
 }
 
 defineProps<Props>()
+
+const isLoading = ref<boolean>(false)
 </script>
 
 <style lang="scss" scoped>
@@ -91,6 +96,7 @@ defineProps<Props>()
 
   &__video {
     width: 100%;
+    max-height: 100%;
 
     @include media($bp-md) {
       width: 50%;

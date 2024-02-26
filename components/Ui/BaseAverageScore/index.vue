@@ -3,15 +3,17 @@ withDefaults(
   defineProps<{
     value?: number | string
     hasTip?: boolean
+    isLoading?: boolean
   }>(),
   {
+    isLoading: false,
     hasTip: true,
   }
 )
 </script>
 
 <template>
-  <div class="base-average-score">
+  <div v-if="isLoading === false" class="base-average-score">
     <p v-if="value" class="base-average-score__value text-body1 text-bold">
       {{ value }}
     </p>
@@ -32,6 +34,7 @@ withDefaults(
       />
     </div>
   </div>
+  <UiBaseAverageScoreSkeleton v-else />
 </template>
 
 <style lang="scss" scoped>

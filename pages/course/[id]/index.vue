@@ -55,7 +55,7 @@
         Доступ к наставнику до {{ cource?.couchAwilableTill }}
       </p>
 
-      <div class="column q-gutter-md">
+      <div class="course-page__education-block">
         <FeatureEducationModuleAccordion
           v-for="(module, index) in cource?.modules"
           :key="index"
@@ -178,6 +178,12 @@ onMounted(() => {
 
   &__access-mentor {
     margin-top: 32px;
+  }
+
+  &__education-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
