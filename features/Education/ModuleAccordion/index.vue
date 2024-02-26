@@ -57,9 +57,6 @@
           class="accordion-lesson"
           :lesson-prewiew="lessonPrewiew"
         >
-          <template #default>
-            <FeatureEducationLessonCard :id="lessonPrewiew.id" />
-          </template>
         </FeatureEducationLessonAccordion>
       </div>
     </template>

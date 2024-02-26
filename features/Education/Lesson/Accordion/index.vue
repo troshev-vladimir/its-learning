@@ -33,14 +33,16 @@
     </template>
     <template #default>
       <div class="education-lesson-accordion__content">
-        <slot></slot>
+        <p v-if="isLessonLoadding">Loadding...</p>
+        <FeatureEducationLessonCard v-else-if="lesson" :lesson="lesson" />
       </div>
     </template>
   </UiExpancionItem>
 </template>
 
 <script lang="ts" setup>
-import type { LessonPreview } from '~/api/cource'
+import type { CourceLesson, LessonPreview } from '~/api/cource'
+import { api } from '~/api'
 
 interface Props {
   lessonPrewiew: LessonPreview
@@ -48,9 +50,22 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {})
 
 const isOpen = ref(false)
+const isLessonLoadding = ref(false)
+const lesson = ref<CourceLesson>()
 
 const toggleAccordion = () => {
   isOpen.value = !isOpen.value
+
+  if (isOpen.value && !lesson.value) {
+    fetchLesson(props.lessonPrewiew.id)
+  }
+}
+
+const fetchLesson = async (id: string) => {
+  isLessonLoadding.value = true
+  lesson.value = await api.cource.getLesson('2')
+  console.log(lesson.value)
+  isLessonLoadding.value = false
 }
 </script>
 

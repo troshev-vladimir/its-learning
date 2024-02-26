@@ -25,6 +25,11 @@ export const useCourceStore = defineStore('courceStore', () => {
     isCourceLoadding.value = false
   }
 
+  const fetchLesson = async () => {
+    const resp = await api.cource.getLesson('1')
+    return resp
+  }
+
   function $reset() {
     cource.value = undefined
     hasChanges.value = true
@@ -37,6 +42,7 @@ export const useCourceStore = defineStore('courceStore', () => {
     fetchCourcePreview,
     hasChanges,
     fetchCource,
+    fetchLesson,
     $reset,
   }
 })

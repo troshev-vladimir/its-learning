@@ -247,32 +247,64 @@ export class CourceMockService implements AbstractCourceService {
     })
   }
 
-  async lesson() {
-    return new Promise<Responce<CourceLesson>>((res, rej) => {
-      setTimeout(() => {
-        res({
-          data: {
-            videoLink: 'string',
-            text: 'string',
-            presentations: [
-              {
-                name: 'link',
-                link: 'asdasd',
-              },
-              {
-                name: 'link',
-                link: 'asdasd',
-              },
-            ],
-            testID: 'string',
-            taskID: 'string',
-            result: 'string',
-            legend: [{ date: 'string', title: 'string' }],
-          },
-          message: '',
-          description: '',
-        })
-      }, 2000)
-    })
+  async lesson(id: string) {
+    if (id === '1') {
+      return new Promise<Responce<CourceLesson>>((res, rej) => {
+        setTimeout(() => {
+          res({
+            data: {
+              id: '1',
+              videoLink: 'string',
+              text: 'string',
+              status: 'studying',
+              presentations: [
+                {
+                  name: 'link',
+                  link: 'asdasd',
+                },
+                {
+                  name: 'link',
+                  link: 'asdasd',
+                },
+              ],
+              testID: 'string',
+              taskID: 'string',
+              result: 'string',
+              legend: [{ date: 'string', title: 'string' }],
+            },
+            message: '',
+            description: '',
+          })
+        }, 2000)
+      })
+    } else {
+      return new Promise<Responce<CourceLesson>>((res, rej) => {
+        setTimeout(() => {
+          res({
+            data: {
+              id: '2',
+              text: 'string',
+              status: 'studying',
+              presentations: [
+                {
+                  name: 'link',
+                  link: 'asdasd',
+                },
+                {
+                  name: 'link',
+                  link: 'asdasd',
+                },
+              ],
+              testID: 'string',
+              taskID: 'string',
+              result: 'string',
+              legend: [{ date: 'string', title: 'string' }],
+            },
+            message: '',
+            description: '',
+          })
+        }, 2000)
+      })
+    }
   }
 }

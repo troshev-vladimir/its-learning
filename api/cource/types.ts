@@ -47,20 +47,25 @@ export interface CourceModule {
 }
 
 export interface LessonPreview {
-  id?: string
+  id: string
   title?: string
   passed?: boolean
-  edgeDate: string
+  edgeDate?: string
+  isExpired?: boolean
+  lesson?: CourceLesson
 }
 
 export interface CourceLesson {
-  videoLink: string
-  text: string
-  presentations: ILink[]
-  testID: string
-  taskID: string
-  result: string
-  legend: LegendItem[]
+  id: string
+  videoLink?: string
+  text?: string
+  presentations?: ILink[]
+  testID?: string
+  taskID?: string
+  result?: string
+  legend?: LegendItem[] // Тут надо посоветоваться с беками, по поводу делать это так или кучей флагов
+  status: 'studying' | 'verification' | 'result'
+  uploadedFiles?: Array<any>
 }
 
 export interface LegendItem {
