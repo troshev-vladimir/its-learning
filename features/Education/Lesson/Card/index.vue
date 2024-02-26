@@ -20,6 +20,7 @@
           v-if="lesson.status === 'studying' && lesson.testID"
           type="primary"
           size="small"
+          @click="isTest = true"
         >
           Пройти тест
         </UiBaseButton>
@@ -50,6 +51,12 @@
           </p>
         </div>
       </div>
+
+      <UiBasePopup v-model="isTest" class="target-training-test">
+        <template #default>
+          <FeatureTest class="base-block" @submit="() => (isTest = false)" />
+        </template>
+      </UiBasePopup>
     </div>
   </div>
   <Skeleton v-else with-video />
@@ -63,6 +70,8 @@ defineProps<{
   lesson: CourceLesson | undefined
   isLoading: boolean
 }>()
+
+const isTest = ref(false)
 </script>
 
 <style lang="scss" scoped>
