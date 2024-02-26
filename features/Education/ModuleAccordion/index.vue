@@ -131,8 +131,7 @@ const onClickHeader = () => {
       justify-content: space-between;
       flex: 1 1 auto;
       flex-wrap: wrap;
-      column-gap: 16px;
-      row-gap: 4px;
+      gap: 16px;
       padding: 16px;
 
       @include media($bp-xs) {
