@@ -93,7 +93,6 @@ const onClickHeader = () => {
 <style lang="scss" scoped>
 .education-module-accordion {
   border-radius: $radius;
-  overflow: hidden;
   background: $white;
 
   &__header,
@@ -169,6 +168,11 @@ const onClickHeader = () => {
 
   &__container {
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    background: $white;
+    border-radius: 8px;
   }
 }
 </style>

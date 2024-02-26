@@ -41,7 +41,7 @@
         Доступ к наставнику до 20.08.2024
       </p>
 
-      <div class="column q-gutter-md">
+      <div class="course-page__education-block">
         <FeatureEducationModuleAccordion
           v-for="(item, index) in 5"
           :key="index"
@@ -58,8 +58,17 @@
               <FeatureEducationLessonCard :lesson="lessonMock" />
             </template>
           </FeatureEducationLessonAccordion>
+          <FeatureEducationLessonAccordion :lesson="lessonMock">
+            <template #default>
+              <FeatureEducationLessonCard :lesson="lessonMock" />
+            </template>
+          </FeatureEducationLessonAccordion>
+          <FeatureEducationLessonAccordion :lesson="lessonMock">
+            <template #default>
+              <FeatureEducationLessonCard :lesson="lessonMock" />
+            </template>
+          </FeatureEducationLessonAccordion>
         </FeatureEducationModuleAccordion>
-        <br />
         <FeatureEducationModuleAccordion
           :value="{
             id: '11',
@@ -71,7 +80,6 @@
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
-        <br />
         <FeatureEducationModuleAccordion
           :value="{
             id: '11',
@@ -83,7 +91,6 @@
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
-        <br />
         <FeatureEducationModuleAccordion
           :value="{
             id: '12',
@@ -219,6 +226,12 @@ const statistics = {
 
   &__access-mentor {
     margin-top: 32px;
+  }
+
+  &__education-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
