@@ -17,15 +17,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import type { LessonWithTask, LessonWithTest } from '~/types'
-
-interface Props {
-  lesson?: LessonWithTest | LessonWithTask
-}
-
-defineProps<Props>()
-</script>
+<script lang="ts" setup></script>
 
 <script lang="ts">
 export default {}
