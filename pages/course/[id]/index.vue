@@ -86,6 +86,23 @@ const { cource } = storeToRefs(courceSotre)
 const activeModuleIndex = ref(-1)
 const activeLessonIndex = ref(-1)
 
+const lessonMock = {
+  id: '1',
+  title: 'Название урока',
+  description:
+    'Но многие известные личности являются только методом политического участия и преданы социально-демократической анафеме. Кстати, действия представителей оппозиции обнародованы. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом не даёт нам иного выбора, кроме определения как самодостаточных, так и внешне зависимых концептуальных решений.',
+  presentations: [{ name: 'Презентация №1', link: 's' }],
+  test: {
+    id: '123',
+    questions: [
+      { id: '1', text: 'Вопрос?', answers: [{ text: '123', id: '1' }] },
+    ],
+  },
+  comletionDate: '20.01.23',
+  estimation: true,
+  testResult: '5',
+}
+const lessonMock2 = {}
 const onClickItem = (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1

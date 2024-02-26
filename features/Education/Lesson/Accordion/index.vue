@@ -1,15 +1,15 @@
 <template>
   <UiExpancionItem
-    class="education-lesson-accardion base-block base-shadow"
+    class="education-lesson-accordion base-block base-shadow"
     :model-value="isOpen"
   >
     <template #header>
-      <div class="education-lesson-accardion__header" @click="toggleAccordion">
+      <div class="education-lesson-accordion__header" @click="toggleAccordion">
         <div class="header__left-side">
           <ClientOnly>
             <font-awesome-icon
               icon="fas fa-chevron-down"
-              class="education-lesson-accardion__toggle-icon"
+              class="education-lesson-accordion__toggle-icon"
               :class="{ open: isOpen }"
             />
           </ClientOnly>
@@ -32,7 +32,7 @@
       </div>
     </template>
     <template #default>
-      <div class="education-lesson-accardion__content">
+      <div class="education-lesson-accordion__content">
         <slot></slot>
       </div>
     </template>
@@ -55,7 +55,7 @@ const toggleAccordion = () => {
 </script>
 
 <style lang="scss" scoped>
-.education-lesson-accardion {
+.education-lesson-accordion {
   padding: 0;
 
   &__header,

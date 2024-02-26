@@ -16,9 +16,9 @@ export class UserMockService implements AbstractUserService {
         res({
           data: [
             {
-              name: 'user-name',
-              surname: 'user-surname',
-              thirdname: 'user-thirdname',
+              name: 'Виктор',
+              surname: 'Андреевич',
+              thirdname: 'Иванов',
               id: 'id',
               photoUrl: 'userPhotoUrl',
               age: 21,
@@ -54,9 +54,9 @@ export class UserMockService implements AbstractUserService {
         res({
           // data: undefined,
           data: {
-            name: 'user-name',
-            surname: 'user-surname',
-            thirdname: 'user-thirdname',
+            name: 'Виктор',
+            surname: 'Иванов',
+            thirdname: 'Андреевич',
             id: 'id',
             photoUrl:
               'https://mindfulness.demo.zigzagpress.com/wp-content/uploads/sites/20/2010/08/team_02.jpg',
@@ -79,9 +79,9 @@ export class UserMockService implements AbstractUserService {
       setTimeout(() => {
         res({
           data: {
-            name: 'user-name',
-            surname: 'user-surname',
-            thirdname: 'user-thirdname',
+            name: 'Виктор',
+            surname: 'Иванов',
+            thirdname: 'Андреевич',
             id: 'id',
             photoUrl: 'userPhotoUrl',
             age: 21,

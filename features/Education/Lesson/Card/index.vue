@@ -6,25 +6,59 @@
       </div>
       <div class="education-lesson-card__right-side">
         <p class="text-body2">
-          Но многие известные личности являются только методом политического
-          участия и преданы социально-демократической анафеме. Кстати, действия
-          представителей оппозиции обнародованы. Высокий уровень вовлечения
-          представителей целевой аудитории является четким доказательством
-          простого факта: консультация с широким активом не даёт нам иного
-          выбора, кроме определения как самодостаточных, так и внешне зависимых
-          концептуальных решений.
+          {{ lesson?.description }}
         </p>
-        <UiBaseButton type="link" size="small"> Презентация №1 </UiBaseButton>
-        <UiBaseButton type="link" size="small"> Презентация №2 </UiBaseButton>
-        <UiBaseButton type="primary" size="small"> Пройти тест </UiBaseButton>
-        <UiBaseButton type="primary" size="small">
+        <UiBaseButton
+          v-for="(doc, i) in lesson?.presentations"
+          :key="i"
+          type="link"
+          size="small"
+        >
+          {{ doc.name }}
+        </UiBaseButton>
+        <UiBaseButton
+          v-if="!(lesson as LessonWithTest)?.testResult"
+          type="primary"
+          size="small"
+        >
+          Пройти тест
+        </UiBaseButton>
+        <div v-else class="row justify-between q-gutter-sm">
+          <p class="">
+            Тестирование пройдено:
+            {{ (lesson as LessonWithTest)?.comletionDate }}
+          </p>
+          <p class="">
+            Результат теста:
+            <span class="text-blue">
+              {{ (lesson as LessonWithTest)?.testResult }}
+            </span>
+          </p>
+        </div>
+        <UiBaseButton
+          v-if="(lesson as LessonWithTask)?.task"
+          type="primary"
+          size="small"
+        >
           Начать выполнение задания
         </UiBaseButton>
-        <div class="education-lesson-card__result-block">
-          <p class="text-body2">Задание получено: 20.01.2024</p>
-          <p class="text-body2">Задание принято: 20.01.2024</p>
+
+        <div
+          v-if="(lesson as LessonWithTask)?.task"
+          class="education-lesson-card__result-block"
+        >
           <p class="text-body2">
-            Результат выполнеия: <span class="text-blue-600">4</span>
+            Задание получено: {{ (lesson as LessonWithTask)?.task.receptDate }}
+          </p>
+          <p class="text-body2">
+            Задание принято:
+            {{ (lesson as LessonWithTask)?.task.acceptanceDate }}
+          </p>
+          <p class="text-body2">
+            Результат выполнеия:
+            <span class="text-blue-600">
+              {{ (lesson as LessonWithTask)?.task.result }}
+            </span>
           </p>
         </div>
       </div>
@@ -32,7 +66,15 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { LessonWithTask, LessonWithTest } from '~/types'
+
+interface Props {
+  lesson?: LessonWithTest | LessonWithTask
+}
+
+defineProps<Props>()
+</script>
 
 <style lang="scss" scoped>
 .education-lesson-card {
