@@ -6,11 +6,11 @@ export interface IDoc {
 export interface Lesson {
   id: string
   title: string
-  description: string
+  description?: string
   presentations?: IDoc[]
   video?: string
   estimatedDate?: string | number
-  estimation?: boolean
+  estimation: boolean
 }
 
 export interface LessonWithTest extends Lesson {
@@ -29,6 +29,6 @@ export interface LessonTask {
   status?: 'none' | 'taken' | 'verification'
   receptDate?: number | string
   acceptanceDate?: number | string
-  result?: number | string
   uploadedFiles?: string
+  result?: number | string
 }

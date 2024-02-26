@@ -1,5 +1,5 @@
 <template>
-  <div class="event-card base-block">
+  <div v-if="isLoading === false" class="event-card base-block">
     <div class="event-card__container">
       <div class="event-card__date-time-block">
         <p class="date">{{ event.date }}</p>
@@ -23,9 +23,11 @@
       </UiBaseButton>
     </div>
   </div>
+  <skeleton v-else />
 </template>
 
 <script lang="ts" setup>
+import Skeleton from './skeleton.vue'
 interface IEvent {
   title: string
   date?: string
@@ -35,8 +37,11 @@ interface IEvent {
 }
 interface Props {
   event: IEvent
+  isLoading?: boolean
 }
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  isLoading: false,
+})
 </script>
 
 <style lang="scss" scoped>

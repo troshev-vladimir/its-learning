@@ -1,6 +1,6 @@
 <template>
   <UiExpancionItem
-    class="education-lesson-accordion base-block base-shadow"
+    class="education-lesson-accordion base-shadow"
     :model-value="isOpen"
   >
     <template #header>
@@ -57,6 +57,7 @@ const toggleAccordion = () => {
 <style lang="scss" scoped>
 .education-lesson-accordion {
   padding: 0;
+  border-radius: 8px;
 
   &__header,
   .header {

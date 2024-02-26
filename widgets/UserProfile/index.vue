@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile row q-col-gutter-lg items-center">
+  <div v-if="!isLoading" class="user-profile row q-col-gutter-lg items-center">
     <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
       <div class="user-photo">
         <img
@@ -28,6 +28,7 @@
       <UiBaseAverageScore class="items-center items-md-end" />
     </div>
   </div>
+  <WidgetUserProfileSkeleton v-else />
 </template>
 
 <script lang="ts" setup>
@@ -36,6 +37,8 @@ import EditProfileButton from './EditProfileButton/index.vue'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
+
+const isLoading = ref(false)
 </script>
 
 <style lang="scss" scoped>
