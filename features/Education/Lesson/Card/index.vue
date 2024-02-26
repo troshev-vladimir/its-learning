@@ -2,7 +2,7 @@
   <div class="education-lesson-card">
     <div class="education-lesson-card__container">
       <div v-if="lesson.videoLink" class="education-lesson-card__video">
-        <div class="video__player"></div>
+        <div class="video__player" />
       </div>
       <div class="education-lesson-card__right-side">
         <p class="text-body2">

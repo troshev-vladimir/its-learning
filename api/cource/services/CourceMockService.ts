@@ -126,21 +126,21 @@ export class CourceMockService implements AbstractCourceService {
                   passed: 1,
                   value: [
                     {
-                      id: '3',
+                      id: '0',
                       title: 'title',
                       passed: false,
                       edgeDate: '01.02.1999',
                     },
 
                     {
-                      id: '4',
+                      id: '1',
                       title: 'title2',
                       passed: true,
                       edgeDate: '01.02.1999',
                     },
 
                     {
-                      id: '5',
+                      id: '2',
                       title: 'title3',
                       passed: false,
                       edgeDate: '01.02.1999',

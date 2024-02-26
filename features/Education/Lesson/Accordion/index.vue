@@ -63,7 +63,7 @@ const toggleAccordion = () => {
 
 const fetchLesson = async (id: string) => {
   isLessonLoadding.value = true
-  lesson.value = await api.cource.getLesson('2')
+  lesson.value = await api.cource.getLesson(props.lessonPrewiew.id)
   console.log(lesson.value)
   isLessonLoadding.value = false
 }
