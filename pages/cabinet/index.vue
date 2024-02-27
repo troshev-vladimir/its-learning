@@ -8,7 +8,7 @@
       />
     </div>
     <NuxtLazyHydrate when-visible>
-      <LazyWidgetUserProfile v-if="!error" :loadding="CourcePending" />
+      <LazyWidgetUserProfile v-if="!CourseError" :loadding="CourcePending" />
     </NuxtLazyHydrate>
     <NuxtLazyHydrate when-visible>
       <LazyFeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
@@ -34,7 +34,6 @@
 
 <script lang="ts" setup>
 import { useCourceStore } from '~/stores/cource'
-import { useUserStore } from '~/stores/user'
 
 const courceSotore = useCourceStore()
 const { courcePreview } = storeToRefs(courceSotore)
@@ -49,8 +48,7 @@ route.meta.pageTitle = 'Личный кабинет'
 useSeoMeta({
   title: 'Личный кабинет',
 })
-const userStore = useUserStore()
-const { hasChanges } = storeToRefs(userStore)
+
 const testPopup = ref(false)
 
 const mainEvents = computed(() => {
@@ -82,16 +80,6 @@ const { pending: CourcePending, error: CourseError } = useAsyncData(
   'cource',
   () => courceSotore.fetchCourcePreview().then(() => true)
 )
-
-const { pending, error } = await useLazyAsyncData('user', () => {
-  if (!hasChanges.value) {
-    return new Promise((res) => res(true))
-  }
-
-  return userStore.fetchUser().then(() => {
-    return true
-  })
-})
 
 // useShowNotification(error.value)
 </script>
