@@ -32,6 +32,13 @@
           Начать выполнение задания
         </UiBaseButton>
         <div class="education-lesson-card__legend-block">
+          <p v-if="lesson?.status === 'studying'">
+            Вы приступили к выполнению задания, время ограничено
+          </p>
+          <p v-if="lesson?.status === 'verification'">
+            Задание на проверке. Ожидайте
+          </p>
+
           <p
             v-for="(item, index) in lesson?.legend"
             :key="index"
