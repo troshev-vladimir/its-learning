@@ -1,17 +1,17 @@
 <template>
-  <div v-if="!isLoading && lesson" class="education-lesson-card">
-    <div class="education-lesson-card__container">
-      <div v-if="lesson.videoLink" class="education-lesson-card__video">
+  <div class="education-lesson-card">
+    <div v-show="!isLoading && lesson" class="education-lesson-card__container">
+      <div v-if="lesson?.videoLink" class="education-lesson-card__video">
         <video class="video__player" controls>
           <source :src="lesson.videoLink" type="video/mp4" />
         </video>
       </div>
       <div class="education-lesson-card__right-side">
         <p class="text-body2">
-          {{ lesson.text }}
+          {{ lesson?.text }}
         </p>
         <UiBaseButton
-          v-for="(doc, i) in lesson.presentations"
+          v-for="(doc, i) in lesson?.presentations"
           :key="i"
           type="link"
           size="small"
@@ -19,7 +19,7 @@
           {{ doc.name }}
         </UiBaseButton>
         <UiBaseButton
-          v-if="lesson.status === 'studying' && lesson.testID"
+          v-if="lesson?.status === 'studying' && lesson?.testID"
           type="primary"
           size="small"
           @click="isTest = true"
@@ -27,22 +27,22 @@
           Пройти тест
         </UiBaseButton>
         <UiBaseButton
-          v-if="lesson.status === 'studying' && lesson.taskID"
+          v-if="lesson?.status === 'studying' && lesson?.taskID"
           type="primary"
           size="small"
         >
           Начать выполнение задания
         </UiBaseButton>
 
-        <p v-if="lesson.status === 'exam'">
+        <p v-if="lesson?.status === 'exam'">
           Вы приступили к выполнению задания, время ограничено
         </p>
-        <p v-if="lesson.status === 'verification'">
+        <p v-if="lesson?.status === 'verification'">
           Задание на проверке. Ожидайте
         </p>
 
         <div class="row justify-between q-gutter-sm">
-          <div v-if="lesson.legend && lesson.legend.length">
+          <div v-if="lesson?.legend && lesson.legend.length">
             <p
               v-for="(item, index) in lesson.legend"
               :key="index"
@@ -53,12 +53,12 @@
           </div>
 
           <p
-            v-if="lesson.status === 'result' && lesson.result"
+            v-if="lesson?.status === 'result' && lesson?.result"
             class="text-body2"
           >
             Результат выполнеия:
             <span class="text-blue-600">
-              {{ lesson.result }}
+              {{ lesson?.result }}
             </span>
           </p>
         </div>
@@ -73,8 +73,8 @@
         </template>
       </UiBasePopup>
     </div>
+    <Skeleton v-show="isLoading" with-video />
   </div>
-  <Skeleton v-else with-video />
 </template>
 
 <script lang="ts" setup>
@@ -82,7 +82,7 @@ import type { CourceLesson } from '~/api/cource/types'
 import Skeleton from './skeleton.vue'
 
 defineProps<{
-  lesson: CourceLesson | undefined
+  lesson?: CourceLesson
   isLoading: boolean
 }>()
 

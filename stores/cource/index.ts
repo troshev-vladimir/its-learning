@@ -8,6 +8,7 @@ export const useCourceStore = defineStore('courceStore', () => {
   const isCourceLoadding = ref(false)
 
   const fetchCource = async () => {
+    if (isCourceLoadding.value) return
     isCourceLoadding.value = true
     const resp = await api.cource.getCource('1')
     cource.value = resp
