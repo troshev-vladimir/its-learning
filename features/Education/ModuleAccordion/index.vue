@@ -93,9 +93,6 @@ onMounted(async () => {
       const element = accordion.value.getBoundingClientRect()
       const top = element.top + window.scrollY
       const height = element.height
-      console.log(height)
-      console.log(top)
-
       window.scroll({ top: top - height, behavior: 'smooth' })
     }
   }, 0)
