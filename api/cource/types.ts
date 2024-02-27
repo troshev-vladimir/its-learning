@@ -1,5 +1,10 @@
 import type { Responce } from '../types'
 
+export interface CourceDetail {
+  title: string
+  content: string
+}
+
 export interface CourcePreview {
   title: string
   progress: number
@@ -82,7 +87,8 @@ interface ILink {
 }
 
 export interface AbstractCourceService {
-  courcePreview: (userId: string) => Promise<Responce<CourcePreview>>
-  cource: (userId: string) => Promise<Responce<CourceFull>>
+  courcePreview: (courceId: string) => Promise<Responce<CourcePreview>>
+  cource: (courceId: string) => Promise<Responce<CourceFull>>
   lesson: (lessonId: string) => Promise<Responce<CourceLesson>>
+  detail: (courceId: string) => Promise<Responce<CourceDetail>>
 }
