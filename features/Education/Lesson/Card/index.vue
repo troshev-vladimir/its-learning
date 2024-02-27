@@ -47,14 +47,20 @@
           v-if="(lesson as LessonWithTask)?.task"
           class="education-lesson-card__result-block"
         >
-          <p class="text-body2">
+          <p
+            v-if="(lesson as LessonWithTask).task.receptDate"
+            class="text-body2"
+          >
             Задание получено: {{ (lesson as LessonWithTask).task.receptDate }}
           </p>
-          <p class="text-body2">
+          <p
+            v-if="(lesson as LessonWithTask).task.acceptanceDate"
+            class="text-body2"
+          >
             Задание принято:
             {{ (lesson as LessonWithTask).task.acceptanceDate }}
           </p>
-          <p class="text-body2">
+          <p v-if="(lesson as LessonWithTask).task.result" class="text-body2">
             Результат выполнеия:
             <span class="text-blue-600">
               {{ (lesson as LessonWithTask).task.result }}
