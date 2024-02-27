@@ -1,5 +1,5 @@
 <template>
-  <div class="test-component base-block">
+  <div class="test-component">
     <div class="test-component__container">
       <FeatureTestQuestionCard
         v-model="answers[mainQuestionCount].answer"
@@ -188,13 +188,20 @@ watch(
 
 <style lang="scss" scoped>
 .test-component {
-  padding-top: 0;
+  border-radius: $radius;
+  background: $white;
+
   &__buttons {
+    padding: 0 24px 24px 24px;
+    position: sticky;
+    bottom: 0;
     display: flex;
     justify-content: space-between;
-    margin-top: 24px;
-    gap: 8px;
     flex-direction: column;
+    gap: 8px;
+    margin-top: 24px;
+    border-radius: $radius;
+    background: $white;
 
     button {
       width: 100%;

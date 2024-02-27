@@ -64,9 +64,12 @@
         </div>
       </div>
 
-      <UiBasePopup v-model="isTest" class="target-training-test">
+      <UiBasePopup v-model="isTest">
         <template #default>
-          <FeatureTest class="base-block" @submit="() => (isTest = false)" />
+          <FeatureTest
+            class="education-lesson-card__test"
+            @submit="() => (isTest = false)"
+          />
         </template>
       </UiBasePopup>
     </div>
@@ -126,6 +129,11 @@ const isTest = ref(false)
     width: 100%;
     border-radius: 8px;
     background: $gray-500;
+  }
+
+  &__test {
+    overflow: auto;
+    max-height: inherit;
   }
 }
 </style>
