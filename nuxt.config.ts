@@ -46,7 +46,11 @@ export default defineNuxtConfig({
     sassVariables: './assets/styles/quasar.variables.scss',
   },
 
-  plugins: ['~/plugins/directives.ts', '~/plugins/font-awesome.ts'],
+  plugins: [
+    '~/plugins/directives.ts',
+    '~/plugins/font-awesome.ts',
+    '~/plugins/vue-date-picker.client.ts',
+  ],
 
   build: {
     transpile: ['@vuepic/vue-datepicker'],
