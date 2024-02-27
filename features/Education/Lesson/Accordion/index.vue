@@ -44,14 +44,13 @@ import type { LessonWithTask, LessonWithTest } from '~/types'
 
 interface Props {
   lesson?: LessonWithTest | LessonWithTask
-  isOpen: boolean
 }
 defineProps<Props>()
 
-const emit = defineEmits(['clickHeader'])
+const isOpen = ref(false)
 
 const toggleAccordion = () => {
-  emit('clickHeader')
+  isOpen.value = !isOpen.value
 }
 </script>
 

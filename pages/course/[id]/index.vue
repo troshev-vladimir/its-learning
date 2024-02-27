@@ -51,24 +51,21 @@
             title: 'Пройденный модуль',
             status: 'ended',
           }"
-          @click="() => onClickModule(index)"
+          @click="() => onClickItem(index)"
         >
-          <FeatureEducationLessonAccordion
-            :is-open="activeLessonId == lessonMock.id"
-            :lesson="lessonMock"
-            @click-header="onClickLesson(lessonMock.id)"
-          >
+          <FeatureEducationLessonAccordion :lesson="lessonMock">
             <template #default>
               <FeatureEducationLessonCard :lesson="lessonMock" />
             </template>
           </FeatureEducationLessonAccordion>
-          <FeatureEducationLessonAccordion
-            :is-open="activeLessonId == lessonMock2.id"
-            :lesson="lessonMock2"
-            @click-header="onClickLesson(lessonMock2.id)"
-          >
+          <FeatureEducationLessonAccordion :lesson="lessonMock">
             <template #default>
-              <FeatureEducationLessonCard :lesson="lessonMock2" />
+              <FeatureEducationLessonCard :lesson="lessonMock" />
+            </template>
+          </FeatureEducationLessonAccordion>
+          <FeatureEducationLessonAccordion :lesson="lessonMock">
+            <template #default>
+              <FeatureEducationLessonCard :lesson="lessonMock" />
             </template>
           </FeatureEducationLessonAccordion>
         </FeatureEducationModuleAccordion>
@@ -79,7 +76,7 @@
             status: 'active',
           }"
           :model-value="activeModuleIndex == 11"
-          @click="() => onClickModule(11)"
+          @click="() => onClickItem(11)"
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
@@ -90,7 +87,7 @@
             status: 'active',
           }"
           :model-value="activeModuleIndex == 13"
-          @click="() => onClickModule(13)"
+          @click="() => onClickItem(13)"
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
@@ -101,7 +98,7 @@
             status: 'locked',
           }"
           :model-value="activeModuleIndex == 12"
-          @click="() => onClickModule(12)"
+          @click="() => onClickItem(12)"
         >
           <div>1234123</div>
         </FeatureEducationModuleAccordion>
@@ -120,7 +117,7 @@ const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
 const activeModuleIndex = ref(-1)
-const activeLessonId = ref<string | number>(-1)
+const activeLessonIndex = ref(-1)
 
 const lessonMock = {
   id: '1',
@@ -138,46 +135,19 @@ const lessonMock = {
   estimation: true,
   testResult: '5',
 }
-const lessonMock2 = {
-  id: '2',
-  title: 'Lesson 2',
-  description: 'Advanced topic discussion',
-  presentations: [{ link: '2', name: 'Presentation 2' }],
-  estimatedDate: '2022-01-05',
-  estimation: false,
-  task: {
-    docs: [{ link: '1', name: 'Document 1' }],
-    description: 'Complete the task',
-    status: 'taken',
-    receptDate: '2022-01-05',
-    acceptanceDate: '2022-01-15',
-    uploadedFiles: 'file.pdf',
-    result: 'Pass',
-  },
-}
-const onClickModule = (index: number) => {
+const lessonMock2 = {}
+const onClickItem = (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1
-    router.replace({ query: { ...route.query, module: null } })
+    router.replace({ query: {} })
     return
   }
-  router.replace({ query: { ...route.query, module: index } })
+  router.replace({ query: { module: index } })
   activeModuleIndex.value = index
 }
 
-const onClickLesson = (id: string) => {
-  if (activeLessonId.value == id) {
-    activeLessonId.value = -1
-    router.replace({ query: { ...route.query, lesson: null } })
-    return
-  }
-  router.replace({ query: { ...route.query, lesson: id } })
-  activeLessonId.value = id
-}
-
 onMounted(() => {
-  if (route.query?.module) activeModuleIndex.value = +route.query?.module
-  if (route.query?.lesson) activeLessonId.value = route.query?.lesson.toString()
+  if (route.query?.module) activeModuleIndex.value = +route.query.module
 })
 
 useSeoMeta({
