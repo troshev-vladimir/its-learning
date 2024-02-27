@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isLoading" class="education-lesson-card">
     <div class="education-lesson-card__container">
-      <div v-if="lesson?.video" class="education-lesson-card__video">
+      <div class="education-lesson-card__video">
         <div class="video__player"></div>
       </div>
       <div class="education-lesson-card__right-side">
@@ -17,19 +17,13 @@
           {{ doc.name }}
         </UiBaseButton>
         <UiBaseButton
-          v-if="
-            !(lesson as LessonWithTest)?.testResult &&
-            (lesson as LessonWithTest)?.test
-          "
+          v-if="!(lesson as LessonWithTest)?.testResult"
           type="primary"
           size="small"
         >
           Пройти тест
         </UiBaseButton>
-        <div
-          v-if="(lesson as LessonWithTest)?.testResult"
-          class="row justify-between q-gutter-sm"
-        >
+        <div v-else class="row justify-between q-gutter-sm">
           <p class="">
             Тестирование пройдено:
             {{ (lesson as LessonWithTest)?.comletionDate }}
@@ -60,26 +54,17 @@
             Задание получено: {{ (lesson as LessonWithTask).task.receptDate }}
           </p>
           <p
-            v-if="
-              !(lesson as LessonWithTask).task.result &&
-              (lesson as LessonWithTask).task.acceptanceDate
-            "
-            class="text-body2 text-gray-500"
+            v-if="(lesson as LessonWithTask).task.acceptanceDate"
+            class="text-body2"
           >
-            На проверке у наставника
+            Задание принято:
+            {{ (lesson as LessonWithTask).task.acceptanceDate }}
           </p>
           <p v-if="(lesson as LessonWithTask).task.result" class="text-body2">
             Результат выполнеия:
             <span class="text-blue-600">
               {{ (lesson as LessonWithTask).task.result }}
             </span>
-          </p>
-          <p
-            v-if="(lesson as LessonWithTask).task.acceptanceDate"
-            class="text-body2"
-          >
-            Задание принято:
-            {{ (lesson as LessonWithTask).task.acceptanceDate }}
           </p>
         </div>
       </div>
@@ -123,7 +108,7 @@ const isLoading = ref<boolean>(false)
     width: 100%;
 
     @include media($bp-md) {
-      width: auto;
+      width: 50%;
     }
   }
 
@@ -132,7 +117,7 @@ const isLoading = ref<boolean>(false)
     max-height: 100%;
 
     @include media($bp-md) {
-      min-width: 50%;
+      width: 50%;
     }
   }
 
@@ -141,21 +126,6 @@ const isLoading = ref<boolean>(false)
     border-radius: 8px;
     background: $gray-500;
     padding-bottom: 50%;
-  }
-
-  &__result-block {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    row-gap: 8px;
-
-    @include media($bp-xs) {
-      grid-template-columns: repeat(2, 1fr);
-
-      > *:nth-child(2n) {
-        align-self: end;
-        text-align: end;
-      }
-    }
   }
 }
 </style>
