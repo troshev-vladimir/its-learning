@@ -8,8 +8,10 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   console.log(authToken)
 
+  // тут в body надо чётко все поля и телефон с имейлом в формате
+
   try {
-    const resp = await $fetch(
+    const resp: any = await $fetch(
       'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdata',
       {
         method: 'POST',
@@ -20,7 +22,7 @@ export default defineEventHandler(async (event) => {
       }
     )
 
-    return resp
+    return resp[0].OrderID
   } catch (err: any) {
     throw createError({
       statusMessage: err.message,

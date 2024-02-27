@@ -16,23 +16,17 @@
         </div>
         <div class="header__right-side">
           <div>
-            <p class="text-body1 text-bold">{{ lessonPreview.title }}</p>
-            <p class="text-body2">
-              Пройти урок до: {{ lessonPreview.edgeDate }}
-            </p>
+            <p class="text-body1 text-bold">{{ localValue.title }}</p>
+            <p class="text-body2">Пройти урок до: {{ localValue.edgeDate }}</p>
           </div>
 
           <p
-            v-if="
-              lessonPreview.status === 'result' && lessonPreview.type === 'task'
-            "
+            v-if="localValue.status === 'result' && localValue.type === 'task'"
           >
-            {{ lessonPreview.result }}
+            {{ localValue.result }}
           </p>
           <p
-            v-if="
-              lessonPreview.status === 'result' && lessonPreview.type === 'test'
-            "
+            v-if="localValue.status === 'result' && localValue.type === 'test'"
           >
             Зачет
           </p>
@@ -55,13 +49,23 @@ import type { CourceLesson } from '~/api/cource'
 import { api } from '~/api'
 
 interface Props {
-  lessonPreview: CourceLesson
+  modelValue: CourceLesson
 }
 const props = withDefaults(defineProps<Props>(), {})
+const emit = defineEmits(['update:modelValue'])
 
 const isOpen = ref(false)
 const isLessonLoadding = ref(false)
 const lesson = ref<CourceLesson>()
+
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
+})
 
 const toggleAccordion = () => {
   isOpen.value = !isOpen.value

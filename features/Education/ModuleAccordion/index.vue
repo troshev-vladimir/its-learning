@@ -12,7 +12,7 @@
         @click="onClickHeader"
       >
         <div class="header__left-side">
-          <span class="header__toggle-icon" :class="{ open: localValue }">
+          <span class="header__toggle-icon" :class="{ open: isOpen }">
             <UiBaseIcon
               width="24px"
               height="24px"
@@ -53,10 +53,10 @@
     <template #default>
       <div class="education-module-accordion__container" @click.prevent>
         <FeatureEducationLessonAccordion
-          v-for="(lessonPrewiew, index) in localValue.lessonsPreviews.value"
+          v-for="(lessonPreview, index) in localValue.lessonsPreviews.value"
           :key="index"
+          v-model="localValue.lessonsPreviews.value[index]"
           class="accordion-lesson"
-          :lesson-preview="lessonPrewiew"
         >
         </FeatureEducationLessonAccordion>
       </div>
