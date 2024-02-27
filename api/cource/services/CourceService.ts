@@ -29,6 +29,13 @@ export class CourceService implements AbstractCourceService {
     })
     return data
   }
+
+  async detail(lessonId: string) {
+    const { data } = await this.api.get('/cource/detail', {
+      params: { lessonId },
+    })
+    return data
+  }
 }
 
 export const abort = userAbortController.abort
