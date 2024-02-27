@@ -2,7 +2,13 @@
   <form :class="[$style['base-form']]" @submit.prevent="submit">
     <h2 :class="[$style.title, 'text-h2']">{{ title }}</h2>
 
-    <div :class="[$style['form-content'], 'pretty-scroll']">
+    <div
+      :class="[
+        $style['form-content'],
+        'pretty-scroll',
+        isLoading ? 'disabled' : '',
+      ]"
+    >
       <slot></slot>
     </div>
 
@@ -12,6 +18,7 @@
           native-type="submit"
           :disabled="fuckedUp || dirty"
           size="small"
+          :model-value="isLoading"
         >
           {{ submiText || 'Отправить' }}
         </UiBaseButton>
@@ -25,12 +32,14 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+interface Props {
   title: string
   fuckedUp?: boolean
   dirty?: boolean
   submiText?: string
-}>()
+  isLoading?: boolean
+}
+const props = defineProps<Props>()
 const emit = defineEmits(['submit'])
 
 const submit = () => {
@@ -51,6 +60,11 @@ const submit = () => {
   .form-content {
     overflow: auto;
     padding: 0 3px; // для теней
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 }
 
