@@ -34,7 +34,7 @@
           Начать выполнение задания
         </UiBaseButton>
         <div class="education-lesson-card__legend-block">
-          <p v-if="lesson?.status === 'studying'">
+          <p v-if="lesson?.status === 'exam'">
             Вы приступили к выполнению задания, время ограничено
           </p>
           <p v-if="lesson?.status === 'verification'">
