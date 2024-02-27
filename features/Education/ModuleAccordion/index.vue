@@ -77,15 +77,10 @@ const accordion = ref<HTMLElement | null>(null)
 onMounted(async () => {
   setTimeout(() => {
     if (accordion.value && props.modelValue) {
-      console.log(accordion.value)
-
       const element = accordion.value.getBoundingClientRect()
-      const top = element.top + window.scrollY
+      const top = element.y
       const height = element.height
-      console.log(height)
-      console.log(top)
-
-      window.scroll({ top: top - height, behavior: 'smooth' })
+      window.scroll({ top: top + height, behavior: 'smooth' })
     }
   }, 0)
 })
