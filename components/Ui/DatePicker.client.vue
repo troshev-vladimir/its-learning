@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="isHydrated"
     :class="[
       $style['ui-datepicker'],
       $style[`ui-datepicker--${validationResult.status}`],
@@ -51,6 +52,13 @@
       {{ validationResult.message }}
     </p>
   </div>
+  <UiBaseInput
+    v-else
+    class=""
+    label="Дата"
+    :model-value="modelValue?.toString()"
+    :validation-result="{ status: 'none', message: '' }"
+  />
 </template>
 <script setup lang="ts">
 import VueDatePicker from '@vuepic/vue-datepicker'
@@ -76,6 +84,9 @@ const props = withDefaults(
     }),
   }
 )
+
+const isHydrated = ref(false)
+
 const datepicker = ref<DatePickerInstance | null>(null)
 
 const dateClicked = (date: Date | string) => {
@@ -100,6 +111,10 @@ const format = (date: Date): string => {
 
   return `${day}.${month}.${year}`
 }
+
+onMounted(() => {
+  isHydrated.value = true
+})
 </script>
 <style lang="scss" module>
 .datepicker {
