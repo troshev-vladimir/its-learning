@@ -285,7 +285,8 @@ export class CourceMockService implements AbstractCourceService {
           res({
             data: {
               id: '1',
-              videoLink: 'string',
+              videoLink:
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
               text: 'string',
               type: 'task',
               status: 'studying',

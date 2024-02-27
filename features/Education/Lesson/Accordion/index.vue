@@ -45,11 +45,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { CourceLesson } from '~/api/cource'
+import type { LessonPreview, CourceLesson } from '~/api/cource'
 import { api } from '~/api'
 
 interface Props {
-  modelValue: CourceLesson
+  modelValue: LessonPreview
 }
 const props = withDefaults(defineProps<Props>(), {})
 const emit = defineEmits(['update:modelValue'])
@@ -71,7 +71,7 @@ const toggleAccordion = () => {
   isOpen.value = !isOpen.value
 
   if (isOpen.value && !lesson.value) {
-    fetchLesson('1')
+    fetchLesson(localValue.value.id)
   }
 }
 
