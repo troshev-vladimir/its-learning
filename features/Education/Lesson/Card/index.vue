@@ -111,13 +111,13 @@ const isTest = ref(false)
   &__video {
     width: 100%;
     max-height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .video__player {
     display: block;
     width: 100%;
-    padding-bottom: 50%;
-    border-radius: 8px;
     background: $gray-500;
   }
 
