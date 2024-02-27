@@ -81,8 +81,8 @@ const route = useRoute()
 const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
-const courceSotre = useCourceStore()
-const { cource, isCourceLoadding } = storeToRefs(courceSotre)
+const courceStore = useCourceStore()
+const { cource, isCourceLoadding } = storeToRefs(courceStore)
 
 const activeModuleIndex = ref(-1)
 
@@ -97,10 +97,12 @@ const onClickItem = (index: number) => {
 }
 
 const { pending, error } = useAsyncData('cource', () =>
-  courceSotre.fetchCource().then(() => true)
+  courceStore.fetchCource().then(() => true)
 )
 
 onMounted(() => {
+  console.log('page mounted')
+
   if (route.query?.module) activeModuleIndex.value = +route.query.module
 })
 </script>
