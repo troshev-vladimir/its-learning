@@ -54,7 +54,7 @@ export async function TinkoffPayment(
 
     orderData.OrderId = orderId
 
-    const token = await $fetch<string>('/api/payment/', {
+    const token = await $fetch<string>('/api/payment/token', {
       method: 'POST',
       body: JSON.stringify(orderData),
     })
@@ -99,24 +99,12 @@ export async function TinkoffPayment(
   }
 }
 
-const getOrderId = async (data: DataForOriderId) => {
-  try {
-    const resp = await fetch(
-      'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdata',
-      {
-        headers: {
-          Authorization: 'Basic ' + btoa('Http_Service_Test:XI5su3ce'),
-        },
-        mode: 'no-cors',
-        method: 'POST',
-        body: JSON.stringify(data),
-      }
-    )
-    const { orderId } = await resp.json()
-
-    if (!orderId) throw new Error('orderId не передан')
-    return orderId
-  } catch (error) {
-    console.log(error)
-  }
+const getOrderId = async (payload: DataForOriderId) => {
+  const { data, error } = await useFetch('/api/payment/orderid', {
+    body: JSON.stringify(payload),
+    method: 'POST',
+  })
+  if (error.value) throw error.value
+  if (!data.value) throw new Error('orderId не передан')
+  return 1
 }

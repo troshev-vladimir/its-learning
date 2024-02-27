@@ -1,12 +1,16 @@
 <template>
   <div class="course-page">
-    <div class="course-page__container">
+    <p v-if="isCourceLoadding">loadding...</p>
+    <div v-else-if="cource" class="course-page__container">
       <div class="course-page__header">
         <div class="header__left-side">
-          <p class="text-h2">1С:Профессиональный разработчик</p>
+          <p class="text-h2">{{ cource?.title }}</p>
           <div class="column items-center header__tracker-block">
             <ClientOnly>
-              <UiBaseTracker class="tracker q-mb-sm" />
+              <UiBaseTracker
+                :value="cource?.progress"
+                class="tracker q-mb-sm"
+              />
             </ClientOnly>
             <UiBaseButton
               type="link"
@@ -17,125 +21,71 @@
             </UiBaseButton>
           </div>
         </div>
-        <p class="text-body1 text-bold text-blue-600">Завершен</p>
-        <UiBaseAverageScore class="average-score" />
+        <p v-if="cource?.isEnded" class="text-body1 text-bold text-blue-600">
+          Завершен
+        </p>
+        <UiBaseAverageScore
+          class="average-score"
+          :value="cource?.averageScore"
+        />
       </div>
       <div class="course-page__course-statistics-block">
         <MaterialCoveredCard
+          v-if="cource?.statistics.tests"
           :icon="['fas', 'check-square']"
-          :statistic="statistics.tests"
+          :statistic="cource?.statistics.tests"
           title="Тесты"
         />
         <MaterialCoveredCard
+          v-if="cource?.statistics.video"
           :icon="['fas', 'video']"
-          :statistic="statistics.tests"
+          :statistic="cource?.statistics.video"
           title="Видео"
         />
         <MaterialCoveredCard
+          v-if="cource?.statistics.tasks"
           :icon="['fas', 'file-code']"
-          :statistic="statistics.tests"
+          :statistic="cource?.statistics.tasks"
           title="Задания"
         />
       </div>
-      <p class="course-page__access-mentor text-body2 text-gray-400">
-        Доступ к наставнику до 20.08.2024
+      <p
+        v-if="cource?.couchAwilableTill"
+        class="course-page__access-mentor text-body2 text-gray-400"
+      >
+        Доступ к наставнику до {{ cource?.couchAwilableTill }}
       </p>
 
       <div class="course-page__education-block">
         <FeatureEducationModuleAccordion
-          v-for="(item, index) in 5"
+          v-for="(module, index) in cource?.modules"
           :key="index"
-          :model-value="activeModuleIndex == index"
-          :value="{
-            id: index.toString(),
-            title: 'Пройденный модуль',
-            status: 'ended',
-          }"
+          v-model="cource.modules[index]"
+          :is-open="activeModuleIndex == index"
           @click="() => onClickItem(index)"
-        >
-          <FeatureEducationLessonAccordion :lesson="lessonMock">
-            <template #default>
-              <FeatureEducationLessonCard :lesson="lessonMock" />
-            </template>
-          </FeatureEducationLessonAccordion>
-          <FeatureEducationLessonAccordion :lesson="lessonMock">
-            <template #default>
-              <FeatureEducationLessonCard :lesson="lessonMock" />
-            </template>
-          </FeatureEducationLessonAccordion>
-          <FeatureEducationLessonAccordion :lesson="lessonMock">
-            <template #default>
-              <FeatureEducationLessonCard :lesson="lessonMock" />
-            </template>
-          </FeatureEducationLessonAccordion>
-        </FeatureEducationModuleAccordion>
-        <FeatureEducationModuleAccordion
-          :value="{
-            id: '11',
-            title: 'Активный модуль',
-            status: 'active',
-          }"
-          :model-value="activeModuleIndex == 11"
-          @click="() => onClickItem(11)"
-        >
-          <div>1234123</div>
-        </FeatureEducationModuleAccordion>
-        <FeatureEducationModuleAccordion
-          :value="{
-            id: '11',
-            title: 'Активный модуль',
-            status: 'active',
-          }"
-          :model-value="activeModuleIndex == 13"
-          @click="() => onClickItem(13)"
-        >
-          <div>1234123</div>
-        </FeatureEducationModuleAccordion>
-        <FeatureEducationModuleAccordion
-          :value="{
-            id: '12',
-            title: 'Заблокированный модуль',
-            status: 'locked',
-          }"
-          :model-value="activeModuleIndex == 12"
-          @click="() => onClickItem(12)"
-        >
-          <div>1234123</div>
-        </FeatureEducationModuleAccordion>
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useCourceStore } from '~/stores/cource'
 definePageMeta({
   layout: 'cabinet',
 })
-
+useSeoMeta({
+  title: 'Обучение',
+})
 const route = useRoute()
 const router = useRouter()
 route.meta.pageTitle = 'Обучение'
 
-const activeModuleIndex = ref(-1)
-const activeLessonIndex = ref(-1)
+const courceSotre = useCourceStore()
+const { cource, isCourceLoadding } = storeToRefs(courceSotre)
 
-const lessonMock = {
-  id: '1',
-  title: 'Название урока',
-  description:
-    'Но многие известные личности являются только методом политического участия и преданы социально-демократической анафеме. Кстати, действия представителей оппозиции обнародованы. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом не даёт нам иного выбора, кроме определения как самодостаточных, так и внешне зависимых концептуальных решений.',
-  presentations: [{ name: 'Презентация №1', link: 's' }],
-  test: {
-    id: '123',
-    questions: [
-      { id: '1', text: 'Вопрос?', answers: [{ text: '123', id: '1' }] },
-    ],
-  },
-  comletionDate: '20.01.23',
-  estimation: true,
-  testResult: '5',
-}
-const lessonMock2 = {}
+const activeModuleIndex = ref(-1)
+
 const onClickItem = (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1
@@ -146,28 +96,13 @@ const onClickItem = (index: number) => {
   activeModuleIndex.value = index
 }
 
+const { pending, error } = useAsyncData('cource', () =>
+  courceSotre.fetchCource().then(() => true)
+)
+
 onMounted(() => {
   if (route.query?.module) activeModuleIndex.value = +route.query.module
 })
-
-useSeoMeta({
-  title: 'Обучение',
-})
-
-const statistics = {
-  tests: {
-    score: 1,
-    total: 2,
-  },
-  video: {
-    score: 1,
-    total: 2,
-  },
-  tasks: {
-    score: 1,
-    total: 2,
-  },
-}
 </script>
 
 <style lang="scss" scoped>

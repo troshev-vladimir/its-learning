@@ -16,41 +16,69 @@
         </div>
         <div class="header__right-side">
           <div>
-            <p class="text-body1 text-bold">{{ lesson?.title }}</p>
-            <p v-if="lesson?.estimatedDate" class="text-body2">
-              Пройти урок до: {{ lesson?.estimatedDate }}
-            </p>
+            <p class="text-body1 text-bold">{{ localValue.title }}</p>
+            <p class="text-body2">Пройти урок до: {{ localValue.edgeDate }}</p>
           </div>
-          <UiBaseAverageScore
-            v-if="false"
-            :has-tip="false"
-            class="education-lesson-accordion__average-score"
-          />
-          <p v-if="lesson?.estimation === true">Зачет</p>
-          <p v-if="lesson?.estimation === false">Незачёт</p>
+
+          <p
+            v-if="localValue.status === 'result' && localValue.type === 'task'"
+          >
+            {{ localValue.result }}
+          </p>
+          <p
+            v-if="localValue.status === 'result' && localValue.type === 'test'"
+          >
+            Зачет
+          </p>
         </div>
       </div>
     </template>
     <template #default>
       <div class="education-lesson-accordion__content">
-        <slot></slot>
+        <FeatureEducationLessonCard
+          :is-loading="isLessonLoadding"
+          :lesson="lesson"
+        />
       </div>
     </template>
   </UiExpancionItem>
 </template>
 
 <script lang="ts" setup>
-import type { LessonWithTask, LessonWithTest } from '~/types'
+import type { CourceLesson } from '~/api/cource'
+import { api } from '~/api'
 
 interface Props {
-  lesson?: LessonWithTest | LessonWithTask
+  modelValue: CourceLesson
 }
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {})
+const emit = defineEmits(['update:modelValue'])
 
 const isOpen = ref(false)
+const isLessonLoadding = ref(false)
+const lesson = ref<CourceLesson>()
+
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
+})
 
 const toggleAccordion = () => {
   isOpen.value = !isOpen.value
+
+  if (isOpen.value && !lesson.value) {
+    fetchLesson('1')
+  }
+}
+
+const fetchLesson = async (id: string) => {
+  isLessonLoadding.value = true
+  lesson.value = await api.cource.getLesson(id)
+  isLessonLoadding.value = false
 }
 </script>
 

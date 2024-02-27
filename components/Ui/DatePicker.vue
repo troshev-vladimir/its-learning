@@ -25,6 +25,7 @@
         :format="format"
         :name="name"
         :year-picker="yearPicker"
+        :teleport="true"
         @date-update="dateClicked"
       >
         <template #action-row="{ selectDate }">

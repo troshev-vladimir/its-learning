@@ -1,5 +1,7 @@
 import type { api } from '~/api/types'
-import type { AbstractUserService, User } from '../types'
+import type { AbstractUserService, AuthorizeRequest, User } from '../types'
+import { CustomError } from '~/api/CustomError'
+const userAbortController = new AbortController()
 export class UserService implements AbstractUserService {
   api: api
 
@@ -8,15 +10,26 @@ export class UserService implements AbstractUserService {
   }
 
   async getAll() {
-    const { data } = await this.api.get('users')
+    const { data } = await this.api.get('users', {})
+
     return data
   }
 
   async get(id: string) {
-    const { data } = await this.api.get('users', {
-      params: { id },
-    })
-    return data
+    try {
+      const { data } = await this.api.get('users', {
+        signal: userAbortController.signal,
+        params: { id },
+      })
+      return data
+    } catch (error) {
+      // @ts-ignore
+      if (this.api.isCancel(error)) {
+        throw new CustomError('is cancled', 400, error)
+      } else {
+        throw error
+      }
+    }
   }
 
   async delete(id: string) {
@@ -40,4 +53,11 @@ export class UserService implements AbstractUserService {
     })
     return data
   }
+
+  async auth(params: AuthorizeRequest) {
+    const { data } = await this.api.post('auth', params)
+    return data
+  }
 }
+
+export const abort = userAbortController.abort

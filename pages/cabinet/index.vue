@@ -7,22 +7,36 @@
         :event="event"
       />
     </div>
-    <WidgetUserProfile v-if="!error" :loadding="pending" />
-    <FeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
-    <WidgetCourseCard @pay="() => (payCoursePopup = true)" />
-    <FeatureUserDebt />
+    <NuxtLazyHydrate when-visible>
+      <LazyWidgetUserProfile v-if="!CourseError" :loadding="CourcePending" />
+    </NuxtLazyHydrate>
+    <NuxtLazyHydrate when-visible>
+      <LazyFeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
+    </NuxtLazyHydrate>
 
-    <UiBasePopup v-model="testPopup" class="target-training-test">
-      <template #default>
-        <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
-      </template>
-    </UiBasePopup>
+    <NuxtLazyHydrate when-visible>
+      <LazyWidgetCourseCard v-if="courcePreview" :course="courcePreview" />
+    </NuxtLazyHydrate>
+
+    <NuxtLazyHydrate when-visible>
+      <LazyFeatureUserDebt />
+    </NuxtLazyHydrate>
+
+    <NuxtLazyHydrate when-visible>
+      <LazyUiBasePopup v-model="testPopup" class="target-training-test">
+        <template #default>
+          <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
+        </template>
+      </LazyUiBasePopup>
+    </NuxtLazyHydrate>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '~/stores/user'
-import useShowNotification from '~/composables/useShowNotification'
+import { useCourceStore } from '~/stores/cource'
+
+const courceSotore = useCourceStore()
+const { courcePreview } = storeToRefs(courceSotore)
 
 definePageMeta({
   layout: 'cabinet',
@@ -34,9 +48,8 @@ route.meta.pageTitle = 'Личный кабинет'
 useSeoMeta({
   title: 'Личный кабинет',
 })
-const userStore = useUserStore()
+
 const testPopup = ref(false)
-const payCoursePopup = ref(false)
 
 const mainEvents = computed(() => {
   if (events.value.length >= 2) {
@@ -59,15 +72,16 @@ const events = ref([
     date: '26.01.2024',
     time: '18:00',
     description:
-      'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации укрепления моральных ценностей.',
+      'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации.',
   },
 ])
 
-const { pending, error } = await useLazyAsyncData('user', () =>
-  userStore.fetchUser().then(() => true)
+const { pending: CourcePending, error: CourseError } = useAsyncData(
+  'cource',
+  () => courceSotore.fetchCourcePreview().then(() => true)
 )
 
-useShowNotification(error.value)
+// useShowNotification(error.value)
 </script>
 <style lang="scss" scoped>
 .cabinet-page {

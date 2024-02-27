@@ -1,7 +1,7 @@
 <template>
   <div class="education-lesson-card">
     <div class="education-lesson-card__container">
-      <div class="education-lesson-card__video">
+      <div v-if="withVideo" class="education-lesson-card__video">
         <UiBaseSkeleton class="video__player"></UiBaseSkeleton>
       </div>
       <div class="education-lesson-card__right-side">
@@ -18,17 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { LessonWithTask, LessonWithTest } from '~/types'
-
-interface Props {
-  lesson?: LessonWithTest | LessonWithTask
-}
-
-defineProps<Props>()
+const props = defineProps<{ withVideo?: boolean }>()
 </script>
 
 <script lang="ts">
-export default {}
+export default {
+  name: 'SkeletonForCard',
+}
 </script>
 
 <style lang="scss" scoped>

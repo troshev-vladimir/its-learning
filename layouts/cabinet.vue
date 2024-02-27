@@ -15,6 +15,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useUserStore } from '~/stores/user'
+const userStore = useUserStore()
+
 const route = useRoute()
 const sidebarLinks = computed(() => [
   {
@@ -38,6 +41,10 @@ const sidebarLinks = computed(() => [
       }
     : {},
 ])
+
+const { pending, error } = await useLazyAsyncData('user', () => {
+  return userStore.fetchUser().then(() => true)
+})
 </script>
 
 <style lang="scss" scoped>

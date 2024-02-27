@@ -12,9 +12,11 @@ export default function useShowNotification(error: Error | CustomError | null) {
   onMounted(async () => {
     await nextTick()
 
-    notify({
-      text: error?.message,
-      type: 'error',
-    })
+    if (error) {
+      notify({
+        text: error?.message,
+        type: 'error',
+      })
+    }
   })
 }

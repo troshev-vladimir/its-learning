@@ -33,10 +33,15 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
+import { abort } from '~/api/user'
+
+const abortRequest = () => {
+  abort()
+}
 import EditProfileButton from './EditProfileButton/index.vue'
 
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
+const { user, isUserLoadding } = storeToRefs(userStore)
 
 const isLoading = ref(false)
 </script>

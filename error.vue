@@ -3,18 +3,16 @@
     <div class="page-404__container">
       <p class="page-404__title text-bold">{{ error?.statusCode }}</p>
       <p class="page-404__message text-body1">{{ error?.message }} 😞</p>
-      <NuxtLink to="/cabinet">
-        <UiBaseButton class="page-404__button" @click="handleError">
-          На главную
-        </UiBaseButton>
 
-        <UiBaseButton
-          v-if="error?.statusCode === 403 || error?.statusCode === 401"
-          class="page-404__button"
-          @click="handleUnauthorized"
-        >
-          Авторизоваться
-        </UiBaseButton>
+      <NuxtLink
+        v-if="error?.statusCode === 403 || error?.statusCode === 401"
+        to="/cabinet/cabinet-auth"
+      >
+        <UiBaseButton class="page-404__button"> Авторизоваться </UiBaseButton>
+      </NuxtLink>
+
+      <NuxtLink v-else to="/cabinet">
+        <UiBaseButton class="page-404__button"> На главную </UiBaseButton>
       </NuxtLink>
     </div>
   </div>
@@ -25,9 +23,6 @@ import type { NuxtError } from '#app'
 defineProps({
   error: Object as () => NuxtError,
 })
-
-const handleError = () => clearError({ redirect: '/cabinet' })
-const handleUnauthorized = () => clearError({ redirect: '/cabinet-auth' })
 </script>
 
 <style lang="scss" scoped>

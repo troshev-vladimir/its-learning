@@ -48,6 +48,7 @@
         <span v-if="required">*</span>
       </p>
 
+      <!-- <teleport to="#popups-container"> -->
       <div
         v-if="isSuggestions && suggestions && suggestions.length"
         :class="[$style.suggestions]"
@@ -61,6 +62,7 @@
           {{ suggestion }}
         </div>
       </div>
+      <!-- </teleport> -->
     </div>
 
     <p :class="$style.message">

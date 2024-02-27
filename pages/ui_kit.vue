@@ -1,7 +1,5 @@
 <template>
-  <div class="">
-    <FeatureVerificationCode />
-  </div>
+  <FeatureContractForm></FeatureContractForm>
 </template>
 
 <script setup lang="ts">

@@ -1,9 +1,9 @@
 <template>
   <UiExpancionItem
     class="education-module-accordion base-shadow"
-    :model-value="modelValue"
-    :class="value.status"
-    :disabled="value.status === 'locked'"
+    :model-value="isOpen"
+    :class="localValue.status"
+    :disabled="localValue.status === 'locked'"
   >
     <template #header>
       <div
@@ -12,7 +12,7 @@
         @click="onClickHeader"
       >
         <div class="header__left-side">
-          <span class="header__toggle-icon" :class="{ open: modelValue }">
+          <span class="header__toggle-icon" :class="{ open: isOpen }">
             <UiBaseIcon
               width="24px"
               height="24px"
@@ -23,23 +23,28 @@
           </span>
         </div>
         <div class="header__right-side">
-          <p class="text-h2">{{ value.title }}</p>
+          <p class="text-h2">{{ localValue.title }}</p>
 
           <p
-            v-if="value.status === 'active'"
+            v-if="localValue.status === 'active'"
             class="text-body2 education-module-accordion__progress"
           >
-            1/10 уроков пройдено
+            {{ localValue.lessonsPreviews.passed }}/{{
+              localValue.lessonsPreviews.count
+            }}
+            уроков пройдено
           </p>
           <ClientOnly>
             <font-awesome-icon
-              v-if="value.status === 'locked'"
+              v-if="localValue.status === 'locked'"
               icon="fas fa-lock"
             />
           </ClientOnly>
+
           <UiBaseAverageScore
-            v-if="value.status === 'ended'"
+            v-if="localValue.status === 'ended'"
             :has-tip="false"
+            :value="localValue.averageScore"
             class="education-module-accordion__average-score"
           />
         </div>
@@ -47,46 +52,57 @@
     </template>
     <template #default>
       <div class="education-module-accordion__container" @click.prevent>
-        <slot></slot>
+        <FeatureEducationLessonAccordion
+          v-for="(lessonPreview, index) in localValue.lessonsPreviews.value"
+          :key="index"
+          v-model="localValue.lessonsPreviews.value[index]"
+          class="accordion-lesson"
+        >
+        </FeatureEducationLessonAccordion>
       </div>
     </template>
   </UiExpancionItem>
 </template>
 <script lang="ts" setup>
-interface EducationModule {
-  id?: string
-  title?: string
-  status?: 'active' | 'locked' | 'ended'
-}
+import type { CourceModule } from '~/api/cource/types'
 interface Props {
-  value?: EducationModule
-  modelValue: boolean
+  modelValue: CourceModule
+  isOpen: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
-  value: () => ({
-    id: '123',
-    title: 'Название модуля',
-    status: 'active',
-  }),
+  isOpen: false,
 })
+
+const emit = defineEmits(['update:modelValue'])
 
 const router = useRouter()
 const accordion = ref<HTMLElement | null>(null)
 
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
+})
+
 onMounted(async () => {
   setTimeout(() => {
-    if (accordion.value && props.modelValue) {
+    if (accordion.value && localValue) {
       const element = accordion.value.getBoundingClientRect()
-      const top = element.y
+      const top = element.top + window.scrollY
       const height = element.height
-      window.scroll({ top: top + height, behavior: 'smooth' })
+      console.log(height)
+      console.log(top)
+
+      window.scroll({ top: top - height, behavior: 'smooth' })
     }
   }, 0)
 })
 
 const onClickHeader = () => {
-  router.replace({ query: { module: props.value.id } })
+  router.replace({ query: { module: localValue.value.id } })
 }
 </script>
 
@@ -170,7 +186,7 @@ const onClickHeader = () => {
     padding: 16px;
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    gap: 16px;
     background: $white;
     border-radius: 8px;
   }

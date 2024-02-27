@@ -1,5 +1,11 @@
 <template>
-  <form :class="[$style['base-form']]" @submit.prevent="submit">
+  <form
+    :class="[
+      $style['base-form'],
+      { [$style['base-form--loadding']]: loadding },
+    ]"
+    @submit.prevent="submit"
+  >
     <h2 :class="[$style.title, 'text-h2']">{{ title }}</h2>
 
     <div
@@ -36,6 +42,7 @@ interface Props {
   title: string
   fuckedUp?: boolean
   dirty?: boolean
+  loadding?: boolean
   submiText?: string
   isLoading?: boolean
 }
@@ -56,6 +63,7 @@ const submit = () => {
   // padding: 24px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .form-content {
     overflow: auto;
@@ -64,6 +72,22 @@ const submit = () => {
     &.disabled {
       opacity: 0.5;
       pointer-events: none;
+    }
+  }
+
+  &--loadding {
+    &:after {
+      content: 'Отправка...';
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      opacity: 0.6;
     }
   }
 }

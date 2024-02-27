@@ -14,3 +14,9 @@ export interface CRUD<T> {
   delete: (id: string) => Promise<Responce<T> | never>
   add: (body: T) => Promise<Responce<T> | never>
 }
+
+export interface ResponceError {
+  error: string
+  message: string
+  data: any
+}
