@@ -92,13 +92,14 @@ const checkedAnswer = computed({
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 24px;
     flex-direction: column;
     row-gap: 16px;
     position: sticky;
-    top: 0px;
+    top: -1px;
+    margin-bottom: 24px;
+    padding: 24px 24px 0 24px;
+    border-radius: $radius;
     background: $white;
-    padding-top: 24px;
 
     @include media($bp-sm) {
       align-items: flex-end;
@@ -111,6 +112,7 @@ const checkedAnswer = computed({
 
   &__question-block {
     margin-bottom: 24px;
+    padding: 0 24px;
 
     &.with-image {
       display: grid;
@@ -139,6 +141,7 @@ const checkedAnswer = computed({
     flex-direction: column;
     gap: 16px;
     width: 100%;
+    padding: 0 24px;
 
     @include media($bp-sm) {
       display: grid;
