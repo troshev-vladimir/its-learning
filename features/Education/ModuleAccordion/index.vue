@@ -91,9 +91,12 @@ onMounted(async () => {
   setTimeout(() => {
     if (accordion.value && localValue) {
       const element = accordion.value.getBoundingClientRect()
-      const top = element.y
+      const top = element.top + window.scrollY
       const height = element.height
-      window.scroll({ top: top + height, behavior: 'smooth' })
+      console.log(height)
+      console.log(top)
+
+      window.scroll({ top: top - height, behavior: 'smooth' })
     }
   }, 0)
 })
