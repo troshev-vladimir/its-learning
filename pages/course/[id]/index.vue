@@ -139,7 +139,7 @@ const lessonMock2 = {}
 const onClickItem = (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1
-    router.replace({ query: { module: -1 } })
+    router.replace({ query: {} })
     return
   }
   router.replace({ query: { module: index } })
