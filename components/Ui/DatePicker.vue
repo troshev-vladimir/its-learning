@@ -12,7 +12,7 @@
     ]"
   >
     <div :class="$style.inputWrapper">
-      <VueDatePicker
+      <vue-date-picker
         v-bind="$attrs"
         ref="datepicker"
         v-model="localValue"
@@ -43,7 +43,7 @@
             <font-awesome-icon :icon="['far', 'calendar']" />
           </client-only>
         </template>
-      </VueDatePicker>
+      </vue-date-picker>
       <p :class="$style.placeholder" class="small">
         {{ label }}
         <span v-if="required">*</span>
@@ -62,7 +62,6 @@
   />
 </template>
 <script setup lang="ts">
-import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { ValidatorResp } from '~/utils/validators/types'
 import { type DatePickerInstance } from '@vuepic/vue-datepicker'
