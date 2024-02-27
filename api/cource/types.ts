@@ -52,7 +52,7 @@ export interface LessonPreview {
   edgeDate?: string
   isExpired?: boolean
   result?: string
-  status: 'studying' | 'verification' | 'result'
+  status: 'studying' | 'exam' | 'verification' | 'result'
   type: 'test' | 'task'
 }
 

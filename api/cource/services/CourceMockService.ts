@@ -289,7 +289,7 @@ export class CourceMockService implements AbstractCourceService {
                 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
               text: 'string',
               type: 'task',
-              status: 'studying',
+              status: 'result',
               presentations: [
                 {
                   name: 'link',
@@ -302,11 +302,10 @@ export class CourceMockService implements AbstractCourceService {
               ],
               testID: 'string',
               taskID: 'string',
-              result: 'string',
+              result: '5',
               legend: [
                 { title: 'Задание получено', date: '20.01.2024' },
                 { title: 'Задание принято', date: '20.01.2024' },
-                { title: 'Результат выполнеия', date: '4' },
               ],
             },
             message: '',
@@ -322,7 +321,7 @@ export class CourceMockService implements AbstractCourceService {
               id: '2',
               type: 'task',
               text: 'string',
-              status: 'studying',
+              status: 'exam',
               presentations: [
                 {
                   name: 'link',

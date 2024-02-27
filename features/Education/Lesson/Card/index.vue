@@ -2,7 +2,9 @@
   <div class="education-lesson-card">
     <div v-show="!isLoading && lesson" class="education-lesson-card__container">
       <div v-if="lesson?.videoLink" class="education-lesson-card__video">
-        <div class="video__player" />
+        <video class="video__player" controls>
+          <source :src="lesson.videoLink" type="video/mp4" />
+        </video>
       </div>
       <div class="education-lesson-card__right-side">
         <p class="text-body2">
