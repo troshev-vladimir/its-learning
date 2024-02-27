@@ -89,7 +89,7 @@ const localValue = computed({
 
 onMounted(async () => {
   setTimeout(() => {
-    if (accordion.value && localValue) {
+    if (accordion.value && props.isOpen) {
       const element = accordion.value.getBoundingClientRect()
       const top = element.top + window.scrollY
       const height = element.height
