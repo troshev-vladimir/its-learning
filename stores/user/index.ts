@@ -8,7 +8,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   const fetchUser = async () => {
     isUserLoadding.value = true
-    const resp = await api.user.get('1')
+    const resp = await api.user.get()
     user.value = resp
     hasChanges.value = false
     isUserLoadding.value = false

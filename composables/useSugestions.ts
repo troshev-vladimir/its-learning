@@ -9,7 +9,8 @@ export default function useSugestions() {
     timer = setTimeout(cb, 1000)
   }
 
-  const sugestCity = async (value: string) => {
+  const sugestCity = async (value?: string) => {
+    if (!value) return
     const cb = async () => (citys.value = await getCitySuggestion(value))
 
     if (!timer) {
