@@ -171,14 +171,18 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
   }
 
   .placeholder {
+    pointer-events: none;
+    overflow: hidden;
+    width: 80%;
     top: 50%;
     left: 12px;
     position: absolute;
     margin: 0;
-    pointer-events: none;
-    color: $secondary;
     transition: 0.2s;
     transform: translate(0, -50%);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: $secondary;
   }
 
   .native-input {

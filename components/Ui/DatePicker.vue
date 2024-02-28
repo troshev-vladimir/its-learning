@@ -138,6 +138,10 @@ onMounted(() => {
   }
 
   .placeholder {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 70%;
     top: 50%;
     left: 36px;
     position: absolute;
