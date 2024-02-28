@@ -9,11 +9,14 @@ export const useCourceStore = defineStore('courceStore', () => {
 
   const fetchCource = async () => {
     if (isCourceLoadding.value) return
-    isCourceLoadding.value = true
-    const resp = await api.cource.getCource('1')
-    cource.value = resp
-    hasChanges.value = false
-    isCourceLoadding.value = false
+    try {
+      isCourceLoadding.value = true
+      const resp = await api.cource.getCource('1')
+      cource.value = resp
+      hasChanges.value = false
+    } finally {
+      isCourceLoadding.value = false
+    }
   }
 
   const fetchCourcePreview = async () => {
