@@ -25,7 +25,7 @@
           </p>
           <p
             v-else-if="props.item.type === 'warn'"
-            class="text-bold text-red-600"
+            class="text-bold text-yellow"
           >
             Предупреждение
           </p>

@@ -132,14 +132,11 @@ import { useUserStore } from '~/stores/user'
 import { useNotification } from '@kyvg/vue3-notification'
 import { TinkoffPayment } from '~/utils/TinkoffPayment'
 import { buyViaInstallment } from '~/utils/TinkoffInstallment'
+import type { IDoc } from '~/types'
 import Skeleton from './skeleton.vue'
 
 const { notify } = useNotification()
 
-interface IDoc {
-  name: string
-  link: string
-}
 interface ICost {
   id: string
   fullPrice: {
