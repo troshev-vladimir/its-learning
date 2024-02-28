@@ -9,7 +9,7 @@
       <img :src="userPhoto || user.photoUrl" width="160" />
 
       <UiBaseFileinput
-        v-model="form.imageFile"
+        v-model="imageFile"
         class="q-mb-sm"
         :accept="['image/png', 'image/jpeg']"
         :max-size="9 * 1024 * 1024"
@@ -180,9 +180,10 @@
   </UiBaseForm>
 </template>
 <script setup lang="ts">
-import { required, email, minLength, helpers } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { useUserStore } from '~/stores/user'
+import type { User } from '~/api/user'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
@@ -195,18 +196,19 @@ const getUserPhoto = (filesURLs: unknown[]) => {
 const { citys, sugestCity } = useSugestions()
 const emit = defineEmits(['submit'])
 
-const form = reactive<Record<string, any>>({
-  imageFile: [],
+const imageFile = ref([])
+
+const form = reactive({
   name: user.value?.name || '',
   city: user.value?.city || '',
-  degree: user.value?.degree || '',
+  degree: user.value?.degree || 0,
   releaseYear: user.value?.releaseYear || '',
   vuz: user.value?.vuz || '',
   faculty: user.value?.faculty || '',
   learnArea: user.value?.learnArea || '',
-  birthdate: user.value?.birthdate || '',
+  birthdate: user.value?.birthdate ?? '',
   birthPlace: user.value?.birthPlace || '',
-  havExperience: user.value?.havExperience || '',
+  havExperience: user.value?.havExperience || false,
   graduates: user.value?.graduates || [],
   additionalGraduates: user.value?.graduates || [],
 })

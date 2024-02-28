@@ -3,13 +3,11 @@ export interface User {
   name?: string
   surname?: string
   thirdname?: string
-  id?: string
   photoUrl?: string
   age?: number
   email: string
   city: string
   phone: string
-
   degree?: number
   releaseYear?: string
   vuz?: string
@@ -17,7 +15,7 @@ export interface User {
   learnArea?: string
   birthdate?: string
   birthPlace?: string
-  havExperience?: boolean
+  havExperience: boolean
   graduates?: string[]
   additionalGraduates?: string[]
 }

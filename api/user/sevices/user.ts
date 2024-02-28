@@ -15,11 +15,10 @@ export class UserService implements AbstractUserService {
     return data
   }
 
-  async get(id: string) {
+  async get() {
     try {
       const { data } = await this.api.get('users', {
         signal: userAbortController.signal,
-        params: { id },
       })
       return data
     } catch (error) {
@@ -39,9 +38,8 @@ export class UserService implements AbstractUserService {
     return data
   }
 
-  async update(id: string, body: User) {
+  async update(body: User) {
     const { data } = await this.api.put('users', {
-      params: { id },
       body: body,
     })
     return data
