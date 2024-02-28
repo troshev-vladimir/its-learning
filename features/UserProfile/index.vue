@@ -5,6 +5,23 @@
     :dirty="!!v$.$errors.length"
     @submit="sendForm"
   >
+    <div :class="[$style.image, 'q-mb-lg']">
+      <img :src="userPhoto || user.photoUrl" width="160" />
+
+      <UiBaseFileinput
+        v-model="form.imageFile"
+        class="q-mb-sm"
+        :accept="['image/png', 'image/jpeg']"
+        :max-size="9 * 1024 * 1024"
+        label="Загрузить фото профиля"
+        :validation-result="{
+          status: v$.imageFile.$error ? 'error' : 'success',
+          message: getErrorMessage(v$.imageFile),
+        }"
+        @preview="getUserPhoto"
+        @update:model-value="updateValue('imageFile')"
+      />
+    </div>
     <UiBaseInput
       v-model="form.name"
       name="name"
@@ -165,27 +182,39 @@
 <script setup lang="ts">
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+
+const userPhoto = ref()
+const getUserPhoto = (filesURLs: unknown[]) => {
+  userPhoto.value = filesURLs[0]
+}
+
 const { citys, sugestCity } = useSugestions()
 const emit = defineEmits(['submit'])
 
 const form = reactive<Record<string, any>>({
-  name: 'asdasdasd',
-  city: '',
-  degree: 0,
-  releaseYear: '',
-  vuz: '',
-  faculty: '',
-  learnArea: '',
-  birthdate: '',
-  birthPlace: '',
-  havExperience: false,
-  graduates: [],
-  additionalGraduates: [],
+  imageFile: [],
+  name: user.value?.name || '',
+  city: user.value?.city || '',
+  degree: user.value?.degree || '',
+  releaseYear: user.value?.releaseYear || '',
+  vuz: user.value?.vuz || '',
+  faculty: user.value?.faculty || '',
+  learnArea: user.value?.learnArea || '',
+  birthdate: user.value?.birthdate || '',
+  birthPlace: user.value?.birthPlace || '',
+  havExperience: user.value?.havExperience || '',
+  graduates: user.value?.graduates || [],
+  additionalGraduates: user.value?.graduates || [],
 })
 
 const rules = computed(() => {
   return {
     name: { required: helpers.withMessage('Поле обязательно', required) },
+    imageFile: {},
     city: {},
     degree: {},
     releaseYear: {},
@@ -223,4 +252,13 @@ const sendForm = async () => {
   }
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss" module>
+.image {
+  display: flex;
+  align-items: center;
+  img {
+    border-radius: 8px;
+    margin-right: 40px;
+  }
+}
+</style>
