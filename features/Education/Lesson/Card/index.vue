@@ -51,6 +51,12 @@
               {{ lesson?.result }}
             </span>
           </p>
+          <p v-if="lesson?.status === 'exam'">
+            Вы приступили к выполнению задания, время ограничено
+          </p>
+          <p v-if="lesson?.status === 'verification'">
+            Задание на проверке. Ожидайте
+          </p>
         </div>
       </div>
 
