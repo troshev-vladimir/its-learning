@@ -33,14 +33,7 @@
         >
           Начать выполнение задания
         </UiBaseButton>
-        <div class="education-lesson-card__legend-block">
-          <p v-if="lesson?.status === 'exam'">
-            Вы приступили к выполнению задания, время ограничено
-          </p>
-          <p v-if="lesson?.status === 'verification'">
-            Задание на проверке. Ожидайте
-          </p>
-
+        <div class="row justify-between q-gutter-sm">
           <p
             v-for="(item, index) in lesson?.legend"
             :key="index"
@@ -106,40 +99,31 @@ const isTest = ref(false)
     flex-direction: column;
     row-gap: 16px;
     width: 100%;
+
+    @include media($bp-md) {
+      width: 50%;
+    }
   }
 
   &__video {
     width: 100%;
     max-height: 100%;
-    border-radius: 8px;
-    overflow: hidden;
+
+    @include media($bp-md) {
+      width: 50%;
+    }
   }
 
   .video__player {
     display: block;
     width: 100%;
+    border-radius: 8px;
     background: $gray-500;
   }
 
   &__test {
     overflow: auto;
     max-height: inherit;
-  }
-
-  &__legend-block {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px 24px;
-    width: 100%;
-
-    @include media($bp-xs) {
-      grid-template-columns: repeat(2, 1fr);
-
-      > *:nth-child(2n) {
-        align-self: end;
-        text-align: end;
-      }
-    }
   }
 }
 </style>
