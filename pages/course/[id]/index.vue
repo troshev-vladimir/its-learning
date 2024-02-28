@@ -1,68 +1,39 @@
 <template>
   <div class="course-page">
-    <p v-if="isCourceLoadding">loadding...</p>
-    <div v-else-if="cource" class="course-page__container">
-      <div class="course-page__header">
-        <div class="header__left-side">
-          <p class="text-h2">{{ cource?.title }}</p>
-          <div class="column items-center header__tracker-block">
-            <ClientOnly>
-              <UiBaseTracker
-                :value="cource?.progress"
-                class="tracker q-mb-sm"
-              />
-            </ClientOnly>
-            <UiBaseButton
-              type="link"
-              size="small"
-              prev-icon="fas fa-chart-line"
-            >
-              Трекер успеваемости
-            </UiBaseButton>
-          </div>
-        </div>
-        <p v-if="cource?.isEnded" class="text-body1 text-bold text-blue-600">
-          Завершен
-        </p>
-        <UiBaseAverageScore
-          class="average-score"
-          :value="cource?.averageScore"
-        />
-      </div>
-      <div class="course-page__course-statistics-block">
-        <MaterialCoveredCard
-          v-if="cource?.statistics.tests"
-          :icon="['fas', 'check-square']"
-          :statistic="cource?.statistics.tests"
-          title="Тесты"
-        />
-        <MaterialCoveredCard
-          v-if="cource?.statistics.video"
-          :icon="['fas', 'video']"
-          :statistic="cource?.statistics.video"
-          title="Видео"
-        />
-        <MaterialCoveredCard
-          v-if="cource?.statistics.tasks"
-          :icon="['fas', 'file-code']"
-          :statistic="cource?.statistics.tasks"
-          title="Задания"
-        />
-      </div>
+    <div class="course-page__container">
+      <WidgetFullCourseCard
+        class="course-page__full-course-card"
+        :course="cource"
+        :is-loading="isCourceLoadding"
+      />
+
       <p
-        v-if="cource?.couchAwilableTill"
+        v-if="cource?.couchAwilableTill && !isCourceLoadding"
         class="course-page__access-mentor text-body2 text-gray-400"
       >
         Доступ к наставнику до {{ cource?.couchAwilableTill }}
       </p>
+      <transition name="fade">
+        <div
+          v-if="cource && !isCourceLoadding"
+          class="course-page__education-block"
+        >
+          <FeatureEducationModuleAccordion
+            v-for="(module, index) in cource?.modules"
+            :key="index"
+            v-model="cource.modules[index]"
+            :is-open="activeModuleIndex == index"
+            @click="() => onClickItem(index)"
+          />
+        </div>
+      </transition>
 
-      <div class="course-page__education-block">
-        <FeatureEducationModuleAccordion
-          v-for="(module, index) in cource?.modules"
-          :key="index"
-          v-model="cource.modules[index]"
-          :is-open="activeModuleIndex == index"
-          @click="() => onClickItem(index)"
+      <div v-if="isCourceLoadding" class="course-page__education-block">
+        <UiBaseSkeleton
+          v-for="num in 5"
+          :key="num"
+          width="100%"
+          height="100px"
         />
       </div>
     </div>
@@ -109,60 +80,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .course-page {
-  &__header,
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    gap: 16px;
-
-    @media screen and (min-width: $bp-xs) {
-      gap: 0;
-      flex-direction: row;
-    }
-
-    &__left-side {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-
-      @media screen and (min-width: $bp-xs) {
-        align-items: start;
-        width: 65%;
-      }
-    }
-
-    &__tracker-block {
-      width: 100%;
-    }
-
-    .tracker {
-      width: 100%;
-    }
-
-    .average-score {
-      align-items: flex-end;
-    }
-  }
-
-  &__course-statistics-block {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 32px;
-    margin-top: 32px;
-    flex-wrap: wrap;
-
-    @media screen and (min-width: $bp-xs) {
-      justify-content: flex-start;
-    }
-  }
-
-  &__access-mentor {
-    margin-top: 32px;
+  &__full-course-card {
+    margin-bottom: 32px;
   }
 
   &__education-block {

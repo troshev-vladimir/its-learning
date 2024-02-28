@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<Props>(), {
   intervalLifetime: 2 * 60 * 1000,
 })
 
-const emit = defineEmits(['verified'])
+const emit = defineEmits(['verified', 'send', 'sendCode'])
 const { notify } = useNotification()
 
 const code = ref('')
@@ -116,10 +116,7 @@ const setCodeTimer = () => {
 
 const sendCode = () => {
   setCodeTimer()
-  notify({
-    title: 'На телефон +79562563542 отправлен код',
-    type: 'info',
-  })
+  emit('sendCode')
 }
 
 const verifyCode = () => {
@@ -128,20 +125,10 @@ const verifyCode = () => {
       title: 'Заполните верно поле для ввода кода',
       type: 'warn',
     })
-  } else {
-    codeStatus.value = 'sended'
-    if (code.value == '123456') {
-      setTimeout(() => {
-        codeStatus.value = 'verified'
-        emit('verified')
-        if (interval.value) clearCodeTimer()
-      }, 1000)
-    } else {
-      setTimeout(() => {
-        codeStatus.value = 'unverified'
-      }, 1000)
-    }
+    return
   }
+  codeStatus.value = 'sended'
+  emit('send', code.value)
 }
 
 onMounted(() => {

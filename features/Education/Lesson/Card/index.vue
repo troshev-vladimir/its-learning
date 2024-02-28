@@ -33,24 +33,14 @@
         >
           Начать выполнение задания
         </UiBaseButton>
-
-        <p v-if="lesson?.status === 'exam'">
-          Вы приступили к выполнению задания, время ограничено
-        </p>
-        <p v-if="lesson?.status === 'verification'">
-          Задание на проверке. Ожидайте
-        </p>
-
         <div class="row justify-between q-gutter-sm">
-          <div v-if="lesson?.legend && lesson.legend.length">
-            <p
-              v-for="(item, index) in lesson.legend"
-              :key="index"
-              class="text-body2"
-            >
-              {{ item.title }} : {{ item.date }}
-            </p>
-          </div>
+          <p
+            v-for="(item, index) in lesson?.legend"
+            :key="index"
+            class="text-body2"
+          >
+            {{ item.title }} : {{ item.date }}
+          </p>
 
           <p
             v-if="lesson?.status === 'result' && lesson?.result"
@@ -60,6 +50,12 @@
             <span class="text-blue-600">
               {{ lesson?.result }}
             </span>
+          </p>
+          <p v-if="lesson?.status === 'exam'">
+            Вы приступили к выполнению задания, время ограничено
+          </p>
+          <p v-if="lesson?.status === 'verification'">
+            Задание на проверке. Ожидайте
           </p>
         </div>
       </div>

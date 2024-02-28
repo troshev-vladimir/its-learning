@@ -1,12 +1,11 @@
 import type { UiDatePicker } from '#build/components';
 <template>
   <UiBaseForm
-    title="Подписание договора"
     :fucked-up="v$.$error"
     :dirty="!!v$.$errors.length"
     submi-text="Войти"
     :loadding="isLoadding"
-    @submit="sendForm"
+    title=""
   >
     <div class="row q-col-gutter-y-sm q-col-gutter-x-lg">
       <div class="col-12 col-sm-6 col-md-4">
@@ -130,6 +129,7 @@ import type { UiDatePicker } from '#build/components';
         />
       </div>
     </div>
+    <template #actions><span></span></template>
   </UiBaseForm>
 </template>
 <script setup lang="ts">
@@ -140,24 +140,23 @@ const { citys, sugestCity } = useSugestions()
 
 const props = defineProps<{
   isLoadding?: boolean
+  modelValue: any
 }>()
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(['submit', 'update:modelValue'])
 
 const userSotre = useUserStore()
 const { accessToken } = storeToRefs(userSotre)
 
-const form = reactive({
-  name: '',
-  surname: '',
-  lastname: '',
-  birthdate: '',
-  birthplace: '',
-  snils: '',
-  pasport: '',
-  departmentCode: '',
-  extradition: '',
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
 })
+
 const rules = computed(() => {
   return {
     name: {
@@ -189,14 +188,18 @@ const rules = computed(() => {
     },
   }
 })
-const v$ = useVuelidate(rules, form)
+const v$ = useVuelidate(rules, localValue)
 
-const sendForm = async () => {
+const validate = async () => {
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
-    console.log(form)
-    emit('submit', form)
+    console.log(localValue)
+    return true
   }
 }
+
+defineExpose({
+  validate,
+})
 </script>
 <style lang="scss" scoped></style>
