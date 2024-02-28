@@ -3,11 +3,16 @@ withDefaults(
   defineProps<{
     value?: number | string
     hasTip?: boolean
+    tipMessage?: string
     isLoading?: boolean
+    title?: string
   }>(),
   {
     isLoading: false,
     hasTip: true,
+    tipMessage:
+      'Балл выпускника определяется из совокупности результатов пройденных тестов.',
+    title: 'Средний балл',
   }
 )
 </script>
@@ -19,11 +24,11 @@ withDefaults(
     </p>
     <p v-else class="base-average-score__value text-body1 text-bold">-</p>
     <div class="base-average-score__description">
-      <p class="text-body2 text-right">Средний балл</p>
+      <p class="text-body2 text-right">{{ title }}</p>
       <UiBaseIcon
         v-if="hasTip === true"
         v-tippy="{
-          content: `Балл выпускника определяется из совокупности результатов пройденных тестов.`,
+          content: tipMessage,
         }"
         width="16px"
         height="16px"
