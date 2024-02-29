@@ -128,6 +128,7 @@
               description: card.name || 'Описание не указано',
             }"
             :amount="card.price.withDiscount"
+            ref="tinkoffFullButton"
           >
             <template #default="{ fullPaymentLink }">
               <a v-if="fullPaymentLink" :href="fullPaymentLink" target="_blank">
@@ -191,13 +192,18 @@ import { defineProps, ref } from 'vue'
 export interface Props {
   card: Program
 }
-
+import { FeaturePaymentTinkoff } from '#components'
 const props = defineProps<Props>()
 const currentInstalmentPreiod = ref(6)
+const tinkoffFullButton = ref<InstanceType<typeof FeaturePaymentTinkoff>>()
 
 const getInstallment = (summ: number) => {
   return Math.round((summ * 1.2108499096) / 24)
 }
+
+onUpdated(() => {
+  tinkoffFullButton.value?.getPaymentUrl()
+})
 </script>
 
 <style lang="scss" scoped>
