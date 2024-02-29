@@ -195,7 +195,7 @@ const getFullPaymentUrl = async (orderData: OrderData) => {
   return responce?.PaymentURL
 }
 
-onMounted(async () => {
+const getPaymentUrl = async () => {
   try {
     let orderData = await getOrderDataWithToken()
     if (!orderData) throw new Error()
@@ -208,6 +208,14 @@ onMounted(async () => {
       message: error?.message || 'Что то пошло не так',
     })
   }
+}
+
+onMounted(() => {
+  getPaymentUrl()
+})
+
+defineExpose({
+  getPaymentUrl,
 })
 </script>
 <style lang="scss">
