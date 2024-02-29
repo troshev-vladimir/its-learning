@@ -185,7 +185,8 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
     color: $secondary;
   }
 
-  .native-input {
+  .native-input,
+  .native-input:-webkit-autofill {
     width: 100%;
     height: 100%;
     padding: 10px 12px;
@@ -195,24 +196,35 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
     background: $white;
     font-size: $md;
     transition: 0.2s;
+    -webkit-box-shadow: 0 0 0px 1000px $white inset;
+    transition: background-color 5000s ease-in-out 0s;
 
     &:hover,
-    &:focus,
-    &:-webkit-autofill,
-    &:-webkit-autofill:focus {
+    &:focus {
       border-color: $accent;
     }
 
     &:hover:focus,
     &:-internal-autofill-selected:hover,
+    &:-webkit-autofill:hover,
     &:hover {
-      box-shadow: 0 0 0 2px $light-blue;
+      -webkit-box-shadow:
+        0 0 0 2px $light-blue,
+        0 0 0px 1000px $white inset !important;
+      box-shadow:
+        0 0 0 2px $light-blue,
+        0 0 0px 1000px $white inset !important;
     }
 
     &:focus,
-    &:-internal-autofill-selected:focus {
-      -webkit-box-shadow: 0 0 0 1px $light-blue;
-      box-shadow: 0 0 0 1px $light-blue;
+    &:-internal-autofill-selected:focus,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow:
+        0 0 0 1px $light-blue,
+        0 0 0px 1000px $white inset;
+      box-shadow:
+        0 0 0 1px $light-blue,
+        0 0 0px 1000px $white inset;
     }
   }
 
