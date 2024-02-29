@@ -25,15 +25,15 @@
 const props = defineProps({
   buttonText: {
     type: String,
-    default: '',
+    default: "",
   },
-})
+});
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['click'])
+const emit = defineEmits(["click"]);
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .ui-item {
   flex-direction: column;
 
@@ -48,13 +48,13 @@ const emit = defineEmits(['click'])
     border-radius: 8px;
   }
 
-  @media screen and (max-width: $bp-sm) {
+  @media screen and (max-width: $breakpoint-sm) {
     background-color: var(--q-secondary);
     border-radius: 8px;
     overflow: hidden;
   }
 
-  @media screen and (min-width: $bp-sm) {
+  @media screen and (min-width: $breakpoint-sm) {
     flex-direction: row;
     align-items: stretch;
 

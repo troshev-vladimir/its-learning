@@ -1,14 +1,14 @@
 // $
-@import './variables.scss';
-@import './container.scss';
-@import './fonts.scss';
-@import './quasar.scss';
+@import "./variables.scss";
+@import "./container.scss";
+@import "./fonts.scss";
+@import "./quasar.scss";
 
 @mixin col-gap($gutter) {
   .container > .row {
     margin-left: -$gutter;
 
-    & > [class^='col-'],
+    & > [class^="col-"],
     & > .col {
       padding-left: $gutter;
     }
@@ -39,16 +39,6 @@
   color: $primary-text;
 }
 
-.text-bold {
-  font-weight: 700;
-}
-.text-underlined {
-  text-decoration: underline;
-}
-.text-crossed-out {
-  text-decoration: line-through;
-}
-
 @include col-gap(20px);
 
 @mixin theme-colors($light-theme: true) {
@@ -63,20 +53,18 @@
 
 $flex-cols: 12;
 
-@media (min-width: $bp-sm) {
+@media (min-width: $breakpoint-sm) {
   // 1024
   .text-h1 {
     font-weight: 700;
     font-size: 45px;
     line-height: 45px;
-    color: $primary-text;
   }
 
   .text-h2 {
     font-weight: 700;
     font-size: 30px;
     line-height: 100%;
-    color: $primary-text;
   }
   .text-body1 {
     font-size: 20px;
@@ -91,166 +79,11 @@ $flex-cols: 12;
   }
 }
 
-@media (min-width: $bp-md) {
+@media (min-width: $breakpoint-md) {
   // 1440
   @include col-gap(40px);
 }
-@media (min-width: $bp-lg) {
+@media (min-width: $breakpoint-lg) {
   // 1920
   @include col-gap(40px);
-}
-
-.text {
-  &-center {
-    text-align: center;
-  }
-
-  &-gray {
-    &-900 {
-      color: $gray-900;
-    }
-    &-800 {
-      color: $gray-800;
-    }
-    &-700 {
-      color: $gray-700;
-    }
-    &-600 {
-      color: $gray-600;
-    }
-    &-500 {
-      color: $gray-500;
-    }
-    &-400 {
-      color: $gray-400;
-    }
-    &-300 {
-      color: $gray-300;
-    }
-    &-200 {
-      color: $gray-200;
-    }
-    &-100 {
-      color: $gray-100;
-    }
-  }
-
-  &-blue {
-    &-900 {
-      color: $blue-900;
-    }
-    &-800 {
-      color: $blue-800;
-    }
-    &-700 {
-      color: $blue-700;
-    }
-    &-600 {
-      color: $blue-600;
-    }
-    &-500 {
-      color: $blue-500;
-    }
-    &-400 {
-      color: $blue-400;
-    }
-    &-300 {
-      color: $blue-300;
-    }
-    &-200 {
-      color: $blue-200;
-    }
-    &-100 {
-      color: $blue-100;
-    }
-  }
-
-  &-red {
-    &-900 {
-      color: $red-900;
-    }
-    &-800 {
-      color: $red-800;
-    }
-    &-700 {
-      color: $red-700;
-    }
-    &-600 {
-      color: $red-600;
-    }
-    &-500 {
-      color: $red-500;
-    }
-    &-400 {
-      color: $red-400;
-    }
-    &-300 {
-      color: $red-300;
-    }
-    &-200 {
-      color: $red-200;
-    }
-    &-100 {
-      color: $red-100;
-    }
-  }
-
-  &-green {
-    &-900 {
-      color: $green-900;
-    }
-    &-800 {
-      color: $green-800;
-    }
-    &-700 {
-      color: $green-700;
-    }
-    &-600 {
-      color: $green-600;
-    }
-    &-500 {
-      color: $green-500;
-    }
-    &-400 {
-      color: $green-400;
-    }
-    &-300 {
-      color: $green-300;
-    }
-    &-200 {
-      color: $green-200;
-    }
-    &-100 {
-      color: $green-100;
-    }
-  }
-  &-yellow {
-    &-900 {
-      color: $yellow-900;
-    }
-    &-800 {
-      color: $yellow-800;
-    }
-    &-700 {
-      color: $yellow-700;
-    }
-    &-600 {
-      color: $yellow-600;
-    }
-    &-500 {
-      color: $yellow-500;
-    }
-    &-400 {
-      color: $yellow-400;
-    }
-    &-300 {
-      color: $yellow-300;
-    }
-    &-200 {
-      color: $yellow-200;
-    }
-    &-100 {
-      color: $yellow-100;
-    }
-  }
 }

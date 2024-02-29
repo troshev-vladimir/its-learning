@@ -9,7 +9,7 @@
           </h1>
         </div>
         <div class="header__right-side">
-          <p class="text-body1 text-bold" v-html="card.description" />
+          <p class="text-body1 text-bold" v-html="card.description"></p>
         </div>
       </div>
     </div>
@@ -122,50 +122,37 @@
           </div>
         </div>
         <div class="program-card__buttons-block">
-          <a :href="paumentUrl" target="_blank">
-            <UiBaseButton
-              class="program-card__buy-button"
-              color="white"
-              text-color="primary"
-              size="small"
-              type="primary"
-            >
-              Купить
-            </UiBaseButton>
-          </a>
-          <div class="row q-gutter-md q-mt-xs">
-            <UiSelect
-              v-model="selectedPeriod"
-              clearable
-              :options="[
-                { label: 'В рассрочку на 3 мес.', value: '3', selected: false },
-                { label: 'В рассрочку на 6 мес.', value: '6', selected: false },
-                {
-                  label: 'В рассрочку на 12 мес.',
-                  value: '12',
-                  selected: false,
-                },
-                { label: 'В кредит на 24 мес.', value: '24', selected: false },
-              ]"
-              label="Выберите срок рассрочки"
-              class="col program-card__diferrent-payment-selector"
+          <FeaturePaymentTinkoff
+            :order-data="{
+              order: card.name || 'Name',
+              description: card.name || 'Описание не указано',
+            }"
+            :amount="card.price.withDiscount"
+          >
+            <template #default="{ fullPaymentLink }">
+              <a v-if="fullPaymentLink" :href="fullPaymentLink" target="_blank">
+                <UiButton
+                  class="program-card__buy-button"
+                  color="white"
+                  text-color="primary"
+                  size="sm"
+                >
+                  Купить
+                </UiButton>
+              </a>
+            </template>
+          </FeaturePaymentTinkoff>
+          <ClientOnly>
+            <FeaturePaymentTinkoffInstallment
+              :summ="card.price.withDiscount"
+              :title="card.name"
             />
-            <UiBaseButton
-              class="q-mt-md"
-              color="white"
-              text-color="primary"
-              size="small"
-              type="secondary"
-              @click="openDeferredModal"
-            >
-              В рассрочку
-            </UiBaseButton>
-          </div>
+          </ClientOnly>
         </div>
       </div>
     </div>
 
-    <slot />
+    <slot> </slot>
 
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
@@ -173,7 +160,8 @@
         href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
         target="_blank"
       >
-        <UiBaseButton type="link" size="small"> Договор оферты </UiBaseButton>
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Договор оферты
       </a>
       <a
         v-if="card.linkToContractAddition"
@@ -181,18 +169,16 @@
         :href="card.linkToContractAddition"
         target="_blank"
       >
-        <UiBaseButton type="link" size="small">
-          Приложение к договору №1
-        </UiBaseButton>
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Приложение к договору №1
       </a>
       <a
         class="text-body2 text-secondary d-flex items-center"
         href="https://drive.google.com/file/d/1Dzm_SQZyGkEM7uAp1zcUEwYylmrhn-nw/view?usp=share_link"
         target="_blank"
       >
-        <UiBaseButton type="link" size="small">
-          Приложение к договору №2
-        </UiBaseButton>
+        <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
+        Приложение к договору №2
       </a>
     </div>
   </article>
@@ -200,62 +186,18 @@
 
 <script setup lang="ts">
 import { formatNumber } from '~/utils/helpers'
-import { type Program } from '~/api/configurator/program/types'
-import useUserStore from '~/stores/configurator/user'
-import { TinkoffPayment } from '~/utils/TinkoffPayment'
-import { useNotification } from '@kyvg/vue3-notification'
-import { buyViaInstallment } from '~/utils/TinkoffInstallment'
-
-const { notify } = useNotification()
-
+import { type Program } from '~/api/program/types'
+import { defineProps, ref } from 'vue'
 export interface Props {
   card: Program
 }
-const { user, userId } = useUserStore()
-const props = defineProps<Props>()
 
-const paumentUrl = ref('')
-const selectedPeriod = ref()
+const props = defineProps<Props>()
+const currentInstalmentPreiod = ref(6)
 
 const getInstallment = (summ: number) => {
   return Math.round((summ * 1.2108499096) / 24)
 }
-
-const openDeferredModal = () => {
-  if (!selectedPeriod.value || selectedPeriod.value.length <= 0) {
-    notify({
-      title: 'Выберите период рассрочки',
-      type: 'warn',
-    })
-
-    return
-  }
-
-  buyViaInstallment({
-    sum: props.card.price.withDiscount || props.card.price.actual,
-    period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
-    title: '1С:Программист',
-  })
-}
-
-onMounted(async () => {
-  const tinkoffPaymentUrl = await TinkoffPayment({
-    orderData: {
-      description: props.card.name,
-      name: props.card.name,
-    },
-    userData: {
-      fio: user.FirstName + ' ' + user.LastName,
-      phone: user.id || userId,
-      email: 'userEmailNotPassed@gmail.com',
-    },
-    amount: props.card.price.withDiscount,
-  })
-
-  console.log(tinkoffPaymentUrl)
-
-  if (tinkoffPaymentUrl) paumentUrl.value = tinkoffPaymentUrl
-})
 </script>
 
 <style lang="scss" scoped>
@@ -272,7 +214,7 @@ onMounted(async () => {
     .header__container {
       display: block;
 
-      @media (min-width: $bp-sm) {
+      @media (min-width: $breakpoint-sm) {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -283,7 +225,7 @@ onMounted(async () => {
     .header__left-side {
       width: 100%;
 
-      @media (min-width: $bp-xs) {
+      @media (min-width: $breakpoint-xs) {
         margin-bottom: $sm;
       }
     }
@@ -296,7 +238,7 @@ onMounted(async () => {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
 
-    @media (min-width: $bp-sm) {
+    @media (min-width: $breakpoint-sm) {
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
@@ -343,7 +285,7 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: $bp-sm) {
+    @media screen and (max-width: $breakpoint-sm) {
       min-height: 0;
       flex-wrap: wrap;
       flex-direction: row;
@@ -356,23 +298,8 @@ onMounted(async () => {
     background-color: var(--q-accent);
   }
 
-  .criteria {
-  }
-
-  &--selected {
-    background-color: #fff;
-
-    .list-item::before {
-      background-color: var(--q-secondary);
-    }
-  }
-
   * {
     color: currentColor;
-  }
-
-  &__diferrent-payment-selector {
-    padding-top: 0;
   }
 }
 </style>

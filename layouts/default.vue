@@ -9,7 +9,7 @@
 </template>
 
 <style lang="scss" scoped>
-.view {
-  min-height: 100vh;
-}
+  .view {
+    min-height: 100vh;
+  }
 </style>

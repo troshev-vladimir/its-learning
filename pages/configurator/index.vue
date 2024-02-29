@@ -14,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import b24LeadCreate from '~/utils/createLeadInB24'
+
 useSeoMeta({
   title: 'Покупка программы',
   ogTitle: 'Покупка программы',
@@ -21,6 +24,12 @@ useSeoMeta({
   ogDescription: 'Покупка программы',
   ogImage: 'https://example.com/image.png',
   twitterCard: 'summary_large_image',
+})
+
+onMounted(() => {
+  if (process.env.NODE_ENV === 'production') {
+    b24LeadCreate() //TODO: на регистрацию
+  }
 })
 </script>
 

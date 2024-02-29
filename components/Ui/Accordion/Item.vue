@@ -15,35 +15,35 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line no-undef
-const props = defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  subtitle: {
-    type: String,
-    default: '',
-  },
-})
+  // eslint-disable-next-line no-undef
+  const props = defineProps({
+    title: {
+      type: String,
+      default: "",
+    },
+    subtitle: {
+      type: String,
+      default: "",
+    },
+  });
 </script>
 
 <style lang="scss">
-.q-expansion-item {
-  &--expanded {
-    .q-icon {
-      transform: rotate(45deg);
-      color: $red-12;
+  .q-expansion-item {
+    &--expanded {
+      .q-icon {
+        transform: rotate(45deg);
+        color: $red-12;
+      }
     }
   }
-}
-.q-item {
-  &:hover {
-    .q-focus-helper,
-    .q-focus-helper::before,
-    .q-focus-helper::after {
-      background-color: #fff !important;
+  .q-item {
+    &:hover {
+      .q-focus-helper,
+      .q-focus-helper::before,
+      .q-focus-helper::after {
+        background-color: #fff !important;
+      }
     }
   }
-}
 </style>

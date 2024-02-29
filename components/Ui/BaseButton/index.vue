@@ -1,121 +1,77 @@
 <template>
-  <component
-    :is="tagName"
-    :to="type === 'link' && to ? to : ''"
-    :href="type === 'external-link' && typeof to == 'string' ? to : ''"
-    :target="type == 'external-link' ? '_blank' : 'none'"
+  <button
     class="base-button"
-    :class="[
-      type,
-      size,
-      isLoading ? 'loading' : true,
-      disabled ? '_disabled' : null,
-    ]"
-    :type="nativeType"
+    :class="`${type} ${size} ${isLoading ? 'loading' : ''}`"
   >
-    <slot name="prev-icon">
-      <UiBaseIcon
-        v-if="prevIconName"
-        width="16px"
-        height="16px"
-        font-size="16px"
-        radius="4px"
-        class="base-button__icon"
-        :icon="prevIconName"
-        :background="type === 'primary' ? '#a1c4e7' : undefined"
-      />
-    </slot>
-    <p class="base-button__text" :class="{ small: size == 'small' }">
+    <font-awesome-icon
+      class="base-button__icon"
+      icon="fa-solid fa-up-right-from-square"
+      v-if="type == 'link'"
+    />
+    <span class="base-button__icon" v-if="$slots['left-icon']">
+      <slot name="left-icon"></slot>
+    </span>
+    <p class="base-button__text" v-if="$slots['default']">
       <slot />
     </p>
-    <slot name="post-icon">
-      <UiBaseIcon
-        v-if="postIcon"
-        width="16px"
-        height="16px"
-        font-size="16px"
-        radius="4px"
-        class="base-button__icon"
-        :icon="postIcon"
-        :background="type === 'primary' ? '#a1c4e7' : undefined"
-      />
-    </slot>
-    <UiSpinnerIcon
-      v-if="isLoading"
+    <span class="base-button__icon" v-if="$slots['right-icon']">
+      <slot name="right-icon"></slot>
+    </span>
+    <SpinnerIcon
       :style="['primary'].includes(type) ? 'light' : 'accent'"
       class="base-button__spinner"
+      v-if="isLoading"
     />
-  </component>
+  </button>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-import type { RouterLinkProps } from 'vue-router'
+import SpinnerIcon from '~/assets/img/icons/SpinnerIcon.vue'
 
 const emit = defineEmits(['update:modelValue'])
 
-interface IProps {
-  postIcon?: string
-  prevIcon?: string
-  size?: 'big' | 'small'
-  tag?: string
-  type?: 'primary' | 'secondary' | 'boarded' | 'link' | 'external-link'
-  to?: string | RouterLinkProps
-  modelValue?: boolean
-  nativeType?: string
-  disabled?: boolean
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-  type: 'primary',
-  size: 'big',
-  tag: 'button',
-  disabled: false,
-})
+const props = defineProps({
+    type: {
+      type: String,
+      default: 'primary',
+      validator: (value: string) =>
+        ['primary', 'secondary', 'link'].includes(value),
+    },
+    size: {
+      type: String,
+      default: 'big',
+      validator: (value: string) => ['small', 'big'].includes(value),
+    },
+    modelValue: {
+      type: Boolean,
+      default: false,
+    },
+  }),
+  { modelValue } = toRefs(props)
 
 const isLoading = computed({
   get() {
-    return props.modelValue
+    return modelValue.value
   },
   set(value) {
     emit('update:modelValue', value)
   },
 })
-
-const prevIconName = computed(() => {
-  if (['link', 'external-link'].includes(props.type)) {
-    return props.prevIcon || 'fa-solid fa-up-right-from-square'
-  } else {
-    return props.prevIcon
-  }
-})
-
-const tagName = computed(() => {
-  if (['link', 'external-link'].includes(props.type)) {
-    return 'router-link'
-  }
-  return props.tag
-})
 </script>
 
 <style lang="scss" scoped>
+$blue-hover: #499bed;
+$blue-active: #0253a4;
+
 .base-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: fit-content;
   position: relative;
   border: none;
   cursor: pointer;
   font-weight: 600;
-
-  &.disabled,
-  &._disabled {
-    color: $gray !important;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
 
   &__spinner {
     position: absolute;
@@ -135,151 +91,64 @@ const tagName = computed(() => {
     color: $white;
     background: $accent;
 
-    * {
-      color: $white;
-    }
-
     &:hover {
-      background: $blue-400;
+      background: $blue-hover;
     }
 
     &:active {
-      background: $blue-900;
+      background: $blue-active;
     }
 
-    &.disabled,
-    &._disabled {
+    &.disabled {
       background: $gray !important;
     }
   }
 
   &.secondary {
-    color: $accent;
-    background: $white;
-    box-shadow: 0px 2px 4px 0px rgba(16, 16, 16, 0.25);
-
-    * {
-      color: $accent;
-    }
-
-    &:hover * {
-      color: $blue-400;
-    }
-
-    &:active {
-      * {
-        color: $blue-900;
-      }
-
-      box-shadow: none !important;
-    }
-
-    &.disabled,
-    &._disabled * {
-      color: $gray;
-    }
-  }
-
-  &.boarded {
     outline: 2px solid $accent;
     outline-offset: -2px;
     color: $accent;
     background: transparent;
 
-    * {
-      color: $accent;
-    }
-
     &:hover {
-      outline: 2px solid $blue-400;
-      color: $blue-400;
-
-      * {
-        color: $blue-400;
-      }
+      border-color: $blue-hover;
+      color: $blue-hover;
     }
 
     &:active {
-      outline: 2px solid $blue-900;
-      color: $blue-900;
-      * {
-        color: $blue-900;
-      }
-    }
-    &._disabled {
-      outline-color: $gray !important;
-      * {
-        color: $gray !important;
-      }
+      border-color: $blue-active;
+      color: $blue-active;
     }
   }
 
-  &.link,
-  &.external-link {
+  &.link {
     padding: 0 !important;
     color: $accent;
     background: transparent;
-    font-weight: 400;
-
-    * {
-      color: $accent;
-    }
+    text-decoration: underline;
 
     &:hover {
-      color: $blue-400;
-      text-decoration: underline;
-
-      * {
-        color: $blue-400;
-      }
+      color: $blue-hover;
     }
     &:active {
-      color: $blue-900;
-      text-decoration: underline;
-
-      * {
-        color: $blue-900;
-      }
-    }
-
-    &._disabled * {
-      color: $gray;
+      color: $blue-active;
     }
   }
 
   &.small {
-    padding: 8px 16px;
+    padding: 12px 24px;
     border-radius: 8px;
     line-height: 20px;
-    font-size: 12px;
-
-    @media screen and (min-width: $bp-sm) {
-      padding: 12px 24px;
-      border-radius: 8px;
-      line-height: 20px;
-      font-size: 16px;
-    }
   }
 
   &.big {
-    padding: 12px 24px;
+    padding: 16px 32px;
     border-radius: 8px;
-    font-size: 16px;
     line-height: 20px;
+    font-size: 20px;
 
     * {
-      font-size: 16px;
-    }
-
-    @media screen and (min-width: $bp-sm) {
-      padding: 16px 32px;
-      border-radius: 8px;
       font-size: 20px;
-      line-height: 20px;
-
-      * {
-        font-size: 20px;
-      }
     }
   }
 }
