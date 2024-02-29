@@ -128,7 +128,7 @@
               color="white"
               text-color="primary"
               size="small"
-              type="secondary"
+              type="primary"
             >
               Купить
             </UiBaseButton>
@@ -158,7 +158,7 @@
               type="secondary"
               @click="openDeferredModal"
             >
-              Взять в рассрочку
+              В рассрочку
             </UiBaseButton>
           </div>
         </div>
@@ -211,7 +211,7 @@ const { notify } = useNotification()
 export interface Props {
   card: Program
 }
-const { user } = useUserStore()
+const { user, userId } = useUserStore()
 const props = defineProps<Props>()
 
 const paumentUrl = ref('')
@@ -245,8 +245,9 @@ onMounted(async () => {
       name: props.card.name,
     },
     userData: {
-      phone: user.id,
-      email: 'email@gmail.com', //user.email
+      fio: user.FirstName + ' ' + user.LastName,
+      phone: user.id || userId,
+      email: 'userEmailNotPassed@gmail.com',
     },
     amount: props.card.price.withDiscount,
   })

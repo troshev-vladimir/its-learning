@@ -8,6 +8,7 @@ export interface InitialParams {
   userData?: {
     phone?: string
     email?: string
+    fio: string
   }
 }
 

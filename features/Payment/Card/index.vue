@@ -216,6 +216,12 @@ onMounted(async () => {
       name: '1С:Программист',
     },
     userData: {
+      fio:
+        user.value?.name +
+        ' ' +
+        user.value?.surname +
+        ' ' +
+        user.value?.thirdname,
       phone: user.value?.phone,
       email: user.value?.email,
     },
