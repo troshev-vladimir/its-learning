@@ -1,96 +1,135 @@
 <template>
-  <div class="base-popup" :class="{ active: isOpen }">
-    <div class="base-popup__card">
-      <div class="card__header">
-        <slot name="header"></slot>
-        <font-awesome-icon
-          @click="close"
-          class="card__cancel"
-          icon="fa-solid fa-xmark"
-        />
-      </div>
-      <div class="card__container">
-        <slot></slot>
-      </div>
-      <div class="card__footer">
-        <slot name="footer"></slot>
+  <!-- <teleport to="#popups-container"> -->
+  <transition name="modal-fade">
+    <div v-show="modelValue" class="modal-overlay" @click="closeModal">
+      <div class="container">
+        <div class="modal" @click.stop>
+          <slot></slot>
+          <div class="close" @click="closeModal">
+            <ClientOnly>
+              <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+            </ClientOnly>
+          </div>
+        </div>
       </div>
     </div>
-    <span class="base-popup__background" @click="close"></span>
-  </div>
+  </transition>
+  <!-- </teleport> -->
 </template>
 
-<script lang="ts" setup>
-let resolveFn = ref()
-let rejectFn = ref()
-let isOpen = ref(false)
+<script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+const props = defineProps<{
+  modelValue: boolean
+}>()
 
-const open = () => {
-  return new Promise((resolve, reject) => {
-    resolveFn.value = resolve
-    rejectFn.value = reject
-    isOpen.value = true
-  })
+const emit = defineEmits(['update:modelValue'])
+
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value: boolean) {
+    emit('update:modelValue', value)
+  },
+})
+useBodyFreez(localValue)
+
+const closeModal = () => {
+  localValue.value = false
 }
 
-const confirm = () => {
-  isOpen.value = false
-  resolveFn.value(true)
+const escapeHandler = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    closeModal()
+  }
 }
 
-const close = () => {
-  isOpen.value = false
-  resolveFn.value(false)
-}
+onMounted(() => {
+  window.addEventListener('keydown', escapeHandler)
+})
 
-defineExpose({ open, confirm, close })
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', escapeHandler)
+})
 </script>
 
-<style lang="scss" scoped>
-.base-popup {
-  display: none;
-  transition: 0.2s;
-  &.active {
-    display: block;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-  }
+<style scoped lang="scss">
+.modal-overlay {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-  &__card {
-    position: absolute;
-    overflow: hidden;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    transform: translate(-50%, -50%);
-    min-width: 100px;
-    min-height: 100px;
-    max-width: 80vw;
-    max-height: 80vh;
-    background: $white;
-    border-radius: 16px;
+  @media screen and (max-width: $breakpoint-xs) {
+    align-items: flex-end;
 
-    .card__cancel {
-      font-size: $lg;
-      float: right;
-      margin: 8px;
-      color: $black;
-      cursor: pointer;
-    }
-    .card__container {
-      flex: 1 1 auto;
+    .container {
+      padding: 0;
     }
   }
+}
+.modal {
+  border-radius: 16px;
+  max-height: 90vh;
+  overflow: visible;
+  width: 100%;
+  position: relative;
 
-  &__background {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: #00000056;
+  @media screen and (max-width: $breakpoint-xs) {
+    border-radius: 16px 16px 0 0;
   }
+}
+
+.modal-fade-leave-to,
+.modal-fade-enter-from {
+  @media screen and (min-width: $breakpoint-xs) {
+    opacity: 0;
+  }
+
+  @media screen and (max-width: $breakpoint-xs) {
+    opacity: 0;
+
+    .container {
+      transform: translate(0, 100%);
+    }
+  }
+}
+
+.modal-fade-leave-from,
+.modal-fade-enter-to {
+  @media screen and (min-width: $breakpoint-xs) {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: $breakpoint-xs) {
+    opacity: 1;
+
+    .container {
+      transform: none;
+    }
+  }
+}
+// .modal-fade-leave-to
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: all 0.5s ease;
+
+  .container {
+    transition: all 0.5s ease;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
 }
 </style>

@@ -14,5 +14,8 @@
   "prettier.configPath": ".prettierrc.json",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
   }
 }

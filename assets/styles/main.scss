@@ -1,9 +1,42 @@
-@import "./reset-styles.scss";
+@import './reset-styles.scss';
+@import './variables.scss';
+@import './components/index.scss';
+@import './base-styles.scss';
+
+// tippy custom theme
+.tippy-box[data-theme~='custom'] {
+  text-align: center;
+  border-radius: 8px;
+  background: rgba(16, 16, 16, 0.5);
+}
+
+.tippy-box[data-theme~='custom'] {
+  &[data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: rgba(16, 16, 16, 0.5);
+    bottom: -8px;
+  }
+
+  &[data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: rgba(16, 16, 16, 0.5);
+    top: -8px;
+  }
+
+  &[data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: rgba(16, 16, 16, 0.5);
+    left: -8px;
+  }
+
+  &[data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: rgba(16, 16, 16, 0.5);
+    right: -8px;
+  }
+}
+// ___________________________________________________
 
 body {
   background-color: #f2f2f2;
-  
-  --q-success: #{$green};
+
+  --q-success: $green-600;
 }
 
 a {
@@ -29,7 +62,7 @@ a {
   padding-left: 28px;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     width: 12px;
     height: 12px;
@@ -45,7 +78,7 @@ a {
     margin-top: 8px;
   }
 
-  @media screen and (max-width: $breakpoint-sm) {
+  @media screen and (max-width: $bp-sm) {
     &::before {
       top: -4px;
     }
@@ -57,4 +90,34 @@ a {
     opacity: 0.7;
     transition: var(--q-transition-duration);
   }
+}
+
+// чтобы 'замораживать' прокрутку
+body.freez {
+  position: fixed;
+  overflow-y: scroll;
+}
+
+.pretty-scroll {
+  &::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent; /* цвет дорожки */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+  }
+}
+
+// анимации появление,скрытия для <transition>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

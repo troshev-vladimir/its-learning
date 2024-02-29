@@ -1,12 +1,14 @@
 <template>
   <div v-if="!isExpired" class="timer">
-    <div class="image">
-      <img src="@/assets/img/timer.png" alt="timer" />
+    <div class="image-container">
+      <div class="image">
+        <img src="@/assets/img/timer.png" alt="timer" />
+      </div>
     </div>
 
     <div class="count">
-      <span style="display: block" v-if="string">{{ string }}</span>
-      <span style="display: block" v-else>00:00:00</span>
+      <span v-if="string" class="text-body1">{{ string }}</span>
+      <span v-else class="text-body1"> {{ hasHours ? '00:' : '' }}00:00 </span>
     </div>
   </div>
   <q-chip
@@ -27,25 +29,32 @@ let interval: number | undefined
 
 const emit = defineEmits(['timeIsGone'])
 
-const props = defineProps<{
-  finalsteptime?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    expirationDate?: string | number
+    hasHours: boolean
+  }>(),
+  {
+    hasHours: true,
+  }
+)
 
 const expirationDate = computed(() => {
-  return props.finalsteptime
+  return props.expirationDate
 })
 
 const string = ref('')
-let isExpired = false
+const isExpired = ref(false)
 
 const updateTime = () => {
-  if (isExpired) {
+  if (isExpired.value) {
     window.clearInterval(interval)
     emit('timeIsGone')
     return
   }
   const now = moment()
   const expiration = moment(expirationDate.value)
+
   if (!expirationDate.value) {
     return
   }
@@ -66,7 +75,7 @@ const updateTime = () => {
     diffDuration.days() <= 0
   ) {
     emit('timeIsGone')
-    isExpired = true
+    isExpired.value = true
   }
 
   if (diffDays > 0) {
@@ -78,7 +87,7 @@ const updateTime = () => {
   const resultHours =
     String(diffHour).length < 2 ? '0' + String(diffHour) : String(diffHour)
 
-  string.value = `${resultHours || '00'}:${diffMinutes || '00'}:${
+  string.value = `${props.hasHours === true ? resultHours + ':' || '00:' : ''}${diffMinutes || '00'}:${
     diffSeconds || '00'
   }`
 }
@@ -96,52 +105,41 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .timer {
-  border-radius: 16px;
+  border-radius: 24px;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   background-color: #fff;
 
-  // @media screen and (max-width: 1200px) {
-  //     border-radius: 5px;
-  // }
+  .image-container {
+    padding: 4px 16px;
+  }
 
   .image {
-    margin: 5px 15px;
-    transform: rotate(-6.24deg);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-
-    // @media screen and (max-width: 1200px) {
-    //     margin: 2px 6px;
-    // }
-
+    margin: auto;
+    width: 40px;
+    height: 100%;
     img {
-      // @media screen and (max-width: 1200px) {
-      //     width: 25px;
-      //     height: 25px;
-      // }
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 
   .count {
-    padding: 15px 5px;
-    width: fit-content;
+    padding: 8px 12px;
+    width: 150px;
     color: #000;
-    font-family: Gogh;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 100%;
     background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    // @media screen and (max-width: 1200px) {
-    //     font-size: 16px;
-    //     padding: 5px;
-    // }
+    > span {
+      display: block;
+      margin: auto;
+      width: fit-content;
+    }
   }
 }
 </style>

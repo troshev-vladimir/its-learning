@@ -15,35 +15,35 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      name: {
-        type: String,
-        default: "box",
-      },
-      width: {
-        type: [Number, String],
-        default: 16,
-      },
-      height: {
-        type: [Number, String],
-        default: 16,
-      },
-      color: {
-        type: String,
-        default: "currentColor",
-      },
+export default {
+  props: {
+    name: {
+      type: String,
+      default: 'box',
     },
-  };
+    width: {
+      type: [Number, String],
+      default: 16,
+    },
+    height: {
+      type: [Number, String],
+      default: 16,
+    },
+    color: {
+      type: String,
+      default: 'currentColor',
+    },
+  },
+}
 </script>
 
 <style scoped>
-  svg {
-    display: inline-block;
-    vertical-align: baseline;
-  }
+svg {
+  display: inline-block;
+  vertical-align: baseline;
+}
 
-  svg path {
-    fill: currentColor;
-  }
+svg path {
+  fill: currentColor;
+}
 </style>

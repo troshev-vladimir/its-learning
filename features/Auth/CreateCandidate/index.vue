@@ -22,8 +22,8 @@
       lazy-rules
       autofocus
       type="tel"
-      @paste="phonePasteEvent"
       no-error-icon
+      @paste="phonePasteEvent"
     >
       <template #hint>
         <p style="font-size: 14px">

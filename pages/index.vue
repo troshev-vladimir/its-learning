@@ -9,14 +9,12 @@
       <span class="text-accent">так как удобно тебе</span>
     </h1>
     <FeatureBonusCache class="q-mb-lg q-mt-md" />
+
     <FeaturePrograms />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import b24LeadCreate from '~/utils/createLeadInB24'
-
 useSeoMeta({
   title: 'Покупка программы',
   ogTitle: 'Покупка программы',
@@ -24,12 +22,6 @@ useSeoMeta({
   ogDescription: 'Покупка программы',
   ogImage: '',
   twitterCard: 'summary_large_image',
-})
-
-onMounted(() => {
-  if (process.env.NODE_ENV === 'production') {
-    b24LeadCreate() //TODO: на регистрацию
-  }
 })
 </script>
 

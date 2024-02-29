@@ -1,129 +1,192 @@
 <template>
-  <div class="base-input" :class="`${status}`">
-    <p
-      class="base-input__placeholder"
-      :class="{ top: focused || inputValue?.length > 0 }"
-    >
-      {{ placeholder }}
-      <span class="placeholder__required-span">
-        {{ required ? '*' : '' }}
-      </span>
+  <div
+    :class="[
+      $style['base-input'],
+      $style[`base-input--${validationResult.status}`],
+      {
+        [$style[`base-input--disabled`]]: props.disabled,
+      },
+      rootClass,
+    ]"
+  >
+    <div v-click-outside="hideSuggestion" :class="$style.inputWrapper">
+      <textarea
+        v-if="textarea"
+        :id="name"
+        v-model="localValue"
+        type="text"
+        style="resize: vertical"
+        rows="4"
+        :name="name"
+        :class="$style['native-input']"
+        placeholder=""
+        v-bind="attrs"
+        @blur="update"
+        @keyup.enter="emit('enter')"
+      />
+
+      <input
+        v-else
+        :id="name"
+        v-model="localValue"
+        v-maska:[maskOptions]="mask"
+        type="text"
+        style="resize: vertical"
+        :name="name"
+        :class="$style['native-input']"
+        placeholder=""
+        v-bind="attrs"
+        :data-maska="mask"
+        @blur="update"
+        @click="isSuggestions = true"
+        @keyup.enter="emit('enter')"
+        @focus="isSuggestions = true"
+      />
+
+      <p :class="$style.placeholder" class="small">
+        {{ label }}
+        <span v-if="required">*</span>
+      </p>
+
+      <!-- <teleport to="#popups-container"> -->
+      <div
+        v-if="isSuggestions && suggestions && suggestions.length"
+        :class="[$style.suggestions]"
+      >
+        <div
+          v-for="(suggestion, index) in suggestions"
+          :key="index"
+          :class="$style.suggestionItem"
+          @click="selectSugestion(suggestion)"
+        >
+          {{ suggestion }}
+        </div>
+      </div>
+      <!-- </teleport> -->
+    </div>
+
+    <p :class="$style.message">
+      {{ validationResult.message }}
     </p>
-    <input
-      ref="refInput"
-      @input="
-        (event) => (inputValue = (event.target as HTMLInputElement)?.value)
-      "
-      :value="inputValue"
-      @focus="
-        () => {
-          focused = true
-        }
-      "
-      @blur="onBlur"
-      @keyup.enter="onUpKeyEnter"
-      class="base-input__input"
-    />
-    <p class="base-input__message">{{ message ?? 'Ошибка' }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'enter'])
-import useUiValidation from '~/shared/composables/useUiValidation'
+import type { ValidatorResp } from '~/utils/validators/types'
+import useMask from './composables/useMask'
 
-const props = defineProps<{
+const attrs = useAttrs()
+
+export interface Props {
   modelValue?: string
-  placeholder?: string
+  label: string
   required?: boolean
-  rules?: [(...args: any) => { status: string; message: string } | void]
-  name?: string
-}>()
-
-let inputValue = ref()
-
-const { validate, status, message } = useUiValidation(props.rules, inputValue)
-
-let isValidate = ref(false)
-
-let parentForm = inject('parentForm')
-
-const onUpKeyEnter = () => {
-  focused.value = false
-  isValidate.value = true
-  validate()
-  if (!['error', 'warning'].includes(status.value)) emit('enter')
+  name: string
+  validationResult?: ValidatorResp
+  textarea?: boolean
+  rootClass?: string | string[]
+  disabled?: boolean
+  suggestions?: Array<string>
+  mask?: string | Function // TODO: переделать на imask
 }
-
-const onBlur = () => {
-  focused.value = false
-  isValidate.value = true
-  validate()
-  if (!['error', 'warning'].includes(status.value)) emit('blur')
-}
-
-watch(inputValue, (value) => {
-  emit('update:modelValue', value)
-  if (parentForm && props.name) {
-    parentForm.value[props.name] = inputValue.value
-  }
+const props = withDefaults(defineProps<Props>(), {
+  name: '',
+  validationResult: () => ({
+    status: 'success',
+    message: '',
+  }),
 })
+const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
-watch(
-  () => inputValue.value,
-  () => {
-    if (isValidate.value) {
-      try {
-        validate()
-      } catch (error: any) {
-        if (process.env.NODE_ENV == 'development') console.error(error)
+const { maskOptions } = useMask(emit)
+const { localValue, isError, update } = useFormItem(props, emit)
+
+const isSuggestions = ref(false)
+const hideSuggestion = () => {
+  isSuggestions.value = false
+}
+
+const selectSugestion = (suggestion: string) => {
+  localValue.value = suggestion
+  hideSuggestion()
+}
+</script>
+
+<style lang="scss" module>
+input[list='suggestions']::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+.base-input {
+  position: relative;
+  padding-top: 16px;
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    .message,
+    .placeholder,
+    .native-input {
+      color: $secondary !important;
+    }
+  }
+
+  .native-input:focus ~ .placeholder,
+  .native-input:not(:placeholder-shown) ~ .placeholder {
+    color: $accent;
+    font-size: 12px;
+    line-height: 17px;
+    top: 0;
+    left: 0;
+    transform: translateY(calc(-100% + -2px));
+  }
+
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    transform: translate(0, 10px);
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px #7d7d7d;
+    border-radius: 8px;
+    z-index: 10;
+
+    .suggestionItem {
+      padding: 10px 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: $secondary;
+      }
+
+      font-size: 15px;
+
+      @media screen and (max-width: $bp-xs) {
+        font-size: 13px;
       }
     }
   }
-)
 
-let focused = ref(false)
-</script>
-
-<style lang="scss">
-$error-shadow: #f97b7b;
-$warning-shadow: #ffd857;
-
-.base-input {
-  position: relative;
-
-  // &::before {
-  //   content: '';
-  //   display: block;
-  //   position: relative;
-  //   width: 100%;
-  //   height: 17px;
-  // }
-
-  &__placeholder {
-    top: calc(50% - 10px);
+  .placeholder {
+    pointer-events: none;
+    overflow: hidden;
+    width: 80%;
+    top: 50%;
     left: 12px;
     position: absolute;
     margin: 0;
-    pointer-events: none;
-    color: $secondary;
     transition: 0.2s;
-
-    &.top {
-      color: $accent;
-      font-size: 12px;
-      line-height: 17px;
-      top: 0;
-      left: 0;
-      transform: translateY(calc(-100% + -2px));
-    }
-
-    .placeholder__required-span {
-      color: $error;
-    }
+    transform: translate(0, -50%);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: $secondary;
   }
 
-  &__input {
+  .native-input,
+  .native-input:-webkit-autofill {
     width: 100%;
     height: 100%;
     padding: 10px 12px;
@@ -133,6 +196,8 @@ $warning-shadow: #ffd857;
     background: $white;
     font-size: $md;
     transition: 0.2s;
+    -webkit-box-shadow: 0 0 0px 1000px $white inset;
+    transition: background-color 5000s ease-in-out 0s;
 
     &:hover,
     &:focus {
@@ -140,86 +205,154 @@ $warning-shadow: #ffd857;
     }
 
     &:hover:focus,
+    &:-internal-autofill-selected:hover,
+    &:-webkit-autofill:hover,
     &:hover {
-      box-shadow: 0 0 0 2px $light-blue;
+      -webkit-box-shadow:
+        0 0 0 2px $light-blue,
+        0 0 0px 1000px $white inset !important;
+      box-shadow:
+        0 0 0 2px $light-blue,
+        0 0 0px 1000px $white inset !important;
     }
 
-    &:focus {
-      box-shadow: 0 0 0 1px $light-blue;
+    &:focus,
+    &:-internal-autofill-selected:focus,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow:
+        0 0 0 1px $light-blue,
+        0 0 0px 1000px $white inset;
+      box-shadow:
+        0 0 0 1px $light-blue,
+        0 0 0px 1000px $white inset;
     }
   }
 
-  &__message {
+  .message {
     position: absolute;
-    visibility: hidden;
-    margin-top: 4px;
     font-size: 12px;
+    margin-top: 2px;
     line-height: 17px;
   }
 
-  &.error {
-    .base-input__message {
-      visibility: visible;
+  &--error {
+    padding-bottom: 16px;
+
+    .message {
       color: $error;
     }
 
-    .base-input__placeholder {
-      color: $error;
-      top: calc(50% - 10px);
-      &.top {
-        color: $error;
-        top: 0;
-        left: 0;
-      }
+    .placeholder {
+      color: $error !important;
     }
-    .base-input__input {
+
+    .native-input {
       border-color: $error;
 
       &:hover:focus {
-        box-shadow: 0 0 0 2px $error-shadow;
+        box-shadow: 0 0 0 2px $error;
       }
 
       &:hover {
-        box-shadow: 0 0 0 2px $error-shadow;
+        box-shadow: 0 0 0 2px $error;
+        border-color: $red;
       }
 
       &:focus {
-        box-shadow: 0 0 0 1px $error-shadow;
+        box-shadow: 0 0 0 1px $error;
+        border-color: $red;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $error;
+        -webkit-text-fill-color: #000;
       }
     }
   }
 
-  &.warning {
-    .base-input__message {
-      visibility: visible;
-      color: $warning;
+  &--warn {
+    padding-bottom: 16px;
+
+    .message {
+      color: $yellow;
     }
 
-    .base-input__placeholder {
-      color: $warning;
-      top: calc(50% - 10px);
-
-      &.top {
-        color: $warning;
-        top: 0;
-        left: 0;
-      }
+    .placeholder {
+      color: $yellow !important;
     }
-    .base-input__input {
-      border-color: $warning;
+
+    .native-input {
+      border-color: $yellow;
 
       &:hover:focus {
-        box-shadow: 0 0 0 2px $warning-shadow;
+        box-shadow: 0 0 0 2px $yellow;
       }
 
       &:hover {
-        box-shadow: 0 0 0 2px $warning-shadow;
+        box-shadow: 0 0 0 2px $yellow-100;
+        border-color: $yellow;
       }
 
       &:focus {
-        box-shadow: 0 0 0 1px $warning-shadow;
+        box-shadow: 0 0 0 1px $yellow;
+        border-color: $yellow;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $yellow;
+        -webkit-text-fill-color: #000;
       }
     }
+  }
+
+  &--success {
+    padding-bottom: 16px;
+
+    .message {
+      color: $green;
+    }
+
+    .placeholder {
+      color: $green !important;
+    }
+
+    .native-input {
+      border-color: $green;
+
+      &:hover:focus {
+        box-shadow: 0 0 0 2px $green;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px $green-300;
+        border-color: $green;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px $green;
+        border-color: $green;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected:focus,
+      &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 2px $green;
+        -webkit-text-fill-color: #000;
+      }
+    }
+  }
+}
+
+.base-input {
+  textarea + .placeholder {
+    top: 20px;
   }
 }
 </style>

@@ -14,7 +14,9 @@
         <UiBaseButton size="small" type="primary" @click="exit">
           Выйти
           <template #right-icon>
-            <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+            <client-only>
+              <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+            </client-only>
           </template>
         </UiBaseButton>
       </div>
@@ -27,7 +29,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const exit = () => {
   localStorage.clear()
-  router.push({ name: 'auth' })
+  router.push('/auth')
 }
 </script>
 
@@ -38,7 +40,7 @@ const exit = () => {
     justify-content: space-between;
     flex-direction: column;
 
-    @media screen and (min-width: $breakpoint-xs) {
+    @media screen and (min-width: $bp-xs) {
       flex-direction: row;
       align-items: center;
     }
@@ -48,7 +50,7 @@ const exit = () => {
     img {
       height: 42px;
 
-      @media screen and (min-width: $breakpoint-sm) {
+      @media screen and (min-width: $bp-sm) {
         height: 72px;
       }
     }
