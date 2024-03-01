@@ -96,7 +96,7 @@ const { pending: CourcePending, error: CourseError } = useAsyncData(
     row-gap: 16px;
 
     @include media($bp-sm) {
-      grid-template-columns: 60% 40%;
+      grid-template-columns: 0.6fr 0.4fr;
     }
   }
 }

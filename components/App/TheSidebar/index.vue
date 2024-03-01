@@ -15,7 +15,7 @@
       >
         <div class="user-info-block__photo-span">
           <img v-if="user?.photoUrl" :src="user?.photoUrl" alt="" />
-          <img src="~/assets/img/base-user-image.svg" alt="" />
+          <img v-else src="~/assets/img/base-user-image.svg" alt="" />
         </div>
         <p v-if="isOpen" class="user-info-block__name">
           {{ user?.name + ' ' + user?.thirdname }}
@@ -124,11 +124,11 @@ onMounted(() => {
   @media screen and (min-width: $bp-sm) {
     transition: width 0.2s ease;
     left: 0%;
-    width: 80px;
+    width: 90px;
   }
 
   @include media($bp-xs) {
-    width: 80px;
+    width: 90px;
   }
   &.active {
     left: 0% !important;
@@ -156,9 +156,10 @@ onMounted(() => {
     padding: 0 16px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
 
     &__photo-span {
+      position: relative;
       width: 50px;
       height: 50px;
       border-radius: 100%;
@@ -168,8 +169,10 @@ onMounted(() => {
       transition: 0.1s;
 
       img {
+        position: absolute;
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
@@ -182,6 +185,10 @@ onMounted(() => {
       .user-info-block__photo-span {
         outline: 2px solid $blue-500;
       }
+    }
+
+    &__name {
+      margin-left: 8px;
     }
   }
 
