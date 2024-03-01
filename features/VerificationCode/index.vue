@@ -10,10 +10,19 @@
     <p v-if="timer" class="text-gray-300">
       Отправить повторно через {{ timer }}
     </p>
-    <UiBaseButton v-if="!timer" type="boarded" size="small" @click="sendCode">
+    <UiBaseButton
+      v-if="!timer"
+      class="feature-verification-code__get-code-button"
+      type="boarded"
+      size="small"
+      @click="sendCode"
+    >
       Получить код
     </UiBaseButton>
-    <slot :verify-code="verifyCode">
+    <slot
+      :verify-code="verifyCode"
+      :class-name="[`feature-verification-code__send-code-button`]"
+    >
       <UiBaseButton
         :model-value="isLoading"
         type="primary"
@@ -142,7 +151,7 @@ watch(code, () => {
   codeStatus.value = 'none'
 })
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .feature-verification-code {
   display: flex;
   align-items: flex-end;
@@ -151,7 +160,19 @@ watch(code, () => {
   row-gap: 8px;
 
   &__input {
+    width: 100%;
     padding: 0;
+    @include media($bp-xs) {
+      width: fit-content;
+    }
+  }
+
+  &__get-code-button,
+  &__send-code-button {
+    width: 100% !important;
+    @include media($bp-xs) {
+      width: fit-content !important;
+    }
   }
 }
 </style>
