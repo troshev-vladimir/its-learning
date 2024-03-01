@@ -67,7 +67,7 @@ const submit = () => {
 
   .form-content {
     overflow: auto;
-    padding: 0 3px; // для теней
+    padding: 5px 3px; // для теней
 
     &.disabled {
       opacity: 0.5;

@@ -128,6 +128,7 @@ onBeforeUnmount(() => {
 
 .close {
   position: absolute;
+  z-index: 100;
   top: 16px;
   right: 16px;
   cursor: pointer;
