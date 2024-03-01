@@ -139,8 +139,10 @@ const tagName = computed(() => {
       color: $white;
     }
 
-    &:hover {
-      background: $blue-400;
+    @media (hover: hover) {
+      &:hover {
+        background: $blue-400;
+      }
     }
 
     &:active {
@@ -162,8 +164,10 @@ const tagName = computed(() => {
       color: $accent;
     }
 
-    &:hover * {
-      color: $blue-400;
+    @media (hover: hover) {
+      &:hover * {
+        color: $blue-400;
+      }
     }
 
     &:active {
@@ -171,7 +175,7 @@ const tagName = computed(() => {
         color: $blue-900;
       }
 
-      box-shadow: none !important;
+      box-shadow: 0px 2px 2px 0px rgba(16, 16, 16, 0.25) !important;
     }
 
     &.disabled,
@@ -190,12 +194,14 @@ const tagName = computed(() => {
       color: $accent;
     }
 
-    &:hover {
-      outline: 2px solid $blue-400;
-      color: $blue-400;
-
-      * {
+    @media (hover: hover) {
+      &:hover {
+        outline: 2px solid $blue-400;
         color: $blue-400;
+
+        * {
+          color: $blue-400;
+        }
       }
     }
 
@@ -225,14 +231,17 @@ const tagName = computed(() => {
       color: $accent;
     }
 
-    &:hover {
-      color: $blue-400;
-      text-decoration: underline;
-
-      * {
+    @media (hover: hover) {
+      &:hover {
         color: $blue-400;
+        text-decoration: underline;
+
+        * {
+          color: $blue-400;
+        }
       }
     }
+
     &:active {
       color: $blue-900;
       text-decoration: underline;
