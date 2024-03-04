@@ -135,7 +135,7 @@ import type { UiDatePicker } from '#build/components';
 <script setup lang="ts">
 import { getErrorMessage } from '~/utils/helpers'
 import { useVuelidate } from '@vuelidate/core'
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, minLength } from '@vuelidate/validators'
 const { citys, sugestCity } = useSugestions()
 
 const props = defineProps<{
@@ -176,12 +176,24 @@ const rules = computed(() => {
     },
     snils: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Обязательная длина 11 символов',
+        minLength(14)
+      ),
     },
     pasport: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Обязательная длина 10 символов',
+        minLength(11)
+      ),
     },
     departmentCode: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Обязательная длина 6 символов',
+        minLength(7)
+      ),
     },
     extradition: {
       required: helpers.withMessage('Поле обязательно', required),

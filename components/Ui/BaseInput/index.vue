@@ -57,7 +57,7 @@
           v-for="(suggestion, index) in suggestions"
           :key="index"
           :class="$style.suggestionItem"
-          @click="selectSugestion(suggestion)"
+          @click="selectSuggestion(suggestion)"
         >
           {{ suggestion }}
         </div>
@@ -106,7 +106,7 @@ const hideSuggestion = () => {
   isSuggestions.value = false
 }
 
-const selectSugestion = (suggestion: string) => {
+const selectSuggestion = (suggestion: string) => {
   localValue.value = suggestion
   hideSuggestion()
 }
