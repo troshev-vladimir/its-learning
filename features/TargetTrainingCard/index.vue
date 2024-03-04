@@ -8,11 +8,14 @@
         персонального интервью, дата которого будет назначена вашим менеджером
         после обработки результатов онлайн теста.
       </p>
-      <NuxtLink to="/target-test">
-        <UiBaseButton type="primary" size="big">
-          Пройти тестирование
-        </UiBaseButton>
-      </NuxtLink>
+      <UiBaseButton
+        v-model="isTestLoadding"
+        type="primary"
+        to="/target-test"
+        size="big"
+      >
+        Пройти тестирование
+      </UiBaseButton>
     </div>
   </div>
   <div v-else>
@@ -22,7 +25,9 @@
 
 <script lang="ts" setup>
 import Skeleton from './skeleton.vue'
+import { useTestStore } from '~/stores/test'
 const emit = defineEmits(['startTest'])
+
 interface Test {
   status: 'start' | 'waiting' | 'result'
   result?: {
@@ -46,7 +51,8 @@ const props = withDefaults(defineProps<PropsTest>(), {
     },
   }),
 })
-
+const testStore = useTestStore()
+const { isTestLoadding } = storeToRefs(testStore)
 const isLoading = ref(false)
 
 const showResult = computed(

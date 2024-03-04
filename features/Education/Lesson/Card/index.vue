@@ -60,14 +60,14 @@
         </div>
       </div>
 
-      <UiBasePopup v-model="isTest">
+      <!-- <UiBasePopup v-model="isTest">
         <template #default>
           <FeatureTest
             class="education-lesson-card__test"
             @submit="() => (isTest = false)"
           />
         </template>
-      </UiBasePopup>
+      </UiBasePopup> -->
     </div>
     <Skeleton v-show="isLoading" with-video />
   </div>

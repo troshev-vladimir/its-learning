@@ -1,10 +1,6 @@
 <template>
   <div class="question-card">
     <div class="question-card__container">
-      <div class="question-card__header">
-        <p class="text-body2">Вопрос №{{ questionCount }}</p>
-        <slot name="timer"></slot>
-      </div>
       <div
         class="question-card__question-block"
         :class="{ 'with-image': question.image }"
@@ -31,11 +27,11 @@
         </div>
       </div>
       <div
-        v-if="!question?.multiple && !Array.isArray(checkedAnswer)"
+        v-if="!question.multiple && !Array.isArray(checkedAnswer)"
         class="question-card__answers-block"
       >
         <UiBaseRadio
-          v-for="(answer, i) in question.answers"
+          v-for="(answer, i) in question.variants"
           :key="i"
           v-model="checkedAnswer"
           :value="answer.id"
@@ -46,12 +42,9 @@
           </p>
         </UiBaseRadio>
       </div>
-      <div
-        v-if="question?.multiple && Array.isArray(question?.answers)"
-        class="question-card__answers-block"
-      >
+      <div v-else class="question-card__answers-block">
         <UiBaseCheckbox
-          v-for="(answer, i) in question?.answers"
+          v-for="(answer, i) in question?.variants"
           :key="i"
           v-model="checkedAnswer"
           :name="answer.id"
@@ -66,11 +59,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { IQuestion, TypeAnswer } from '../model/types'
+import type { Question } from '~/api/test'
 interface Props {
-  question: IQuestion
-  questionCount: number
-  modelValue: TypeAnswer | TypeAnswer[]
+  question: Question
+  modelValue: string | Array<string>
 }
 
 const props = defineProps<Props>()
@@ -78,6 +70,14 @@ const emit = defineEmits(['update:modelValue'])
 
 const checkedAnswer = computed({
   get() {
+    if (!Array.isArray(props.modelValue) && props.question.multiple) {
+      return []
+    }
+
+    if (Array.isArray(props.modelValue) && !props.question.multiple) {
+      return props.modelValue[0]
+    }
+
     return props.modelValue
   },
   set(value) {
@@ -88,28 +88,6 @@ const checkedAnswer = computed({
 
 <style lang="scss" scoped>
 .question-card {
-  &__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: column;
-    row-gap: 16px;
-    position: sticky;
-    top: -1px;
-    margin-bottom: 24px;
-    padding: 24px 24px 0 24px;
-    border-radius: $radius;
-    background: $white;
-
-    @include media($bp-sm) {
-      align-items: flex-end;
-      flex-direction: row;
-    }
-  }
-
-  &__question-container {
-  }
-
   &__question-block {
     margin-bottom: 24px;
     padding: 0 24px;

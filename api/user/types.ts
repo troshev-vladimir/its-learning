@@ -1,4 +1,5 @@
 import type { CRUD, Responce } from './../types'
+import type { TargetTestStatus } from '~/api/test'
 export interface User {
   name?: string
   surname?: string
@@ -18,6 +19,7 @@ export interface User {
   havExperience: boolean
   graduates?: string[]
   additionalGraduates?: string[]
+  targetTestStatus: TargetTestStatus
 }
 
 export interface AuthorizeRequest {
