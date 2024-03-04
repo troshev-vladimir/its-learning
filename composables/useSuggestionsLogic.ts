@@ -4,10 +4,12 @@ export default function useSuggestionsLogic(
   parent: Ref<HTMLElement> | ComputedRef<HTMLElement>
 ) {
   const setSuggestionPosition = () => {
+    if (!suggestionsElement.value || !mainElement.value) return
     const suggestionsElementRect =
       suggestionsElement.value?.getBoundingClientRect()
     const mainElementRect = mainElement.value?.getBoundingClientRect()
 
+    if (!mainElementRect || !suggestionsElementRect) return
     const suggestionsElementTopPosition =
       mainElementRect.top +
       mainElementRect.height +
