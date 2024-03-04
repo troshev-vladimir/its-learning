@@ -8,5 +8,6 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'vue/multi-word-component-names': 'off',
+    'vue/no-multiple-template-root': 'off',
   },
 }

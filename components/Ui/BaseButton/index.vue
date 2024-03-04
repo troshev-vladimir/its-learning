@@ -1,9 +1,9 @@
 <template>
   <component
     :is="tagName"
-    :to="type === 'link' && to ? to : ''"
-    :href="type === 'external-link' && typeof to == 'string' ? to : ''"
-    :target="type == 'external-link' ? '_blank' : 'none'"
+    :to="to"
+    :href="type === 'external-link' ? to : undefined"
+    :target="type === 'external-link' ? '_blank' : 'none'"
     class="base-button"
     :class="[
       type,
@@ -91,7 +91,7 @@ const prevIconName = computed(() => {
 })
 
 const tagName = computed(() => {
-  if (['link', 'external-link'].includes(props.type)) {
+  if (props.to) {
     return 'router-link'
   }
   return props.tag

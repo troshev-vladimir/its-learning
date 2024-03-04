@@ -22,21 +22,21 @@
       <LazyFeatureUserDebt />
     </NuxtLazyHydrate>
 
-    <NuxtLazyHydrate when-visible>
+    <!-- <NuxtLazyHydrate when-visible>
       <LazyUiBasePopup v-model="testPopup" class="target-training-test">
         <template #default>
-          <FeatureTest class="base-block" @submit="() => (testPopup = false)" />
+          <FeatureTest  class="base-block" @submit="() => (testPopup = false)" />
         </template>
       </LazyUiBasePopup>
-    </NuxtLazyHydrate>
+    </NuxtLazyHydrate> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useCourceStore } from '~/stores/cource'
 
-const courceSotore = useCourceStore()
-const { courcePreview } = storeToRefs(courceSotore)
+const courceStore = useCourceStore()
+const { courcePreview } = storeToRefs(courceStore)
 
 definePageMeta({
   layout: 'cabinet',
@@ -78,7 +78,7 @@ const events = ref([
 
 const { pending: CourcePending, error: CourseError } = useAsyncData(
   'cource',
-  () => courceSotore.fetchCourcePreview().then(() => true)
+  () => courceStore.fetchCourcePreview().then(() => true)
 )
 
 // useShowNotification(error.value)
