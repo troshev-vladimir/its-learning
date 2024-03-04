@@ -13,16 +13,20 @@ export default function useFromItem(
       }
     },
     set(value: typeof props.modelValue) {
-      if (Array.isArray(props.modelValue)) {
-        value
-          ? emit('update:modelValue', [...props.modelValue, props.name])
-          : emit(
-              'update:modelValue',
-              props.modelValue.filter((el) => el !== props.name)
-            )
-      } else {
+      if (!Array.isArray(props.modelValue)) {
         emit('update:modelValue', value)
+        return
       }
+
+      if (value) {
+        emit('update:modelValue', [...props.modelValue, props.name])
+        return
+      }
+
+      emit(
+        'update:modelValue',
+        props.modelValue.filter((el) => el !== props.name)
+      )
     },
   })
 

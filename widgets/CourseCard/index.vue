@@ -45,18 +45,18 @@
           </span>
           <span v-else class="text-body1 text-bold"> - </span>
         </p>
-        <NuxtLink to="/course/1">
-          <UiBaseButton
-            v-if="course.trial?.state && !course.academ?.state"
-            class="course-card__button"
-            type="primary"
-            size="small"
-          >
-            Приступить к обучению
-          </UiBaseButton>
-        </NuxtLink>
+        <UiBaseButton
+          v-if="course.trial?.state && !course.academ?.state"
+          :to="`/course/${course.id}`"
+          class="course-card__button"
+          type="primary"
+          size="small"
+        >
+          Приступить к обучению
+        </UiBaseButton>
         <UiBaseButton
           v-if="course.academ?.state"
+          :to="`/course/${course.id}`"
           class="course-card__button"
           type="primary"
           size="small"
