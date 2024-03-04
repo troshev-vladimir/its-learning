@@ -85,7 +85,7 @@ const props = defineProps<{
     gap: 8px;
     padding: 12px 12px;
     margin: auto;
-    max-width: 80%;
+    max-width: 85%;
     * {
       color: $gray-400;
     }
