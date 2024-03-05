@@ -1,7 +1,7 @@
 <template>
   <div class="education-lesson-card">
     <div class="education-lesson-card__container">
-      <div v-if="withVideo" class="education-lesson-card__video">
+      <div class="education-lesson-card__video">
         <UiBaseSkeleton class="video__player"></UiBaseSkeleton>
       </div>
       <div class="education-lesson-card__right-side">
@@ -17,9 +17,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-const props = defineProps<{ withVideo?: boolean }>()
-</script>
+<script lang="ts" setup></script>
 
 <script lang="ts">
 export default {

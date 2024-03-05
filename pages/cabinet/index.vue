@@ -5,17 +5,21 @@
         v-for="(event, i) in mainEvents"
         :key="i"
         :event="event"
+        :is-loading="CourcePending"
       />
     </div>
     <NuxtLazyHydrate when-visible>
-      <LazyWidgetUserProfile v-if="!CourseError" :loadding="CourcePending" />
+      <LazyWidgetUserProfile :loadding="CourcePending" />
     </NuxtLazyHydrate>
     <NuxtLazyHydrate when-visible>
       <LazyFeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
     </NuxtLazyHydrate>
 
     <NuxtLazyHydrate when-visible>
-      <LazyWidgetCourseCard v-if="courcePreview" :course="courcePreview" />
+      <LazyWidgetCourseCard
+        :course="courcePreview"
+        :is-loading="CourcePending"
+      />
     </NuxtLazyHydrate>
 
     <NuxtLazyHydrate when-visible>
