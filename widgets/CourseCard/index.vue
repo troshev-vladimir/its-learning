@@ -1,100 +1,109 @@
 <template>
-  <div v-if="!isLoading" class="course-card base-block">
-    <div class="course-card__container">
-      <div class="course-card__left-side">
-        <div class="left-side__block">
-          <client-only>
-            <UiBaseTracker
-              class="course-card__tracker"
-              :value="course.progress"
-            />
-          </client-only>
-          <nuxt-link to="/course/1/description/">
-            <p class="text-h2">{{ course.title }}</p>
-          </nuxt-link>
-          <p v-if="course.isEnded" class="text-body2 text-gray-400">
-            Курс завершён
-          </p>
-          <p
-            v-if="course.academ?.state && course.academ?.date"
-            class="text-body2 text-gray-400"
-          >
-            Предоставлен академический отпуск до {{ course.academ?.date }}
-          </p>
-          <p v-if="course.trial?.state" class="text-body2 text-gray-400">
-            Бесплатный период на {{ course.trial?.days }} день
-          </p>
-        </div>
-        <div class="left-side__block">
-          <p v-if="course.isStarted && course.startDate" class="text-body2">
-            Дата начала: {{ course.startDate }}
-          </p>
-          <p v-if="course.isStarted && course.planEndDate" class="text-body2">
-            Планируемая дата окончания: {{ course.startDate }}
-          </p>
-          <p v-if="course.isEnded && course.realEndDate" class="text-body2">
-            Дата окончания: {{ course.realEndDate }}
-          </p>
-        </div>
-      </div>
-      <div class="course-card__right-side">
-        <p class="text-body2">
-          Средний балл
-          <span v-if="course.averageScore" class="text-body1 text-bold">
-            {{ course.averageScore }}
-          </span>
-          <span v-else class="text-body1 text-bold"> - </span>
-        </p>
-        <UiBaseButton
-          v-if="course.trial?.state && !course.academ?.state"
-          :to="`/course/${course.id}`"
-          class="course-card__button"
-          type="primary"
-          size="small"
-        >
-          Приступить к обучению
-        </UiBaseButton>
-        <UiBaseButton
-          v-if="course.academ?.state"
-          :to="`/course/${course.id}`"
-          class="course-card__button"
-          type="primary"
-          size="small"
-        >
-          Продолжить обучение
-        </UiBaseButton>
-        <AcademyButton v-show="!course.academ?.state && course.isStarted" />
-
-        <ClientOnly>
-          <PaymentButton v-show="course.shouldPay" />
-        </ClientOnly>
-        <div class="course-card__links">
-          <div class="course-card__link-list">
-            <UiBaseButton
-              v-for="(doc, i) in course.docs"
-              :key="i"
-              type="external-link"
-              size="small"
+  <Transition name="fade" mode="out-in">
+    <div v-if="!isLoading" class="course-card base-block">
+      <div class="course-card__container">
+        <div class="course-card__left-side">
+          <div class="left-side__block">
+            <client-only>
+              <UiBaseTracker
+                class="course-card__tracker"
+                :value="course?.progress"
+              />
+            </client-only>
+            <nuxt-link to="/course/1/description/">
+              <p class="text-h2">{{ course?.title }}</p>
+            </nuxt-link>
+            <p v-if="course?.isEnded" class="text-body2 text-gray-400">
+              Курс завершён
+            </p>
+            <p
+              v-if="course?.academ?.state && course.academ?.date"
+              class="text-body2 text-gray-400"
             >
-              {{ doc.name }}
-            </UiBaseButton>
+              Предоставлен академический отпуск до {{ course?.academ?.date }}
+            </p>
+            <p v-if="course?.trial?.state" class="text-body2 text-gray-400">
+              Бесплатный период на {{ course?.trial?.days }} день
+            </p>
           </div>
-          <div class="course-card__link-list">
-            <UiBaseButton
-              v-for="(diploma, i) in course.diplomas"
-              :key="i"
-              type="external-link"
-              size="small"
-              :to="diploma.link"
+          <div class="left-side__block">
+            <p v-if="course?.isStarted && course?.startDate" class="text-body2">
+              Дата начала: {{ course?.startDate }}
+            </p>
+            <p
+              v-if="course?.isStarted && course?.planEndDate"
+              class="text-body2"
             >
-              {{ diploma.name }}
+              Планируемая дата окончания: {{ course?.startDate }}
+            </p>
+            <p v-if="course?.isEnded && course?.realEndDate" class="text-body2">
+              Дата окончания: {{ course?.realEndDate }}
+            </p>
+          </div>
+        </div>
+
+        <div class="course-card__right-side">
+          <p class="text-body2">
+            Средний балл
+            <span v-if="course?.averageScore" class="text-body1 text-bold">
+              {{ course?.averageScore }}
+            </span>
+            <span v-else class="text-body1 text-bold"> - </span>
+          </p>
+          <div class="course-card__buttons-block">
+            <UiBaseButton
+              v-if="course?.trial?.state && !course?.academ?.state"
+              :to="`/course/${course?.id}`"
+              class="course-card__button"
+              type="primary"
+              size="small"
+            >
+              Приступить к обучению
             </UiBaseButton>
+            <UiBaseButton
+              v-if="course?.academ?.state"
+              :to="`/course/${course?.id}`"
+              class="course-card__button"
+              type="primary"
+              size="small"
+            >
+              Продолжить обучение
+            </UiBaseButton>
+            <AcademyButton
+              v-show="!course?.academ?.state && course?.isStarted"
+            />
+            <ClientOnly>
+              <PaymentButton v-show="course?.shouldPay" />
+            </ClientOnly>
+          </div>
+          <div class="course-card__links">
+            <div class="course-card__link-list">
+              <UiBaseButton
+                v-for="(doc, i) in course?.docs"
+                :key="i"
+                type="external-link"
+                size="small"
+              >
+                {{ doc.name }}
+              </UiBaseButton>
+            </div>
+            <div class="course-card__link-list">
+              <UiBaseButton
+                v-for="(diploma, i) in course?.diplomas"
+                :key="i"
+                type="external-link"
+                size="small"
+                :to="diploma.link"
+              >
+                {{ diploma.name }}
+              </UiBaseButton>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <skeleton v-if="isLoading" />
+    <Skeleton v-else />
+  </Transition>
 </template>
 
 <script lang="ts" setup>
@@ -106,10 +115,10 @@ import Skeleton from './skeleton.vue'
 const emit = defineEmits(['pay'])
 
 interface Props {
-  course: CourcePreview
+  course?: CourcePreview
+  isLoading?: boolean
 }
 const props = defineProps<Props>()
-const isLoading = ref(false)
 </script>
 
 <style lang="scss">
@@ -168,6 +177,13 @@ const isLoading = ref(false)
         text-align: right;
       }
     }
+  }
+
+  &__buttons-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
   }
 
   &__links {

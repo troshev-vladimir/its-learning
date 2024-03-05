@@ -19,3 +19,7 @@ const sendAcademy = () => {
   }, 1000)
 }
 </script>
+
+<script lang="ts">
+export default {}
+</script>
