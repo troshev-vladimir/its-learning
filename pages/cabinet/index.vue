@@ -11,7 +11,7 @@
       <LazyWidgetUserProfile v-if="!CourseError" :loadding="CourcePending" />
     </NuxtLazyHydrate>
     <NuxtLazyHydrate when-visible>
-      <LazyFeatureTargetTrainingCard @start-test="() => (testPopup = true)" />
+      <LazyFeatureTargetTestCard @start-test="() => (testPopup = true)" />
     </NuxtLazyHydrate>
 
     <NuxtLazyHydrate when-visible>
