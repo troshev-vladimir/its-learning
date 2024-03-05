@@ -13,7 +13,7 @@
           @time-is-gone="sendAnswers"
         />
       </div>
-      <Transition name="fade" mode="out-in">
+      <Transition name="fade" mode="out-in" :duration="200">
         <FeatureTestQuestionCard
           :key="currentQuestionCount"
           v-model="answers[activeQuestion.id]"

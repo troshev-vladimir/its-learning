@@ -1,5 +1,5 @@
 <template>
-  <Transition name="fade" model="out-in">
+  <Transition name="fade" model="out-in" :duration="200">
     <div
       v-if="!isLoading"
       class="user-profile row q-col-gutter-lg items-center"

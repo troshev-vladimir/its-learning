@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <transition name="fade" mode="out-in" :duration="200">
     <div v-if="!isLoading" class="payment-card base-block">
       <div class="payment-card__container">
         <p class="text-body1 q-mb-md">Ваша программа обучения:</p>

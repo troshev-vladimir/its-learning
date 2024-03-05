@@ -1,5 +1,5 @@
 <template>
-  <Transition name="fade" mode="out-in">
+  <Transition name="fade" mode="out-in" :duration="200">
     <div v-if="!isTestLoadding" class="target-training-card base-block">
       <div class="target-training-card__container">
         <p class="text-h2">Тест на целевое обучение</p>

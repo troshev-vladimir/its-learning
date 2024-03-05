@@ -13,7 +13,7 @@
       >
         Доступ к наставнику до {{ cource?.couchAwilableTill }}
       </p>
-      <transition name="fade" mode="out-in">
+      <transition name="fade" mode="out-in" :duration="200">
         <div
           v-if="cource && !isCourceLoadding"
           class="course-page__education-block"

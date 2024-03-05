@@ -1,5 +1,5 @@
 <template>
-  <Transition name="fade" mode="out-in">
+  <Transition name="fade" mode="out-in" :duration="200">
     <div v-if="!isLoading" class="event-card base-block">
       <div class="event-card__container">
         <div class="event-card__date-time-block">
