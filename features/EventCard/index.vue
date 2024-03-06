@@ -2,16 +2,17 @@
   <Transition name="fade" mode="out-in" :duration="200">
     <div v-if="!isLoading" class="event-card base-block">
       <div class="event-card__container">
-        <div class="event-card__date-time-block">
-          <p class="date">{{ event?.date }}</p>
-          <p class="time">{{ event?.time }}</p>
+        <div v-if="event?.date" class="event-card__date-time-block">
+          <p class="date">{{ eventTime?.date }}</p>
+          <p v-if="!isEventStarted" class="time">{{ eventTime?.time }}</p>
+          <p v-else class="text-blue-600">Событие уже идет</p>
         </div>
         <p class="text-h2 q-mb-md">{{ event?.title }}</p>
         <p class="text-body2 q-mb-md event-card__description">
           {{ event?.description }}
         </p>
         <UiBaseButton
-          v-if="event?.link"
+          v-if="isEventStarted && event?.link"
           type="primary"
           size="small"
           post-icon="fas fa-link"
@@ -30,19 +31,33 @@
 
 <script lang="ts" setup>
 import Skeleton from './skeleton.vue'
-interface IEvent {
-  title: string
-  date?: string
-  time?: string
-  description?: string
-  link?: string
-}
+import type { Event } from '~/api/events'
+
 interface Props {
-  event: IEvent
+  event: Event
   isLoading?: boolean
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   isLoading: false,
+})
+
+const isEventStarted = computed(() => {
+  return props.event?.date && Date.parse(props.event?.date) <= Date.now()
+})
+
+const eventTime = computed(() => {
+  if (!props.event?.date) return
+  return {
+    date: new Intl.DateTimeFormat('ru-RU', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    }).format(Date.parse(props.event?.date)),
+    time: new Intl.DateTimeFormat('ru-RU', {
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(Date.parse(props.event?.date)),
+  }
 })
 </script>
 

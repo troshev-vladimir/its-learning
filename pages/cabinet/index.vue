@@ -5,7 +5,7 @@
         v-for="(event, i) in mainEvents"
         :key="i"
         :event="event"
-        :is-loading="CourcePending"
+        :is-loading="isEventsLoading"
       />
     </div>
     <NuxtLazyHydrate when-visible>
@@ -38,9 +38,13 @@
 
 <script lang="ts" setup>
 import { useCourceStore } from '~/stores/cource'
+import { useEventStore } from '~/stores/event'
 
 const courceStore = useCourceStore()
 const { courcePreview } = storeToRefs(courceStore)
+
+const eventStore = useEventStore()
+const { events, isEventsLoading } = storeToRefs(eventStore)
 
 definePageMeta({
   layout: 'cabinet',
@@ -62,28 +66,12 @@ const mainEvents = computed(() => {
   return events.value
 })
 
-const events = ref([
-  {
-    title: 'Вебинар',
-    date: '26.01.2024',
-    time: '18:00',
-    description:
-      'Не следует, однако, забывать, что высокотехнологичная концепция общественного уклада требует анализа кластеризации усилий. Таким образом, высокотехнологичная концепция общественного уклада напрямую зависит от соответствующих условий активизации.',
-    link: 'https://fontawesome.com/v5/search?q=arrow&o=r&m=free',
-  },
-  {
-    title: 'Созвон с наставником',
-    date: '26.01.2024',
-    time: '18:00',
-    description:
-      'Предварительные выводы неутешительны: синтетическое тестирование предполагает независимые способы реализации.',
-  },
-])
-
 const { pending: CourcePending, error: CourseError } = useAsyncData(
   'cource',
   () => courceStore.fetchCourcePreview().then(() => true)
 )
+
+useAsyncData('events', () => eventStore.getAll().then(() => true))
 
 // useShowNotification(error.value)
 </script>
@@ -100,7 +88,7 @@ const { pending: CourcePending, error: CourseError } = useAsyncData(
     row-gap: 16px;
 
     @include media($bp-sm) {
-      grid-template-columns: 0.6fr 0.4fr;
+      grid-template-columns: minmax(60%, 1fr) auto;
     }
   }
 }
