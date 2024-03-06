@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-show="modelValue" class="modal-overlay">
+      <div v-if="modelValue" class="modal-overlay">
         <div class="container">
           <div class="modal">
             <slot></slot>
