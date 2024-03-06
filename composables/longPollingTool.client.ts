@@ -9,7 +9,7 @@ export default function useLongPullingTool(
     if (timer) clearInterval(timer)
     isPulling.value = true
     await callBack(stopPulling)
-    if (isPulling.value) return // останавливаем рекурсию, если пуллинг остановлен
+    if (!isPulling.value) return // останавливаем рекурсию, если пуллинг остановлен
     timer = setTimeout(setPulling, pending)
   }
 
