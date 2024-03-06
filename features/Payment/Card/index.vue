@@ -175,7 +175,7 @@ interface Props {
   value: ICost
 }
 
-const isLoading = ref(false)
+const isLoading = ref(true)
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => ({
