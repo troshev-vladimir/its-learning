@@ -1,12 +1,8 @@
-const encoder = new TextEncoder()
-const charCodes = encoder.encode('Http_Service_Test:XI5su3ce')
-const authStr = String.fromCharCode(...charCodes)
-//Authorization: 'Basic ' + btoa(authStr),
-const authToken = Buffer.from(`Http_Service_Test:XI5su3ce`).toString('base64')
+import baseAuthToken from '~/server/utils/baseToken'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  console.log(authToken)
+  console.log(baseAuthToken())
 
   // тут в body надо чётко все поля и телефон с имейлом в формате
 
@@ -17,7 +13,7 @@ export default defineEventHandler(async (event) => {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-          Authorization: 'Basic ' + authToken,
+          Authorization: 'Basic ' + baseAuthToken(),
         },
       }
     )

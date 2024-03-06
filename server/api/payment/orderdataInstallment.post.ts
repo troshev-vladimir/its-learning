@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   try {
     const resp: any = await $fetch(
-      'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/paymentstatus',
+      'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/orderdataInstallment',
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
       }
     )
 
-    return resp[0].Status
+    return resp
   } catch (err: any) {
     throw createError({
       statusMessage: err.message,

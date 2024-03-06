@@ -52,8 +52,7 @@ export async function buyViaInstallment(
         ],
       shopId: 'd7836c7b-d032-493f-a2e3-ce02961930ae',
       showcaseId: 'ff69b584-4d85-4ff6-9c44-8572184eaa1d',
-      webhookURL:
-        'https://max43.ru:12244/ka_uprbase2/hs/payment/v1/paymentstatus',
+      webhookURL: 'https://lk.itseducation.ru/api/orderdataInstallment',
       // successURL: '',
       // failURL: '',
       // returnURL: '',
