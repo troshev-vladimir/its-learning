@@ -1,5 +1,5 @@
 import { type api } from '../../types'
-import type Event from './../types'
+import type { Event } from './../types'
 export class EventService {
   api: api
 

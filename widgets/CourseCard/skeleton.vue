@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .course-card {
   &__container {
     position: relative;
