@@ -1,7 +1,7 @@
 <template>
-  <transition name="fade" mode="out-in" :duration="200">
-    <div v-if="!isLoading" class="payment-card base-block">
-      <div class="payment-card__container">
+  <div class="payment-card base-block">
+    <transition name="fade" mode="out-in" :duration="200">
+      <div v-if="!isLoading" class="payment-card__container">
         <p class="text-body1 q-mb-md">Ваша программа обучения:</p>
         <p class="text-h1"><span class="text-blue-600">1С:</span>Программист</p>
         <div class="payment-card__content">
@@ -99,9 +99,18 @@
             >
               Купить
             </UiBaseButton>
-            <a v-else-if="paymentUrl" :href="paymentUrl" target="_blank">
-              <UiBaseButton type="primary" size="small"> Купить </UiBaseButton>
-            </a>
+            <UiBaseButton
+              v-else-if="paymentUrl"
+              v-model="isPulling"
+              tag="a"
+              type="primary"
+              size="small"
+              :href="paymentUrl"
+              target="_blank"
+              @click="startChecking"
+            >
+              Купить
+            </UiBaseButton>
             <nuxt-link to="/course/1/description/">
               <UiBaseButton type="boarded" size="small">
                 Смотреть программу
@@ -123,9 +132,9 @@
           </UiBaseButton>
         </div>
       </div>
-    </div>
-    <Skeleton v-else />
-  </transition>
+      <Skeleton v-else />
+    </transition>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -138,6 +147,17 @@ import type { IDoc } from '~/types'
 import Skeleton from './skeleton.vue'
 
 const { notify } = useNotification()
+
+const { setPulling, isPulling } = longPollingToolClient(
+  async (stop: () => void) => {
+    if (!user.value?.orderId) return
+    const status = await checkPaymentStatus(user.value.orderId)
+    if (status) {
+      stop()
+    }
+  },
+  4000
+)
 
 interface ICost {
   id: string
@@ -204,32 +224,50 @@ const openDeferredMadal = () => {
     return
   }
   buyViaInstallment({
-    sum: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
-    period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
-    title: '1С:Программист',
+    amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
+    orderData: {
+      title: '1С:Программист',
+      period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+    },
+    userData: {
+      name: user.value?.name || '',
+      surname: user.value?.surname || '',
+      thirdname: user.value?.thirdname || '',
+      phone: user.value?.phone,
+      email: user.value?.email,
+    },
   })
 }
 
+const startChecking = () => {
+  setPulling()
+}
+
 onMounted(async () => {
-  const tinkoffPaymentUrl = await TinkoffPayment({
+  if (!user.value) return
+  isLoading.value = true
+
+  const tinkoffPaymentData = await TinkoffPayment({
     amount: props.value.fullPrice.withDiscount || props.value.fullPrice.real,
     orderData: {
       description: '1С:Программист',
       name: '1С:Программист',
     },
     userData: {
-      fio:
-        user.value?.name +
-        ' ' +
-        user.value?.surname +
-        ' ' +
-        user.value?.thirdname,
+      name: user.value?.name || '',
+      surname: user.value?.surname || '',
+      thirdname: user.value?.thirdname || '',
       phone: user.value?.phone,
       email: user.value?.email,
     },
   })
 
-  paymentUrl.value = tinkoffPaymentUrl || ''
+  if (tinkoffPaymentData) {
+    paymentUrl.value = tinkoffPaymentData.paymentUrl || ''
+    user.value.orderId = tinkoffPaymentData.orderId || ''
+  }
+
+  isLoading.value = false
 })
 </script>
 
@@ -325,4 +363,4 @@ onMounted(async () => {
   }
 }
 </style>
-~/api/CustomError
+~/api/CustomError~/composables/longPollingTool.client

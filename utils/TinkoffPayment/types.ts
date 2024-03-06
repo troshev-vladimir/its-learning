@@ -1,15 +1,24 @@
-export interface InitialParams {
+export interface InitialParams<T> {
   amount: number
-  orderData: {
-    description: string
-    name: string
-  }
+  orderData: T
 
   userData?: {
     phone?: string
     email?: string
-    fio: string
+    name: string
+    surname: string
+    thirdname: string
   }
+}
+
+export interface FullOrderData {
+  description: string
+  name: string
+}
+
+export interface InstallmentOrderData {
+  period: string
+  title: string
 }
 
 export interface Response {
@@ -56,6 +65,6 @@ export interface DataForOriderId {
   purchase: string
   price: number
   date: string | Date | number
-  method: string
+  method: 'full' | 'installment'
   utm?: string
 }

@@ -1,11 +1,20 @@
 import { notify } from '@kyvg/vue3-notification'
-import type { InitialParams, OrderData, DataForOriderId } from './types'
-
+import type {
+  InitialParams,
+  OrderData,
+  DataForOriderId,
+  FullOrderData,
+} from './types'
 const TerminalKey = '1662547243585'
 
+export interface ReturnValue {
+  paymentUrl: string
+  orderId: string
+}
+
 export async function TinkoffPayment(
-  params: InitialParams
-): Promise<string | undefined> {
+  params: InitialParams<FullOrderData>
+): Promise<ReturnValue | undefined> {
   const orderData = {
     TerminalKey: TerminalKey,
     Amount: params.amount * 100,
@@ -40,7 +49,7 @@ export async function TinkoffPayment(
     const paymentUrl = await getFullPaymentUrl(orderDataWithToken)
     if (!paymentUrl) throw new Error()
 
-    return paymentUrl
+    return { paymentUrl, orderId: orderDataWithToken.OrderId }
   } catch (error: any) {
     notify({
       title: error?.message || 'Что то пошло не так',
@@ -67,10 +76,17 @@ const getFullPaymentUrl = async (orderData: OrderData) => {
   return responce?.PaymentURL
 }
 
-const getOrderDataWithToken = async (orderData: any, params: InitialParams) => {
+const getOrderDataWithToken = async (
+  orderData: any,
+  params: InitialParams<FullOrderData>
+) => {
   if (!orderData) return
   const orderId = await getOrderId({
-    fio: params.userData?.fio || '',
+    fio:
+      params.userData?.name ||
+      '' + params.userData?.surname ||
+      '' + params.userData?.thirdname ||
+      '',
     email: params.userData?.email || '',
     phone: params.userData?.phone || '',
     purchase: params.orderData?.description,
@@ -96,7 +112,7 @@ const getOrderDataWithToken = async (orderData: any, params: InitialParams) => {
   return orderData
 }
 
-const getOrderId = async (payload: DataForOriderId) => {
+export const getOrderId = async (payload: DataForOriderId): Promise<string> => {
   const { data, error } = await useFetch('/api/payment/orderid', {
     body: JSON.stringify(payload),
     method: 'POST',

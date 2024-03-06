@@ -20,6 +20,7 @@ export interface User {
   graduates?: string[]
   additionalGraduates?: string[]
   targetTestStatus: TargetTestStatus
+  orderId?: string
 }
 
 export interface AuthorizeRequest {
