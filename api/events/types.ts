@@ -5,6 +5,7 @@ export interface Event {
   title: string
   description: string
   link?: string
+  external?: boolean
 }
 
 export interface AbstractEventService {

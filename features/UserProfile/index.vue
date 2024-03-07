@@ -6,7 +6,7 @@
     @submit="sendForm"
   >
     <div :class="[$style.image, 'q-mb-lg']">
-      <img :src="userPhoto || user.photoUrl" width="160" />
+      <img :src="userPhoto || user?.photoUrl" width="160" />
 
       <UiBaseFileinput
         v-model="imageFile"
