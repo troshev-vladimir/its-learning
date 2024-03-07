@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade" model="out-in" :duration="200">
     <div
-      v-if="!isLoading"
+      v-if="!isLoading && user"
       class="user-profile row q-col-gutter-lg items-center"
     >
       <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">

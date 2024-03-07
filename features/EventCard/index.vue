@@ -11,18 +11,30 @@
         <p class="text-body2 q-mb-md event-card__description">
           {{ event?.description }}
         </p>
-        <UiBaseButton
-          v-if="isEventStarted && event?.link"
-          type="primary"
-          size="small"
-          post-icon="fas fa-link"
-          class="event-card__event-button"
-          tag="a"
-          :href="event?.link"
-          target="_blank"
-        >
-          Присоединиться
-        </UiBaseButton>
+        <template v-if="isEventStarted && event?.link">
+          <UiBaseButton
+            v-if="event.external"
+            type="primary"
+            size="small"
+            post-icon="fas fa-link"
+            class="event-card__event-button"
+            tag="a"
+            :href="event?.link"
+            target="_blank"
+          >
+            Присоединиться
+          </UiBaseButton>
+          <UiBaseButton
+            v-else
+            type="primary"
+            size="small"
+            post-icon="fas fa-link"
+            class="event-card__event-button"
+            @click="emit('submit', event.link)"
+          >
+            Присоединиться
+          </UiBaseButton>
+        </template>
       </div>
     </div>
     <skeleton v-else />
@@ -40,6 +52,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   isLoading: false,
 })
+const emit = defineEmits(['submit'])
 
 const isEventStarted = computed(() => {
   return props.event?.date && Date.parse(props.event?.date) <= Date.now()
