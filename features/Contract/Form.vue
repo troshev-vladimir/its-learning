@@ -83,15 +83,16 @@ import type { UiDatePicker } from '#build/components';
       <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
           v-model="v$.snils.$model"
+          v-model:maskError="v$.snils.$error"
           name="snils"
           label="СНИЛС"
           required
+          unmasked
           mask="###-###-### ##"
           :validation-result="{
             status: v$.snils.$error ? 'error' : 'none',
             message: getErrorMessage(v$.snils),
           }"
-          @update:model-value="v$.snils.$touch"
         />
       </div>
 

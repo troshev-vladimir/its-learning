@@ -78,9 +78,6 @@
       </teleport>
     </div>
 
-    <p v-if="isMaskCompleted">isMaskCompleted</p>
-    <p>{{ unmaskedValue }}</p>
-
     <p :class="$style.message">
       {{ validationResult.message }}
     </p>
@@ -115,9 +112,14 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue', 'update', 'enter'])
+const emit = defineEmits([
+  'update:modelValue',
+  'update',
+  'enter',
+  'update:maskError',
+])
 
-const { maskOptions, isMaskCompleted, unmaskedValue } = useMask(props)
+const { maskOptions, isMaskCompleted, unmaskedValue } = useMask(props, emit)
 const { isError, update } = useFormItem(props, emit)
 
 const localValue = computed({
@@ -125,12 +127,14 @@ const localValue = computed({
     return props.modelValue || ''
   },
   set(value) {
-    console.log(value, unmaskedValue.value)
-
-    emit('update:modelValue', unmaskedValue.value)
-    return
+    if (props.unmasked) {
+      emit('update:modelValue', unmaskedValue.value || value)
+    } else {
+      emit('update:modelValue', value)
+    }
   },
 })
+
 const {
   isSuggestions,
   isSuggestionsVisible,

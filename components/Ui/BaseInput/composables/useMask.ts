@@ -1,9 +1,8 @@
 import type { MaskaDetail } from 'maska'
 
-export default function useMask(props: Record<string, any>) {
+export default function useMask(props: Record<string, any>, emit: Function) {
   const isMaskCompleted = ref(false)
   const unmaskedValue = ref('')
-
   const maskOptions = {
     onMaska: (detail: MaskaDetail) => {
       isMaskCompleted.value = detail.completed
@@ -24,12 +23,16 @@ export default function useMask(props: Record<string, any>) {
       // },
     },
 
-    // postProcess: (value: string) => {
+    // preProcess: (value: string) => {
     //   console.log(value)
 
     //   return value
     // },
   }
+
+  watch(isMaskCompleted, (value) => {
+    emit('update:maskError', !value)
+  })
 
   const onMaskahandler = (event: CustomEvent<MaskaDetail>) => {
     // console.log({
