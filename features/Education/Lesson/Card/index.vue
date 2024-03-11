@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <transition name="fade" :duration="200">
     <div v-if="!isLoading" class="education-lesson-card">
       <div class="education-lesson-card__container">
         <div v-if="lesson?.videoLink" class="education-lesson-card__video">
@@ -71,8 +71,8 @@
         </UiBasePopup> -->
       </div>
     </div>
-    <Skeleton v-else />
   </transition>
+  <Skeleton v-show="isLoading" />
 </template>
 
 <script lang="ts" setup>
