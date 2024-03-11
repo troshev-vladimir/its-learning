@@ -91,6 +91,7 @@ import type { UiDatePicker } from '#build/components';
             status: v$.snils.$error ? 'error' : 'none',
             message: getErrorMessage(v$.snils),
           }"
+          @update:model-value="v$.snils.$touch"
         />
       </div>
 
@@ -182,10 +183,6 @@ const rules = computed(() => {
     },
     snils: {
       required: helpers.withMessage('Поле обязательно', required),
-      minLength: helpers.withMessage(
-        'Обязательная длина 11 символов',
-        minLength(14)
-      ),
     },
     pasport: {
       required: helpers.withMessage('Поле обязательно', required),

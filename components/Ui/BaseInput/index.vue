@@ -36,7 +36,7 @@
         v-else
         :id="name"
         v-model="localValue"
-        v-maska:[maskOptions]="mask"
+        v-maska:[maskOptions]
         :autocomplete="suggestions ? 'off' : ''"
         type="text"
         style="resize: vertical"
@@ -49,7 +49,6 @@
         ]"
         placeholder=""
         v-bind="attrs"
-        :data-maska="mask"
         @blur="update"
         @click="isSuggestions = true"
         @focus="isSuggestions = true"
@@ -79,6 +78,9 @@
       </teleport>
     </div>
 
+    <p v-if="isMaskCompleted">isMaskCompleted</p>
+    <p>{{ unmaskedValue }}</p>
+
     <p :class="$style.message">
       {{ validationResult.message }}
     </p>
@@ -89,6 +91,7 @@
 import type { ValidatorResp } from '~/utils/validators/types'
 import useMask from './composables/useMask'
 import useInputSugestions from './composables/useInputSuggestions'
+import { vMaska } from 'maska'
 const attrs = useAttrs()
 
 export interface Props {
@@ -103,6 +106,7 @@ export interface Props {
   disabled?: boolean
   suggestions?: Array<string>
   mask?: string | Function
+  unmasked?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -113,8 +117,20 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
-const { maskOptions, isMaskCompleted, unmaskedValue } = useMask()
-const { localValue, isError, update } = useFormItem(props, emit)
+const { maskOptions, isMaskCompleted, unmaskedValue } = useMask(props)
+const { isError, update } = useFormItem(props, emit)
+
+const localValue = computed({
+  get() {
+    return props.modelValue || ''
+  },
+  set(value) {
+    console.log(value, unmaskedValue.value)
+
+    emit('update:modelValue', unmaskedValue.value)
+    return
+  },
+})
 const {
   isSuggestions,
   isSuggestionsVisible,

@@ -1,6 +1,6 @@
 import type { MaskaDetail } from 'maska'
 
-export default function useMask() {
+export default function useMask(props: Record<string, any>) {
   const isMaskCompleted = ref(false)
   const unmaskedValue = ref('')
 
@@ -9,7 +9,7 @@ export default function useMask() {
       isMaskCompleted.value = detail.completed
       unmaskedValue.value = detail.unmasked
     },
-
+    mask: props.mask,
     tokens: {
       A: { pattern: /[A-Z]/, multiple: true },
       a: { pattern: /[a-z]/, multiple: true },
