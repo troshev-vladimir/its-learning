@@ -88,8 +88,7 @@
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
 import useMask from './composables/useMask'
-import useSuggestionsLogic from '~/composables/useSuggestionsLogic'
-
+import useInputSugestions from './composables/useInputSuggestions'
 const attrs = useAttrs()
 
 export interface Props {
@@ -116,40 +115,15 @@ const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
 const { maskOptions, isMaskCompleted, unmaskedValue } = useMask()
 const { localValue, isError, update } = useFormItem(props, emit)
-const baseInput = ref()
-const suggestionsElement = ref()
-const parentElement = computed(() => baseInput.value?.offsetParent)
-const { setSuggestionPosition: setSuggestionsPosition, setOnParentScroll } =
-  useSuggestionsLogic(suggestionsElement, baseInput, parentElement)
-
-const isSuggestions = ref(false)
-const hideSuggestion = () => {
-  isSuggestions.value = false
-}
-
-const selectSugestion = (suggestion: string) => {
-  localValue.value = suggestion
-  hideSuggestion()
-}
-
-const isSuggestionsVisible = computed(
-  () => isSuggestions.value && props.suggestions && props.suggestions.length > 0
-)
-
-onMounted(async () => {
-  await nextTick()
-  setOnParentScroll()
-})
-
-watch(
-  () => isSuggestionsVisible.value,
-  async (value) => {
-    if (value) {
-      await nextTick()
-      setSuggestionsPosition()
-    }
-  }
-)
+const {
+  isSuggestions,
+  isSuggestionsVisible,
+  selectSugestion,
+  hideSuggestion,
+  suggestionsElement,
+  baseInput,
+  parentElement,
+} = useInputSugestions(localValue, props, emit)
 </script>
 
 <style lang="scss" module>
