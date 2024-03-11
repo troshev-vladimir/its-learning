@@ -13,6 +13,8 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.name.$model"
           name="name"
           label="Имя"
+          mask="a"
+          capitalize
           required
           :validation-result="{
             status: v$.name.$error ? 'error' : 'none',
@@ -25,6 +27,8 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.surname.$model"
           name="surname"
           label="Фамилия"
+          mask="a"
+          capitalize
           required
           :validation-result="{
             status: v$.surname.$error ? 'error' : 'none',
@@ -38,7 +42,9 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.lastname.$model"
           name="lastname"
           label="Отчество"
+          mask="a"
           required
+          capitalize
           :validation-result="{
             status: v$.lastname.$error ? 'error' : 'none',
             message: getErrorMessage(v$.lastname),
@@ -63,7 +69,7 @@ import type { UiDatePicker } from '#build/components';
         <UiBaseInput
           v-model="v$.birthplace.$model"
           name="birthplace"
-          label="место рождения"
+          label="Место рождения"
           required
           :validation-result="{
             status: v$.birthplace.$error ? 'error' : 'none',

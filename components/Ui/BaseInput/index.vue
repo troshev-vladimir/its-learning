@@ -18,7 +18,12 @@
         style="resize: vertical"
         rows="4"
         :name="name"
-        :class="$style['native-input']"
+        :class="[
+          $style['native-input'],
+          {
+            [$style['capitalizeFirst']]: capitalize,
+          },
+        ]"
         placeholder=""
         v-bind="attrs"
         @blur="update"
@@ -33,7 +38,12 @@
         type="text"
         style="resize: vertical"
         :name="name"
-        :class="$style['native-input']"
+        :class="[
+          $style['native-input'],
+          {
+            [$style['capitalizeFirst']]: capitalize,
+          },
+        ]"
         placeholder=""
         v-bind="attrs"
         :data-maska="mask"
@@ -83,11 +93,12 @@ export interface Props {
   required?: boolean
   name: string
   validationResult?: ValidatorResp
+  capitalize?: boolean
   textarea?: boolean
   rootClass?: string | string[]
   disabled?: boolean
   suggestions?: Array<string>
-  mask?: string | Function // TODO: переделать на imask
+  mask?: string | Function
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -98,7 +109,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
-const { maskOptions } = useMask(emit)
+const { maskOptions, isMaskCompleted, unmaskedValue } = useMask()
 const { localValue, isError, update } = useFormItem(props, emit)
 
 const isSuggestions = ref(false)
@@ -122,6 +133,10 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
   .inputWrapper {
     position: relative;
+  }
+
+  .capitalizeFirst {
+    text-transform: capitalize;
   }
 
   &--disabled {

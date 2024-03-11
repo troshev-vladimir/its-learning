@@ -1,12 +1,19 @@
 import type { MaskaDetail } from 'maska'
 
-export default function useMask(emit: Function) {
+export default function useMask() {
+  const isMaskCompleted = ref(false)
+  const unmaskedValue = ref('')
+
   const maskOptions = {
-    // onMaska: (detail: MaskaDetail) => console.log(detail),
+    onMaska: (detail: MaskaDetail) => {
+      isMaskCompleted.value = detail.completed
+      unmaskedValue.value = detail.unmasked
+    },
+
     tokens: {
       A: { pattern: /[A-Z]/, multiple: true },
       a: { pattern: /[a-z]/, multiple: true },
-      p: { pattern: /[а-яА-Я]/, multiple: true },
+      // p: { pattern: /[а-я]/, multiple: true },
       N: { pattern: /[0-9]/, multiple: true },
       // N: {
       //   pattern: /[A-Z]/,
@@ -24,12 +31,6 @@ export default function useMask(emit: Function) {
     // },
   }
 
-  const maskaValue = reactive<MaskaDetail>({
-    masked: '',
-    unmasked: '',
-    completed: false,
-  })
-
   const onMaskahandler = (event: CustomEvent<MaskaDetail>) => {
     // console.log({
     //   masked: event.detail.masked,
@@ -42,5 +43,5 @@ export default function useMask(emit: Function) {
     }
   }
 
-  return { maskOptions, onMaskahandler, maskaValue }
+  return { maskOptions, onMaskahandler, isMaskCompleted, unmaskedValue }
 }
