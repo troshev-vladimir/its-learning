@@ -64,6 +64,16 @@ const props = defineProps<{
   &.active {
     &::after {
       background: $blue-600;
+      animation: showAfterBlock 0.2s ease;
+
+      @keyframes showAfterBlock {
+        from {
+          height: 0%;
+        }
+        to {
+          height: 90%;
+        }
+      }
     }
   }
 
@@ -74,8 +84,8 @@ const props = defineProps<{
     justify-content: center;
     gap: 8px;
     padding: 12px 12px;
-    margin: 0px 10px 0px 8px;
-
+    margin: auto;
+    max-width: 85%;
     * {
       color: $gray-400;
     }

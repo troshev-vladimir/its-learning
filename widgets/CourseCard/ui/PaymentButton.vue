@@ -10,17 +10,23 @@
     </UiBaseButton>
     <ClientOnly>
       <UiBasePopup v-model="paymentPopup">
-        <template #default>
-          <FeaturePaymentCard v-if="paymentPopup" />
-        </template>
+        <FeaturePaymentCard ref="paymentCardEl" />
       </UiBasePopup>
     </ClientOnly>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { FeaturePaymentCard } from '#components'
+
+const paymentCardEl = ref<InstanceType<typeof FeaturePaymentCard>>()
 const paymentPopup = ref(false)
+
 const changePaymentPopupOpenStatus = () => {
   paymentPopup.value = !paymentPopup.value
 }
+</script>
+
+<script lang="ts">
+export default {}
 </script>

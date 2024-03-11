@@ -3,7 +3,7 @@
   <p class="q-mb-md text-body2 text-center">
     чтобы мы могли сохранить игровой процесс
   </p>
-  <transition name="slide-fade" mode="out-in">
+  <transition name="slide-fade" mode="out-in" :duration="200">
     <FeatureAuthCreateCandidate
       v-if="stage === 'phone'"
       @go-further="stage = 'pin'"

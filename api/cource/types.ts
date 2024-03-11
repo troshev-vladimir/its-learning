@@ -6,6 +6,7 @@ export interface CourceDetail {
 }
 
 export interface CourcePreview {
+  id: string
   title: string
   progress: number
   isStarted: boolean

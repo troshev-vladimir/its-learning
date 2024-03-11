@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="fade">
+    <transition name="fade" mode="out-in" :duration="200">
       <div v-if="!isLoading" class="full-course-card">
         <div class="full-course-card__content">
           <div class="full-course-card__left-side">
@@ -50,8 +50,8 @@
           />
         </div>
       </div>
+      <Skeleton v-else />
     </transition>
-    <Skeleton v-if="isLoading" />
   </div>
 </template>
 

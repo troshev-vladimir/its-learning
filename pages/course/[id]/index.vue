@@ -13,7 +13,7 @@
       >
         Доступ к наставнику до {{ cource?.couchAwilableTill }}
       </p>
-      <transition name="fade">
+      <transition name="fade" mode="out-in" :duration="200">
         <div
           v-if="cource && !isCourceLoadding"
           class="course-page__education-block"
@@ -26,16 +26,15 @@
             @click="() => onClickItem(index)"
           />
         </div>
+        <div v-else class="course-page__education-block">
+          <UiBaseSkeleton
+            v-for="num in 5"
+            :key="num"
+            width="100%"
+            height="100px"
+          />
+        </div>
       </transition>
-
-      <div v-if="isCourceLoadding" class="course-page__education-block">
-        <UiBaseSkeleton
-          v-for="num in 5"
-          :key="num"
-          width="100%"
-          height="100px"
-        />
-      </div>
     </div>
   </div>
 </template>

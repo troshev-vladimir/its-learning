@@ -7,11 +7,16 @@ export const useUserStore = defineStore('userStore', () => {
   const accessToken = ref('')
 
   const fetchUser = async () => {
+    if (!hasChanges.value || isUserLoadding.value) return
+
     isUserLoadding.value = true
-    const resp = await api.user.get()
-    user.value = resp
-    hasChanges.value = false
-    isUserLoadding.value = false
+    try {
+      const resp = await api.user.get()
+      user.value = resp
+    } finally {
+      hasChanges.value = false
+      isUserLoadding.value = false
+    }
   }
 
   function $reset() {

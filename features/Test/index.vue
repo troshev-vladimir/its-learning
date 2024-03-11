@@ -1,33 +1,38 @@
 <template>
   <div class="test-component">
     <div class="test-component__container">
-      <FeatureTestQuestionCard
-        v-model="answers[mainQuestionCount].answer"
-        :question="activeQuestion"
-        :question-count="mainQuestionCount + 1"
-      >
-        <template #timer>
-          <TimerComponent
-            v-if="timer === true"
-            v-once
-            :has-hours="false"
-            class="test-component__timer base-shadow"
-            :expiration-date="getTestTime"
-            @time-is-gone="emitAnswers"
-          />
-        </template>
-      </FeatureTestQuestionCard>
-      <div class="test-component__buttons">
-        <UiBaseButton
-          v-if="hasPrevQuestion"
-          type="boarded"
-          size="small"
-          :disabled="!hasPrevQuestion"
-          @click="setPrevQuestionCount"
+      <div class="header">
+        <div class="question-card__header">
+          <p class="text-body2">Вопрос №{{ currentQuestionCount + 1 }}</p>
+        </div>
+        <TimerComponent
+          v-if="timer"
+          :has-hours="false"
+          class="test-component__timer base-shadow"
+          :expiration-date="getTestTime"
+          @time-is-gone="sendAnswers"
+        />
+      </div>
+      <Transition name="fade" mode="out-in" :duration="200">
+        <FeatureTestQuestionCard
+          :key="currentQuestionCount"
+          v-model="answers[activeQuestion.id]"
+          :question="activeQuestion"
         >
-          Назад
-        </UiBaseButton>
-        <div></div>
+        </FeatureTestQuestionCard>
+      </Transition>
+      <div class="test-component__buttons">
+        <div>
+          <UiBaseButton
+            v-if="hasPrevQuestion"
+            type="boarded"
+            size="small"
+            :disabled="!hasPrevQuestion"
+            @click="setPrevQuestionCount"
+          >
+            Назад
+          </UiBaseButton>
+        </div>
         <UiBaseButton
           v-if="!isEndQuestion"
           type="primary"
@@ -40,10 +45,11 @@
         </UiBaseButton>
         <UiBaseButton
           v-if="isEndQuestion"
+          v-model="isTestLoadding"
           type="primary"
           size="small"
           :disabled="!isCompletedQuestion"
-          @click="emitAnswers"
+          @click="sendAnswers"
         >
           Завершить
         </UiBaseButton>
@@ -53,67 +59,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { IQuestion, IAnswer } from './model/types'
-interface Props {
-  questions?: IQuestion[]
+import type { Question, Answers } from '~/api/test'
+import { useTestStore } from '~/stores/test'
+const props = defineProps<{
+  questions: Question[]
   timer?: boolean
   time?: number | string
-}
-const props = withDefaults(defineProps<Props>(), {
-  questions: () => [
-    {
-      text: 'Лишь стремящиеся вытеснить традиционное производство, нанотехнологии являются только методом политического участия и ассоциативно распределены по отраслям. В частности, начало повседневной работы по формированию позиции является качественно новой ступенью первоочередных требований. Не следует, однако, забывать, что новая модель организационной деятельности создаёт предпосылки для благоприятных перспектив. Господа, постоянное информационно-пропагандистское обеспечение нашей деятельности создаёт предпосылки для экономической целесообразности принимаемых решений.',
-      image:
-        'https://on-desktop.com/wps/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_.jpg',
-      id: '1',
-      required: true,
-      answers: [
-        {
-          text: 'Противоположная точка зрения подразумевает, что ключевые особенности структуры проекта лишь добавляют фракционных разногласий и разоблачены.',
-          id: '1',
-        },
-        {
-          text: 'А также представители современных социальных резервов лишь добавляют фракционных разногласий и объективно рассмотрены соответствующими инстанциями.',
-          id: '2',
-        },
-        {
-          text: 'Как уже неоднократно упомянуто, элементы политического процесса освещают чрезвычайно интересные особенности картины в целом, однако конкретные выводы, разумеется, указаны как претенденты на роль ключевых факторов.',
-          id: '3',
-        },
-        {
-          text: 'Есть над чем задуматься: базовые сценарии поведения пользователей набирают популярность среди определенных слоев населения, а значит, должны быть представлены в исключительно положительном свете.',
-          id: '4',
-        },
-      ],
-    },
-    {
-      text: 'Второй вопрос?',
-      id: '2',
-      multiple: true,
-      required: true,
-      answers: [
-        { text: 'Первый ответ', id: '1' },
-        { text: 'Второй ответ', id: '2' },
-        { text: 'Третий ответ', id: '3' },
-        { text: 'Четвертый ответ', id: '4' },
-      ],
-    },
-    {
-      text: 'Третий вопрос?',
-      id: '3',
-      multiple: true,
-      required: true,
-      answers: [
-        { text: 'Первый ответ', id: '1' },
-        { text: 'Второй ответ', id: '2' },
-        { text: 'Третий ответ', id: '3' },
-        { text: 'Четвертый ответ', id: '4' },
-      ],
-    },
-  ],
-  time: 10 * 60 * 1000,
-  timer: true,
-})
+}>()
 const emit = defineEmits(['submit'])
 
 const getTestTime = computed(() => {
@@ -124,72 +76,69 @@ const getTestTime = computed(() => {
     return Date.now() + props.time
   }
 })
-
-const mainQuestionCount = ref(0)
-const answers = ref<IAnswer[] | []>([])
+const testStore = useTestStore()
+const { isTestLoadding } = storeToRefs(testStore)
+const currentQuestionCount = ref(0)
+const answers = ref<Answers>({})
+const activeQuestion = computed(
+  () => props.questions[currentQuestionCount.value]
+)
 
 const isCompletedQuestion = computed(() => {
-  const mainAnswer = answers.value[mainQuestionCount.value]
-  const mainAnswerValue = mainAnswer?.answer
-  const mainQuestion = props.questions[mainQuestionCount.value]
-  if (mainQuestion.required === true) {
-    if (Array.isArray(mainAnswerValue)) {
-      return mainAnswerValue.length > 0
-    } else {
-      return mainAnswerValue != null && mainAnswerValue != ''
-    }
-  }
-  return true
+  return answers.value[activeQuestion.value.id]
 })
-
-const activeQuestion = computed(() => props.questions[mainQuestionCount.value])
 
 const hasNextQuestion = computed(
   () =>
-    mainQuestionCount.value < props.questions.length - 1 &&
+    currentQuestionCount.value < props.questions.length - 1 &&
     isCompletedQuestion.value
 )
 
-const hasPrevQuestion = computed(() => mainQuestionCount.value > 0)
+const hasPrevQuestion = computed(() => currentQuestionCount.value > 0)
 
 const isEndQuestion = computed(
-  () => mainQuestionCount.value === props.questions.length - 1
+  () => currentQuestionCount.value === props.questions.length - 1
 )
 
 const setNextQuestionCount = () => {
   if (hasNextQuestion.value) {
-    ++mainQuestionCount.value
+    ++currentQuestionCount.value
   }
 }
 
 const setPrevQuestionCount = () => {
   if (hasPrevQuestion.value) {
-    --mainQuestionCount.value
+    --currentQuestionCount.value
   }
 }
 
-const emitAnswers = async () => {
-  emit('submit', answers.value)
+const sendAnswers = async () => {
+  testStore.sendResults(answers.value)
 }
-
-watch(
-  mainQuestionCount,
-  (value) => {
-    if (answers.value[value]) return
-    if (activeQuestion.value?.multiple === true) {
-      answers.value[value] = { id: activeQuestion.value.id, answer: [] }
-    } else {
-      answers.value[value] = { id: activeQuestion.value.id, answer: '' }
-    }
-  },
-  { immediate: true }
-)
 </script>
 
 <style lang="scss" scoped>
 .test-component {
   border-radius: $radius;
   background: $white;
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    row-gap: 16px;
+    position: sticky;
+    top: -1px;
+    padding: 24px 24px 24px 24px;
+    border-radius: $radius;
+    background: $white;
+
+    @include media($bp-sm) {
+      align-items: flex-end;
+      flex-direction: row;
+    }
+  }
 
   &__buttons {
     padding: 0 24px 24px 24px;

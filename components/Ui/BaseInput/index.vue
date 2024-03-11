@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="baseInput"
     :class="[
       $style['base-input'],
       $style[`base-input--${validationResult.status}`],
@@ -26,6 +27,7 @@
         ]"
         placeholder=""
         v-bind="attrs"
+        :autocomplete="suggestions ? 'off' : ''"
         @blur="update"
         @keyup.enter="emit('enter')"
       />
@@ -35,6 +37,7 @@
         :id="name"
         v-model="localValue"
         v-maska:[maskOptions]="mask"
+        :autocomplete="suggestions ? 'off' : ''"
         type="text"
         style="resize: vertical"
         :name="name"
@@ -49,8 +52,8 @@
         :data-maska="mask"
         @blur="update"
         @click="isSuggestions = true"
-        @keyup.enter="emit('enter')"
         @focus="isSuggestions = true"
+        @keyup.enter="emit('enter')"
       />
 
       <p :class="$style.placeholder" class="small">
@@ -58,21 +61,22 @@
         <span v-if="required">*</span>
       </p>
 
-      <!-- <teleport to="#popups-container"> -->
-      <div
-        v-if="isSuggestions && suggestions && suggestions.length"
-        :class="[$style.suggestions]"
-      >
+      <teleport to="body">
         <div
-          v-for="(suggestion, index) in suggestions"
-          :key="index"
-          :class="$style.suggestionItem"
-          @click="selectSuggestion(suggestion)"
+          v-show="isSuggestionsVisible"
+          ref="suggestionsElement"
+          class="suggestions base-shadow pretty-scroll"
         >
-          {{ suggestion }}
+          <div
+            v-for="(suggestion, index) in suggestions"
+            :key="index"
+            class="suggestionItem"
+            @click="selectSugestion(suggestion)"
+          >
+            {{ suggestion }}
+          </div>
         </div>
-      </div>
-      <!-- </teleport> -->
+      </teleport>
     </div>
 
     <p :class="$style.message">
@@ -84,6 +88,7 @@
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
 import useMask from './composables/useMask'
+import useSuggestionsLogic from '~/composables/useSuggestionsLogic'
 
 const attrs = useAttrs()
 
@@ -111,16 +116,40 @@ const emit = defineEmits(['update:modelValue', 'update', 'enter'])
 
 const { maskOptions, isMaskCompleted, unmaskedValue } = useMask()
 const { localValue, isError, update } = useFormItem(props, emit)
+const baseInput = ref()
+const suggestionsElement = ref()
+const parentElement = computed(() => baseInput.value?.offsetParent)
+const { setSuggestionPosition: setSuggestionsPosition, setOnParentScroll } =
+  useSuggestionsLogic(suggestionsElement, baseInput, parentElement)
 
 const isSuggestions = ref(false)
 const hideSuggestion = () => {
   isSuggestions.value = false
 }
 
-const selectSuggestion = (suggestion: string) => {
+const selectSugestion = (suggestion: string) => {
   localValue.value = suggestion
   hideSuggestion()
 }
+
+const isSuggestionsVisible = computed(
+  () => isSuggestions.value && props.suggestions && props.suggestions.length > 0
+)
+
+onMounted(async () => {
+  await nextTick()
+  setOnParentScroll()
+})
+
+watch(
+  () => isSuggestionsVisible.value,
+  async (value) => {
+    if (value) {
+      await nextTick()
+      setSuggestionsPosition()
+    }
+  }
+)
 </script>
 
 <style lang="scss" module>
@@ -157,32 +186,6 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
     top: 0;
     left: 0;
     transform: translateY(calc(-100% + -2px));
-  }
-
-  .suggestions {
-    position: absolute;
-    top: 100%;
-    transform: translate(0, 10px);
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    box-shadow: 0 0 10px #7d7d7d;
-    border-radius: 8px;
-    z-index: 10;
-
-    .suggestionItem {
-      padding: 10px 20px;
-      cursor: pointer;
-      &:hover {
-        background-color: $secondary;
-      }
-
-      font-size: 15px;
-
-      @media screen and (max-width: $bp-xs) {
-        font-size: 13px;
-      }
-    }
   }
 
   .placeholder {
@@ -368,6 +371,29 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 .base-input {
   textarea + .placeholder {
     top: 20px;
+  }
+}
+</style>
+<style lang="scss">
+.suggestions {
+  z-index: 2000;
+  max-height: 30vh;
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 8px;
+
+  .suggestionItem {
+    padding: 10px 20px;
+    cursor: pointer;
+    &:hover {
+      background-color: $secondary;
+    }
+
+    font-size: 15px;
+
+    @media screen and (max-width: $bp-xs) {
+      font-size: 13px;
+    }
   }
 }
 </style>

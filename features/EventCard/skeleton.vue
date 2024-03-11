@@ -25,6 +25,8 @@
 
 <style lang="scss" scoped>
 .event-card {
+  min-width: 400px;
+
   &__container {
     display: flex;
     flex-direction: column;

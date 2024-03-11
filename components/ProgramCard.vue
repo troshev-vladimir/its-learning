@@ -232,29 +232,39 @@ const openDeferredModal = () => {
   }
 
   buyViaInstallment({
-    sum: props.card.price.withDiscount || props.card.price.actual,
-    period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
-    title: '1С:Программист',
+    amount: props.card.price.withDiscount || props.card.price.actual,
+    orderData: {
+      period: selectedPeriod.value === 24 ? 'default' : selectedPeriod.value,
+      title: '1С:Программист',
+    },
+    userData: {
+      name: user.FirstName || '',
+      surname: user.SurName || '',
+      thirdname: user.LastName || '',
+      email: '',
+      phone: user.id || '',
+    },
   })
 }
 
 onMounted(async () => {
-  const tinkoffPaymentUrl = await TinkoffPayment({
+  const tinkoffPaymentData = await TinkoffPayment({
     orderData: {
       description: props.card.name,
       name: props.card.name,
     },
     userData: {
-      fio: user.FirstName + ' ' + user.LastName,
+      name: user.FirstName || '',
+      surname: user.SurName || '',
+      thirdname: user.LastName || '',
       phone: user.id || userId,
       email: 'userEmailNotPassed@gmail.com',
     },
     amount: props.card.price.withDiscount,
   })
 
-  console.log(tinkoffPaymentUrl)
-
-  if (tinkoffPaymentUrl) paumentUrl.value = tinkoffPaymentUrl
+  if (tinkoffPaymentData?.paymentUrl)
+    paumentUrl.value = tinkoffPaymentData?.paymentUrl
 })
 </script>
 

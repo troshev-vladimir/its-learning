@@ -13,6 +13,7 @@ export class CourceMockService implements AbstractCourceService {
       setTimeout(() => {
         res({
           data: {
+            id: '2',
             title: 'title',
             academ: {
               state: true,
@@ -64,6 +65,7 @@ export class CourceMockService implements AbstractCourceService {
       setTimeout(() => {
         res({
           data: {
+            id: '2',
             title: 'title',
             academ: {
               state: true,

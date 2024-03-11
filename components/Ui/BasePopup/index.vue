@@ -1,20 +1,21 @@
 <template>
-  <!-- <teleport to="#popups-container"> -->
-  <transition name="modal-fade">
-    <div v-show="modelValue" class="modal-overlay" @click="closeModal">
-      <div class="container">
-        <div class="modal" @click.stop>
-          <slot></slot>
-          <div class="close" @click="closeModal">
-            <ClientOnly>
-              <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
-            </ClientOnly>
+  <teleport to="body">
+    <transition name="modal-fade">
+      <div v-if="modelValue" class="modal-overlay">
+        <div class="container">
+          <div class="modal">
+            <slot></slot>
+            <div class="close" @click="closeModal">
+              <ClientOnly>
+                <FontAwesomeIcon icon="fas fa-close"> </FontAwesomeIcon>
+              </ClientOnly>
+            </div>
           </div>
         </div>
+        <div class="background" @click="closeModal"></div>
       </div>
-    </div>
-  </transition>
-  <!-- </teleport> -->
+    </transition>
+  </teleport>
 </template>
 
 <script setup lang="ts">
@@ -60,12 +61,19 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 100;
+  z-index: 1000;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+
+  .background {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
 
   @media screen and (max-width: $breakpoint-xs) {
     align-items: flex-end;
@@ -81,6 +89,7 @@ onBeforeUnmount(() => {
   overflow: visible;
   width: 100%;
   position: relative;
+  z-index: 1;
 
   @media screen and (max-width: $breakpoint-xs) {
     border-radius: 16px 16px 0 0;

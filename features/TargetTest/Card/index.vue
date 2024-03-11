@@ -1,28 +1,33 @@
 <template>
-  <div v-if="isLoading === false" class="target-training-card base-block">
-    <div class="target-training-card__container">
-      <p class="text-h2">Тест на целевое обучение</p>
-      <p class="text-body2">
-        Пройдите тестирование и получите возможность бесплатного целевого
-        обучения на курсе. Тестирование состоит из двух онлайн тестов и
-        персонального интервью, дата которого будет назначена вашим менеджером
-        после обработки результатов онлайн теста.
-      </p>
-      <NuxtLink to="/target-test">
-        <UiBaseButton type="primary" size="big">
+  <Transition name="fade" mode="out-in" :duration="200">
+    <div v-if="!isTestLoadding" class="target-training-card base-block">
+      <div class="target-training-card__container">
+        <p class="text-h2">Тест на целевое обучение</p>
+        <p class="text-body2">
+          Пройдите тестирование и получите возможность бесплатного целевого
+          обучения на курсе. Тестирование состоит из двух онлайн тестов и
+          персонального интервью, дата которого будет назначена вашим менеджером
+          после обработки результатов онлайн теста.
+        </p>
+        <UiBaseButton
+          v-model="isTestLoadding"
+          type="primary"
+          to="/target-test"
+          size="big"
+        >
           Пройти тестирование
         </UiBaseButton>
-      </NuxtLink>
+      </div>
     </div>
-  </div>
-  <div v-else>
-    <Skeleton class="target-training-card__skeleton" />
-  </div>
+    <Skeleton v-else class="target-training-card__skeleton" />
+  </Transition>
 </template>
 
 <script lang="ts" setup>
 import Skeleton from './skeleton.vue'
+import { useTestStore } from '~/stores/test'
 const emit = defineEmits(['startTest'])
+
 interface Test {
   status: 'start' | 'waiting' | 'result'
   result?: {
@@ -46,7 +51,8 @@ const props = withDefaults(defineProps<PropsTest>(), {
     },
   }),
 })
-
+const testStore = useTestStore()
+const { isTestLoadding } = storeToRefs(testStore)
 const isLoading = ref(false)
 
 const showResult = computed(

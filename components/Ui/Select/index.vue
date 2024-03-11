@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="selectElement"
     v-click-outside="closeDropdown"
     :class="[
       $style['baseSelect'],
@@ -64,27 +65,29 @@
         </span>
       </client-only>
     </div>
-    <ul v-if="isOpen" :class="$style['dropdown']">
-      <li
-        v-for="option in currentOptions"
-        :key="option.value"
-        :class="[
-          $style['option'],
-          {
-            [$style['option--selected']]: option.selected && !multiple,
-          },
-        ]"
-        @click="select(option.value)"
-      >
-        <UiBaseCheckbox
-          v-if="multiple"
-          :name="option.value"
-          :model-value="option.selected"
-          @click.prevent
-        />
-        <span :class="[$style['label'], 'text-body2']">{{ option.label }}</span>
-      </li>
-    </ul>
+    <teleport to="body">
+      <ul v-show="isOpen" ref="dropdown" class="select-dropdown">
+        <li
+          v-for="option in currentOptions"
+          :key="option.value"
+          :class="[
+            {
+              option: true,
+              'option--selected': option.selected && !multiple,
+            },
+          ]"
+          @click="select(option.value)"
+        >
+          <UiBaseCheckbox
+            v-if="multiple"
+            :name="option.value"
+            :model-value="option.selected"
+            @click.prevent
+          />
+          <p :class="[]">{{ option.label }}</p>
+        </li>
+      </ul>
+    </teleport>
 
     <p v-if="isError" :class="$style['message']">
       {{ validationResult.message }}
@@ -94,6 +97,7 @@
 
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
+import useSuggestionsLogic from '~/composables/useSuggestionsLogic'
 
 export interface Option {
   label: string
@@ -125,6 +129,14 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits(['update:modelValue', 'update'])
 const { localValue, isError, update } = useFormItem(props, emit)
+const dropdown = ref()
+const selectElement = ref()
+const parentElement = computed(() => selectElement.value?.offsetParent)
+const {
+  setSuggestionPosition: setDropdownPosition,
+  setOnParentScroll,
+  removeOnParentScroll,
+} = useSuggestionsLogic(dropdown, selectElement, parentElement)
 
 let currentOptions = reactive(props.options)
 
@@ -156,8 +168,12 @@ const canClearAll = computed(() => {
   if (!props.clearable || props.disabled) return false
   return selectedLabels.value.length
 })
-const toggle = () => {
+const toggle = async () => {
   isOpen.value = !isOpen.value
+  await nextTick()
+  setDropdownPosition()
+  if (isOpen.value) setOnParentScroll()
+  else removeOnParentScroll()
 }
 
 const emitValues = () => {
@@ -372,47 +388,6 @@ onMounted(() => {
     }
   }
 
-  .dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    width: 100%;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0px 3px 12px 0px rgba(204, 204, 204, 0.25);
-    z-index: 2;
-    overflow: hidden;
-
-    .option {
-      padding: 8px 16px;
-      cursor: pointer;
-      transition: all ease 0.4s;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid var(--gray-300, #ccc);
-      }
-
-      &:hover {
-        background: var(--gray-100, #eee);
-        cursor: pointer;
-        transition: all ease 0.2s;
-      }
-
-      &--selected {
-        background: rgba(0, 117, 235, 0.4);
-
-        &:hover {
-          background: rgba(0, 117, 235, 0.2);
-        }
-      }
-
-      .label {
-      }
-    }
-  }
-
   .message {
     position: absolute;
     font-size: 12px;
@@ -463,6 +438,49 @@ onMounted(() => {
 
     .message {
       color: var(--q-secondary);
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.select-dropdown {
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 3px 12px 0px rgba(204, 204, 204, 0.25);
+  z-index: 2000;
+  overflow: auto;
+  max-height: 30vh;
+  display: flex;
+  flex-direction: column;
+
+  .option {
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all ease 0.4s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--gray-300, #ccc);
+    }
+
+    &:hover {
+      background: var(--gray-100, #eee);
+      cursor: pointer;
+      transition: all ease 0.2s;
+    }
+
+    &--selected {
+      background: rgba(0, 117, 235, 0.4);
+
+      &:hover {
+        background: rgba(0, 117, 235, 0.2);
+      }
+    }
+
+    .label {
     }
   }
 }

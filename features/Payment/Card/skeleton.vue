@@ -1,5 +1,5 @@
 <template>
-  <div class="payment-card base-block">
+  <div class="payment-card">
     <div class="payment-card__container">
       <UiBaseSkeleton class="text-body1 q-mb-md" width="300px" />
       <UiBaseSkeleton class="text-h1" width="500px" />

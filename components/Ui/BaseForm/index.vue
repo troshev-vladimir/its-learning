@@ -66,6 +66,7 @@ const submit = () => {
   position: relative;
 
   .form-content {
+    position: relative;
     overflow: auto;
     padding: 5px 3px; // для теней
 
