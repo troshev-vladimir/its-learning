@@ -19,33 +19,40 @@
         style="resize: vertical"
         rows="4"
         :name="name"
-        :class="$style['native-input']"
+        :class="[
+          $style['native-input'],
+          {
+            [$style['capitalizeFirst']]: capitalize,
+          },
+        ]"
         placeholder=""
         v-bind="attrs"
         :autocomplete="suggestions ? 'off' : ''"
         @blur="update"
         @keyup.enter="emit('enter')"
       />
-
       <input
         v-else
         :id="name"
         v-model="localValue"
-        v-maska:[maskOptions]="mask"
+        v-maska:[maskOptions]
         :autocomplete="suggestions ? 'off' : ''"
         type="text"
         style="resize: vertical"
         :name="name"
-        :class="$style['native-input']"
+        :class="[
+          $style['native-input'],
+          {
+            [$style['capitalizeFirst']]: capitalize,
+          },
+        ]"
         placeholder=""
         v-bind="attrs"
-        :data-maska="mask"
         @blur="update"
         @click="isSuggestions = true"
         @focus="isSuggestions = true"
         @keyup.enter="emit('enter')"
       />
-
       <p :class="$style.placeholder" class="small">
         {{ label }}
         <span v-if="required">*</span>
@@ -78,21 +85,24 @@
 <script setup lang="ts">
 import type { ValidatorResp } from '~/utils/validators/types'
 import useMask from './composables/useMask'
-import useSuggestionsLogic from '~/composables/useSuggestionsLogic'
-
+import useInputSugestions from './composables/useInputSuggestions'
+import { vMaska } from 'maska'
+import { Mask } from 'maska'
 const attrs = useAttrs()
 
 export interface Props {
-  modelValue?: string
+  modelValue: string
   label: string
   required?: boolean
   name: string
   validationResult?: ValidatorResp
+  capitalize?: boolean
   textarea?: boolean
   rootClass?: string | string[]
   disabled?: boolean
   suggestions?: Array<string>
-  mask?: string | Function // TODO: переделать на imask
+  mask?: string
+  unmasked?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   name: '',
@@ -101,44 +111,42 @@ const props = withDefaults(defineProps<Props>(), {
     message: '',
   }),
 })
-const emit = defineEmits(['update:modelValue', 'update', 'enter'])
+const emit = defineEmits([
+  'update:modelValue',
+  'update',
+  'enter',
+  'update:maskError',
+])
 
-const { maskOptions } = useMask(emit)
-const { localValue, isError, update } = useFormItem(props, emit)
-const baseInput = ref()
-const suggestionsElement = ref()
-const parentElement = computed(() => baseInput.value?.offsetParent)
-const { setSuggestionPosition: setSuggestionsPosition, setOnParentScroll } =
-  useSuggestionsLogic(suggestionsElement, baseInput, parentElement)
+const { maskOptions, isMaskCompleted, unmaskedValue } = useMask(props, emit)
+const { isError, update } = useFormItem(props, emit)
+const mask = new Mask({ mask: props.mask })
 
-const isSuggestions = ref(false)
-const hideSuggestion = () => {
-  isSuggestions.value = false
-}
-
-const selectSugestion = (suggestion: string) => {
-  localValue.value = suggestion
-  hideSuggestion()
-}
-
-const isSuggestionsVisible = computed(
-  () => isSuggestions.value && props.suggestions && props.suggestions.length > 0
-)
-
-onMounted(async () => {
-  await nextTick()
-  setOnParentScroll()
+const localValue = computed({
+  get() {
+    if (props.unmasked) {
+      return mask.masked(props.modelValue)
+    }
+    return props.modelValue
+  },
+  set(value) {
+    if (props.unmasked) {
+      emit('update:modelValue', mask.unmasked(value))
+    } else {
+      emit('update:modelValue', value)
+    }
+  },
 })
 
-watch(
-  () => isSuggestionsVisible.value,
-  async (value) => {
-    if (value) {
-      await nextTick()
-      setSuggestionsPosition()
-    }
-  }
-)
+const {
+  isSuggestions,
+  isSuggestionsVisible,
+  selectSugestion,
+  hideSuggestion,
+  suggestionsElement,
+  baseInput,
+  parentElement,
+} = useInputSugestions(localValue, props, emit)
 </script>
 
 <style lang="scss" module>
@@ -151,6 +159,10 @@ input[list='suggestions']::-webkit-calendar-picker-indicator {
 
   .inputWrapper {
     position: relative;
+  }
+
+  .capitalizeFirst {
+    text-transform: capitalize;
   }
 
   &--disabled {
