@@ -102,7 +102,6 @@ const sendApprove = async (code: number | string) => {
 
 const signUp = async (verifyCode: Function) => {
   const isValid = await formEl.value?.validate()
-  console.log(isValid)
   if (!isValid) {
     notify({ type: 'warn', title: 'Заполните форму верно' })
     return

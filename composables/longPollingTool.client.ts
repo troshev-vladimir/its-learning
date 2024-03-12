@@ -1,8 +1,8 @@
-export default function useLongPullingTool(
+export default function useLongPollingTool(
   callBack: (stopPulling: () => void, ...args: any) => Promise<any> | any,
   pending: number // кол-во миллисекунд между запросами
 ) {
-  let isPulling = ref(false)
+  const isPulling = ref(false)
   let timer: any = false
 
   const setPulling = async () => {

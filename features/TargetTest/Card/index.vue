@@ -1,6 +1,6 @@
 <template>
   <Transition name="fade" mode="out-in" :duration="200">
-    <div v-if="!isTestLoadding" class="target-training-card base-block">
+    <div v-if="!isTestLoading" class="target-training-card base-block">
       <div class="target-training-card__container">
         <p class="text-h2">Тест на целевое обучение</p>
         <p class="text-body2">
@@ -10,7 +10,7 @@
           после обработки результатов онлайн теста.
         </p>
         <UiBaseButton
-          v-model="isTestLoadding"
+          v-model="isTestLoading"
           type="primary"
           to="/target-test"
           size="big"
@@ -28,40 +28,8 @@ import Skeleton from './skeleton.vue'
 import { useTestStore } from '~/stores/test'
 const emit = defineEmits(['startTest'])
 
-interface Test {
-  status: 'start' | 'waiting' | 'result'
-  result?: {
-    iq?: number
-    score?: number
-    allowance?: boolean
-  }
-}
-
-interface PropsTest {
-  value: Test
-}
-
-const props = withDefaults(defineProps<PropsTest>(), {
-  value: () => ({
-    status: 'start',
-    result: {
-      iq: 120,
-      score: 120,
-      allowance: false,
-    },
-  }),
-})
 const testStore = useTestStore()
-const { isTestLoadding } = storeToRefs(testStore)
-const isLoading = ref(false)
-
-const showResult = computed(
-  () =>
-    props.value.status === 'result' &&
-    props.value.result?.iq !== null &&
-    props.value.result?.allowance !== null &&
-    props.value.result?.score !== null
-)
+const { isTestLoading } = storeToRefs(testStore)
 </script>
 
 <style lang="scss">

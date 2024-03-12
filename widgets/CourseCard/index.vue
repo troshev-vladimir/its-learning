@@ -75,6 +75,10 @@
             <ClientOnly>
               <PaymentButton v-show="course?.shouldPay" />
             </ClientOnly>
+            <ContractSigningButton />
+            <UiBaseButton type="boarded" size="small" @click="getManagerCall">
+              Связаться с менеджером
+            </UiBaseButton>
           </div>
           <div class="course-card__links">
             <div class="course-card__link-list">
@@ -109,8 +113,12 @@
 <script lang="ts" setup>
 import PaymentButton from './ui/PaymentButton.vue'
 import AcademyButton from './ui/AcademyButton.vue'
+import ContractSigningButton from './ui/ContractSigningButton.vue'
 import type { CourcePreview } from '~/api/cource/types'
 import Skeleton from './skeleton.vue'
+import { useNotification } from '@kyvg/vue3-notification'
+
+const { notify } = useNotification()
 
 const emit = defineEmits(['pay'])
 
@@ -119,6 +127,13 @@ interface Props {
   isLoading?: boolean
 }
 const props = defineProps<Props>()
+
+const getManagerCall = () => {
+  notify({
+    status: 'info',
+    title: 'С вами скоро свяжется менеджер',
+  })
+}
 </script>
 
 <style lang="scss">
