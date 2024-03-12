@@ -96,6 +96,13 @@ a {
 body.freez {
   position: fixed;
   overflow-y: scroll;
+  height: 100vh;
+  padding-right: 16px;
+  overflow: hidden;
+
+  @media (hover: none) {
+    padding-right: 0;
+  }
 }
 
 .pretty-scroll {

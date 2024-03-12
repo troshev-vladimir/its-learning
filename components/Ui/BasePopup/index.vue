@@ -2,6 +2,7 @@
   <teleport to="body">
     <transition name="modal-fade">
       <div v-if="modelValue" class="modal-overlay">
+        <div class="background" @click="closeModal"></div>
         <div class="container">
           <div class="modal">
             <slot></slot>
@@ -12,7 +13,6 @@
             </div>
           </div>
         </div>
-        <div class="background" @click="closeModal"></div>
       </div>
     </transition>
   </teleport>
@@ -89,7 +89,7 @@ onBeforeUnmount(() => {
   overflow: visible;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 1001;
 
   @media screen and (max-width: $breakpoint-xs) {
     border-radius: 16px 16px 0 0;
