@@ -57,7 +57,7 @@
     v-else
     class=""
     label="Дата"
-    :model-value="modelValue?.toString()"
+    :model-value="modelValue?.toString() || ''"
     :validation-result="{ status: 'none', message: '' }"
   />
 </template>

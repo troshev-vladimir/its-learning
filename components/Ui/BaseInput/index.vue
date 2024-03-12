@@ -31,7 +31,6 @@
         @blur="update"
         @keyup.enter="emit('enter')"
       />
-
       <input
         v-else
         :id="name"
@@ -54,7 +53,6 @@
         @focus="isSuggestions = true"
         @keyup.enter="emit('enter')"
       />
-
       <p :class="$style.placeholder" class="small">
         {{ label }}
         <span v-if="required">*</span>
@@ -89,10 +87,11 @@ import type { ValidatorResp } from '~/utils/validators/types'
 import useMask from './composables/useMask'
 import useInputSugestions from './composables/useInputSuggestions'
 import { vMaska } from 'maska'
+import { Mask } from 'maska'
 const attrs = useAttrs()
 
 export interface Props {
-  modelValue?: string
+  modelValue: string
   label: string
   required?: boolean
   name: string
@@ -102,7 +101,7 @@ export interface Props {
   rootClass?: string | string[]
   disabled?: boolean
   suggestions?: Array<string>
-  mask?: string | Function
+  mask?: string
   unmasked?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -121,14 +120,18 @@ const emit = defineEmits([
 
 const { maskOptions, isMaskCompleted, unmaskedValue } = useMask(props, emit)
 const { isError, update } = useFormItem(props, emit)
+const mask = new Mask({ mask: props.mask })
 
 const localValue = computed({
   get() {
-    return props.modelValue || ''
+    if (props.unmasked) {
+      return mask.masked(props.modelValue)
+    }
+    return props.modelValue
   },
   set(value) {
     if (props.unmasked) {
-      emit('update:modelValue', unmaskedValue.value || value)
+      emit('update:modelValue', mask.unmasked(value))
     } else {
       emit('update:modelValue', value)
     }

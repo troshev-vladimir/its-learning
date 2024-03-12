@@ -7,6 +7,7 @@ export default function useMask(props: Record<string, any>, emit: Function) {
     onMaska: (detail: MaskaDetail) => {
       isMaskCompleted.value = detail.completed
       unmaskedValue.value = detail.unmasked
+      console.log(detail)
     },
     mask: props.mask,
     tokens: {
