@@ -24,10 +24,10 @@ export default defineEventHandler(async (event) => {
     setUserRefreshTokenInCookies(event, refreshToken)
 
     return await createAccessToken({ id: userId })
-  } catch (error) {
+  } catch (error: any) {
     throw createError({
-      statusCode: 404,
-      statusMessage: 'User Not Found',
+      statusCode: error.statusCode,
+      statusMessage: error.message,
       data: {
         login: 'Беда, на сервере не нашли',
         password: 'Беда, пароль не верный',
