@@ -45,7 +45,7 @@
         </UiBaseButton>
         <UiBaseButton
           v-if="isEndQuestion"
-          v-model="isTestLoadding"
+          v-model="isTestLoading"
           type="primary"
           size="small"
           :disabled="!isCompletedQuestion"
@@ -77,7 +77,7 @@ const getTestTime = computed(() => {
   }
 })
 const testStore = useTestStore()
-const { isTestLoadding } = storeToRefs(testStore)
+const { isTestLoading } = storeToRefs(testStore)
 const currentQuestionCount = ref(0)
 const answers = ref<Answers>({})
 const activeQuestion = computed(

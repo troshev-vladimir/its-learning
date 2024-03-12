@@ -24,29 +24,13 @@
           class="results-block__item"
         >
           <p class="text-body1 text-bold q-mb-xs">{{ resut.value }}</p>
-          <span v-if="resut.satisfyes">Прошёл</span>
-          <p class="text-body2">{{ resut.name }}</p>
+          <p>
+            <span v-if="resut.satisfyes">Прошёл </span>
+            <span class="text-body2"> {{ resut.name }}</span>
+          </p>
         </div>
       </div>
-      <p class="text-blue-600 text-bold">
-        Ваши результаты приняты. Ожидайте звонка менеджера
-      </p>
-      <UiBaseButton
-        v-if="isPassed"
-        class="target-training-results-card__button"
-        size="small"
-        to="cabinet"
-      >
-        Приступить к обучению
-      </UiBaseButton>
-      <UiBaseButton
-        v-else
-        class="target-training-results-card__button"
-        size="small"
-        to="cabinet"
-      >
-        Все равно хочу учиться
-      </UiBaseButton>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -82,13 +66,13 @@ withDefaults(defineProps<PropsTest>(), {
   &__container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     width: 100%;
   }
 
   &__result-title {
-    text-align: center;
+    text-align: left;
     width: 100%;
   }
 

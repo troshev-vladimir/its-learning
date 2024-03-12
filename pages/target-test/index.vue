@@ -1,37 +1,55 @@
 <template>
-  <div v-if="test" class="target-test-page">
-    <FeatureTest
-      v-if="isTestAwailabel"
-      :timer="true"
-      time="Fri Mar 01 2024 17:24:02 GMT+0300"
-      class="target-test-page__target-test"
-      :questions="test.questions"
-    />
+  <div class="target-test-page">
+    <Transition name="fade" mode="out-in" :duration="200">
+      <div v-if="!isTestLoading" class="target-test-page__container">
+        <Transition name="fade" mode="out-in" :duration="200">
+          <FeatureTest
+            v-if="isTestAvailable && test"
+            :timer="true"
+            :time="test?.timeToEnd"
+            class="target-test-page__target-test"
+            :questions="test?.questions"
+          />
 
-    <div
-      v-else-if="test.status === 'waiting'"
-      class="test-is-waiting base-block"
-    >
-      <p class="target-training-results-card__result-title text-h2">
-        Тест на целевое обучение
-      </p>
-      <p class="text-body2 text-center">
-        Сейчас мы проверяем ваш тест. Результат теста определит сможете ли вы
-        пройти на целевое обучение.
-      </p>
-      <div class="row items-center q-gutter-md">
-        <p class="text-bold text-blue-600">На проверке</p>
-        <UiSpinnerIcon :style="`accent`" />
+          <FeatureTargetTestWaitingCard
+            v-else-if="test?.status === 'waiting'"
+            class="target-test-page__result-card"
+          >
+            <UiBaseButton
+              type="primary"
+              size="small"
+              :to="`/cabinet`"
+              style="width: 100%"
+            >
+              Перейти на главную
+            </UiBaseButton>
+          </FeatureTargetTestWaitingCard>
+
+          <FeatureTargetTestResults
+            v-else-if="test"
+            :is-passed="test?.results.passed"
+            comment="Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности однозначно фиксирует необходимость соответствующих условий активизации."
+            :results="test?.results.details"
+            class="target-test-page__result-card base-block"
+          >
+            <UiBaseButton
+              class="target-training-results-card__button"
+              type="primary"
+              size="small"
+              style="width: 100%"
+              :to="`/cabinet?showCourse=true`"
+            >
+              {{
+                test?.results.passed
+                  ? 'Приступить к обучению'
+                  : 'Все равно хочу учиться'
+              }}
+            </UiBaseButton>
+          </FeatureTargetTestResults>
+        </Transition>
       </div>
-    </div>
-
-    <FeatureTargetTestResults
-      v-else
-      :is-passed="test.results.passed"
-      comment="Комментарий"
-      :results="test.results.details"
-      class="target-test-page__target-test base-block"
-    />
+      <UiBaseSkeleton v-else width="100%" height="50vh" />
+    </Transition>
   </div>
 </template>
 
@@ -48,7 +66,7 @@ const userStore = useUserStore()
 const testStore = useTestStore()
 
 const { user } = storeToRefs(userStore)
-const { test } = storeToRefs(testStore)
+const { test, isTestLoading, isTestAvailable } = storeToRefs(testStore)
 
 const { error } = useAsyncData('test', () =>
   testStore.fetchTest('target').then(() => true)
@@ -56,33 +74,55 @@ const { error } = useAsyncData('test', () =>
 
 const { pending: userPanding, error: userError } = await useAsyncData(
   'user',
-  () => {
-    return userStore.fetchUser().then(() => true)
-  }
+  () => userStore.fetchUser().then(() => true)
 )
 
-const isTestAwailabel = computed(() => {
-  if (!test.value) return false
-  return ['clear', 'in_process'].includes(test.value.status)
+onBeforeRouteLeave((to, from, next) => {
+  if (isTestAvailable.value) {
+    const confirmMessage = confirm(
+      'Вы уверены, что хотите уйти с этой страницы? \nДанные, которые вы ввели не сохранятся. Попытка прохождения теста будет утеряна.'
+    )
+    if (confirmMessage) {
+      return next()
+    } else {
+      return next(false)
+    }
+  }
+  next()
+})
+
+onMounted(() => {
+  window.onbeforeunload = function () {
+    if (isTestAvailable.value) return false
+  }
+})
+onBeforeUnmount(() => {
+  window.onbeforeunload = null
 })
 </script>
 
 <style lang="scss" scoped>
-.test-is-waiting {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .target-test-page {
-  margin-left: 0;
+  display: flex;
+  align-items: center;
   min-height: 100vh;
-  margin-left: 0 !important;
+  height: 100%;
+  width: 100%;
   padding: 24px;
-  max-height: 100vh;
 
-  &__target-test {
+  &__container {
     margin: auto;
     width: 100%;
+  }
+
+  &__target-test {
+    width: 100%;
+  }
+
+  &__result-card {
+    margin: auto;
+    width: fit-content;
+    max-width: 50%;
   }
 }
 </style>
