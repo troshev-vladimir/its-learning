@@ -73,7 +73,7 @@ export class UserMockService implements AbstractUserService {
         })
 
         console.log('res')
-      }, 5000)
+      }, 1000)
     })
   }
 

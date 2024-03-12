@@ -13,6 +13,8 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.name.$model"
           name="name"
           label="Имя"
+          mask="a"
+          capitalize
           required
           :validation-result="{
             status: v$.name.$error ? 'error' : 'none',
@@ -25,6 +27,8 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.surname.$model"
           name="surname"
           label="Фамилия"
+          mask="a"
+          capitalize
           required
           :validation-result="{
             status: v$.surname.$error ? 'error' : 'none',
@@ -38,7 +42,9 @@ import type { UiDatePicker } from '#build/components';
           v-model="v$.lastname.$model"
           name="lastname"
           label="Отчество"
+          mask="a"
           required
+          capitalize
           :validation-result="{
             status: v$.lastname.$error ? 'error' : 'none',
             message: getErrorMessage(v$.lastname),
@@ -63,7 +69,7 @@ import type { UiDatePicker } from '#build/components';
         <UiBaseInput
           v-model="v$.birthplace.$model"
           name="birthplace"
-          label="место рождения"
+          label="Место рождения"
           required
           :validation-result="{
             status: v$.birthplace.$error ? 'error' : 'none',
@@ -76,43 +82,49 @@ import type { UiDatePicker } from '#build/components';
 
       <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
-          v-model="v$.snils.$model"
+          v-model="localValue.snils"
           name="snils"
           label="СНИЛС"
           required
+          unmasked
           mask="###-###-### ##"
           :validation-result="{
             status: v$.snils.$error ? 'error' : 'none',
             message: getErrorMessage(v$.snils),
           }"
+          @blur="v$.snils.$touch()"
         />
       </div>
 
       <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
-          v-model="v$.pasport.$model"
+          v-model="localValue.pasport"
           name="pasport"
           label="Номер и серия паспорта"
           mask="#### ######"
+          unmasked
           required
           :validation-result="{
             status: v$.pasport.$error ? 'error' : 'none',
             message: getErrorMessage(v$.pasport),
           }"
+          @blur="v$.pasport.$touch()"
         />
       </div>
 
       <div class="col-12 col-sm-6 col-md-4">
         <UiBaseInput
-          v-model="v$.departmentCode.$model"
+          v-model="localValue.departmentCode"
           name="departmentCode"
           label="Введите код подразделения"
           mask="###-###"
+          unmasked
           required
           :validation-result="{
             status: v$.departmentCode.$error ? 'error' : 'none',
             message: getErrorMessage(v$.departmentCode),
           }"
+          @blur="v$.departmentCode.$touch()"
         />
       </div>
 
@@ -135,7 +147,7 @@ import type { UiDatePicker } from '#build/components';
 <script setup lang="ts">
 import { getErrorMessage } from '~/utils/helpers'
 import { useVuelidate } from '@vuelidate/core'
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, minLength } from '@vuelidate/validators'
 const { citys, sugestCity } = useSugestions()
 
 const props = defineProps<{
@@ -176,12 +188,24 @@ const rules = computed(() => {
     },
     snils: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Неполностью заполнено поле',
+        minLength(11)
+      ),
     },
     pasport: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Обязательная длина 10 символов',
+        minLength(10)
+      ),
     },
     departmentCode: {
       required: helpers.withMessage('Поле обязательно', required),
+      minLength: helpers.withMessage(
+        'Обязательная длина 6 символов',
+        minLength(6)
+      ),
     },
     extradition: {
       required: helpers.withMessage('Поле обязательно', required),
@@ -193,7 +217,6 @@ const v$ = useVuelidate(rules, localValue)
 const validate = async () => {
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
-    console.log(localValue)
     return true
   }
 }
