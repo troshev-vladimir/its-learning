@@ -1,20 +1,5 @@
 <template>
-  <div class="">
-    <UiBaseButton
-      type="primary"
-      size="big"
-      @click="() => (contractSigning = true)"
-    >
-      Подписать договор
-    </UiBaseButton>
-    <UiBasePopup v-model="contractSigning">
-      <template #default>
-        <ClientOnly>
-          <WidgetContractSigning :docs="[{ name: 'Договор', link: '' }]" />
-        </ClientOnly>
-      </template>
-    </UiBasePopup>
-  </div>
+  <div class=""></div>
 </template>
 
 <script setup lang="ts">

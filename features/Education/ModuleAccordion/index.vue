@@ -51,7 +51,7 @@
       </div>
     </template>
     <template #default>
-      <div class="education-module-accordion__container" @click.prevent>
+      <div class="education-module-accordion__container">
         <FeatureEducationLessonAccordion
           v-for="(lessonPreview, index) in localValue.lessonsPreviews.value"
           :key="index"

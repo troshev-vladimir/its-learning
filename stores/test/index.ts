@@ -2,16 +2,21 @@ import { api } from '~/api/bootstrap'
 import type { Answers, Test } from '~/api/test'
 export const useTestStore = defineStore('testStore', () => {
   const test = ref<Test>()
-  const isTestLoadding = ref(false)
+  const isTestLoading = ref(false)
+
+  const isTestAvailable = computed(
+    () =>
+      test.value?.status && ['clear', 'in_process'].includes(test.value?.status)
+  )
 
   const fetchTest = async (id: string) => {
-    if (isTestLoadding.value) return
+    if (isTestLoading.value) return
     try {
-      isTestLoadding.value = true
+      isTestLoading.value = true
       const resp = await api.test.getTest(id)
       test.value = resp
     } finally {
-      isTestLoadding.value = false
+      isTestLoading.value = false
     }
   }
 
@@ -19,16 +24,16 @@ export const useTestStore = defineStore('testStore', () => {
     if (!test.value) return
 
     try {
-      isTestLoadding.value = true
+      isTestLoading.value = true
       const result = await api.test.saveAnswers(test.value?.id, answers)
       makeLongPullingToFetchCource(test)
       test.value.status = 'waiting'
     } finally {
-      isTestLoadding.value = false
+      isTestLoading.value = false
     }
   }
 
-  return { fetchTest, test, isTestLoadding, sendResults }
+  return { fetchTest, test, isTestLoading, sendResults, isTestAvailable }
 })
 
 function makeLongPullingToFetchCource(test: any) {

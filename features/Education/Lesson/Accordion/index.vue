@@ -36,7 +36,7 @@
     <template #default>
       <div class="education-lesson-accordion__content">
         <FeatureEducationLessonCard
-          :is-loading="isLessonLoadding"
+          :is-loading="isLessonLoading"
           :lesson="lesson"
         />
       </div>
@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {})
 const emit = defineEmits(['update:modelValue'])
 
 const isOpen = ref(false)
-const isLessonLoadding = ref(false)
+const isLessonLoading = ref(false)
 const lesson = ref<CourceLesson>()
 
 const localValue = computed({
@@ -76,9 +76,12 @@ const toggleAccordion = () => {
 }
 
 const fetchLesson = async (id: string) => {
-  isLessonLoadding.value = true
-  lesson.value = await api.cource.getLesson(id)
-  isLessonLoadding.value = false
+  try {
+    isLessonLoading.value = true
+    lesson.value = await api.cource.getLesson(id)
+  } finally {
+    isLessonLoading.value = false
+  }
 }
 </script>
 

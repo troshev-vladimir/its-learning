@@ -23,11 +23,41 @@
       <LazyWidgetUserProfile :loadding="CourcePending" />
     </NuxtLazyHydrate>
     <NuxtLazyHydrate when-visible>
-      <LazyFeatureTargetTestCard @start-test="() => (testPopup = true)" />
+      <FeatureTargetTestCardSkeleton v-if="isTestLoading" />
+
+      <LazyFeatureTargetTestCard
+        v-else-if="isTestAvailable"
+        @start-test="() => (testPopup = true)"
+      />
+
+      <FeatureTargetTestWaitingCard v-else-if="test?.status === 'waiting'" />
+
+      <FeatureTargetTestResults
+        v-else-if="test && test?.status === 'result'"
+        :is-passed="test?.results.passed"
+        comment="Как принято считать, независимые государства представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть смешаны с не уникальными данными до степени совершенной неузнаваемости, из-за чего возрастает их статус бесполезности. Повседневная практика показывает, что базовый вектор развития требует определения и уточнения кластеризации усилий."
+        :results="test?.results.details"
+        class="target-test-page__target-test base-block"
+      >
+        <UiBaseButton
+          class="target-training-results-card__button"
+          type="primary"
+          size="small"
+          style="width: 100%"
+          @click="scrollToCourseCard"
+        >
+          {{
+            test?.results.passed
+              ? 'Приступить к обучению'
+              : 'Все равно хочу учиться'
+          }}
+        </UiBaseButton>
+      </FeatureTargetTestResults>
     </NuxtLazyHydrate>
 
     <NuxtLazyHydrate when-visible>
       <LazyWidgetCourseCard
+        ref="courseCard"
         :course="courcePreview"
         :is-loading="CourcePending"
       />
@@ -73,6 +103,17 @@
 <script lang="ts" setup>
 import { useCourceStore } from '~/stores/cource'
 import { useEventStore } from '~/stores/event'
+import { useTestStore } from '~/stores/test'
+
+const route = useRoute()
+route.meta.pageTitle = 'Личный кабинет'
+
+useSeoMeta({
+  title: 'Личный кабинет',
+})
+
+const testStore = useTestStore()
+const { test, isTestLoading, isTestAvailable } = storeToRefs(testStore)
 
 const courceStore = useCourceStore()
 const { courcePreview } = storeToRefs(courceStore)
@@ -82,13 +123,6 @@ const { events, isEventsLoading } = storeToRefs(eventStore)
 
 definePageMeta({
   layout: 'cabinet',
-})
-
-const route = useRoute()
-route.meta.pageTitle = 'Личный кабинет'
-
-useSeoMeta({
-  title: 'Личный кабинет',
 })
 
 const testPopup = ref(false)
@@ -114,6 +148,20 @@ const { pending: CourcePending, error: CourseError } = useAsyncData(
 )
 
 useAsyncData('events', () => eventStore.getAll().then(() => true))
+
+useAsyncData('test', () => testStore.fetchTest('target').then(() => true))
+
+const scrollToCourseCard = () => {
+  const courseCard = document.querySelector('.course-card')
+  courseCard?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+const stop = watch(CourcePending, () => {
+  if (!CourcePending.value && route.query.showCourse === 'true') {
+    setTimeout(scrollToCourseCard, 300)
+    stop()
+  }
+})
 
 // useShowNotification(error.value)
 </script>

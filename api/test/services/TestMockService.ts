@@ -9,7 +9,7 @@ export class TestMockService implements AbstractTestService {
           data: {
             id: '1',
             timeToEnd: 123123123,
-            status: 'in_process',
+            status: 'clear',
             results: {
               passed: false,
               details: [
