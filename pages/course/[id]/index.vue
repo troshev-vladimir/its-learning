@@ -56,13 +56,15 @@ const { cource, isCourceLoadding } = storeToRefs(courceStore)
 
 const activeModuleIndex = ref(-1)
 
-const onClickItem = (index: number) => {
+const onClickItem = async (index: number) => {
   if (activeModuleIndex.value == index) {
     activeModuleIndex.value = -1
-    router.replace({ query: {} })
+    await router.replace({ query: {} })
+    route.meta.pageTitle = 'Обучение'
     return
   }
-  router.replace({ query: { module: index } })
+  await router.replace({ query: { module: index } })
+  route.meta.pageTitle = 'Обучение'
   activeModuleIndex.value = index
 }
 
