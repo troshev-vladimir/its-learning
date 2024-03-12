@@ -10,6 +10,14 @@
       "
       >Подключиться к надзирателю</UiBaseButton
     >
+    <UiBaseButton
+      size="small"
+      :post-icon="['fab', 'discord']"
+      @click="submitToDiscord"
+    >
+      Пример дискорда
+    </UiBaseButton>
+
     <div class="cabinet-page__events-block">
       <FeatureEventCard
         v-for="(event, i) in mainEvents"
@@ -79,6 +87,18 @@
       </div>
     </LazyUiBasePopup>
 
+    <LazyUiBasePopup v-model="isDiscord" class="target-training-test">
+      <div class="wrapper">
+        <iframe
+          :src="`https://discord.com/widget?id=1159892531673321503&username=${user.name}&theme=dark`"
+          width="100%"
+          allowtransparency="true"
+          frameborder="0"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+        ></iframe>
+      </div>
+    </LazyUiBasePopup>
+
     <LazyUiBasePopup v-model="isEvrydaySupervisor" class="target-training-test">
       <div class="wrapper">
         <iframe
@@ -101,6 +121,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useUserStore } from '~/stores/user'
 import { useCourceStore } from '~/stores/cource'
 import { useEventStore } from '~/stores/event'
 import { useTestStore } from '~/stores/test'
@@ -121,12 +142,16 @@ const { courcePreview } = storeToRefs(courceStore)
 const eventStore = useEventStore()
 const { events, isEventsLoading } = storeToRefs(eventStore)
 
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 definePageMeta({
   layout: 'cabinet',
 })
 
 const testPopup = ref(false)
 const isWebinar = ref(false)
+const isDiscord = ref(false)
+
 const webinarLink = ref('')
 const isEvrydaySupervisor = ref(false)
 
@@ -140,6 +165,9 @@ const mainEvents = computed(() => {
 const submitToWebinar = (link: string) => {
   webinarLink.value = link
   isWebinar.value = true
+}
+const submitToDiscord = () => {
+  isDiscord.value = true
 }
 
 const { pending: CourcePending, error: CourseError } = useAsyncData(

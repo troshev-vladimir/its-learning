@@ -55,8 +55,8 @@ import type { RouterLinkProps } from 'vue-router'
 const emit = defineEmits(['update:modelValue'])
 
 interface IProps {
-  postIcon?: string
-  prevIcon?: string
+  postIcon?: string | Array<string>
+  prevIcon?: string | Array<string>
   size?: 'big' | 'small'
   tag?: string
   type?: 'primary' | 'secondary' | 'boarded' | 'link' | 'external-link'
