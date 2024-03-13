@@ -10,6 +10,18 @@ import type { Responce } from '~/api/types'
 export class UserMockService implements AbstractUserService {
   constructor() {}
 
+  setStartStatus(status: User['startStatus']) {
+    return new Promise<Responce<string>>((res, rej) => {
+      setTimeout(() => {
+        res({
+          data: '',
+          message: 'string',
+          description: 'string',
+        })
+      }, 2000)
+    })
+  }
+
   getAll() {
     return new Promise<Responce<User[]>>((res, rej) => {
       setTimeout(() => {
@@ -64,6 +76,8 @@ export class UserMockService implements AbstractUserService {
             city: 'UserCity',
             havExperience: false,
             email: 'testtest@gmail.com',
+            // targetTestStatus: 'clear',
+            startStatus: 'started',
           },
           message: 'string',
           description: 'string',

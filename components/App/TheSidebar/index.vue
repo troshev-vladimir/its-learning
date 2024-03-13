@@ -33,6 +33,7 @@
           :to="link.to || ''"
           @click="closeSidebarOnMobile"
         />
+        <slot></slot>
       </div>
       <div class="the-sidebar__toggle-button-block">
         <UiBaseIcon
@@ -120,6 +121,7 @@ onMounted(() => {
   display: flex;
   transition: left 0.2s ease;
   box-shadow: 0px 7px 8px 0px rgba(115, 115, 115, 0.25);
+  overflow: hidden;
 
   @media screen and (min-width: $bp-sm) {
     transition: width 0.2s ease;
