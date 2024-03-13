@@ -61,6 +61,7 @@
     "quasar": "^2.14.2",
     "sass": "^1.69.5",
     "tippy.js": "^6.3.7",
-    "vue-tippy": "^6.4.1"
+    "vue-tippy": "^6.4.1",
+    "vue3-beautiful-chat": "^3.3.1"
   }
 }

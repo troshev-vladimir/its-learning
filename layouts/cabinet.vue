@@ -1,5 +1,6 @@
 <template>
   <div class="cabinet-layout">
+    <WidgetChat class="cabinet-layout__chat" />
     <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
     <div class="cabinet-layout__container">
       <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks" />
@@ -100,6 +101,20 @@ const { pending, error } = await useLazyAsyncData('user', () => {
 
   &__content {
     width: 100%;
+  }
+
+  &__chat {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    right: 0;
+    max-width: 500px;
+    // width: 100%;
+
+    @include media($bp-xs) {
+      bottom: 8px;
+      right: 16px;
+    }
   }
 }
 </style>
