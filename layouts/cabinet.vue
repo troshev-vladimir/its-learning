@@ -109,10 +109,8 @@ const { pending, error } = await useLazyAsyncData('user', () => {
     bottom: 0;
     right: 0;
     max-width: 500px;
-    // width: 100%;
 
     @include media($bp-xs) {
-      bottom: 8px;
       right: 16px;
     }
   }
