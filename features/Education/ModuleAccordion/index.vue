@@ -1,5 +1,5 @@
 <template>
-  <UiExpancionItem
+  <UiExpansionItem
     class="education-module-accordion base-shadow"
     :model-value="isOpen"
     :class="localValue.status"
@@ -61,7 +61,7 @@
         </FeatureEducationLessonAccordion>
       </div>
     </template>
-  </UiExpancionItem>
+  </UiExpansionItem>
 </template>
 <script lang="ts" setup>
 import type { CourceModule } from '~/api/cource/types'

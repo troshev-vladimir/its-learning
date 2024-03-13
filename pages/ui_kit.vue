@@ -1,5 +1,7 @@
 <template>
-  <div class=""></div>
+  <div class="">
+    <FeatureChatBaseItem />
+  </div>
 </template>
 
 <script setup lang="ts">

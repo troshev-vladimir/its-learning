@@ -1,5 +1,5 @@
 <template>
-  <UiExpancionItem
+  <UiExpansionItem
     class="education-lesson-accordion base-shadow"
     :model-value="isOpen"
   >
@@ -41,7 +41,7 @@
         />
       </div>
     </template>
-  </UiExpancionItem>
+  </UiExpansionItem>
 </template>
 
 <script lang="ts" setup>
