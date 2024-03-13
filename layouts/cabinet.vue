@@ -3,7 +3,14 @@
     <WidgetChat class="cabinet-layout__chat" />
     <AppTheCabinetHeader class="cabinet-layout__header base-shadow" />
     <div class="cabinet-layout__container">
-      <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks" />
+      <AppTheSidebar class="cabinet-layout__sidebar" :links="sidebarLinks">
+        <template #default>
+          <FeatureStartButton
+            class="cabinet-layout__start-button"
+            v-if="isOpen"
+          />
+        </template>
+      </AppTheSidebar>
       <div class="sidebar-substrate"></div>
       <div class="cabinet-layout__content">
         <div class="container">
@@ -18,6 +25,8 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/stores/user'
 const userStore = useUserStore()
+const { $sidebar } = useNuxtApp()
+const { isOpen } = $sidebar
 
 const route = useRoute()
 const sidebarLinks = computed(() => [
@@ -51,6 +60,12 @@ const { pending, error } = await useLazyAsyncData('user', () => {
 <style lang="scss" scoped>
 .cabinet-layout {
   min-height: 100vh;
+
+  &__start-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
 
   &__sidebar {
     position: fixed;

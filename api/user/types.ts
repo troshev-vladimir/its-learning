@@ -21,6 +21,7 @@ export interface User {
   additionalGraduates?: string[]
   // targetTestStatus: TargetTestStatus
   orderId?: string
+  startStatus?: 'started' | 'stopped' | 'paused'
 }
 
 export interface AuthorizeRequest {
@@ -33,5 +34,6 @@ export interface AuthorizeResponce {
 }
 
 export interface AbstractUserService extends CRUD<User> {
+  setStartStatus: (status: User['startStatus']) => Promise<Responce<string>>
   auth: (params: AuthorizeRequest) => Promise<Responce<AuthorizeResponce>>
 }

@@ -9,6 +9,15 @@ export class UserService implements AbstractUserService {
     this.api = http
   }
 
+  async setStartStatus(status: User['startStatus']) {
+    const { data: user } = await this.api.post('')
+
+    if (!user) {
+      throw new CustomError('NOT_FOUND', 404, 'Пользователь не найдены')
+    }
+
+    return user
+  }
   async getAll() {
     const { data } = await this.api.get('users', {})
 

@@ -4,6 +4,16 @@ import type { AbstractUserService, AuthorizeRequest, User } from './types'
 export class UserController {
   constructor(private repository: AbstractUserService) {}
 
+  async setStartStatus(status: User['startStatus']) {
+    const { data: user } = await this.repository.setStartStatus(status)
+
+    if (!user ) {
+      throw new CustomError('NOT_FOUND', 404, 'Пользователь не найдены')
+    }
+
+    return user
+  }
+
   async getAll() {
     const { data: users } = await this.repository.getAll()
 

@@ -19,11 +19,25 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  const setStartStatus = async (status: User['startStatus']) => {
+    if (status == user.value?.startStatus) return
+    const resp = await api.user.setStartStatus(status)
+    if (user.value) user.value.startStatus = status
+  }
+
   function $reset() {
     user.value = undefined
     hasChanges.value = true
     accessToken.value = ''
   }
 
-  return { user, isUserLoadding, hasChanges, fetchUser, accessToken, $reset }
+  return {
+    user,
+    isUserLoadding,
+    hasChanges,
+    fetchUser,
+    accessToken,
+    setStartStatus,
+    $reset,
+  }
 })
