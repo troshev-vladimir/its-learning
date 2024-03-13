@@ -6,7 +6,9 @@ export default function useBodyFreez(value: Ref<boolean>) {
 
   const bodyFreezRemove = () => {
     const scrollY = document.body.style.top
-    document.body.classList.remove('freez')
+    setTimeout(() => {
+      document.body.classList.remove('freez')
+    }, 400)
     document.body.style.top = ''
     window.scrollTo(0, parseInt(scrollY || '0') * -1)
   }

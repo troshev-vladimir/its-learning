@@ -19,7 +19,7 @@ export interface User {
   havExperience: boolean
   graduates?: string[]
   additionalGraduates?: string[]
-  targetTestStatus: TargetTestStatus
+  // targetTestStatus: TargetTestStatus
   orderId?: string
 }
 
