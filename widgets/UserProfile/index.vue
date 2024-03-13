@@ -7,7 +7,14 @@
       <div class="offset-3 col-6 offset-sm-0 col-sm-4 col-md-2">
         <div class="user-photo">
           <img
+            v-if="user.photoUrl"
             :src="user.photoUrl"
+            :alt="user.name + ' ' + user.thirdname"
+            width="100"
+          />
+          <img
+            v-else
+            src="/img/base-user-image.svg"
             :alt="user.name + ' ' + user.thirdname"
             width="100"
           />

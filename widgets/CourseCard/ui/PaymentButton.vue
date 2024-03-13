@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="payment-button">
     <UiBaseButton
-      class="course-card__button"
+      class="payment-button__button"
       type="primary"
       size="small"
       @click="changePaymentPopupOpenStatus"
@@ -30,3 +30,21 @@ const changePaymentPopupOpenStatus = () => {
 <script lang="ts">
 export default {}
 </script>
+
+<style lang="scss" scoped>
+.payment-button {
+  width: 100%;
+
+  @include media($bp-sm) {
+    width: fit-content;
+  }
+
+  &__button {
+    width: 100%;
+
+    @include media($bp-sm) {
+      width: fit-content;
+    }
+  }
+}
+</style>

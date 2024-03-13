@@ -1,4 +1,3 @@
-import type { UiDatePicker } from '#build/components';
 <template>
   <UiBaseForm
     :fucked-up="v$.$error"
