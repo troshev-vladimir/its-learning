@@ -15,7 +15,7 @@
       >
         <div class="user-info-block__photo-span">
           <img v-if="user?.photoUrl" :src="user?.photoUrl" alt="" />
-          <img v-else src="~/assets/img/base-user-image.svg" alt="" />
+          <img v-else src="/img/base-user-image.svg" alt="" />
         </div>
         <p v-if="isOpen" class="user-info-block__name">
           {{ user?.name + ' ' + user?.thirdname }}

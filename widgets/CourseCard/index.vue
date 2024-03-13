@@ -76,7 +76,12 @@
               <PaymentButton v-show="course?.shouldPay" />
             </ClientOnly>
             <ContractSigningButton />
-            <UiBaseButton type="boarded" size="small" @click="getManagerCall">
+            <UiBaseButton
+              type="boarded"
+              size="small"
+              @click="getManagerCall"
+              class="course-card__manager-call-button course-card__button"
+            >
               Связаться с менеджером
             </UiBaseButton>
           </div>
@@ -197,8 +202,12 @@ const getManagerCall = () => {
   &__buttons-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 16px;
+
+    @include media($bp-sm) {
+      align-items: flex-end;
+    }
   }
 
   &__links {
@@ -221,7 +230,7 @@ const getManagerCall = () => {
   &__button {
     width: 100% !important;
 
-    @include media($bp-xs) {
+    @include media($bp-sm) {
       width: fit-content !important;
     }
   }

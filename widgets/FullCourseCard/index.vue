@@ -116,12 +116,12 @@ withDefaults(defineProps<Props>(), {
   &__statistics {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     gap: 32px;
     margin-top: 32px;
     flex-wrap: wrap;
 
-    @media screen and (min-width: $bp-xs) {
+    @include media($bp-xs) {
       justify-content: flex-start;
     }
   }
