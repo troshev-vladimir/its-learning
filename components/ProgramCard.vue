@@ -158,16 +158,15 @@
     <div class="d-flex wrap q-mt-md" style="gap: 16px">
       <a
         class="text-body2 text-secondary d-flex items-center"
-        href="https://drive.google.com/file/d/1ZNHZx2x22b3iPrefR64JgQxJyruz9M3b/view?usp=share_link"
+        href="https://drive.google.com/file/d/1CejI815nqMjsG_piOz-rkvpKzRPDAzEI/view"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
         Договор оферты
       </a>
       <a
-        v-if="card.linkToContractAddition"
         class="text-body2 text-secondary d-flex items-center"
-        :href="card.linkToContractAddition"
+        href="https://drive.google.com/file/d/1TkwUsBBkSRnSkkvpgbXZBqHouwQAXCpt/view"
         target="_blank"
       >
         <q-icon name="fas fa-external-link-alt" class="q-mr-sm" />
