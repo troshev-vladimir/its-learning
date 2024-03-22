@@ -1,5 +1,7 @@
 <template>
-  <h1 class="text-h1 q-mb-xs text-center auth__title">Введите свой номер</h1>
+  <h1 class="text-h1 q-mb-xs text-center auth__title">
+    Для входа в игру введите свой номер
+  </h1>
   <p class="q-mb-md text-body2 text-center auth__description">
     чтобы сохранить игровой процесс
   </p>
