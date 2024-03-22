@@ -1,7 +1,7 @@
 <template>
-  <h1 class="text-h1 q-mb-xs text-center">Авторизуйтесь</h1>
-  <p class="q-mb-md text-body2 text-center">
-    чтобы мы могли сохранить игровой процесс
+  <h1 class="text-h1 q-mb-xs text-center auth__title">Введите свой номер</h1>
+  <p class="q-mb-md text-body2 text-center auth__description">
+    чтобы сохранить игровой процесс
   </p>
   <transition name="slide-fade" mode="out-in">
     <FeatureAuthCreateCandidate
@@ -47,5 +47,15 @@ const goToGame = () => {
 .slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
+}
+
+.auth {
+  &__title {
+    font-size: 36px;
+  }
+
+  &__description {
+    font-size: 16px;
+  }
 }
 </style>
