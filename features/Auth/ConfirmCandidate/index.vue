@@ -65,6 +65,7 @@ import { useQuasar } from 'quasar'
 import useUserStore from '~/stores/configurator/user'
 import { useRoute } from 'vue-router'
 import type { UTMs } from '~/stores/configurator/user'
+import axiosN8N from '~/api/axios-n8n'
 
 const route = useRoute()
 
@@ -119,20 +120,47 @@ const validatePin = () => {
 }
 
 const logIn = async () => {
-  const isFormValid = validatePin()
-
-  if (!isFormValid) return
-  loadding.value = true
+  const nowDate = new Date()
 
   try {
+    const isFormValid = validatePin()
+    if (!isFormValid) throw Error('invalid form')
+    loadding.value = true
     await userStore.confirmUser(pin.value, getUtmQuery())
     $q.notify({
       color: 'green',
       message: 'Упешно выполнен вход',
     })
 
+    await axiosN8N.post('/manage-authorization', {
+      phone: route.query.phone?.toString() || '',
+      code: pin.value,
+      status: 'success',
+      date:
+        nowDate.toLocaleDateString() +
+        ' ' +
+        nowDate.getHours() +
+        ':' +
+        nowDate.getMinutes() +
+        ':' +
+        nowDate.getSeconds(),
+    })
+
     emit('goFurther')
-  } catch (error) {
+  } catch (error: any) {
+    await axiosN8N.post('/manage-authorization', {
+      phone: route.query.phone?.toString() || userStore.userId || '',
+      code: pin.value,
+      status: error.message || error,
+      date:
+        nowDate.toLocaleDateString() +
+        ' ' +
+        nowDate.getHours() +
+        ':' +
+        nowDate.getMinutes() +
+        ':' +
+        nowDate.getSeconds(),
+    })
     pin.value = ''
     setTimeout(() => {
       // @ts-ignore

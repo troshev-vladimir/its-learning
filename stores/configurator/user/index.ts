@@ -34,14 +34,10 @@ const useUserStore = defineStore('user', () => {
   }
 
   async function createUser(phone: string, resend = false) {
-    try {
-      const responce = await candidate.candidateCreate(phone, resend)
-      user.value = { ...user.value, ...responce }
-      userId.value = phone
-      localStorage.setItem('userPhone', userId.value) // TODO: replace to controller
-    } catch (error) {
-      throw error
-    }
+    const responce = await candidate.candidateCreate(phone, resend)
+    user.value = { ...user.value, ...responce }
+    userId.value = phone
+    localStorage.setItem('userPhone', userId.value) // TODO: replace to controller
   }
 
   async function confirmUser(pin: string, utm: UTMs) {

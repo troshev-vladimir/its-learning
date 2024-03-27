@@ -3,7 +3,7 @@
     v-if="authStage === 'phone'"
     ref="formPhone"
     class="rounded-lg bg-white text-primary q-pa-lg shadow-2 text-center"
-    @submit.prevent="requestPin"
+    @submit.prevent
   >
     <p class="q-mb-sm text-body1">Номер телефона:</p>
     <q-input
@@ -33,6 +33,7 @@
     </q-input>
     <div class="flex justify-center">
       <UiButton
+        @click="requestPin"
         size="sm"
         class="bg-accent q-mr-md q-mt-md"
         :text-class="['text-body2', 'text-white', 'text-bold']"
@@ -49,6 +50,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import useUserStore from '~/stores/configurator/user'
+import axiosN8N from '~/api/axios-n8n'
 const emit = defineEmits(['goFurther'])
 
 const authStage = ref<'phone' | 'pin'>('phone')
@@ -80,10 +82,9 @@ const goForward = () => {
 }
 
 const requestPin = async () => {
-  const isFormValid = userPhone.value.length === 10
-  if (!isFormValid) return
-
   try {
+    const isFormValid = userPhone.value.length === 10
+    if (!isFormValid) throw Error('invalid form')
     await userStore.createUser('7' + userPhone.value)
 
     if (userStore.user.alreadyExists) {
@@ -97,13 +98,28 @@ const requestPin = async () => {
         message: 'Пароль отправлен',
       })
     }
+
     goForward()
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
 
     $q.notify({
       color: 'negative',
       message: 'Что то пошло не так',
+    })
+
+    const nowDate = new Date()
+    await axiosN8N.post('/manage-authorization', {
+      phone: userPhone.value,
+      status: error.message || error,
+      date:
+        nowDate.toLocaleDateString() +
+        ' ' +
+        nowDate.getHours() +
+        ':' +
+        nowDate.getMinutes() +
+        ':' +
+        nowDate.getSeconds(),
     })
   }
 }
