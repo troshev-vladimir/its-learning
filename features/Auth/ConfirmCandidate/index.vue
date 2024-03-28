@@ -133,7 +133,7 @@ const logIn = async () => {
     })
 
     await axiosN8N.post('/manage-authorization', {
-      phone: route.query.phone?.toString() || '',
+      phone: route.query.phone?.toString() || userStore.userId || '',
       code: pin.value,
       status: 'success',
       date:
